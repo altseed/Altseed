@@ -9,6 +9,10 @@ class File_RootDirectory : ISample
 	{
 		get { return "ルートディレクトリの設定"; }
 	}
+	public string ClassName
+	{
+		get { return "File_RootDirectory"; }
+	}
 
 	// AddRootDirectory を用いて、ファイルの起点となる場所を指定。
 	// その起点を基準とした相対パスで画像を指定し描画するサンプル。

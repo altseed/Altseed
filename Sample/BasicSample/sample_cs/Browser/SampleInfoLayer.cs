@@ -84,7 +84,7 @@ class SampleInfoLayer : asd.Layer2D
 		else
 		{
 			title.Text = sample.Title;
-			className.Text = "(" + sample.GetType().Name + ")";
+			className.Text = "(" + sample.ClassName + ")";
 			description.Text = sample.Description;
 			className.Position = new asd.Vector2DF(title.Font.CalcTextureSize(title.Text, asd.WritingDirection.Horizontal).X + 8, 2);
 		}

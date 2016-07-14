@@ -11,6 +11,10 @@ public class Mouse_State : ISample
 	{
 		get { return "マウスボタンの状態"; }
 	}
+	public string ClassName
+	{
+		get { return "Mouse_State"; }
+	}
 
     public void Run()
     {

@@ -9,6 +9,10 @@ class Sound_Loop : ISample
 	{
 		get { return "BGMのループ再生"; }
 	}
+	public string ClassName
+	{
+		get { return "Sound_Loop"; }
+	}
 
 	// BGMをループ再生するサンプル。
 	public void Run()

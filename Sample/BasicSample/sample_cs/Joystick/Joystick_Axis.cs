@@ -11,6 +11,10 @@ class Joystick_Axis : ISample
 	{
 		get { return "アナログスティック入力"; }
 	}
+	public string ClassName
+	{
+		get { return "Joystick_Axis"; }
+	}
 
     public void Run()
     {

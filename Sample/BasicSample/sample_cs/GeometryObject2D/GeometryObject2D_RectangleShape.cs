@@ -17,6 +17,10 @@ class GeometryObject2D_RectangleShape : ISample
 	{
 		get { return ""; }
 	}
+	public string ClassName
+	{
+		get { return "GeometryObject2D_RectangleShape"; }
+	}
 
     public void Run()
     {

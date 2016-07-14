@@ -52,4 +52,10 @@ class Log_OutputLevel : ISample
 	{
 		get { return "ログの出力レベルの指定"; }
 	}
+
+	public string ClassName
+	{
+		get { return "Log_OutputLevel"; }
+	}
+	
 }

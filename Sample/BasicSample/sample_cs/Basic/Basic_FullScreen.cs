@@ -48,4 +48,9 @@
 		{
 			get { return "フルスクリーンモード"; }
 		}
+		public string ClassName
+		{
+			get { return "Basic_FullScreen"; }
+		}
+		
 	}

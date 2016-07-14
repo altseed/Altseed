@@ -11,6 +11,10 @@ public class GeometryObject2D_CircleShape : ISample
 	{
 		get { return ""; }
 	}
+	public string ClassName
+	{
+		get { return "GeometryObject2D_CircleShape"; }
+	}
 
     public void Run()
     {   

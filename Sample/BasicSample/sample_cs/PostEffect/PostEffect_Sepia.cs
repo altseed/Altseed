@@ -9,6 +9,10 @@ class PostEffect_Sepia : ISample
 	{
 		get { return "セピア調"; }
 	}
+	public string ClassName
+	{
+		get { return "PostEffect_Sepia"; }
+	}
 
 	// レイヤーにセピアカラーのポストエフェクトを適用する。
 	public void Run()

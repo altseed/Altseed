@@ -17,6 +17,10 @@ class TextObject2D_DynamicFont : ISample
 	{
 		get { return "フォントの動的生成"; }
 	}
+	public string ClassName
+	{
+		get { return "TextObject2D_DynamicFont"; }
+	}
 
     public void Run()
     {

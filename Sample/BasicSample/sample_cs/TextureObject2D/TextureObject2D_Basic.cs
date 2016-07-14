@@ -12,6 +12,10 @@ class TextureObject2D_Basic : ISample
 	{
 		get { return "画像の表示"; }
 	}
+	public string ClassName
+	{
+		get { return "TextureObject2D_Basic"; }
+	}
 
     public void Run()
 	{

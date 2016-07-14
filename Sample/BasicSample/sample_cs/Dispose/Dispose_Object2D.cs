@@ -19,6 +19,10 @@ class Dispose_Object2D : ISample
 	{
 		get { return ""; }
 	}
+	public string ClassName
+	{
+		get { return "Dispose_Object2D"; }
+	}
 
 	public void Run()
 	{

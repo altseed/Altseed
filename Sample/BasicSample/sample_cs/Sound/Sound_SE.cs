@@ -9,6 +9,10 @@ class Sound_SE : ISample
 	{
 		get { return "効果音の再生"; }
 	}
+	public string ClassName
+	{
+		get { return "Sound_SE"; }
+	}
 
 	// Soundを用いて音を鳴らすサンプル。
 	public void Run()

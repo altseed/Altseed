@@ -11,6 +11,10 @@ class GeometryObject2D_ArcShape : ISample
 	{
 		get { return ""; }
 	}
+	public string ClassName
+	{
+		get { return "GeometryObject2D_ArcShape"; }
+	}
 
     public void Run()
     {

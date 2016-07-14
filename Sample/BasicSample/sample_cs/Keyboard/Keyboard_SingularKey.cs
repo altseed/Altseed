@@ -11,6 +11,10 @@ public class Keyboard_SingularKey : ISample
 	{
 		get { return "キーボードの入力状態"; }
 	}
+	public string ClassName
+	{
+		get { return "Keyboard_SingularKey"; }
+	}
 
     public void Run()
     {   

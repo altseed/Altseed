@@ -36,7 +36,7 @@ class SampleItem : asd.TextureObject2D
 	{
 		Sample = sample;
 
-		Texture = asd.Engine.Graphics.CreateTexture2D("Data/Browser/" + sample.GetType().Name + ".png");
+		Texture = asd.Engine.Graphics.CreateTexture2D("Data/Browser/" + sample.ClassName + ".png");
 		TextureFilterType = asd.TextureFilterType.Linear;
 		if(Texture == null)
 		{
@@ -51,7 +51,7 @@ class SampleItem : asd.TextureObject2D
 		}
 		else
 		{
-			text = sample.GetType().Name;
+			text = sample.ClassName;
 		}
 
 		Title = new asd.TextObject2D();

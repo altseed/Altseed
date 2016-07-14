@@ -11,6 +11,10 @@ public class Keyboard_Basic :ISample
 	{
 		get { return "キーボード入力の基本"; }
 	}
+	public string ClassName
+	{
+		get { return "Keyboard_Basic"; }
+	}
 
     public void Run()
     {

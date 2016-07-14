@@ -11,6 +11,10 @@ public class Mouse_Click :ISample
 	{
 		get { return "マウスのクリック検知"; }
 	}
+	public string ClassName
+	{
+		get { return "Mouse_Click"; }
+	}
 
     public void Run()
     {

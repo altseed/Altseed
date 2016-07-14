@@ -12,6 +12,10 @@ class TextureObject2D_Src : ISample
 	{
 		get { return "画像の切り抜き"; }
 	}
+	public string ClassName
+	{
+		get { return "TextureObject2D_Src"; }
+	}
 
     public void Run()
     {

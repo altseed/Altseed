@@ -13,6 +13,11 @@ class Basic_Empty : ISample
 	{
 		get { return "Altseedの基本"; }
 	}
+	public string ClassName
+	{
+		get { return "Basic_Empty"; }
+	}
+	
 
     public void Run()
 	{

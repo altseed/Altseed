@@ -11,6 +11,10 @@ public class Mouse_Position : ISample
 	{
 		get { return "マウス座標の取得"; }
 	}
+	public string ClassName
+	{
+		get { return "Mouse_Position"; }
+	}
 
     public void Run()
     {

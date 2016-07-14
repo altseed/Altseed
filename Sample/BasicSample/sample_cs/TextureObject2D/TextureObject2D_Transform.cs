@@ -12,6 +12,10 @@ class TextureObject2D_Transform : ISample
 	{
 		get { return "画像の変形"; }
 	}
+	public string ClassName
+	{
+		get { return "TextureObject2D_Transform"; }
+	}
 
     public void Run()
 	{

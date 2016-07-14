@@ -17,6 +17,10 @@ class TextObject2D_Basic : ISample
 	{
 		get { return "文字列の描画"; }
 	}
+	public string ClassName
+	{
+		get { return "TextObject2D_Basic"; }
+	}
 
     public void Run()
     {

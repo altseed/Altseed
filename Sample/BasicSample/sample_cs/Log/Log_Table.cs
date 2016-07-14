@@ -72,4 +72,9 @@ class Log_Table : ISample
 	{
 		get { return "表組みされたログ出力"; }
 	}
+
+	public string ClassName
+	{
+		get { return "Log_Table"; }
+	}
 }

@@ -10,6 +10,10 @@ class File_StaticFile : ISample
 	{
 		get { return ""; }
 	}
+	public string ClassName
+	{
+		get { return "File_StaticFile"; }
+	}
 
 	// StaticFile を用いて、ファイルからテキストを読み込むサンプル。
 	public void Run()

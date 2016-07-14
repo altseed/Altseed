@@ -17,6 +17,11 @@ public class CameraObject2D_Magnify : ISample
 	{
 		get { return "カメラによる拡大描画"; }
 	}
+	public string ClassName
+	{
+		get { return "CameraObject2D_Magnify"; }
+	}
+	
 
     public void Run()
     {

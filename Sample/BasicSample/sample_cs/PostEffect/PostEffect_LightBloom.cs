@@ -9,6 +9,10 @@ class PostEffect_LightBloom : ISample
 	{
 		get { return "ライトブルーム"; }
 	}
+	public string ClassName
+	{
+		get { return "PostEffect_LightBloom"; }
+	}
 
 	// レイヤーにライトブルームのポストエフェクトを適用する。
 	public void Run()

@@ -11,6 +11,10 @@ public class Mouse_Wheel : ISample
 	{
 		get { return "マウスホイール"; }
 	}
+	public string ClassName
+	{
+		get { return "Mouse_Wheel"; }
+	}
 
     public void Run()
     {

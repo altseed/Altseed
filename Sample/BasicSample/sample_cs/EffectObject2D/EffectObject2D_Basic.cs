@@ -11,6 +11,10 @@ class EffectObject2D_Basic : ISample
 	{
 		get { return ""; }
 	}
+	public string ClassName
+	{
+		get { return "EffectObject2D_Basic"; }
+	}
 
     public void Run()
 	{

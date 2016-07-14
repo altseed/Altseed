@@ -17,6 +17,10 @@ class TextObject2D_Rotate : ISample
 	{
 		get { return "文字列の回転"; }
 	}
+	public string ClassName
+	{
+		get { return "TextObject2D_Rotate"; }
+	}
 
     public void Run()
     {

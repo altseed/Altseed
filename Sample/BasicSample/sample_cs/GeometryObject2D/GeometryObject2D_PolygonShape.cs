@@ -11,6 +11,10 @@ class GeometryObject2D_PolygonShape : ISample
 	{
 		get { return ""; }
 	}
+	public string ClassName
+	{
+		get { return "GeometryObject2D_PolygonShape"; }
+	}
 
     public void Run()
     {

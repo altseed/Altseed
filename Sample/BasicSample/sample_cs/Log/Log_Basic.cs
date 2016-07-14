@@ -56,4 +56,10 @@ class Log_Basic : ISample
 	{
 		get { return "ログ出力"; }
 	}
+
+	public string ClassName
+	{
+		get { return "Log_Basic"; }
+	}
+	
 }

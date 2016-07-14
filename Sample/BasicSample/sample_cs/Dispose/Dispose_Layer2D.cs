@@ -29,6 +29,10 @@ class Dispose_Layer2D : ISample
 	{
 		get { return ""; }
 	}
+	public string ClassName
+	{
+		get { return "Dispose_Layer2D"; }
+	}
 
 	public void Run()
 	{

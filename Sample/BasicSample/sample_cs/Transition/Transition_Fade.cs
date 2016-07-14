@@ -68,6 +68,10 @@ class Transition_Fade : ISample
 	{
 		get { return "フェードイン・フェードアウト"; }
 	}
+	public string ClassName
+	{
+		get { return "Transition_Fade"; }
+	}
 
 	public void Run()
 	{

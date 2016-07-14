@@ -3,10 +3,18 @@
 /// </summary>
 public class Collision2D_Basic : ISample
 {
+	public string Title
+	{
+		get { return ""; }
+	}
     public string Description
     {
         get { return ""; }
     }
+	public string ClassName
+	{
+		get { return "Collision2D_Basic"; }
+	}
 
     public void Run()
     {
@@ -77,9 +85,4 @@ public class Collision2D_Basic : ISample
         asd.Engine.Terminate();
 
     }
-
-	public string Title
-	{
-		get { return ""; }
-	}
 }

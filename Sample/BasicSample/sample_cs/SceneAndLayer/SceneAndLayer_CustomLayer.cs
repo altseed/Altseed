@@ -47,6 +47,10 @@ class SceneAndLayer_CustomLayer : ISample
 	{
 		get { return "レイヤーのカスタマイズ"; }
 	}
+	public string ClassName
+	{
+		get { return "SceneAndLayer_CustomLayer"; }
+	}	
 
 	// Layer2Dを継承することでカスタマイズしたレイヤーを作り、一定時間ごとにオブジェクトを追加するサンプル。
 	public void Run()

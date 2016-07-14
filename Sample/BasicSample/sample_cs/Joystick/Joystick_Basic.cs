@@ -11,6 +11,10 @@ class Joystick_Basic : ISample
 	{
 		get { return "ジョイスティックのボタン入力"; }
 	}
+	public string ClassName
+	{
+		get { return "Joystick_Basic"; }
+	}
 
     public void Run()
     {

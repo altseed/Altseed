@@ -12,6 +12,10 @@ class TextureObject2D_Turn : ISample
 	{
 		get { return "画像の上下反転"; }
 	}
+	public string ClassName
+	{
+		get { return "TextureObject2D_Turn"; }
+	}
 
     public void Run()
     {

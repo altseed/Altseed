@@ -12,6 +12,10 @@ class TextObject2D_Centering : ISample
 	{
 		get { return "文字列の中央揃え"; }
 	}
+	public string ClassName
+	{
+		get { return "TextObject2D_Centering"; }
+	}
 
     public void Run()
     {

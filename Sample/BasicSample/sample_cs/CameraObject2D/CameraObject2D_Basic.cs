@@ -18,6 +18,11 @@ public class CameraObject2D_Basic : ISample
 	{
 		get { return "カメラの基本"; }
 	}
+	public string ClassName
+	{
+		get { return "CameraObject2D_Basic"; }
+	}
+	
 
     public void Run()
     {

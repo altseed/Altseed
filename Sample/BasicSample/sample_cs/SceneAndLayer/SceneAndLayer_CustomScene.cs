@@ -48,9 +48,15 @@ class SceneAndLayer_CustomScene : ISample
 	{
 		get { return "Sceneクラスを継承して、ふるまいをカスタマイズするサンプル。"; }
 	}
+
 	public string Title
 	{
 		get { return "シーンのカスタマイズ"; }
+	}
+
+	public string ClassName
+	{
+		get { return "SceneAndLayer_CustomScene"; }
 	}
 
 	// Sceneクラスを継承することでカスタマイズされたシーンを作り、一定時間ごとにレイヤーを追加していくサンプル。

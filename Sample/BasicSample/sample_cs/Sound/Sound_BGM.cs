@@ -9,6 +9,10 @@ class Sound_BGM : ISample
 	{
 		get { return "BGMの再生"; }
 	}
+	public string ClassName
+	{
+		get { return "Sound_BGM"; }
+	}
 
 	// Soundを用いてBGMを鳴らすサンプル。
 	public void Run()

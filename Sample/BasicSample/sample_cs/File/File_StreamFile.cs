@@ -11,6 +11,10 @@ class File_StreamFile : ISample
 	{
 		get { return ""; }
 	}
+	public string ClassName
+	{
+		get { return "File_StreamFile"; }
+	}
 
 	public void Run()
 	{

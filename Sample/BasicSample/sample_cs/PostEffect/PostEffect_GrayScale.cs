@@ -9,6 +9,10 @@ class PostEffect_GrayScale : ISample
 	{
 		get { return "グレースケール"; }
 	}
+	public string ClassName
+	{
+		get { return "PostEffect_GrayScale"; }
+	}
 
 	// レイヤーにグレースケールのポストエフェクトを適用する。
 	public void Run()

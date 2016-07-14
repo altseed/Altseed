@@ -9,6 +9,10 @@ class PostEffect_GaussianBlur : ISample
 	{
 		get { return "ガウスぼかし"; }
 	}
+	public string ClassName
+	{
+		get { return "PostEffect_GaussianBlur"; }
+	}
 
 	// レイヤーにガウスぼかしのポストエフェクトを適用する。
 	public void Run()

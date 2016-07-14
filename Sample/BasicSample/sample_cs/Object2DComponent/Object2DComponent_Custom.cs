@@ -19,6 +19,10 @@ class Object2DComponent_Custom : ISample
 	{
 		get { return ""; }
 	}
+	public string ClassName
+	{
+		get { return "Object2DComponent_Custom"; }
+	}
 
 	// Object2DComponentを用いて、オブジェクトのパラメーターを変更するサンプル。
 	public void Run()

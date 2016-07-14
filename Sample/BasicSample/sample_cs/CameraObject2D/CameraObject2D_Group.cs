@@ -17,6 +17,11 @@ public class CameraObject2D_Group : ISample
 	{
 		get { return ""; }
 	}
+	public string ClassName
+	{
+		get { return "CameraObject2D_Group"; }
+	}
+	
 
     public void Run()
     {

@@ -9,6 +9,10 @@ class SceneAndLayer_Basic : ISample
 	{
 		get { return "シーンとレイヤーの基本"; }
 	}
+	public string ClassName
+	{
+		get { return "SceneAndLayer_Basic"; }
+	}
 
 	// シーンとレイヤーを手動で生成する。
 	public void Run()

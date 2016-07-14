@@ -12,6 +12,10 @@ class Texture_Basic : ISample
 	{
 		get { return ""; }
 	}
+	public string ClassName
+	{
+		get { return "Texture_Basic"; }
+	}
 
     public unsafe void Run()
 	{

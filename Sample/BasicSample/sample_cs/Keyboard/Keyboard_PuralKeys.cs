@@ -12,6 +12,10 @@ public class Keyboard_PuralKeys : ISample
     {
         get { return "複数のキーの入力状態"; }
     }
+	public string ClassName
+	{
+		get { return "Keyboard_PuralKeys"; }
+	}
 
     public void Run()
     {

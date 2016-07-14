@@ -17,6 +17,10 @@ class TextObject2D_Filtered : ISample
 	{
 		get { return "回転した文字列の滑らかな描画"; }
 	}
+	public string ClassName
+	{
+		get { return "TextObject2D_Filtered"; }
+	}
 
     public void Run()
     {

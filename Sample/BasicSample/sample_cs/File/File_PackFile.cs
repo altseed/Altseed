@@ -9,6 +9,10 @@ class File_PackFile : ISample
 	{
 		get { return "パッケージからのファイル読み込み"; }
 	}
+	public string ClassName
+	{
+		get { return "File_PackFile"; }
+	}
 
 	// PackFileを用いて、パッケージから画像を表示するサンプル。
 	public void Run()
