@@ -249,7 +249,7 @@ namespace asd {
 				return;
 			}
 
-			bmp.Save(filepath, &id);
+			bmp.Save((const wchar_t*)filepath, &id);
 		}
 
 		//GDI+を終了する。
@@ -279,7 +279,7 @@ void ImageHelper::SavePNGImage(const achar* filepath, int32_t width, int32_t hei
 {
 	/* 構造体確保 */
 #if _WIN32
-	FILE *fp = _wfopen(filepath, L"wb");
+	FILE *fp = _wfopen((const wchar_t*)filepath, L"wb");
 #else
 	FILE *fp = fopen(ToUtf8String(filepath).c_str(), "wb");
 #endif

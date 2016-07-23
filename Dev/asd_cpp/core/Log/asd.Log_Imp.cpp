@@ -179,8 +179,8 @@ td, th
 	{
 		astring result = text;
 
-		result = ReplaceAll(result, L"<", L"&lt;");
-		result = ReplaceAll(result, L">", L"&gt;");
+		result = ReplaceAll(result, ToAString("<").c_str(), ToAString("&lt;").c_str());
+		result = ReplaceAll(result, ToAString(">").c_str(), ToAString("&gt;").c_str());
 
 		return result;
 	}

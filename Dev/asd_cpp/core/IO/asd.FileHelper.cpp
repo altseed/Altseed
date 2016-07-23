@@ -108,7 +108,7 @@ namespace asd
 		else if (sep == 0)
 		{
 #ifdef _WIN32
-			return astring(L"/");
+			return ToAString("/");
 #else
 			return astring(u"/");
 #endif

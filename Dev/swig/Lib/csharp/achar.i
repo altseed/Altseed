@@ -28,8 +28,14 @@
 namespace asd
 {
 #ifdef _WIN32
-typedef wchar_t achar;
-typedef std::wstring astring;
+
+#ifdef _CHAR16T
+	typedef wchar_t achar;
+	typedef std::wstring astring;
+#else
+	typedef char16_t achar;
+	typedef std::basic_string<char16_t> astring;
+#endif
 #else 
 typedef char16_t achar;
 typedef std::basic_string<char16_t> astring;

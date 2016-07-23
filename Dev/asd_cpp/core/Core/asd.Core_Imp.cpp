@@ -287,11 +287,11 @@ namespace asd
 			layerRenderer->SetLayerPosition(lpos);
 		}
 		
-		m_logger->WriteHeading(L"システム");
+		m_logger->WriteHeading(ToAString("システム").c_str());
 
 		WriteSystemSpecToLog(m_logger);
 		
-		m_logger->WriteLineStrongly(L"コア初期化成功");
+		m_logger->WriteLineStrongly(ToAString("コア初期化成功").c_str());
 
 		isReloadingEnabeld = option.IsReloadingEnabled;
 		m_window->OnFocused = [this]() ->void
@@ -373,10 +373,10 @@ namespace asd
 			layerRenderer->SetLayerPosition(lpos);
 		}
 		
-		m_logger->WriteHeading(L"システム");
+		m_logger->WriteHeading(ToAString("システム").c_str());
 
 		WriteSystemSpecToLog(m_logger);
-		m_logger->WriteLineStrongly(L"コア初期化成功");
+		m_logger->WriteLineStrongly(ToAString("コア初期化成功").c_str());
 
 		return true;
 	}

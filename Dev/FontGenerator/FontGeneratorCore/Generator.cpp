@@ -54,7 +54,7 @@ namespace FontGenerator
 		vector<char> bytes;
 		
 #ifdef _WIN32
-		ifstream fin(filePath.c_str(), ios::binary | ios::in);
+		ifstream fin((const wchar_t*)filePath.c_str(), ios::binary | ios::in);
 #else
 		ifstream fin(ToUtf8String(filePath.c_str()).c_str(), ios::binary | ios::in);
 #endif
@@ -98,7 +98,7 @@ namespace FontGenerator
 		PushAff(writer, result);
 
 #ifdef _WIN32
-		ofstream file(m_sheetName + L".aff", ios::out | ios::binary);
+		ofstream file(std::wstring((const wchar_t*)m_sheetName.c_str()) + L".aff", ios::out | ios::binary);
 #else
 		ofstream file(ToUtf8String(m_sheetName.c_str()) + ".aff", ios::out | ios::binary);
 #endif

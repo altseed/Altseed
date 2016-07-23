@@ -166,7 +166,7 @@ namespace asd
 				
 				auto path = info_->LoadedPath.c_str();
 #if _WIN32
-				auto fp = _wfopen(path, L"rb");
+				auto fp = _wfopen((const wchar_t*)path, L"rb");
 				if (fp == nullptr) return;
 #else
 				auto fp = fopen(ToUtf8String(path).c_str(), "rb");
@@ -200,7 +200,7 @@ namespace asd
 
 				auto path = info_->LoadedPath.c_str();
 #if _WIN32
-				auto fp = _wfopen(path, L"rb");
+				auto fp = _wfopen((const wchar_t*)path, L"rb");
 				if (fp == nullptr) return;
 #else
 				auto fp = fopen(ToUtf8String(path).c_str(), "rb");
@@ -229,7 +229,8 @@ namespace asd
 			FILETIME time;
 			//SYSTEMTIME st;
 
-			file = CreateFileW(path,
+			file = CreateFileW(
+				(const wchar_t*)path,
 				GENERIC_READ,
 				0,
 				NULL,

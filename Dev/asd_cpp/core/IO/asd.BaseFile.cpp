@@ -20,7 +20,7 @@ namespace asd
 	{
 		m_file.open(
 #ifdef _WIN32
-			path,
+			(const wchar_t*)path,
 #else
 			ToUtf8String(path),
 #endif

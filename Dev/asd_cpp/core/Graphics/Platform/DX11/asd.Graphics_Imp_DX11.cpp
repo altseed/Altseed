@@ -481,7 +481,7 @@ void Graphics_Imp_DX11::WriteAdapterInformation(Log* log, IDXGIAdapter1* adapter
 
 		if (SUCCEEDED(hr))
 		{
-			card << ToUtf8String(adapterDesc.Description);
+			card << ToUtf8String((const achar*)adapterDesc.Description);
 			vendor << adapterDesc.VendorId;
 			device << adapterDesc.DeviceId;
 			subSys << adapterDesc.SubSysId;
@@ -520,7 +520,7 @@ void Graphics_Imp_DX11::WriteAdapterInformation(Log* log, IDXGIAdapter1* adapter
 
 				title << "アウトプット情報 (" << (i + 1) << ")";
 
-				name << ToUtf8String(outputDesc.DeviceName);
+				name << ToUtf8String((const achar*)outputDesc.DeviceName);
 				attach << (outputDesc.AttachedToDesktop == TRUE ? "True" : "False");
 				pos << "(" << outputDesc.DesktopCoordinates.left << ","
 					<< outputDesc.DesktopCoordinates.top << ","

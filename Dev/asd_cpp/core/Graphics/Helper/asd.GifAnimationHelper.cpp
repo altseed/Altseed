@@ -6,7 +6,7 @@ namespace asd
 	bool GifAnimationHelper::Initialize(const achar* filepath, int32_t width, int32_t height, int32_t framerate, float scale)
 	{
 #if _WIN32
-		_wfopen_s(&fp, filepath, L"wb");
+		_wfopen_s(&fp, (const wchar_t*)filepath, L"wb");
 #else
 		fp = fopen(ToUtf8String(filepath).c_str(), "wb");
 #endif
