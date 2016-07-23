@@ -186,3 +186,9 @@ if isWin():
 		cmd_cmake_x64 = r'cmake -G "Visual Studio 14 Win64" '
 		cmd_compile = r'"C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild" '
 
+	if (len(sys.argv) == 3 and sys.argv[2] == 'Visual Studio 14'):
+		# vs2015
+		cmd_cmake = r'cmake -G "Visual Studio 14" '
+		cmd_cmake_x64 = r'cmake -G "Visual Studio 14 Win64" '
+		cmd_compile = r'"C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild" '
+
