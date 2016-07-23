@@ -80,7 +80,7 @@ Core側のコンパイルやEngineのテストなど、様々な部分で使わ�
 
 ### その他のライブラリの導入手順
 
-####glew
+#### glew
 * Windows：前節で示したスクリプトを実行すればOKです。
 * Linux：パッケージ管理ツールで導入してください。
     * たとえばUbuntuの場合「libglew-dev」パッケージです。
@@ -132,9 +132,12 @@ Dev/unitTest_Engine_cs.sln
 
 ## Java版への対応
 
-antをインストールします。
+* antをインストールします。
+* ANT_HOME環境変数を作り、antのインストールパスを指定します。？
+* javacにパスを通します。？
 
 ```Script/generateTranslatedCode.py``` を実行します。
+警告が出ても変換はされている？
 
 Dev/asd_java/ で ```ant``` を実行します。
 

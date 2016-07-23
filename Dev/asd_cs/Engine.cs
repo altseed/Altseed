@@ -549,7 +549,7 @@ namespace asd
 		{
 			if(transition == null)
 			{
-				throw new ArgumentNullException("transition");
+				Particular.Helper.ThrowException("transition パラメータが null です。");
 			}
 			ChangesToBeCommited.Enqueue(new EventToChangeScene(scene, transition, doAutoDispose));
 		}
