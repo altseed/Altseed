@@ -5,5 +5,5 @@ Altseedでは、Layerの機能を使用して簡単にポーズを実装する�
 
 ### 基本
 
-* include_application_sample Pause_Basic
+* include_application_sample Pause_Basic+Pause_PauseLayer+Pause_MainLayer
 

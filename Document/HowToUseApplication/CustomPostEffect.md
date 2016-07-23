@@ -7,8 +7,8 @@ Altseedでは、ポストエフェクトを自作できます。
 
 ### 階調の反転
 
-* include_application_sample CustomPostEffect_Invert
+* include_application_sample CustomPostEffect_Invert+CustomPostEffect_InvertPostEffect
 
 ### モザイク
 
-* include_application_sample CustomPostEffect_Mosaic
+* include_application_sample CustomPostEffect_Mosaic+CustomPostEffect_MosaicPostEffect

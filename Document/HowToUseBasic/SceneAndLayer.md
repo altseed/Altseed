@@ -15,8 +15,8 @@ Altseedには、シーンとレイヤーというオブジェクトを管理す�
 
 ### レイヤーのカスタマイズ
 
-* include_basic_sample SceneAndLayer_CustomLayer
+* include_basic_sample SceneAndLayer_CustomLayer+SceneAndLayer_SampleLayer
 
 ### シーンのカスタマイズ
 
-* include_basic_sample SceneAndLayer_CustomScene
+* include_basic_sample SceneAndLayer_CustomScene+SceneAndLayer_SampleScene
