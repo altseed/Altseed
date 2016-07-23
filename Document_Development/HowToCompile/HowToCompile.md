@@ -25,7 +25,7 @@ Ubuntuでは、```Script/install_swig_ubuntu.sh```　を実行することでswi
 
 ### Windows
 
-* Visual Studio 2013
+* Visual Studio 2015
 
 * DirectX Software Development Kit
 

@@ -6,7 +6,7 @@ C++版の導入方法について説明しています。
 ### VisualStudio2013の導入
 
 [VisualStudioのWebページ](https://www.visualstudio.com/ja-jp/downloads/download-visual-studio-vs#DownloadFamilies_2)から
-「Visual Studio Community 2013 Update 4」をダウンロードします。ただし、会社内でAltseedを使用する場合は「Visual Studio Express 2013 with Update 4 for Windows Desktop」をダウンロードします。
+「Visual Studio Community 2015 with Update 3」をダウンロードします。ただし、会社内でAltseedを使用する場合は「Visual Studio Express 2015 for Windows Desktop」をダウンロードします。
 これらはプログラムのソースコードから実行可能なアプリケーションを生成するツールです。個人で開発する分には無料で使用できます。
 
 ダウンロードが終わったら、「Visual Studio」をインストールします。
@@ -104,7 +104,3 @@ VisualStudioがコンパイルをする際に一時的に生成されるファ�
 
 ```Altseed_core.Debug.dll``` と ```Altseed_core.dll``` は生成された実行ファイルが存在するディレクトリにもコピーしましょう。VisualStudioからデバッグしている間は問題は置きませんが、
 実行ファイルを起動する際は、実行ファイルと同じディレクトリにこれらのdllが存在する必要があります。
-
-
-
-
