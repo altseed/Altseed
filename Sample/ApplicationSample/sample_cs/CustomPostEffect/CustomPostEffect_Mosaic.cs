@@ -1,19 +1,8 @@
-﻿
-/// <summary>
-/// 一部の領域にモザイクをかけるポストエフェクトのサンプル。
+﻿/// <summary>
+/// 一部の領域にモザイクをかけるポストエフェクト
 /// </summary>
-class CustomPostEffect_Mosaic : ISample
+class CustomPostEffect_MosaicPostEffect : asd.PostEffect
 {
-	public string Description
-	{
-		get { return "一部の領域にモザイクをかけるポストエフェクトのサンプルです。"; }
-	}
-
-	public string Title
-	{
-		get { return "モザイク ポストエフェクト"; }
-	}
-
 	/// <summary>
 	/// DirectX向けシェーダー(HLSLで記述)
 	/// </summary>
@@ -103,48 +92,58 @@ void main()
 
 ";
 
-	/// <summary>
-	/// 一部の領域にモザイクをかけるポストエフェクト
-	/// </summary>
-	class MosaicPostEffect : asd.PostEffect
+	asd.Shader2D shader;
+	asd.Material2D material2d;
+
+	public CustomPostEffect_MosaicPostEffect()
 	{
-		asd.Shader2D shader;
-		asd.Material2D material2d;
-
-		public MosaicPostEffect()
+		// シェーダーをHLSL/GLSLから生成する。
+		if(asd.Engine.Graphics.GraphicsDeviceType == asd.GraphicsDeviceType.DirectX11)
 		{
-			// シェーダーをHLSL/GLSLから生成する。
-			if (asd.Engine.Graphics.GraphicsDeviceType == asd.GraphicsDeviceType.DirectX11)
-			{
-				shader = asd.Engine.Graphics.CreateShader2D(
-					shader2d_dx_ps
-					);
-			}
-			else if (asd.Engine.Graphics.GraphicsDeviceType == asd.GraphicsDeviceType.OpenGL)
-			{
-				shader = asd.Engine.Graphics.CreateShader2D(
-					shader2d_gl_ps
-					);
-			}
-
-			// シェーダーからマテリアルを生成する。
-			material2d = asd.Engine.Graphics.CreateMaterial2D(shader);
+			shader = asd.Engine.Graphics.CreateShader2D(
+				shader2d_dx_ps
+				);
+		}
+		else if(asd.Engine.Graphics.GraphicsDeviceType == asd.GraphicsDeviceType.OpenGL)
+		{
+			shader = asd.Engine.Graphics.CreateShader2D(
+				shader2d_gl_ps
+				);
 		}
 
-		protected override void OnDraw(asd.RenderTexture2D dst, asd.RenderTexture2D src)
-		{
-			// マテリアルを経由してシェーダー内のg_texture変数に画面の画像(src)を入力する。
-			material2d.SetTexture2D("g_texture", src);
+		// シェーダーからマテリアルを生成する。
+		material2d = asd.Engine.Graphics.CreateMaterial2D(shader);
+	}
 
-			// マテリアルを経由してシェーダー内のg_area変数にポストエフェクトを適用する範囲を入力する。
-			material2d.SetVector2DF("g_windowSize", new asd.Vector2DF(asd.Engine.WindowSize.X, asd.Engine.WindowSize.Y));
+	protected override void OnDraw(asd.RenderTexture2D dst, asd.RenderTexture2D src)
+	{
+		// マテリアルを経由してシェーダー内のg_texture変数に画面の画像(src)を入力する。
+		material2d.SetTexture2D("g_texture", src);
 
-			// マテリアルを経由してシェーダー内のg_area変数にポストエフェクトを適用する範囲を入力する。
-			material2d.SetVector4DF("g_area", new asd.Vector4DF(50,50, 200, 200));
+		// マテリアルを経由してシェーダー内のg_area変数にポストエフェクトを適用する範囲を入力する。
+		material2d.SetVector2DF("g_windowSize", new asd.Vector2DF(asd.Engine.WindowSize.X, asd.Engine.WindowSize.Y));
 
-			// 出力画像(dst)に指定したマテリアルで描画する。
-			DrawOnTexture2DWithMaterial(dst, material2d);
-		}
+		// マテリアルを経由してシェーダー内のg_area変数にポストエフェクトを適用する範囲を入力する。
+		material2d.SetVector4DF("g_area", new asd.Vector4DF(50, 50, 200, 200));
+
+		// 出力画像(dst)に指定したマテリアルで描画する。
+		DrawOnTexture2DWithMaterial(dst, material2d);
+	}
+}
+
+/// <summary>
+/// 一部の領域にモザイクをかけるポストエフェクトのサンプル。
+/// </summary>
+class CustomPostEffect_Mosaic : ISample
+{
+	public string Description
+	{
+		get { return "一部の領域にモザイクをかけるポストエフェクトのサンプルです。"; }
+	}
+
+	public string Title
+	{
+		get { return "モザイク ポストエフェクト"; }
 	}
 
 	public void Run()
@@ -164,7 +163,7 @@ void main()
 		layer.AddObject(obj);
 
 		// レイヤーにポストエフェクトを適用する。
-		layer.AddPostEffect(new MosaicPostEffect());
+		layer.AddPostEffect(new CustomPostEffect_MosaicPostEffect());
 
 		while (asd.Engine.DoEvents())
 		{

@@ -1,13 +1,13 @@
 ﻿
 /// <summary>
-/// 階調を反転するポストエフェクトのサンプル。
+/// 階調を反転させるポストエフェクト
 /// </summary>
-class CustomPostEffect_Invert : ISample
+class CustomPostEffect_InvertPostEffect : asd.PostEffect
 {
 	/// <summary>
 	/// DirectX向けシェーダー(HLSLで記述)
 	/// </summary>
-	static string shader2d_dx_ps = @"
+	private static string shader2d_dx_ps = @"
 Texture2D g_texture : register( t0 );
 SamplerState g_sampler : register( s0 );
 
@@ -26,10 +26,11 @@ float4 main( const PS_Input Input ) : SV_Target
 }
 
 ";
+
 	/// <summary>
 	/// OpenGL向けシェーダー(GLSLで記述)
 	/// </summary>
-	static string shader2d_gl_ps = @"
+	private static string shader2d_gl_ps = @"
 uniform sampler2D g_texture;
 
 in vec4 inPosition;
@@ -46,44 +47,40 @@ void main()
 
 ";
 
-	/// <summary>
-	/// 階調を反転させるポストエフェクト
-	/// </summary>
-	class InvertPostEffect : asd.PostEffect
+	asd.Shader2D shader;
+	asd.Material2D material2d;
+
+	public CustomPostEffect_InvertPostEffect()
 	{
-		asd.Shader2D shader;
-		asd.Material2D material2d;
-
-		public InvertPostEffect()
+		// シェーダーをHLSL/GLSLから生成する。
+		if(asd.Engine.Graphics.GraphicsDeviceType == asd.GraphicsDeviceType.DirectX11)
 		{
-			// シェーダーをHLSL/GLSLから生成する。
-			if (asd.Engine.Graphics.GraphicsDeviceType == asd.GraphicsDeviceType.DirectX11)
-			{
-				shader = asd.Engine.Graphics.CreateShader2D(
-					shader2d_dx_ps
-					);
-			}
-			else if (asd.Engine.Graphics.GraphicsDeviceType == asd.GraphicsDeviceType.OpenGL)
-			{
-				shader = asd.Engine.Graphics.CreateShader2D(
-					shader2d_gl_ps
-					);
-			}
-
-			// シェーダーからマテリアルを生成する。
-			material2d = asd.Engine.Graphics.CreateMaterial2D(shader);
+			shader = asd.Engine.Graphics.CreateShader2D(shader2d_dx_ps);
+		}
+		else if(asd.Engine.Graphics.GraphicsDeviceType == asd.GraphicsDeviceType.OpenGL)
+		{
+			shader = asd.Engine.Graphics.CreateShader2D(shader2d_gl_ps);
 		}
 
-		protected override void OnDraw(asd.RenderTexture2D dst, asd.RenderTexture2D src)
-		{
-			// マテリアルを経由してシェーダー内のg_texture変数に画面の画像(src)を入力する。
-			material2d.SetTexture2D("g_texture", src);
-
-			// 出力画像(dst)に指定したマテリアルで描画する。
-			DrawOnTexture2DWithMaterial(dst, material2d);
-		}
+		// シェーダーからマテリアルを生成する。
+		material2d = asd.Engine.Graphics.CreateMaterial2D(shader);
 	}
 
+	protected override void OnDraw(asd.RenderTexture2D dst, asd.RenderTexture2D src)
+	{
+		// マテリアルを経由してシェーダー内のg_texture変数に画面の画像(src)を入力する。
+		material2d.SetTexture2D("g_texture", src);
+
+		// 出力画像(dst)に指定したマテリアルで描画する。
+		DrawOnTexture2DWithMaterial(dst, material2d);
+	}
+}
+
+/// <summary>
+/// 階調を反転するポストエフェクトのサンプル。
+/// </summary>
+class CustomPostEffect_Invert : ISample
+{
 	public void Run()
 	{
 		// Altseedを初期化する。
@@ -101,7 +98,7 @@ void main()
 		layer.AddObject(obj);
 
 		// レイヤーにポストエフェクトを適用する。
-		layer.AddPostEffect(new InvertPostEffect());
+		layer.AddPostEffect(new CustomPostEffect_InvertPostEffect());
 
 		while (asd.Engine.DoEvents())
 		{
@@ -111,7 +108,6 @@ void main()
 
 		asd.Engine.Terminate();
 	}
-
 
 	public string Description
 	{
