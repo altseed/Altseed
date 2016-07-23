@@ -5,7 +5,7 @@ C#版の導入方法について説明しています。
 
 ### VisualStudio2015の導入
 
-[VisualStudioのWebページ](https://www.visualstudio.com/ja-jp/downloads/download-visual-studio-vs#DownloadFamilies_2)から
+[VisualStudioのWebページ](https://www.visualstudio.com/ja-jp/downloads/download-visual-studio-vs)から
 「Visual Studio Community 2015 with Update 3」をダウンロードします。ただし、会社内でAltseedを使用する場合は「Visual Studio Express 2015 for Windows Desktop」をダウンロードします。
 これらはプログラムのソースコードから実行可能なアプリケーションを生成するツールです。個人で開発する分には無料で使用できます。
 
