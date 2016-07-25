@@ -1,19 +1,19 @@
 import aceutils
 
-zipname = 'master.zip'
-pathname = 'glfw-master'
-
+path = r'https://github.com/glfw/glfw/archive/'
 zipname = 'f7006f64fb12e21f30a99351d7c854ea75b5c3eb.zip'
 pathname = 'glfw-f7006f64fb12e21f30a99351d7c854ea75b5c3eb'
 
-
+path = r'https://github.com/altseed/glfw/archive/'
+zipname = 'ed451ea6823380af9ea1ced320182fbcfb176c64.zip'
+pathname = 'glfw-ed451ea6823380af9ea1ced320182fbcfb176c64'
 
 aceutils.cdToScript()
 aceutils.cd(r'../')
 aceutils.rm(zipname)
 aceutils.rmdir(pathname)
 
-aceutils.wget(r'https://github.com/glfw/glfw/archive/' + zipname)
+aceutils.wget(path + zipname)
 aceutils.unzip(zipname)
 
 aceutils.editCmakeForACE(pathname + r'/CMakeLists.txt')
