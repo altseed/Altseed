@@ -47,8 +47,8 @@ namespace asd
 		virtual void UpdateInternal() = 0;
 		virtual void DrawAdditionally() = 0;
 
-		virtual void RaiseOnAdded();
-		virtual void RaiseOnRemoved();
+		virtual void RaiseOnAdded() = 0;
+		virtual void RaiseOnRemoved() = 0;
 		virtual void Update();
 		void Draw();
 		void BeginDrawing();

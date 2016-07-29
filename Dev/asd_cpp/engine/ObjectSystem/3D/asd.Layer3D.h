@@ -44,6 +44,9 @@ namespace asd
 		void AddToCore(const Object3D::Ptr& object);
 		void RemoveFromCore(const Object3D::Ptr& object);
 
+		void RaiseOnAdded() override;
+		void RaiseOnRemoved() override;
+
 	protected:
 
 	public:

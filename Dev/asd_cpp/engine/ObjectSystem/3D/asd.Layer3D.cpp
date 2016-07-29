@@ -34,6 +34,16 @@ namespace asd
 		m_objects->Dispose();
 	}
 
+	void Layer3D::RaiseOnAdded()
+	{
+		OnAdded();
+	}
+
+	void Layer3D::RaiseOnRemoved()
+	{
+		OnRemoved();
+	}
+
 	bool Layer3D::GetIsAlive() const
 	{
 		return Layer::GetIsAlive(); // TODO: これでいいのか?

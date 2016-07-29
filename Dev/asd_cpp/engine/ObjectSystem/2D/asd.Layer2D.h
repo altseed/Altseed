@@ -38,11 +38,11 @@ namespace asd
 		std::shared_ptr<ObjectManager<Object2D>> m_objects;
 		std::shared_ptr<ComponentManager<Layer2DComponent>> m_components;
 
-		void BeginUpdating();
-		void EndUpdateting();
-		void UpdateInternal();
-		void DrawAdditionally();
-		void DisposeInternal();
+		void BeginUpdating() override;
+		void EndUpdateting() override;
+		void UpdateInternal() override;
+		void DrawAdditionally() override;
+		void DisposeInternal() override;
 
 		void ImmediatelyRemoveObject(const Object2D::Ptr& object, bool raiseEvent);
 		void ImmediatelyRemoveComponent(astring key);
@@ -53,8 +53,8 @@ namespace asd
 		void Register(const Layer2DComponent::Ptr& component) override;
 		void Unregister(const Layer2DComponent::Ptr& component) override;
 
-		void RaiseOnAdded();
-		void RaiseOnRemoved();
+		void RaiseOnAdded() override;
+		void RaiseOnRemoved() override;
 
 	protected:
 

@@ -76,6 +76,8 @@ namespace asd
 
 	void Layer2D::RaiseOnAdded()
 	{
+		OnAdded();
+
 		for (auto& component : m_components->GetComponents())
 		{
 			component.second->RaiseOnAdded();
@@ -88,6 +90,8 @@ namespace asd
 		{
 			component.second->RaiseOnRemoved();
 		}
+
+		OnRemoved();
 	}
 
 

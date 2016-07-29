@@ -478,6 +478,16 @@ namespace asd
 			ObjectManager.DisposeObjects(disposeNative);
 		}
 
+		internal override void RaiseOnAdded()
+		{
+			OnAdded();
+		}
+
+		internal override void RaiseOnRemoved()
+		{
+			OnRemoved();
+		}
+
 		private ObjectManager<Object3D> ObjectManager { get; set; }
 	}
 }

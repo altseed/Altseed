@@ -390,24 +390,23 @@ namespace asd
 			}
 		}
 
-		protected override void OnAdded()
+		internal override void RaiseOnAdded()
 		{
-			base.OnAdded();
-			foreach(var component in ComponentManager.Components)
+			OnAdded();
+			foreach (var component in ComponentManager.Components)
 			{
 				component.RaiesOnAdded();
 			}
 		}
 
-		protected override void OnRemoved()
+		internal override void RaiseOnRemoved()
 		{
-			foreach(var component in ComponentManager.Components)
+			foreach (var component in ComponentManager.Components)
 			{
 				component.RaiesOnRemoved();
 			}
-			base.OnRemoved();
+			OnRemoved();
 		}
-
 
 		public override LayerType LayerType
 		{

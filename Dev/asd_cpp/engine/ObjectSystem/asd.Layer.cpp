@@ -7,16 +7,6 @@ using namespace std;
 
 namespace asd
 {
-	void Layer::RaiseOnAdded()
-	{
-		OnAdded();
-	}
-
-	void Layer::RaiseOnRemoved()
-	{
-		OnRemoved();
-	}
-
 	void Layer::Dispose()
 	{
 		Engine::m_changesToCommit.push(make_shared<EventToDisposeContent>(shared_from_this()));

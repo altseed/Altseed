@@ -98,15 +98,9 @@ namespace asd
 
 
 		#region イベント
-		internal virtual void RaiseOnAdded()
-		{
-			OnAdded();
-		}
+		internal abstract void RaiseOnAdded();
 
-		internal virtual void RaiseOnRemoved()
-		{
-			OnRemoved();
-		}
+		internal abstract void RaiseOnRemoved();
 
 		/// <summary>
 		/// このレイヤーを破棄する。
