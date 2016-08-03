@@ -54,7 +54,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D.LifeCycle
 			{
 				alreadyDisposed = true;
 			}
-		}
+		}	
 
 		private TestScene scene1;
 		private TestScene scene2;
