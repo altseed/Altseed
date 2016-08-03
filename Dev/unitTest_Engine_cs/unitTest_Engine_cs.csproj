@@ -91,6 +91,7 @@
     <Compile Include="ObjectSystem2D\LayersFlag.cs" />
     <Compile Include="ObjectSystem2D\LayerUpdatePriority.cs" />
     <Compile Include="ObjectSystem2D\LifeCycle\ObjectSystemLifeCycle.cs" />
+    <Compile Include="ObjectSystem2D\LifeCycle\SceneLifeCycle.cs" />
     <Compile Include="ObjectSystem2D\ObjectComponent.cs" />
     <Compile Include="ObjectSystem2D\ObjectsFlag.cs" />
     <Compile Include="ObjectSystem2D\ObjectSimple.cs" />

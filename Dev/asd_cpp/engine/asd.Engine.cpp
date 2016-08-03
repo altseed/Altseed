@@ -325,7 +325,6 @@ namespace asd
 		: m_transition(transition)
 		, m_doAutoDispose(doAutoDispose)
 	{
-		std::cout << "Begin Fadeout." << std::endl;
 		Engine::m_nextScene = nextScene;
 	}
 
@@ -333,7 +332,6 @@ namespace asd
 	{
 		if (m_transition->coreTransition->GetIsSceneChanged())
 		{
-			std::cout << "Fadeout finished." << std::endl;
 			if (Engine::m_currentScene != nullptr)
 			{
 				Engine::m_currentScene->RaiseOnStopUpdating();
@@ -382,7 +380,6 @@ namespace asd
 	{
 		if (m_transition->coreTransition->GetIsFinished())
 		{
-			std::cout << "Fadein finished." << std::endl;
 			if (m_previousScene != nullptr)
 			{
 				m_previousScene->RaiseOnUnregistered();
@@ -391,7 +388,7 @@ namespace asd
 					m_previousScene->Dispose();
 				}
 			}
-			if (Engine::m_currentScene != nullptr)
+			if (Engine::m_currentScene != nullptr && Engine::m_currentScene->GetIsAlive())
 			{
 				Engine::m_currentScene->RaiseOnTransitionFinished();
 			}
@@ -425,9 +422,9 @@ namespace asd
 
 	void Engine::FadingInState::ForceToComplete()
 	{
-		if (m_currentScene != nullptr && m_doAutoDispose)
+		if (m_previousScene != nullptr && m_doAutoDispose && m_previousScene->GetIsAlive())
 		{
-			m_currentScene->Dispose();
+			m_previousScene->Dispose();
 		}
 	}
 
@@ -454,7 +451,6 @@ namespace asd
 
 	void Engine::QuicklyChangingState::ForceToComplete()
 	{
-		std::cout << "Quickly change finished." << std::endl;
 		if (Engine::m_currentScene != nullptr && Engine::m_currentScene->GetIsAlive())
 		{
 			Engine::m_currentScene->RaiseOnStopUpdating();
@@ -464,7 +460,7 @@ namespace asd
 				Engine::m_currentScene->Dispose();
 			}
 		}
-		if (m_nextScene != nullptr)
+		if (m_nextScene != nullptr && m_nextScene->GetIsAlive())
 		{
 			Engine::m_nextScene->RaiseOnStartUpdating();
 			Engine::m_nextScene->RaiseOnTransitionFinished();

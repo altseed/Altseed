@@ -18,48 +18,41 @@ class ObjectSystem_SceneLifeCycle : public EngineTest
 		{
 			ASSERT_EQ(m_phase, 0);
 			m_phase = 1;
-			cout << "TestScene::OnRegistered" << endl;
 		}
 
 		void OnStartUpdating()
 		{
 			ASSERT_EQ(m_phase, 1);
 			m_phase = 2;
-			cout << "TestScene::OnStartUpdating" << endl;
 		}
 
 		void OnTransitionFinished()
 		{
 			ASSERT_EQ(m_phase, 2);
 			m_phase = 3;
-			cout << "TestScene::OnTransitionFinished" << endl;
 		}
 
 		void OnTransitionBegin()
 		{
 			ASSERT_EQ(m_phase, 3);
 			m_phase = 4;
-			cout << "TestScene::OnTransitionBegin" << endl;
 		}
 
 		void OnStopUpdating()
 		{
 			ASSERT_EQ(m_phase, 4);
 			m_phase = 5;
-			cout << "TestScene::OnStopUpdating" << endl;
 		}
 
 		void OnUnregistered()
 		{
 			ASSERT_EQ(m_phase, 5);
 			m_phase = 6;
-			cout << "TestScene::OnUnregistered" << endl;
 		}
 
 		void OnDispose()
 		{
 			m_alreadyDisposed = true;
-			cout << "TestScene::OnDispose" << endl;
 		}
 
 	public:
@@ -84,7 +77,6 @@ protected:
 	{
 		m_scene1 = make_shared<TestScene>();
 		Engine::ChangeSceneWithTransition(m_scene1, make_shared<TransitionFade>(0.3f, 0.3f));
-		cout << "Change to scene1" << endl;
 	}
 
 	void OnUpdating()
@@ -94,14 +86,12 @@ protected:
 		{
 			m_scene2 = make_shared<TestScene>();
 			Engine::ChangeSceneWithTransition(m_scene2, make_shared<TransitionFade>(0.3f, 0.3f));
-			cout << "Change to scene2" << endl;
 		}
 		else if (m_count == 120)
 		{
 			ASSERT_TRUE(m_scene1->m_alreadyDisposed);
 			m_scene3 = make_shared<TestScene>();
 			Engine::ChangeScene(m_scene3);
-			cout << "Change to scene3" << endl;
 		}
 		else if (m_count == 122)
 		{

@@ -30,6 +30,11 @@ namespace asd
 		public virtual void ForceToComplete()
 		{
 		}
+
+		protected bool IsValid(Scene scene)
+		{
+			return scene != null && scene.IsAlive;
+		}
 	}
 
 	class NeutralState : SceneTransitionState
@@ -39,6 +44,14 @@ namespace asd
 			if(Engine.CurrentScene != null)
 			{
 				Engine.core.DrawSceneToWindow(Engine.CurrentScene.CoreInstance);
+			}
+		}
+
+		public override void Proceed()
+		{
+			if(Engine.CurrentScene != null && !Engine.CurrentScene.IsAlive)
+			{
+				Engine.transitionState = new QuicklyChangingState(null, false);
 			}
 		}
 	}
@@ -59,11 +72,11 @@ namespace asd
 		{
 			if(transition.IsSceneChanged)
 			{
-				if(Engine.CurrentScene != null)
+				if(IsValid(Engine.CurrentScene))
 				{
 					Engine.CurrentScene.RaiseOnStopUpdating();
 				}
-				if(Engine.nextScene != null)
+				if(IsValid(Engine.nextScene))
 				{
 					Engine.nextScene.RaiseOnStartUpdating();
 					Engine.core.ChangeScene(Engine.nextScene.CoreInstance);
@@ -112,7 +125,7 @@ namespace asd
 		{
 			if(transition.IsFinished)
 			{
-				if(previousScene != null)
+				if(IsValid(previousScene))
 				{
 					previousScene.RaiseOnUnregistered();
 					if(doAutoDispose)
@@ -120,7 +133,7 @@ namespace asd
 						previousScene.Dispose();
 					}
 				}
-				if(Engine.CurrentScene != null)
+				if(IsValid(Engine.CurrentScene))
 				{
 					Engine.CurrentScene.RaiseOnTransitionFinished();
 				}
@@ -153,7 +166,7 @@ namespace asd
 
 		public override void ForceToComplete()
 		{
-			if(previousScene != null && doAutoDispose)
+			if(IsValid(previousScene) && doAutoDispose)
 			{
 				previousScene.Dispose();
 			}
@@ -186,7 +199,7 @@ namespace asd
 
 		public override void ForceToComplete()
 		{
-			if(Engine.CurrentScene != null)
+			if(IsValid(Engine.CurrentScene))
 			{
 				Engine.CurrentScene.RaiseOnStopUpdating();
 				Engine.CurrentScene.RaiseOnUnregistered();
@@ -195,7 +208,7 @@ namespace asd
 					Engine.CurrentScene.Dispose();
 				}
 			}
-			if(Engine.nextScene != null)
+			if(IsValid(Engine.nextScene))
 			{
 				Engine.nextScene.RaiseOnStartUpdating();
 				Engine.nextScene.RaiseOnTransitionFinished();

@@ -24,11 +24,11 @@ namespace unitTest_Engine_cs
 		//[STAThread]
 		static void Main(string[] args)
 		{
-			TestInNamespace("Graphics._2D");
+			TestOnAllDevice(typeof(ObjectSystem2D.LifeCycle.SceneLifeCycle));
 			Console.ReadKey();
 			return;
 
-			TestOnAllDevice(typeof(Graphics._2D.EffectObject2D));
+			TestInNamespace("Graphics._2D");
 			Console.ReadKey();
 			return;
 

@@ -235,10 +235,6 @@ namespace asd
 			}
 
 			transitionState.Proceed();
-			if(CurrentScene != null && !CurrentScene.IsAlive)
-			{
-				transitionState = new QuicklyChangingState(null, false);
-			}
 
 			return mes;
 		}
