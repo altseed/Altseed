@@ -213,6 +213,9 @@
     <ClCompile Include="..\Input\MouseWithManyButtons.cpp">
       <Filter>Input</Filter>
     </ClCompile>
+    <ClCompile Include="..\ObjectSystem\SceneLifeCycle.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

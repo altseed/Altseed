@@ -3,6 +3,7 @@
 //
 //----------------------------------------------------------------------------------
 #include <asd.common.Base.h>
+#include <iostream>
 #include "asd.Engine.h"
 
 #include "ObjectSystem/asd.Scene.h"
@@ -311,10 +312,20 @@ namespace asd
 		}
 	}
 
+	std::shared_ptr<Engine::SceneTransitionState> Engine::NeutralState::Proceed()
+	{
+		if (Engine::m_currentScene != nullptr && !Engine::m_currentScene->GetIsAlive())
+		{
+			return std::make_shared<QuicklyChangingState>(nullptr, false);
+		}
+		return nullptr;
+	}
+
 	Engine::FadingOutState::FadingOutState(std::shared_ptr<Transition> transition, Scene::Ptr nextScene, bool doAutoDispose)
 		: m_transition(transition)
 		, m_doAutoDispose(doAutoDispose)
 	{
+		std::cout << "Begin Fadeout." << std::endl;
 		Engine::m_nextScene = nextScene;
 	}
 
@@ -322,6 +333,7 @@ namespace asd
 	{
 		if (m_transition->coreTransition->GetIsSceneChanged())
 		{
+			std::cout << "Fadeout finished." << std::endl;
 			if (Engine::m_currentScene != nullptr)
 			{
 				Engine::m_currentScene->RaiseOnStopUpdating();
@@ -370,9 +382,14 @@ namespace asd
 	{
 		if (m_transition->coreTransition->GetIsFinished())
 		{
+			std::cout << "Fadein finished." << std::endl;
 			if (m_previousScene != nullptr)
 			{
 				m_previousScene->RaiseOnUnregistered();
+				if (m_doAutoDispose)
+				{
+					m_previousScene->Dispose();
+				}
 			}
 			if (Engine::m_currentScene != nullptr)
 			{
@@ -417,6 +434,7 @@ namespace asd
 	Engine::QuicklyChangingState::QuicklyChangingState(Scene::Ptr nextScene, bool doAutoDispose)
 		: m_doAutoDispose(doAutoDispose)
 	{
+		std::cout << "Begin quickly changing." << std::endl;
 		Engine::m_nextScene = nextScene;
 	}
 
@@ -436,10 +454,15 @@ namespace asd
 
 	void Engine::QuicklyChangingState::ForceToComplete()
 	{
-		if (Engine::m_currentScene != nullptr)
+		std::cout << "Quickly change finished." << std::endl;
+		if (Engine::m_currentScene != nullptr && Engine::m_currentScene->GetIsAlive())
 		{
 			Engine::m_currentScene->RaiseOnStopUpdating();
 			Engine::m_currentScene->RaiseOnUnregistered();
+			if (m_doAutoDispose)
+			{
+				Engine::m_currentScene->Dispose();
+			}
 		}
 		if (m_nextScene != nullptr)
 		{
@@ -532,7 +555,11 @@ namespace asd
 			}
 
 			CommitChange();
-			m_transitionState->Proceed();
+			auto nextState = m_transitionState->Proceed();
+			if (nextState != nullptr)
+			{
+				m_transitionState = nextState;
+			}
 		}
 		else
 		{
@@ -632,10 +659,6 @@ namespace asd
 		if (nextState != nullptr)
 		{
 			m_transitionState = nextState;
-		}
-		if (m_currentScene != nullptr && !m_currentScene->GetIsAlive())
-		{
-			m_transitionState = std::make_shared<QuicklyChangingState>(nullptr, false);
 		}
 
 		return m_core->DoEvents();

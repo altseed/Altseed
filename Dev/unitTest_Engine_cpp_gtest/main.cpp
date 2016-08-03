@@ -77,6 +77,7 @@ EXTERN_ENGINE_TEST(ObjectSystem, ObjectsUpdatePriority)
 EXTERN_ENGINE_TEST(ObjectSystem, LayerUpdatePriority)
 EXTERN_ENGINE_TEST(ObjectSystem, UpdateFrequency)
 EXTERN_ENGINE_TEST(ObjectSystem, LifeCycle)
+EXTERN_ENGINE_TEST(ObjectSystem, SceneLifeCycle)
 
 EXTERN_ENGINE_TEST(FamilySystem, DrawnParent)
 EXTERN_ENGINE_TEST(FamilySystem, VanishParent)
@@ -127,7 +128,7 @@ int main(int argc, char **argv)
 	::testing::InitGoogleTest(&argc, argv);
 	
 	
-	CALL_ENGINE_TEST(Graphics, EffectObject2D, true);
+	CALL_ENGINE_TEST(ObjectSystem, SceneLifeCycle, true);
 	getchar();
 	return 0;
 	

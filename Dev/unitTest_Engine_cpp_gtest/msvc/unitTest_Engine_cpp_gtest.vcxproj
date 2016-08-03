@@ -80,6 +80,7 @@
     <ClCompile Include="..\ObjectSystem\LayerUpdatePriority.cpp" />
     <ClCompile Include="..\ObjectSystem\LifeCycle.cpp" />
     <ClCompile Include="..\ObjectSystem\ObjectsUpdatePriority.cpp" />
+    <ClCompile Include="..\ObjectSystem\SceneLifeCycle.cpp" />
     <ClCompile Include="..\ObjectSystem\SimpleObject2D.cpp" />
     <ClCompile Include="..\ObjectSystem\ObjectsFlag.cpp" />
     <ClCompile Include="..\ObjectSystem\ObjectsMember.cpp" />

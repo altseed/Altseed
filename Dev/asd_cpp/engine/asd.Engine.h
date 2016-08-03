@@ -104,6 +104,7 @@ namespace asd {
 		{
 		public:
 			void Draw() override;
+			std::shared_ptr<SceneTransitionState> Proceed() override;
 		};
 
 		class FadingOutState : public SceneTransitionState
@@ -117,6 +118,7 @@ namespace asd {
 			std::shared_ptr<SceneTransitionState> Proceed() override;
 			void Draw() override;
 			void Update() override;
+			// ForceToCompleteを実装せず、フェードアウト中にさらに画面遷移しようとしたときの動作を保証しない
 		};
 
 		class FadingInState : public SceneTransitionState
