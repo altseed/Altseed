@@ -431,7 +431,6 @@ namespace asd
 	Engine::QuicklyChangingState::QuicklyChangingState(Scene::Ptr nextScene, bool doAutoDispose)
 		: m_doAutoDispose(doAutoDispose)
 	{
-		std::cout << "Begin quickly changing." << std::endl;
 		Engine::m_nextScene = nextScene;
 	}
 
@@ -708,7 +707,12 @@ namespace asd
 
 		if (m_currentScene != nullptr)
 		{
-			m_currentScene->Dispose();
+			m_currentScene->DisposeImmediately();
+		}
+
+		if (m_nextScene != nullptr)
+		{
+			m_nextScene->DisposeImmediately();
 		}
 
 		while (!m_changesToCommit.empty())

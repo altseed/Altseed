@@ -24,7 +24,7 @@ namespace unitTest_Engine_cs
 		//[STAThread]
 		static void Main(string[] args)
 		{
-			TestOnAllDevice(typeof(ObjectSystem2D.LifeCycle.SceneLifeCycle));
+			TestOnAllDevice(typeof(ObjectSystem2D.LifeCycle.DisposeOnTerminate));
 			Console.ReadKey();
 			return;
 

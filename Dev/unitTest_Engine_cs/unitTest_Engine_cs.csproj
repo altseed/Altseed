@@ -86,6 +86,7 @@
     <Compile Include="ObjectSystem2D\LifeCycle\AddChildOnCtor.cs" />
     <Compile Include="ObjectSystem2D\LifeCycle\DisposeLayerByContent.cs" />
     <Compile Include="ObjectSystem2D\DisposeOnVanish.cs" />
+    <Compile Include="ObjectSystem2D\LifeCycle\DisposeOnTerminate.cs" />
     <Compile Include="ObjectSystem2D\LifeCycle\Layer2DComponentLifeCycle.cs" />
     <Compile Include="ObjectSystem2D\LayerComponent.cs" />
     <Compile Include="ObjectSystem2D\LayersFlag.cs" />

@@ -292,12 +292,12 @@ namespace asd
 
 			if(CurrentScene != null)
 			{
-				CurrentScene.Dispose();
+				CurrentScene.__DisposeImmediately(false);
 			}
 
 			if(nextScene != null)
 			{
-				nextScene.Dispose();
+				nextScene.__DisposeImmediately(false);
 			}
 
 

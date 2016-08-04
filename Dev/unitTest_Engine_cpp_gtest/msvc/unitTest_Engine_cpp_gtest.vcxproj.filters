@@ -216,6 +216,9 @@
     <ClCompile Include="..\ObjectSystem\SceneLifeCycle.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\ObjectSystem\DisposeOnTerminate.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

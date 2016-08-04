@@ -72,6 +72,7 @@
     <ClCompile Include="..\ObjectSystem\Component.cpp" />
     <ClCompile Include="..\ObjectSystem\Culling2D_Debug.cpp" />
     <ClCompile Include="..\ObjectSystem\CustomObject.cpp" />
+    <ClCompile Include="..\ObjectSystem\DisposeOnTerminate.cpp" />
     <ClCompile Include="..\ObjectSystem\LayerComponent.cpp" />
     <ClCompile Include="..\ObjectSystem\LayerHasNoObject.cpp" />
     <ClCompile Include="..\ObjectSystem\LayersFlag.cpp" />
