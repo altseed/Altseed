@@ -51,7 +51,7 @@ protected:
 
 			geometryObj0->SetShape(selfCircle);
 			geometryObj0->SetPosition(asd::Vector2DF(0, 0));
-			geometryObj0->SetDrawingPriority(1);
+			geometryObj0->SetDrawingPriority(2);
 		}
 
 		{
@@ -63,6 +63,7 @@ protected:
 
 			geometryObj1->SetShape(circle);
 			geometryObj1->SetPosition(asd::Vector2DF(0, 0));
+			geometryObj1->SetDrawingPriority(1);
 		}
 
 		{
@@ -101,6 +102,17 @@ protected:
 		else
 		{
 			geometryObj0->SetColor(asd::Color(255, 255, 255, 255));
+		}
+
+		if (circle->GetIsCollidedWith(selfCircle)
+			|| circle->GetIsCollidedWith(triangle)
+			|| circle->GetIsCollidedWith(rect))
+		{
+			geometryObj1->SetColor(asd::Color(255, 127, 0, 255));
+		}
+		else
+		{
+			geometryObj1->SetColor(asd::Color(255, 255, 255, 255));
 		}
 
 		rect->SetAngle(rect->GetAngle() + 1);
