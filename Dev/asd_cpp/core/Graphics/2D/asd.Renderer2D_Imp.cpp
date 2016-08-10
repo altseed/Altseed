@@ -139,17 +139,17 @@ namespace asd {
 
 		// エフェクト
 		{
-			m_effectManager = ::Effekseer::Manager::Create(2000, false);
+			m_effectManager = ::Effekseer::Manager::Create(6000, false);
 			if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
 			{
 #if _WIN32
 				auto g = (Graphics_Imp_DX11*) m_graphics;
-				m_effectRenderer = ::EffekseerRendererDX11::Renderer::Create(g->GetDevice(), g->GetContext(), 2000);
+				m_effectRenderer = ::EffekseerRendererDX11::Renderer::Create(g->GetDevice(), g->GetContext(), 6000);
 #endif
 			}
 			else if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
-				m_effectRenderer = ::EffekseerRendererGL::Renderer::Create(2000);
+				m_effectRenderer = ::EffekseerRendererGL::Renderer::Create(6000);
 			}
 
 			m_effectManager->SetSpriteRenderer(m_effectRenderer->CreateSpriteRenderer());
