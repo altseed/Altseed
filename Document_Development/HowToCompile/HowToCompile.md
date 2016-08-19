@@ -74,7 +74,7 @@ Core側のコンパイルやEngineのテストなど、様々な部分で使わ�
 |Effekseer|`download_effekseer.py`||
 |OpenSoundMixer|`download_OpenSoundMixer.py`|スクリプト実行中にエラーが起きても問題ない場合があります。Altseedチームによるライブラリ。|
 |FreeType|`download_freetype.py`||
-|GD Library|`download_gd.py`||
+|GD Library|`download_libgd.py`||
 |2Dカリング|`download_culling2d.py`|Altseedチームによるライブラリ|
 |3Dカリング|`download_culling3d.py`|Altseedチームによるライブラリ|
 
