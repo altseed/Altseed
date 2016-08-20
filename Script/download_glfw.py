@@ -1,12 +1,8 @@
 import aceutils
 
-path = r'https://github.com/glfw/glfw/archive/'
-zipname = 'f7006f64fb12e21f30a99351d7c854ea75b5c3eb.zip'
-pathname = 'glfw-f7006f64fb12e21f30a99351d7c854ea75b5c3eb'
-
-path = r'https://github.com/altseed/glfw/archive/'
-zipname = 'ed451ea6823380af9ea1ced320182fbcfb176c64.zip'
-pathname = 'glfw-ed451ea6823380af9ea1ced320182fbcfb176c64'
+path = r'https://github.com/glfw/glfw/releases/download/3.2.1/'
+zipname = 'glfw-3.2.1.zip'
+pathname = 'glfw-3.2.1'
 
 aceutils.cdToScript()
 aceutils.cd(r'../')
