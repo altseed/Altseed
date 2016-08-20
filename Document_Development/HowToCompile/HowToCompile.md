@@ -55,6 +55,8 @@ MacPorts等を用いてインストールします。
 libogg libvorbis libvorbisfiles libSM libICE libX11 libXext libXrandr libXi libXxf86vm
 ```
 
+[Homebrewを使用する場合](Mac_Homebrew.md)
+
 ## 2. 外部ライブラリの導入
 
 Core側のコンパイルやEngineのテストなど、様々な部分で使われるライブラリの導入手順です。
@@ -74,7 +76,7 @@ Core側のコンパイルやEngineのテストなど、様々な部分で使わ�
 |Effekseer|`download_effekseer.py`||
 |OpenSoundMixer|`download_OpenSoundMixer.py`|スクリプト実行中にエラーが起きても問題ない場合があります。Altseedチームによるライブラリ。|
 |FreeType|`download_freetype.py`||
-|GD Library|`download_gd.py`||
+|GD Library|`download_libgd.py`||
 |2Dカリング|`download_culling2d.py`|Altseedチームによるライブラリ|
 |3Dカリング|`download_culling3d.py`|Altseedチームによるライブラリ|
 
