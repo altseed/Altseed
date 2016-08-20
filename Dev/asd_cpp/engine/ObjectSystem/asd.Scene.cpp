@@ -287,7 +287,7 @@ namespace asd
 		component->SetOwner(nullptr);
 	}
 
-	const SceneComponent::Ptr& Scene::GetComponent(astring key)
+	SceneComponent::Ptr Scene::GetComponent(astring key)
 	{
 		return m_componentManager->Get(key);
 	}

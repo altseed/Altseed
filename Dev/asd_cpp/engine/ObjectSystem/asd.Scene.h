@@ -149,7 +149,7 @@ namespace asd
 			@brief	キーの示すコンポーネントをこのインスタンスから取得する。
 			@param	key		取得するコンポーネントを示すキー
 		*/
-		const SceneComponent::Ptr& GetComponent(astring key);
+		SceneComponent::Ptr GetComponent(astring key);
 		/**
 			@brief	キーの示すコンポーネントをこのインスタンスから削除する。
 			@param	key		削除するコンポーネントを示すキー
