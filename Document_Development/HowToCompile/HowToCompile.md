@@ -55,6 +55,8 @@ MacPorts等を用いてインストールします。
 libogg libvorbis libvorbisfiles libSM libICE libX11 libXext libXrandr libXi libXxf86vm
 ```
 
+[Homebrewを使用する場合](Mac_Homebrew.md)
+
 ## 2. 外部ライブラリの導入
 
 Core側のコンパイルやEngineのテストなど、様々な部分で使われるライブラリの導入手順です。
