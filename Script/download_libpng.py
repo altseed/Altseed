@@ -32,7 +32,8 @@ else:
 
 	aceutils.cd(r'libpng_bin')
 	if aceutils.isMac():
-		aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../Dev "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../libpng-1.6.6/')
+		aceutils.copy(r'../libpng-1.6.6/scripts/pnglibconf.h.prebuilt',r'../libpng-1.6.6/pnglibconf.h')
+		aceutils.call(r'cmake -G "Unix Makefiles" -D PNG_STATIC:BOOL=ON -D CMAKE_INSTALL_PREFIX:PATH=../Dev "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../libpng-1.6.6/')
 	else:
 		aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../Dev ../libpng-1.6.6/')
 	aceutils.call(r'make install')
