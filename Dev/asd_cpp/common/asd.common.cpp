@@ -19,10 +19,12 @@ namespace asd_x11
 	version is entirely leak proof! (According to valgrind)
 	*/
 
+#ifndef __APPLE__
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
+#endif
 
 #include <string.h>
 #include <stdlib.h>
