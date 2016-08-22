@@ -129,9 +129,9 @@ int main(int argc, char **argv)
 	::testing::InitGoogleTest(&argc, argv);
 	
 	
-	CALL_ENGINE_TEST(ObjectSystem, DisposeOnTerminate, true);
-	getchar();
-	return 0;
+	//CALL_ENGINE_TEST(ObjectSystem, DisposeOnTerminate, true);
+	//getchar();
+	//return 0;
 	
 	auto result = RUN_ALL_TESTS();
 

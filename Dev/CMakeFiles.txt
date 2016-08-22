@@ -1,4 +1,4 @@
-set(common_src
+set(common_src
 	asd_cpp/common/asd.common.cpp
 	asd_cpp/common/Graphics/asd.Color.cpp
 	asd_cpp/common/Graphics/Font/asd.AffHeader.cpp
@@ -16,18 +16,18 @@ set(common_src
 	asd_cpp/common/Thread/asd.CriticalSection.cpp
 	asd_cpp/common/Thread/asd.Thread.cpp
 	asd_cpp/common/Utility/asd.PointerArray.cpp
-)
-
-set(tool_src
+)
+
+set(tool_src
 	asd_cpp/tool/Font/asd.FontRasterizer.cpp
 	asd_cpp/tool/Font/asd.InstalledFontList.cpp
 	asd_cpp/tool/Graphics/3D/asd.MassModel_IO.cpp
 	asd_cpp/tool/Graphics/3D/asd.Model_IO.cpp
 	asd_cpp/tool/NKF/nkf.c
 	asd_cpp/tool/NKF/utf8tbl.c
-)
-
-set(core_src
+)
+
+set(core_src
 	asd_cpp/core/3rdParty/nv_dds/nv_dds.cpp
 	asd_cpp/core/3rdParty/poly2tri/common/shapes.cpp
 	asd_cpp/core/3rdParty/poly2tri/sweep/advancing_front.cpp
@@ -85,8 +85,8 @@ set(core_src
 	asd_cpp/core/Graphics/Resource/asd.IndexBuffer_Imp.cpp
 	asd_cpp/core/Graphics/Resource/asd.Material2D_Imp.cpp
 	asd_cpp/core/Graphics/Resource/asd.Material3D_Imp.cpp
-	asd_cpp/core/Graphics/Resource/asd.MaterialPropertyBlock_Imp.cpp
 	asd_cpp/core/Graphics/Resource/asd.Material_Imp.cpp
+	asd_cpp/core/Graphics/Resource/asd.MaterialPropertyBlock_Imp.cpp
 	asd_cpp/core/Graphics/Resource/asd.NativeShader_Imp.cpp
 	asd_cpp/core/Graphics/Resource/asd.RenderTexture2D_Imp.cpp
 	asd_cpp/core/Graphics/Resource/asd.Shader2D_Imp.cpp
@@ -94,16 +94,16 @@ set(core_src
 	asd_cpp/core/Graphics/Resource/asd.ShaderCache.cpp
 	asd_cpp/core/Graphics/Resource/asd.Texture2D_Imp.cpp
 	asd_cpp/core/Graphics/Resource/asd.VertexBuffer_Imp.cpp
-	asd_cpp/core/Input/asd.JoystickContainer_Imp.cpp
 	asd_cpp/core/Input/asd.Joystick_Imp.cpp
+	asd_cpp/core/Input/asd.JoystickContainer_Imp.cpp
 	asd_cpp/core/Input/asd.Keyboard_Imp.cpp
 	asd_cpp/core/Input/asd.MiddleButton.cpp
 	asd_cpp/core/Input/asd.Mouse_Imp.cpp
 	asd_cpp/core/Input/asd.SideButton.cpp
 	asd_cpp/core/IO/asd.BaseFile.cpp
 	asd_cpp/core/IO/asd.Decryptor.cpp
-	asd_cpp/core/IO/asd.FileHelper.cpp
 	asd_cpp/core/IO/asd.File_Imp.cpp
+	asd_cpp/core/IO/asd.FileHelper.cpp
 	asd_cpp/core/IO/asd.PackFile.cpp
 	asd_cpp/core/IO/asd.StaticFile_Imp.cpp
 	asd_cpp/core/IO/asd.StreamFile_Imp.cpp
@@ -137,24 +137,24 @@ set(core_src
 	asd_cpp/core/Profiler/asd.LayerProfile.cpp
 	asd_cpp/core/Profiler/asd.LayerProfiler_Imp.cpp
 	asd_cpp/core/Profiler/asd.Profile.cpp
-	asd_cpp/core/Profiler/asd.ProfilerViewer_Imp.cpp
 	asd_cpp/core/Profiler/asd.Profiler_Imp.cpp
+	asd_cpp/core/Profiler/asd.ProfilerViewer_Imp.cpp
 	asd_cpp/core/Shape/asd.CoreArcShape_Imp.cpp
 	asd_cpp/core/Shape/asd.CoreCircleShape_Imp.cpp
 	asd_cpp/core/Shape/asd.CoreLineShape_Imp.cpp
 	asd_cpp/core/Shape/asd.CorePolygonShape_Imp.cpp
 	asd_cpp/core/Shape/asd.CoreRectangleShape_Imp.cpp
-	asd_cpp/core/Shape/asd.CoreShapeConverter.cpp
 	asd_cpp/core/Shape/asd.CoreShape_Imp.cpp
+	asd_cpp/core/Shape/asd.CoreShapeConverter.cpp
 	asd_cpp/core/Shape/asd.CoreTriangleShape_Imp.cpp
-	asd_cpp/core/Sound/asd.SoundSource_Imp.cpp
 	asd_cpp/core/Sound/asd.Sound_Imp.cpp
+	asd_cpp/core/Sound/asd.SoundSource_Imp.cpp
 	asd_cpp/core/Utils/asd.ResourceContainer.cpp
 	asd_cpp/core/Window/asd.Cursor_Imp.cpp
 	asd_cpp/core/Window/asd.Window_Imp.cpp
-)
-
-set(dx11_src
+)
+
+set(dx11_src
 	asd_cpp/core/3rdParty/DirectXToolKit/DDSTextureLoader.cpp
 	asd_cpp/core/Graphics/Platform/DX11/asd.Graphics_Imp_DX11.cpp
 	asd_cpp/core/Graphics/Platform/DX11/Resource/asd.CubemapTexture_Imp_DX11.cpp
@@ -164,9 +164,9 @@ set(dx11_src
 	asd_cpp/core/Graphics/Platform/DX11/Resource/asd.RenderTexture2D_Imp_DX11.cpp
 	asd_cpp/core/Graphics/Platform/DX11/Resource/asd.Texture2D_Imp_DX11.cpp
 	asd_cpp/core/Graphics/Platform/DX11/Resource/asd.VertexBuffer_Imp_DX11.cpp
-)
-
-set(gl_src
+)
+
+set(gl_src
 	asd_cpp/core/Graphics/Platform/GL/asd.Graphics_Imp_GL.cpp
 	asd_cpp/core/Graphics/Platform/GL/Resource/asd.CubemapTexture_Imp_GL.cpp
 	asd_cpp/core/Graphics/Platform/GL/Resource/asd.DepthBuffer_Imp_GL.cpp
@@ -175,17 +175,17 @@ set(gl_src
 	asd_cpp/core/Graphics/Platform/GL/Resource/asd.RenderTexture2D_Imp_GL.cpp
 	asd_cpp/core/Graphics/Platform/GL/Resource/asd.Texture2D_Imp_GL.cpp
 	asd_cpp/core/Graphics/Platform/GL/Resource/asd.VertexBuffer_Imp_GL.cpp
-)
-
-set(win_src
+)
+
+set(win_src
 	asd_cpp/core/Window/asd.Window_Imp_Win.cpp
-)
-
-set(x11_src
+)
+
+set(x11_src
 	asd_cpp/core/Window/asd.Window_Imp_X11.cpp
-)
-
-set(engine_src
+)
+
+set(engine_src
 	asd_cpp/engine/asd.Engine.cpp
 	asd_cpp/engine/ObjectSystem/2D/asd.CameraObject2D.cpp
 	asd_cpp/engine/ObjectSystem/2D/asd.Chip2D.cpp
@@ -226,9 +226,9 @@ set(engine_src
 	asd_cpp/engine/Shape/asd.RectangleShape.cpp
 	asd_cpp/engine/Shape/asd.Shape.cpp
 	asd_cpp/engine/Shape/asd.TriangleShape.cpp
-)
-
-set(unittest_gtest_src
+)
+
+set(unittest_gtest_src
 	unitTest_cpp_gtest/asd.common.Base_test.cpp
 	unitTest_cpp_gtest/asd.DLL.cpp
 	unitTest_cpp_gtest/Graphics/2D/asd.LayerRenderer_Test.cpp
@@ -259,12 +259,21 @@ set(unittest_gtest_src
 	unitTest_cpp_gtest/Utility/asd.Timer_test.cpp
 	unitTest_cpp_gtest/Utility/asd.TypeErasureCopy_test.cpp
 	unitTest_cpp_gtest/Window/asd.Window_Empty_Test.cpp
-)
-
-set(unittest_engine_gtest_src
+)
+
+set(unittest_engine_gtest_src
+	unitTest_Engine_cpp_gtest/BugFix/AddComponentByComponent.cpp
+	unitTest_Engine_cpp_gtest/BugFix/CameraAndSetTexture.cpp
+	unitTest_Engine_cpp_gtest/BugFix/DisposeAndChangeParent.cpp
+	unitTest_Engine_cpp_gtest/BugFix/MemoryLeak.cpp
+	unitTest_Engine_cpp_gtest/BugFix/SetSourceOfTexture.cpp
+	unitTest_Engine_cpp_gtest/BugFix/TransformOutOfUpdate.cpp
+	unitTest_Engine_cpp_gtest/BugFix/VanishInComponent.cpp
+	unitTest_Engine_cpp_gtest/BugFix/VanishOwnerInComponent.cpp
 	unitTest_Engine_cpp_gtest/EngineGraphics3DTest.cpp
 	unitTest_Engine_cpp_gtest/EngineTest.cpp
 	unitTest_Engine_cpp_gtest/FamilySystem/AbsoluteParameter.cpp
+	unitTest_Engine_cpp_gtest/FamilySystem/AllKindOfDrawnObjects.cpp
 	unitTest_Engine_cpp_gtest/FamilySystem/ChildManagement.cpp
 	unitTest_Engine_cpp_gtest/FamilySystem/DrawnParent.cpp
 	unitTest_Engine_cpp_gtest/FamilySystem/GeometoryObject.cpp
@@ -294,22 +303,21 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectSepia.cpp
 	unitTest_Engine_cpp_gtest/Graphics/Resource/ImagePackage.cpp
 	unitTest_Engine_cpp_gtest/Graphics/Transition/Transition.cpp
+	unitTest_Engine_cpp_gtest/Input/MouseWithManyButtons.cpp
 	unitTest_Engine_cpp_gtest/IO/StaticFile_NonePackage.cpp
 	unitTest_Engine_cpp_gtest/IO/StaticFile_NonePackage_AddDefaultRootDirectory.cpp
 	unitTest_Engine_cpp_gtest/IO/StaticFile_NonePackage_Cache.cpp
 	unitTest_Engine_cpp_gtest/IO/StaticFile_Package.cpp
-	unitTest_Engine_cpp_gtest/IO/StaticFile_PackageWithKey.cpp
 	unitTest_Engine_cpp_gtest/IO/StaticFile_Package_Cache.cpp
 	unitTest_Engine_cpp_gtest/IO/StaticFile_Package_Priority.cpp
+	unitTest_Engine_cpp_gtest/IO/StaticFile_PackageWithKey.cpp
 	unitTest_Engine_cpp_gtest/IO/StreamFile_Package.cpp
 	unitTest_Engine_cpp_gtest/IO/StreamFile_PackageWithKey.cpp
 	unitTest_Engine_cpp_gtest/main.cpp
-	unitTest_Engine_cpp_gtest/msvc/TransformOutOfUpdate.cpp
-	unitTest_Engine_cpp_gtest/ObjectSystem/AddComponentByComponent.cpp
-	unitTest_Engine_cpp_gtest/ObjectSystem/CameraAndSetTexture.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/Component.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/Culling2D_Debug.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CustomObject.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/DisposeOnTerminate.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/DisposeOnVanish.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/LayerComponent.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/LayerHasNoObject.cpp
@@ -321,24 +329,31 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/ObjectSystem/ObjectsMember.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/ObjectsUpdatePriority.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/ParentObject.cpp
-	unitTest_Engine_cpp_gtest/ObjectSystem/SetSourceOfTexture.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/SceneLifeCycle.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/SimpleObject2D.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/TrasingCamera.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/UpdateFrequency.cpp
-	unitTest_Engine_cpp_gtest/ObjectSystem/VanishInComponent.cpp
-	unitTest_Engine_cpp_gtest/ObjectSystem/VanishOwnerInComponent.cpp
 	unitTest_Engine_cpp_gtest/PCH/asd.UnitTestEngineCpp.PCH.cpp
 	unitTest_Engine_cpp_gtest/Performance/Performance_MassModelObject3D.cpp
 	unitTest_Engine_cpp_gtest/Performance/Performance_TextureObject2D.cpp
 	unitTest_Engine_cpp_gtest/Profiler.cpp
 	unitTest_Engine_cpp_gtest/Shape/Collision2D.cpp
 	unitTest_Engine_cpp_gtest/Sound/Sound.cpp
-)
-
-set(unittest_engine_gtest_src
+)
+
+set(unittest_engine_gtest_src
+	unitTest_Engine_cpp_gtest/BugFix/AddComponentByComponent.cpp
+	unitTest_Engine_cpp_gtest/BugFix/CameraAndSetTexture.cpp
+	unitTest_Engine_cpp_gtest/BugFix/DisposeAndChangeParent.cpp
+	unitTest_Engine_cpp_gtest/BugFix/MemoryLeak.cpp
+	unitTest_Engine_cpp_gtest/BugFix/SetSourceOfTexture.cpp
+	unitTest_Engine_cpp_gtest/BugFix/TransformOutOfUpdate.cpp
+	unitTest_Engine_cpp_gtest/BugFix/VanishInComponent.cpp
+	unitTest_Engine_cpp_gtest/BugFix/VanishOwnerInComponent.cpp
 	unitTest_Engine_cpp_gtest/EngineGraphics3DTest.cpp
 	unitTest_Engine_cpp_gtest/EngineTest.cpp
 	unitTest_Engine_cpp_gtest/FamilySystem/AbsoluteParameter.cpp
+	unitTest_Engine_cpp_gtest/FamilySystem/AllKindOfDrawnObjects.cpp
 	unitTest_Engine_cpp_gtest/FamilySystem/ChildManagement.cpp
 	unitTest_Engine_cpp_gtest/FamilySystem/DrawnParent.cpp
 	unitTest_Engine_cpp_gtest/FamilySystem/GeometoryObject.cpp
@@ -368,22 +383,21 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectSepia.cpp
 	unitTest_Engine_cpp_gtest/Graphics/Resource/ImagePackage.cpp
 	unitTest_Engine_cpp_gtest/Graphics/Transition/Transition.cpp
+	unitTest_Engine_cpp_gtest/Input/MouseWithManyButtons.cpp
 	unitTest_Engine_cpp_gtest/IO/StaticFile_NonePackage.cpp
 	unitTest_Engine_cpp_gtest/IO/StaticFile_NonePackage_AddDefaultRootDirectory.cpp
 	unitTest_Engine_cpp_gtest/IO/StaticFile_NonePackage_Cache.cpp
 	unitTest_Engine_cpp_gtest/IO/StaticFile_Package.cpp
-	unitTest_Engine_cpp_gtest/IO/StaticFile_PackageWithKey.cpp
 	unitTest_Engine_cpp_gtest/IO/StaticFile_Package_Cache.cpp
 	unitTest_Engine_cpp_gtest/IO/StaticFile_Package_Priority.cpp
+	unitTest_Engine_cpp_gtest/IO/StaticFile_PackageWithKey.cpp
 	unitTest_Engine_cpp_gtest/IO/StreamFile_Package.cpp
 	unitTest_Engine_cpp_gtest/IO/StreamFile_PackageWithKey.cpp
 	unitTest_Engine_cpp_gtest/main.cpp
-	unitTest_Engine_cpp_gtest/msvc/TransformOutOfUpdate.cpp
-	unitTest_Engine_cpp_gtest/ObjectSystem/AddComponentByComponent.cpp
-	unitTest_Engine_cpp_gtest/ObjectSystem/CameraAndSetTexture.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/Component.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/Culling2D_Debug.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CustomObject.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/DisposeOnTerminate.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/DisposeOnVanish.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/LayerComponent.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/LayerHasNoObject.cpp
@@ -395,21 +409,19 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/ObjectSystem/ObjectsMember.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/ObjectsUpdatePriority.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/ParentObject.cpp
-	unitTest_Engine_cpp_gtest/ObjectSystem/SetSourceOfTexture.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/SceneLifeCycle.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/SimpleObject2D.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/TrasingCamera.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/UpdateFrequency.cpp
-	unitTest_Engine_cpp_gtest/ObjectSystem/VanishInComponent.cpp
-	unitTest_Engine_cpp_gtest/ObjectSystem/VanishOwnerInComponent.cpp
 	unitTest_Engine_cpp_gtest/PCH/asd.UnitTestEngineCpp.PCH.cpp
 	unitTest_Engine_cpp_gtest/Performance/Performance_MassModelObject3D.cpp
 	unitTest_Engine_cpp_gtest/Performance/Performance_TextureObject2D.cpp
 	unitTest_Engine_cpp_gtest/Profiler.cpp
 	unitTest_Engine_cpp_gtest/Shape/Collision2D.cpp
 	unitTest_Engine_cpp_gtest/Sound/Sound.cpp
-)
-
-set(fontGenerator_src
+)
+
+set(fontGenerator_src
 	FontGenerator/FontGeneratorCore/DLL.cpp
 	FontGenerator/FontGeneratorCore/dll_cs.cxx
 	FontGenerator/FontGeneratorCore/FontData.cpp
@@ -422,5 +434,5 @@ set(fontGenerator_src
 	FontGenerator/FontGeneratorCore/Rendering/RasterizedGlyph.cpp
 	FontGenerator/FontGeneratorCore/Rendering/SettingForRendering.cpp
 	FontGenerator/FontGeneratorCore/Rendering/Span.cpp
-)
-
+)
+
