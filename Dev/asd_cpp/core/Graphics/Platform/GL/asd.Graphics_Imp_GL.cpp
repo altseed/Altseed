@@ -7,6 +7,7 @@
 #include "../../asd.RenderingThread.h"
 
 #include "../../../Window/asd.Window_Imp.h"
+#include "../../../Window/asd.Window_Imp_X11.h"
 #include "Resource/asd.VertexBuffer_Imp_GL.h"
 #include "Resource/asd.IndexBuffer_Imp_GL.h"
 #include "Resource/asd.NativeShader_Imp_GL.h"
@@ -794,7 +795,12 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create(::asd::Window* window, Log* log, File *
 	writeLog(ToAString("OpenGL初期化成功"));
 	writeLog(ToAString(""));
 
-	return new Graphics_Imp_GL(window->GetSize(), window, log, file, option);
+	// Retinaなどへの対応
+	auto glfwWindow = reinterpret_cast<Window_Imp_X11*>(window)->GetWindow();
+	int bufferX, bufferY;
+	glfwGetFramebufferSize(glfwWindow, &bufferX, &bufferY);
+
+	return new Graphics_Imp_GL(Vector2DI(bufferX, bufferY), window, log, file, option);
 
 End:;
 	writeLog(ToAString("OpenGL初期化失敗"));
