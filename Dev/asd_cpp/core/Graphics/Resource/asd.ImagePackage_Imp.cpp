@@ -38,6 +38,16 @@ namespace asd
 			auto name = reader.Get<astring>();
 			auto area = reader.Get<RectI>();
 			auto data = reader.Get(area.Width * area.Height * 4);
+
+			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
+			{
+				auto data_ = data;
+				for (int32_t y = 0; y < area.Height; y++)
+				{
+					memcpy(&(data[y * area.Width * 4]), &(data_[(area.Height - 1 - y) * area.Width * 4]), area.Width * 4);
+				}
+			}
+
 			auto texture = g->CreateTexture2DWithRawData(area.Width, area.Height, TextureFormat::R8G8B8A8_UNORM_SRGB, data.data());
 
 			textures.push_back(texture);
