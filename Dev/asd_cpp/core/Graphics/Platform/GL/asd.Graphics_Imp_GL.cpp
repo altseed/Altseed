@@ -7,7 +7,6 @@
 #include "../../asd.RenderingThread.h"
 
 #include "../../../Window/asd.Window_Imp.h"
-#include "../../../Window/asd.Window_Imp_X11.h"
 #include "Resource/asd.VertexBuffer_Imp_GL.h"
 #include "Resource/asd.IndexBuffer_Imp_GL.h"
 #include "Resource/asd.NativeShader_Imp_GL.h"
@@ -796,7 +795,7 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create(::asd::Window* window, Log* log, File *
 	writeLog(ToAString(""));
 
 	// Retinaなどへの対応
-	auto glfwWindow = reinterpret_cast<Window_Imp_X11*>(window)->GetWindow();
+	auto glfwWindow = reinterpret_cast<Window_Imp*>(window)->GetWindow();
 	int bufferX, bufferY;
 	glfwGetFramebufferSize(glfwWindow, &bufferX, &bufferY);
 
