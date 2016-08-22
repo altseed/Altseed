@@ -32,7 +32,24 @@ namespace asd {
 			staticFile = file->CreateStaticFile(ToAString("C:\\Windows\\Fonts\\meiryo.ttc").c_str());
 #elif defined __APPLE__
 			staticFile = file->CreateStaticFile(ToAString("/Library/Fonts/ヒラギノ丸ゴ Pro W4.otf").c_str());
+
+			if (staticFile == nullptr)
+			{
+				InstalledFontList::Load();
+
+				auto f = astring(ToAString("Helvetica").c_str());
+
+				for (auto i = 0; i < InstalledFontList::Fonts.size(); i++)
+				{
+					if (InstalledFontList::Fonts[i].Name == f)
+					{
+						staticFile = file->CreateStaticFile(InstalledFontList::Fonts[i].Path.c_str());
+						break;
+					}
+				}
+			}
 #endif
+
 		}
 
 		// ファイルパスとして検索
