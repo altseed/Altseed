@@ -4,7 +4,7 @@ import aceutils
 
 if aceutils.isWin():
     version = input('input version:')
-    targetDir = r'NuGetPackage'
+    targetDir = r'NuGetPackage/CSharp/'
     aceutils.cdToScript()
     aceutils.cd(r'../')
     

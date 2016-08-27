@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <ImportGroup Label="PropertySheets"/>
+    <PropertyGroup>
+    </PropertyGroup>
+    <ItemDefinitionGroup>
+
+        <ClCompile>
+            <PreprocessorDefinitions>NUGET_ALTSEED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+            <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)../../build/native/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+        </ClCompile>
+
+        <Link>
+            <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)../../build/native/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+        </Link>
+
+    </ItemDefinitionGroup>
+
+    <ItemGroup>
+
+        <NativeLibs Include="$(MSBuildThisFileDirectory)../../build/native/bin/Altseed_core.dll" />
+        <NativeLibs Include="$(MSBuildThisFileDirectory)../../build/native/bin/Altseed_core_Debug.dll" />
+
+        <None Include="@(NativeLibs)">
+            <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+
+    </ItemGroup>
+
+</Project>

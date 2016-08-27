@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
-        <id>Altseed</id>
+        <id>AltseedCSharp</id>
         <version>1.0.0</version>
-        <title>Altseed</title>
+        <title>Altseed(.Net)</title>
         <authors>Altseed</authors>
         <licenseUrl>https://github.com/altseed/Altseed/blob/master/LICENSE</licenseUrl>
         <projectUrl>http://altseed.github.io/</projectUrl>
