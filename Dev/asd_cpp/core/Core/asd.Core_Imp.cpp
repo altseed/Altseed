@@ -194,13 +194,13 @@ namespace asd
 #if _WIN32
 		if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
 		{
-			//glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
-			glfwMakeOpenGLEnabled();
+			glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
+			//glfwMakeOpenGLEnabled();
 		}
 		else
 		{
-			//glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-			glfwMakeOpenGLDisabled();
+			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+			//glfwMakeOpenGLDisabled();
 		}
 #else
 		if (option.GraphicsDevice != GraphicsDeviceType::OpenGL)
@@ -324,13 +324,13 @@ namespace asd
 #if _WIN32
 		if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
 		{
-			//glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
-			glfwMakeOpenGLEnabled();
+			glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
+			//glfwMakeOpenGLEnabled();
 		}
 		else
 		{
-			//glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-			glfwMakeOpenGLDisabled();
+			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+			//glfwMakeOpenGLDisabled();
 		}
 #else
 		if (option.GraphicsDevice != GraphicsDeviceType::OpenGL)
