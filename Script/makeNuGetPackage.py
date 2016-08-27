@@ -2,7 +2,7 @@
 import os.path
 import aceutils
 
-if aceutils.isWin():
+def genCS():
     version = input('input version:')
     targetDir = r'NuGetPackage/CSharp/'
     aceutils.cdToScript()
@@ -20,6 +20,36 @@ if aceutils.isWin():
     aceutils.call(r'nuget pack Altseed.nuspec -Version ' + version)
     file = open(r'version.txt', 'w')
     file.write(r'latest version: ' + version)
+
+def genCPP():
+    targetDir = r'NuGetPackage/Cpp/'
+    aceutils.cdToScript()
+    aceutils.cd(r'../')
+
+    aceutils.call(aceutils.cmd_compile + r'Dev/asd_cpp.sln /p:configuration=Debug')    
+    aceutils.call(aceutils.cmd_compile + r'Dev/asd_cpp.sln /p:configuration=Release')
+
+    if not os.path.exists(targetDir):
+        aceutils.mkdir(targetDir)
+
+    aceutils.mkdir(targetDir+'build/native/bin/')
+    aceutils.mkdir(targetDir+'build/native/include/')
+    aceutils.mkdir(targetDir+'build/native/lib/')
+    aceutils.mkdir(targetDir+'build/native/lib/Debug')
+    aceutils.mkdir(targetDir+'build/native/lib/Release')
+
+    aceutils.copy(r'Dev/bin/Altseed_core.dll', targetDir+'build/native/bin/')
+    aceutils.copy(r'Dev/bin/Altseed_core_Debug.dll', targetDir+'build/native/bin/')
+    aceutils.copy(r'Dev/include/Altseed.h', targetDir+'build/native/include/')
+    aceutils.copy(r'Dev/lib/x86/Debug/Altseed.lib', targetDir+'build/native/lib/Debug/')
+    aceutils.copy(r'Dev/lib/x86/Release/Altseed.lib', targetDir+'build/native/lib/Release/')
+
+    aceutils.cd(targetDir)
+    aceutils.call(r'nuget pack Altseed.nuspec')
+
+if aceutils.isWin():
+    genCS()
+    genCPP()
 
 else:
     print(r'NuGet package can be created only on Windows.')
