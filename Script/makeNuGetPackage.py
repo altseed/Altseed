@@ -2,7 +2,7 @@
 import os.path
 import aceutils
 
-version = "0.9.0"
+version = "0.9.1"
 
 def genCS():
     targetDir = r'NuGetPackage/CSharp/'
@@ -18,7 +18,7 @@ def genCS():
     aceutils.copy(r'Dev/bin/Altseed_core.dll', targetDir)
 
     aceutils.cd(targetDir)
-    aceutils.call(r'nuget pack Altseed.nuspec -Version ' + version)
+    aceutils.call(r'nuget pack AltseedDotNet.nuspec -Version ' + version)
 
 def genCPP():
     targetDir = r'NuGetPackage/Cpp/'
@@ -44,7 +44,7 @@ def genCPP():
     aceutils.copy(r'Dev/lib/x86/Release/Altseed.lib', targetDir+'build/native/lib/Release/')
 
     aceutils.cd(targetDir)
-    aceutils.call(r'nuget pack Altseed.nuspec -Version ' + version)
+    aceutils.call(r'nuget pack AltseedCpp.nuspec -Version ' + version)
 
 if aceutils.isWin():
     genCS()
