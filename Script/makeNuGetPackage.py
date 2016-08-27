@@ -2,7 +2,7 @@
 import os.path
 import aceutils
 
-version = "0.9.1"
+version = "0.9.2"
 
 def genCS():
     targetDir = r'NuGetPackage/CSharp/'

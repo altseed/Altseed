@@ -15,7 +15,7 @@
         <tags>Game</tags>
     </metadata>
     <files>
-        <file src="Altseed.targets" target="build\Altseed.targets" />
+        <file src="AltseedDotNet.targets" target="build\AltseedDotNet.targets" />
         <file src="Altseed_core.dll" target="build\Altseed_core.dll" />
         <file src="Altseed.dll" target="lib\net45\Altseed.dll" />
         <file src="Altseed.xml" target="lib\net45\Altseed.xml" />
