@@ -16,7 +16,7 @@
 
     </ItemDefinitionGroup>
 
-    <ItemGroup>
+    <ItemGroup Condition="'$(Platform.ToLower())' == 'win32' And ( '$(PlatformToolset.ToLower())' == 'v140' )">
 
         <NativeLibs Include="$(MSBuildThisFileDirectory)../../build/native/bin/Altseed_core.dll" />
         <NativeLibs Include="$(MSBuildThisFileDirectory)../../build/native/bin/Altseed_core_Debug.dll" />

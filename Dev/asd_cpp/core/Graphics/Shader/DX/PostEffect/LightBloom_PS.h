@@ -127,6 +127,7 @@ float4 Main_(float2 uv)
 	return CalcBlurredColor(uv);
 #endif
 #if SUM
+	return SampleTexture(g_originalTexture, g_originalSampler, uv) + SampleTexture(g_blurred0Texture, g_blurred0Sampler, uv) * 1.00000;
 	return SampleTexture(g_originalTexture, g_originalSampler, uv) + SampleTexture(g_blurred0Texture, g_blurred0Sampler, uv) * 0.50000 + SampleTexture(g_blurred1Texture, g_blurred1Sampler, uv) * 0.300000 + SampleTexture(g_blurred2Texture, g_blurred2Sampler, uv) * 0.20000;
 #endif
 }
