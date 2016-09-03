@@ -45,6 +45,8 @@ endif()
 
 include_directories(../include/)
 
+link_directories(${PROJECT_SOURCE_DIR}/../lib/)
+
 add_executable( unitTest_Engine_cpp_gtest ${srcs} )
 
 set_target_properties(unitTest_Engine_cpp_gtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "../bin/" )
@@ -56,4 +58,4 @@ else()
 set_target_properties(unitTest_Engine_cpp_gtest PROPERTIES OUTPUT_NAME "unitTest_Engine_cpp_gtest" )
 endif()
 
-target_link_libraries(unitTest_Engine_cpp_gtest asdEngine) 
+target_link_libraries(unitTest_Engine_cpp_gtest asdEngine gtest gtest_main) 

@@ -21,6 +21,8 @@ if (MSVC)
 	# ì¡Ç…âΩÇ‡
 else()
 	set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC" ${CMAKE_CXX_FLAGS})
+	set(CMAKE_C_FLAGS "-fPIC" ${CMAKE_C_FLAGS})
+
 endif()
 
 # EffekseerÇÃê›íË
