@@ -6,8 +6,7 @@ set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE TYPE INTERNAL FORCE )
 cmake_minimum_required(VERSION 2.8)
 
 # Set project
-project(asd_common)
-
+project(asd_tool)
 
 # Flags
 if (MSVC)
@@ -22,13 +21,14 @@ endif()
 
 # Add codes
 FILE(GLOB_RECURSE cpps *.cpp)
+FILE(GLOB_RECURSE cs *.c)
 FILE(GLOB_RECURSE hs *.h)
-list(APPEND common_src ${cpps} ${hs})
+list(APPEND srcs ${cpps} ${cs} ${hs})
 
 # Assgin directory
 # http://stackoverflow.com/questions/31422680/how-to-set-visual-studio-filters-for-nested-sub-directory-using-cmake
 
-foreach(src ${common_src})
+foreach(src ${srcs})
 	get_filename_component(src_path_dir "${src}" DIRECTORY)
 	string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" src_path "${src_path_dir}")
 	string(REPLACE "/" "\\" src_path_r "${src_path}")
@@ -55,15 +55,19 @@ if (MSVC)
 	endif()
 endif()
 
-add_library( asd_common STATIC ${common_src} )
+include_directories(
+	../common/
+	../../include/freetype/)
 
-set_target_properties(asd_common PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "../../lib/" )
-set_target_properties(asd_common PROPERTIES LIBRARY_OUTPUT_DIRECTORY "../../lib/" )
+add_library( asd_tool STATIC ${srcs} )
+
+set_target_properties(asd_tool PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "../../lib/" )
+set_target_properties(asd_tool PROPERTIES LIBRARY_OUTPUT_DIRECTORY "../../lib/" )
 
 if (MSVC)
-set_target_properties(asd_common PROPERTIES OUTPUT_NAME_DEBUG "asd_common" )
-set_target_properties(asd_common PROPERTIES OUTPUT_NAME_RELEASE "asd_common" )
+set_target_properties(asd_tool PROPERTIES OUTPUT_NAME_DEBUG "asd_tool" )
+set_target_properties(asd_tool PROPERTIES OUTPUT_NAME_RELEASE "asd_tool" )
 else()
-set_target_properties(asd_common PROPERTIES OUTPUT_NAME "asd_common" )
+set_target_properties(asd_tool PROPERTIES OUTPUT_NAME "asd_tool" )
 endif()
 

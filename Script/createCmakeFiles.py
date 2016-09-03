@@ -36,7 +36,6 @@ def isCommon(file):
 
 
 common_src = getCppFiles('../Dev/asd_cpp/common/','asd_cpp/common/')
-tool_src = getCppFiles('../Dev/asd_cpp/tool/','asd_cpp/tool/')
 core_src = getCppFiles('../Dev/asd_cpp/core/','asd_cpp/core/')
 engine_src = getCppFiles('../Dev/asd_cpp/engine/','asd_cpp/engine/')
 unittest_gtest_src = getCppFiles('../Dev/unitTest_cpp_gtest/','unitTest_cpp_gtest/')
@@ -57,10 +56,6 @@ def newline():
 	exported += '\r\n'
 
 exported += getCMakeArray(common_src,'common_to_engine_src')
-newline()
-newline()
-
-exported += getCMakeArray(tool_src,'tool_src')
 newline()
 newline()
 
