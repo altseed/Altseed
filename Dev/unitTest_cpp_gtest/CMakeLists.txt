@@ -8,18 +8,6 @@ cmake_minimum_required(VERSION 2.8)
 # Set project
 project(unitTest_cpp_gtest)
 
-
-# Flags
-if (MSVC)
-	option(USE_MSVC_RUNTIME_LIBRARY_DLL "Use MSVC runtime library DLL" OFF)
-endif()
-
-if (MSVC)
-else()
-	set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC" ${CMAKE_CXX_FLAGS})
-	set(CMAKE_C_FLAGS "-fPIC" ${CMAKE_C_FLAGS})
-endif()
-
 # Add codes
 FILE(GLOB_RECURSE cpps *.cpp)
 FILE(GLOB_RECURSE hs *.h)

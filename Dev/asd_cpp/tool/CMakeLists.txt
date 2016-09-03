@@ -8,17 +8,6 @@ cmake_minimum_required(VERSION 2.8)
 # Set project
 project(asd_tool)
 
-# Flags
-if (MSVC)
-	option(USE_MSVC_RUNTIME_LIBRARY_DLL "Use MSVC runtime library DLL" OFF)
-endif()
-
-if (MSVC)
-else()
-	set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC" ${CMAKE_CXX_FLAGS})
-	set(CMAKE_C_FLAGS "-fPIC" ${CMAKE_C_FLAGS})
-endif()
-
 # Add codes
 FILE(GLOB_RECURSE cpps *.cpp)
 FILE(GLOB_RECURSE cs *.c)
@@ -71,3 +60,7 @@ else()
 set_target_properties(asd_tool PROPERTIES OUTPUT_NAME "asd_tool" )
 endif()
 
+# Linux x86_64向けの追加のリンクオプション
+if (CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
+	set_target_properties(asd_tool PROPERTIES COMPILE_FLAGS "-fPIC")
+endif()
