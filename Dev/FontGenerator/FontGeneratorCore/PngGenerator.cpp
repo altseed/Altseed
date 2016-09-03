@@ -6,7 +6,6 @@
 #include "Rendering/ImageBuffer.h"
 #include "Utility.h"
 
-
 #ifdef _v120
 #ifdef _WIN64
 

@@ -72,11 +72,11 @@ void SetGLEnable(bool value)
 #if _WIN32
 	if (value)
 	{
-		glfwMakeOpenGLEnabled();
+		glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
 	}
 	else
 	{
-		glfwMakeOpenGLDisabled();
+		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	}
 #endif
 }

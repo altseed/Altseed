@@ -38,6 +38,8 @@ option(USE_INTERNAL_LOADER "Use Internal Loader" ON)
 # ファイルをソースリストに追加
 INCLUDE(CMakeFiles.txt)
 
+add_subdirectory(asd_cpp/common/)
+
 if (WIN32)
 	list(APPEND core_src ${win_src})
 	list(APPEND core_src ${dx11_src})
@@ -179,33 +181,66 @@ else()
 
 endif()
 
+# ディレクトリ設定
+# http://stackoverflow.com/questions/31422680/how-to-set-visual-studio-filters-for-nested-sub-directory-using-cmake
+
+foreach(src ${core_src})
+	get_filename_component(src_path_dir "${src}" DIRECTORY)
+	string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" src_path "${src_path_dir}")
+	string(REPLACE "/" "\\" src_path_r "${src_path}")
+	source_group("${src_path_r}" FILES "${src}")
+endforeach()
+
+foreach(src ${tool_src})
+	get_filename_component(src_path_dir "${src}" DIRECTORY)
+	string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" src_path "${src_path_dir}")
+	string(REPLACE "/" "\\" src_path_r "${src_path}")
+	source_group("${src_path_r}" FILES "${src}")
+endforeach()
+
+foreach(src ${unittest_gtest_src})
+	get_filename_component(src_path_dir "${src}" DIRECTORY)
+	string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" src_path "${src_path_dir}")
+	string(REPLACE "/" "\\" src_path_r "${src_path}")
+	source_group("${src_path_r}" FILES "${src}")
+endforeach()
+
+foreach(src ${fontGenerator_src})
+	get_filename_component(src_path_dir "${src}" DIRECTORY)
+	string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" src_path "${src_path_dir}")
+	string(REPLACE "/" "\\" src_path_r "${src_path}")
+	source_group("${src_path_r}" FILES "${src}")
+endforeach()
+
+
+
 # 共通インクルードの追加
 include_directories( AFTER SYSTEM ${common_inc} )
 
 # コンパイル先を追加
-add_library( asdCommon STATIC ${common_src} )
+#add_library( asdCommon STATIC ${common_src} )
 
 add_library( asdTool STATIC ${tool_src} )
 
 add_library( asdCore STATIC ${core_src} )
 add_library( asdCoreDLL SHARED ${core_src} )
 
-target_link_libraries(asdCoreDLL asdTool asdCommon ${common_lib}) 
+target_link_libraries(asdCoreDLL asdTool asd_common ${common_lib}) 
 
-add_library( asdEngine STATIC ${engine_src} ${common_src} )
+add_library( asdEngine STATIC ${engine_src} ${common_to_engine_src} )
 
 add_executable( asdUnitTestGtest ${unittest_gtest_src} )
-target_link_libraries(asdUnitTestGtest asdCore asdTool asdCommon ${common_lib}) 
+target_link_libraries(asdUnitTestGtest asdCore asdTool asd_common ${common_lib}) 
 
 add_executable( asdUnitTestEngineGtest ${unittest_engine_gtest_src} )
 target_link_libraries(asdUnitTestEngineGtest asdEngine ${common_lib}) 
 
 add_library( FontGeneratorCore SHARED ${fontGenerator_src} )
-target_link_libraries(FontGeneratorCore asdTool asdCommon ${common_lib}) 
+target_link_libraries(FontGeneratorCore asdTool asd_common ${common_lib}) 
 
 # 出力先の設定
-set_target_properties(asdCommon PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
-set_target_properties(asdCommon PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
+#set_target_properties(asdCommon PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
+#set_target_properties(asdCommon PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
 
 set_target_properties(asdTool PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
 set_target_properties(asdTool PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
@@ -225,12 +260,12 @@ set_target_properties(asdUnitTestEngineGtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY
 
 set_target_properties(FontGeneratorCore PROPERTIES LIBRARY_OUTPUT_DIRECTORY "bin/" )
 
-if (MSVC)
-set_target_properties(asdCommon PROPERTIES OUTPUT_NAME_DEBUG "asd_common" )
-set_target_properties(asdCommon PROPERTIES OUTPUT_NAME_RELEASE "asd_common" )
-else()
-set_target_properties(asdCommon PROPERTIES OUTPUT_NAME "asd_common" )
-endif()
+#if (MSVC)
+#set_target_properties(asdCommon PROPERTIES OUTPUT_NAME_DEBUG "asd_common" )
+#set_target_properties(asdCommon PROPERTIES OUTPUT_NAME_RELEASE "asd_common" )
+#else()
+#set_target_properties(asdCommon PROPERTIES OUTPUT_NAME "asd_common" )
+#endif()
 
 if (MSVC)
 set_target_properties(asdTool PROPERTIES OUTPUT_NAME_DEBUG "asd_tool" )
@@ -292,6 +327,11 @@ if (MSVC)
 	endif()
 endif()
 
+# コンパイラ取得
+if (MSVC)
+	add_definitions(-D_$(PlatformToolset))
+endif()
+
 # Effekseerの設定
 if (USE_INTERNAL_LOADER)
 	add_definitions(-D__EFFEKSEER_RENDERER_INTERNAL_LOADER__)
@@ -318,10 +358,10 @@ if (USE_OPENGL3)
 endif()
 
 # インストール先を決定
-install(
-	TARGETS asdCommon
-	ARCHIVE DESTINATION lib
-	LIBRARY DESTINATION lib)
+#install(
+#	TARGETS asdCommon
+#	ARCHIVE DESTINATION lib
+#	LIBRARY DESTINATION lib)
 
 install(
 	TARGETS asdTool

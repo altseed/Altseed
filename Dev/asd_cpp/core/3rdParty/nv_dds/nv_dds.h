@@ -7,6 +7,11 @@
 #include <assert.h>
 #include <stdint.h>
 
+// Altseed
+#if _WIN32
+#include <Windows.h>
+#endif
+
 #ifdef __APPLE__
 #include <OpenGL/gl.h>
 #else

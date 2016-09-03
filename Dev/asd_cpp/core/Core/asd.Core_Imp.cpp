@@ -241,7 +241,7 @@ namespace asd
 #if _WIN32
 		{
 			auto hwnd = (HWND) m_window->GetWindowHandle();
-			auto icon = LoadIconW(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_APPLICATION));
+			auto icon = LoadIconW(GetModuleHandle(NULL), MAKEINTRESOURCEW(IDI_APPLICATION));
 			if (icon != nullptr)
 			{
 				::SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM) icon);

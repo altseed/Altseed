@@ -56,7 +56,7 @@ def newline():
 	global exported
 	exported += '\r\n'
 
-exported += getCMakeArray(common_src,'common_src')
+exported += getCMakeArray(common_src,'common_to_engine_src')
 newline()
 newline()
 
