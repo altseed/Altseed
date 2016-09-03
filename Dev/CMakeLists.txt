@@ -41,6 +41,8 @@ INCLUDE(CMakeFiles.txt)
 add_subdirectory(asd_cpp/common/)
 add_subdirectory(asd_cpp/tool/)
 
+
+
 if (WIN32)
 	list(APPEND core_src ${win_src})
 	list(APPEND core_src ${dx11_src})
@@ -192,20 +194,6 @@ foreach(src ${core_src})
 	source_group("${src_path_r}" FILES "${src}")
 endforeach()
 
-foreach(src ${unittest_gtest_src})
-	get_filename_component(src_path_dir "${src}" DIRECTORY)
-	string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" src_path "${src_path_dir}")
-	string(REPLACE "/" "\\" src_path_r "${src_path}")
-	source_group("${src_path_r}" FILES "${src}")
-endforeach()
-
-foreach(src ${fontGenerator_src})
-	get_filename_component(src_path_dir "${src}" DIRECTORY)
-	string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" src_path "${src_path_dir}")
-	string(REPLACE "/" "\\" src_path_r "${src_path}")
-	source_group("${src_path_r}" FILES "${src}")
-endforeach()
-
 # 共通インクルードの追加
 include_directories( AFTER SYSTEM ${common_inc} )
 
@@ -218,12 +206,6 @@ add_library( asdCoreDLL SHARED ${core_src} )
 target_link_libraries(asdCoreDLL asd_tool asd_common ${common_lib}) 
 
 add_library( asdEngine STATIC ${engine_src} ${common_to_engine_src} )
-
-add_executable( asdUnitTestGtest ${unittest_gtest_src} )
-target_link_libraries(asdUnitTestGtest asdCore asd_tool asd_common ${common_lib}) 
-
-add_executable( asdUnitTestEngineGtest ${unittest_engine_gtest_src} )
-target_link_libraries(asdUnitTestEngineGtest asdEngine ${common_lib}) 
 
 add_library( FontGeneratorCore SHARED ${fontGenerator_src} )
 target_link_libraries(FontGeneratorCore asd_tool asd_common ${common_lib}) 
@@ -238,9 +220,6 @@ set_target_properties(asdCoreDLL PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
 
 set_target_properties(asdEngine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
 set_target_properties(asdEngine PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
-
-set_target_properties(asdUnitTestGtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
-set_target_properties(asdUnitTestEngineGtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
 
 set_target_properties(FontGeneratorCore PROPERTIES LIBRARY_OUTPUT_DIRECTORY "bin/" )
 
@@ -264,12 +243,6 @@ set_target_properties(asdEngine PROPERTIES OUTPUT_NAME_RELEASE "Altseed" )
 else()
 set_target_properties(asdEngine PROPERTIES OUTPUT_NAME "Altseed" )
 endif()
-
-set_target_properties(asdUnitTestGtest PROPERTIES OUTPUT_NAME_DEBUG "UnitTestGtest_cpp" )
-set_target_properties(asdUnitTestGtest PROPERTIES OUTPUT_NAME_RELEASE "UnitTestGtest_cpp" )
-
-set_target_properties(asdUnitTestEngineGtest PROPERTIES OUTPUT_NAME_DEBUG "UnitTestEngineGtest_cpp" )
-set_target_properties(asdUnitTestEngineGtest PROPERTIES OUTPUT_NAME_RELEASE "UnitTestEngineGtest_cpp" )
 
 # フラグ処理
 if (MSVC)
@@ -337,18 +310,13 @@ install(
 	TARGETS asdEngine
 	ARCHIVE DESTINATION lib
 	LIBRARY DESTINATION lib )
-
-install(
-	TARGETS asdUnitTestGtest
-	RUNTIME DESTINATION bin )
-
-install(
-	TARGETS asdUnitTestEngineGtest
-	RUNTIME DESTINATION bin )
-
 install(
 	TARGETS FontGeneratorCore
 	RUNTIME DESTINATION bin
 	ARCHIVE DESTINATION bin
 	LIBRARY DESTINATION bin )
 
+
+# Tests
+add_subdirectory(unitTest_cpp_gtest/)
+add_subdirectory(unitTest_Engine_cpp_gtest/)

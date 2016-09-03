@@ -83,23 +83,9 @@ exported += getCMakeArray(engine_src,'engine_src')
 newline()
 newline()
 
-exported += getCMakeArray(unittest_gtest_src,'unittest_gtest_src')
-newline()
-newline()
-
-exported += getCMakeArray(unittest_engine_gtest_src,'unittest_engine_gtest_src')
-newline()
-newline()
-
-exported += getCMakeArray(unittest_engine_gtest_src,'unittest_engine_gtest_src')
-newline()
-newline()
-
 exported += getCMakeArray(fontGenerator_src, 'fontGenerator_src')
 newline()
 newline()
-
-
 
 f = open('../Dev/CMakeFiles.txt','w')
 
