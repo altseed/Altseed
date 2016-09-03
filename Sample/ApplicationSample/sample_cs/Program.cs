@@ -26,6 +26,8 @@ class Program
                 new MapObject2D_Camera(),
 
 				new Action2D_Camera(),
+
+				new DrawAdditionally2D_Material(),
             };
 
         var browser = new SampleBrowser(samples);
