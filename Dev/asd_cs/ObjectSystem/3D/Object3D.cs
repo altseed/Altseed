@@ -211,17 +211,20 @@ namespace asd
 			set { commonObject.SetScale(ref value); }
 		}
 
-		/// <summary>
-		/// モデル行列を直接取得または設定する。
-		/// </summary>
-		/// <remarks>
-		/// この値を設定した場合、通常の移動や回転は無効化される。
-		/// </remarks>
-		public Matrix44 LocalMatrixDirectly
-		{
-			get { return commonObject.GetLocalMatrix(); }
-			set { commonObject.SetLoalMatrixDirectly(value); }
-		}
+		/*
+/// <summary>
+/// モデル行列を直接取得または設定する。
+/// </summary>
+/// <remarks>
+/// この値を設定した場合、通常の移動や回転は無効化される。
+/// </remarks>
+
+public Matrix44 LocalMatrixDirectly
+{
+	get { return commonObject.GetLocalMatrix(); }
+	set { commonObject.SetLoalMatrixDirectly(value); }
+}
+*/
 
 		/// <summary>
 		/// 通常の描画に加えてテクスチャを描画する。

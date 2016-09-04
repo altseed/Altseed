@@ -21,6 +21,8 @@ if (MSVC)
 	# 特に何も
 else()
 	set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC" ${CMAKE_CXX_FLAGS})
+	set(CMAKE_C_FLAGS "-fPIC" ${CMAKE_C_FLAGS})
+
 endif()
 
 # Effekseerの設定
@@ -37,6 +39,11 @@ option(USE_INTERNAL_LOADER "Use Internal Loader" ON)
 
 # ファイルをソースリストに追加
 INCLUDE(CMakeFiles.txt)
+
+add_subdirectory(asd_cpp/common/)
+add_subdirectory(asd_cpp/tool/)
+
+
 
 if (WIN32)
 	list(APPEND core_src ${win_src})
@@ -179,37 +186,33 @@ else()
 
 endif()
 
+# ディレクトリ設定
+# http://stackoverflow.com/questions/31422680/how-to-set-visual-studio-filters-for-nested-sub-directory-using-cmake
+
+foreach(src ${core_src})
+	get_filename_component(src_path_dir "${src}" DIRECTORY)
+	string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" src_path "${src_path_dir}")
+	string(REPLACE "/" "\\" src_path_r "${src_path}")
+	source_group("${src_path_r}" FILES "${src}")
+endforeach()
+
 # 共通インクルードの追加
 include_directories( AFTER SYSTEM ${common_inc} )
 
 # コンパイル先を追加
-add_library( asdCommon STATIC ${common_src} )
-
-add_library( asdTool STATIC ${tool_src} )
+#add_library( asdCommon STATIC ${common_src} )
 
 add_library( asdCore STATIC ${core_src} )
 add_library( asdCoreDLL SHARED ${core_src} )
 
-target_link_libraries(asdCoreDLL asdTool asdCommon ${common_lib}) 
+target_link_libraries(asdCoreDLL asd_tool asd_common ${common_lib}) 
 
-add_library( asdEngine STATIC ${engine_src} ${common_src} )
-
-add_executable( asdUnitTestGtest ${unittest_gtest_src} )
-target_link_libraries(asdUnitTestGtest asdCore asdTool asdCommon ${common_lib}) 
-
-add_executable( asdUnitTestEngineGtest ${unittest_engine_gtest_src} )
-target_link_libraries(asdUnitTestEngineGtest asdEngine ${common_lib}) 
+add_library( asdEngine STATIC ${engine_src} ${common_to_engine_src} )
 
 add_library( FontGeneratorCore SHARED ${fontGenerator_src} )
-target_link_libraries(FontGeneratorCore asdTool asdCommon ${common_lib}) 
+target_link_libraries(FontGeneratorCore asd_tool asd_common ${common_lib}) 
 
 # 出力先の設定
-set_target_properties(asdCommon PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
-set_target_properties(asdCommon PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
-
-set_target_properties(asdTool PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
-set_target_properties(asdTool PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
-
 set_target_properties(asdCore PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
 set_target_properties(asdCore PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
 
@@ -220,24 +223,7 @@ set_target_properties(asdCoreDLL PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
 set_target_properties(asdEngine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
 set_target_properties(asdEngine PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
 
-set_target_properties(asdUnitTestGtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
-set_target_properties(asdUnitTestEngineGtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
-
 set_target_properties(FontGeneratorCore PROPERTIES LIBRARY_OUTPUT_DIRECTORY "bin/" )
-
-if (MSVC)
-set_target_properties(asdCommon PROPERTIES OUTPUT_NAME_DEBUG "asd_common" )
-set_target_properties(asdCommon PROPERTIES OUTPUT_NAME_RELEASE "asd_common" )
-else()
-set_target_properties(asdCommon PROPERTIES OUTPUT_NAME "asd_common" )
-endif()
-
-if (MSVC)
-set_target_properties(asdTool PROPERTIES OUTPUT_NAME_DEBUG "asd_tool" )
-set_target_properties(asdTool PROPERTIES OUTPUT_NAME_RELEASE "asd_tool" )
-else()
-set_target_properties(asdTool PROPERTIES OUTPUT_NAME "asd_tool" )
-endif()
 
 if (MSVC)
 set_target_properties(asdCore PROPERTIES OUTPUT_NAME_DEBUG "asd_core" )
@@ -260,18 +246,6 @@ else()
 set_target_properties(asdEngine PROPERTIES OUTPUT_NAME "Altseed" )
 endif()
 
-set_target_properties(asdUnitTestGtest PROPERTIES OUTPUT_NAME_DEBUG "UnitTestGtest_cpp" )
-set_target_properties(asdUnitTestGtest PROPERTIES OUTPUT_NAME_RELEASE "UnitTestGtest_cpp" )
-
-set_target_properties(asdUnitTestEngineGtest PROPERTIES OUTPUT_NAME_DEBUG "UnitTestEngineGtest_cpp" )
-set_target_properties(asdUnitTestEngineGtest PROPERTIES OUTPUT_NAME_RELEASE "UnitTestEngineGtest_cpp" )
-
-# Linux x86_64向けの追加のリンクオプション
-if (CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
-	set_target_properties(asdTool PROPERTIES COMPILE_FLAGS "-fPIC")
-endif()
-
-
 # フラグ処理
 if (MSVC)
 	if (NOT USE_MSVC_RUNTIME_LIBRARY_DLL)
@@ -290,6 +264,11 @@ if (MSVC)
 			endif()
 		endforeach()
 	endif()
+endif()
+
+# コンパイラ取得
+if (MSVC)
+	add_definitions(-D_$(PlatformToolset))
 endif()
 
 # Effekseerの設定
@@ -319,16 +298,6 @@ endif()
 
 # インストール先を決定
 install(
-	TARGETS asdCommon
-	ARCHIVE DESTINATION lib
-	LIBRARY DESTINATION lib)
-
-install(
-	TARGETS asdTool
-	ARCHIVE DESTINATION lib
-	LIBRARY DESTINATION lib)
-
-install(
 	TARGETS asdCore
 	ARCHIVE DESTINATION lib
 	LIBRARY DESTINATION lib )
@@ -343,18 +312,13 @@ install(
 	TARGETS asdEngine
 	ARCHIVE DESTINATION lib
 	LIBRARY DESTINATION lib )
-
-install(
-	TARGETS asdUnitTestGtest
-	RUNTIME DESTINATION bin )
-
-install(
-	TARGETS asdUnitTestEngineGtest
-	RUNTIME DESTINATION bin )
-
 install(
 	TARGETS FontGeneratorCore
 	RUNTIME DESTINATION bin
 	ARCHIVE DESTINATION bin
 	LIBRARY DESTINATION bin )
 
+
+# Tests
+add_subdirectory(unitTest_cpp_gtest/)
+add_subdirectory(unitTest_Engine_cpp_gtest/)

@@ -139,7 +139,7 @@ namespace asd
 			std::shared_ptr<Texture2D> texture, AlphaBlendMode alphaBlend, int32_t priority);
 
 		/**
-		@brief	通常の描画に加えて素材を用いて2Dスプライトを描画する。
+		@brief	通常の描画に加えて専用のシェーダーを用いて2Dスプライトを描画する。
 		@param	upperLeftPos	テクスチャの左上の描画位置
 		@param	upperRightPos	テクスチャの右上の描画位置
 		@param	lowerRightPos	テクスチャの右下の描画位置
@@ -156,6 +156,7 @@ namespace asd
 		@param	alphaBlend		アルファブレンドの種類
 		@param	priority		描画の優先順位(大きいほど前面に描画される)
 		@note
+		専用のシェーダーを用いてスプライトを描画する。
 		OnDrawAdditionallyの中以外では実行してはいけない。
 		*/
 		void DrawSpriteWithMaterialAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,

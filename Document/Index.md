@@ -56,10 +56,8 @@
 * [UIの配置](./HowToUseApplication/ImagePackageUI.md)
 * [自作ポストエフェクト](./HowToUseApplication/CustomPostEffect.md)
 * [大量の画像の描画](./HowToUseApplication/MapObject2D.md)
+* [追加の描画(2D)](./HowToUseApplication/DrawAdditionally2D.md)
 
-### 逆引き
-
-* [機能の逆引き](./ReverseDictionary.md)
 
 ### ライセンス
 

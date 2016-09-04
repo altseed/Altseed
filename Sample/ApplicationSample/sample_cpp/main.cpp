@@ -31,6 +31,8 @@ extern void MapObject2D_Camera();
 
 extern void Action2D_Camera();
 
+extern void DrawAdditionally2D_Material();
+
 int main(int argc, char** argv)
 {
 #if _WIN32
@@ -54,6 +56,9 @@ int main(int argc, char** argv)
 		INFO(MapObject2D_Camera, "", ""),
 
 		INFO(Action2D_Camera, "", ""),
+
+		INFO(DrawAdditionally2D_Material, "", ""),
+
 	};
 
 	auto browser = SampleBrowser(samples);

@@ -36,7 +36,6 @@ def isCommon(file):
 
 
 common_src = getCppFiles('../Dev/asd_cpp/common/','asd_cpp/common/')
-tool_src = getCppFiles('../Dev/asd_cpp/tool/','asd_cpp/tool/')
 core_src = getCppFiles('../Dev/asd_cpp/core/','asd_cpp/core/')
 engine_src = getCppFiles('../Dev/asd_cpp/engine/','asd_cpp/engine/')
 unittest_gtest_src = getCppFiles('../Dev/unitTest_cpp_gtest/','unitTest_cpp_gtest/')
@@ -56,11 +55,7 @@ def newline():
 	global exported
 	exported += '\r\n'
 
-exported += getCMakeArray(common_src,'common_src')
-newline()
-newline()
-
-exported += getCMakeArray(tool_src,'tool_src')
+exported += getCMakeArray(common_src,'common_to_engine_src')
 newline()
 newline()
 
@@ -88,23 +83,9 @@ exported += getCMakeArray(engine_src,'engine_src')
 newline()
 newline()
 
-exported += getCMakeArray(unittest_gtest_src,'unittest_gtest_src')
-newline()
-newline()
-
-exported += getCMakeArray(unittest_engine_gtest_src,'unittest_engine_gtest_src')
-newline()
-newline()
-
-exported += getCMakeArray(unittest_engine_gtest_src,'unittest_engine_gtest_src')
-newline()
-newline()
-
 exported += getCMakeArray(fontGenerator_src, 'fontGenerator_src')
 newline()
 newline()
-
-
 
 f = open('../Dev/CMakeFiles.txt','w')
 

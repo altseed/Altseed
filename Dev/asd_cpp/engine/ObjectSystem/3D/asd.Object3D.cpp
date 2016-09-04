@@ -150,10 +150,12 @@ namespace asd
 		return m_commonObject->GetLocalMatrix();
 	}
 
+	/*
 	void Object3D::SetLoalMatrixDirectly(Matrix44 localMat)
 	{
 		m_commonObject->SetLoalMatrixDirectly(localMat);
 	}
+	*/
 
 	int Object3D::GetUpdatePriority() const
 	{

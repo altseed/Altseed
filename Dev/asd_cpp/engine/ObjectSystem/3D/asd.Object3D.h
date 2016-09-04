@@ -169,8 +169,9 @@ namespace asd
 		@param	localMat	モデル行列
 		@note
 		この値を設定した場合、通常の移動や回転は無効化される。
+		不具合が存在するため、一時的に無効化
 		*/
-		void SetLoalMatrixDirectly(Matrix44 localMat);
+		//void SetLoalMatrixDirectly(Matrix44 localMat);
 
 		/**
 			@brief	このインスタンスの更新の優先順位を取得する。

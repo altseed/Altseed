@@ -18,6 +18,7 @@
     <ClCompile Include="..\Browser\SampleItem.cpp" />
     <ClCompile Include="..\CustomPostEffect\CustomPostEffect_Invert.cpp" />
     <ClCompile Include="..\CustomPostEffect\CustomPostEffect_Mosaic.cpp" />
+    <ClCompile Include="..\DrawAdditionally2D\DrawAdditionally2D_Material.cpp" />
     <ClCompile Include="..\ImagePackageUI\ImagePackageUI_AlphaBlend.cpp" />
     <ClCompile Include="..\ImagePackageUI\ImagePackageUI_Basic.cpp" />
     <ClCompile Include="..\ImagePackageUI\ImagePackageUI_Component.cpp" />

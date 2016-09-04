@@ -2,7 +2,7 @@
 
 ### 概要
 
-[ポストエフェクト](./../PostEffect/PostEffect.md)をユーザーが実装するために使用するシェーダークラスです。
+[ポストエフェクト](./../PostEffect/PostEffect.md)やスプライトの描画をユーザーが実装するために使用するシェーダークラスです。
 AltseedはHLSL(DirectX)やGLSL(OpenGL)によりシェーダーを記述して画像に対する効果を記述できます。
 
 HLSLのバージョンは4、GLSLのバージョンは3.3になります。

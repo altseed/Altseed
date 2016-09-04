@@ -157,6 +157,10 @@
 //         GL_UNSIGNED_BYTE, image[0].get_mipmap(i));
 // }
 
+// Altseed
+#include "../../PCH/asd.Core.PCH.h"
+//
+
 #include "nv_dds.h"
 
 #include <cstring>

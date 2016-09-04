@@ -3,7 +3,7 @@
 
 C++版の導入方法について説明しています。
 
-### VisualStudio2013の導入
+### VisualStudio2015の導入
 
 [VisualStudioのWebページ](https://www.visualstudio.com/ja-jp/downloads/download-visual-studio-vs)から
 「Visual Studio Community 2015 with Update 3」をダウンロードします。ただし、会社内でAltseedを使用する場合は「Visual Studio Express 2015 for Windows Desktop」をダウンロードします。
@@ -12,7 +12,8 @@ C++版の導入方法について説明しています。
 ダウンロードが終わったら、「Visual Studio」をインストールします。
 
 ### Altseedのダウンロード
-[Altseed](https://github.com/altseed/Altseed/releases/download/20160412/Altseed_CPP_20160412_WIN.zip)　をダウンロードします。
+
+[公式サイト](http://altseed.github.io/download.html)からAltseedのC++版の最新版をダウンロードします。
 ダウンロードしたファイルを解凍します。
 
 開発には以下のファイルを使用します。

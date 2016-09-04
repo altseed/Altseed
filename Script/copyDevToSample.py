@@ -40,7 +40,6 @@ def copyDev(targetDir):
 	aceutils.copy(r'Dev/bin/Altseed.dll', sampleDir+r'sample_cs/')
 	aceutils.copy(r'Dev/bin/Altseed.XML', sampleDir+r'sample_cs/')
 
-copyDev(r'Sample')
 copyDev(r'Sample/BasicSample')
 copyDev(r'Sample/ApplicationSample')
 

@@ -42,6 +42,9 @@
     <ClCompile Include="..\Browser\SampleBrowser.cpp">
       <Filter>Browser</Filter>
     </ClCompile>
+    <ClCompile Include="..\DrawAdditionally2D\DrawAdditionally2D_Material.cpp">
+      <Filter>DrawAdditionally2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />
@@ -77,6 +80,9 @@
     </Filter>
     <Filter Include="Browser">
       <UniqueIdentifier>{046e4941-1c1e-4ab8-ba66-b9584de30158}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DrawAdditionally2D">
+      <UniqueIdentifier>{017b896f-2fca-4c66-beb5-69122931acfd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
