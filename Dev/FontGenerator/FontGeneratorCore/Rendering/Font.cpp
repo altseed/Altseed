@@ -9,11 +9,11 @@ namespace FontGenerator
 	Font::Font(astring fontPath)
 	{
 		auto error = FT_Init_FreeType(&m_library);
-		ACE_ASSERT(!error, "FreeTypeの初期化に失敗しました")
+		ACE_ASSERT(!error, "FreeTypeの初期化に失敗しました");
 
 		auto path = ToUtf8String(fontPath.c_str());
 		error = FT_New_Face(m_library, path.c_str(), 0, &m_face);
-		ACE_ASSERT(!error, "Faceの初期化に失敗しました")
+		ACE_ASSERT(!error, "Faceの初期化に失敗しました");
 
 		SetFontSize(16);
 	}
