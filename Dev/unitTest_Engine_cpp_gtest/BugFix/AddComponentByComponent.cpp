@@ -19,7 +19,7 @@ class ObjectSystem_AddComponentByComponent : public EngineTest
 			{
 				printf("vanish object component.\n");
 				Dispose();
-				GetOwner()->AddComponent(make_shared<AddingObjectComponent>(), ToAString("Add"));
+				GetOwner()->AddComponent(make_shared<AddingObjectComponent>(), u"Add");
 			}
 		}
 	};
@@ -35,7 +35,7 @@ class ObjectSystem_AddComponentByComponent : public EngineTest
 			{
 				printf("vanish layer component.\n");
 				Dispose();
-				GetOwner()->AddComponent(make_shared<AddingLayerComponent>(), ToAString("Add"));
+				GetOwner()->AddComponent(make_shared<AddingLayerComponent>(), u"Add");
 			}
 		}
 	};
@@ -51,14 +51,14 @@ class ObjectSystem_AddComponentByComponent : public EngineTest
 			{
 				printf("vanish scene component.\n");
 				Dispose();
-				GetOwner()->AddComponent(make_shared<AddingSceneComponent>(), ToAString("Add"));
+				GetOwner()->AddComponent(make_shared<AddingSceneComponent>(), u"Add");
 			}
 		}
 	};
 
 public:
 	ObjectSystem_AddComponentByComponent(bool isOpenGLMode)
-		: EngineTest(asd::ToAString("AddComponentByComponent"), isOpenGLMode, 60)
+		: EngineTest(u"AddComponentByComponent", isOpenGLMode, 60)
 	{
 	}
 
@@ -73,9 +73,9 @@ protected:
 		scene->AddLayer(layer);
 		layer->AddObject(obj);
 
-		scene->AddComponent(make_shared<AddingSceneComponent>(), ToAString("Add"));
-		layer->AddComponent(make_shared<AddingLayerComponent>(), ToAString("Add"));
-		obj->AddComponent(make_shared<AddingObjectComponent>(), ToAString("Add"));
+		scene->AddComponent(make_shared<AddingSceneComponent>(), u"Add");
+		layer->AddComponent(make_shared<AddingLayerComponent>(), u"Add");
+		obj->AddComponent(make_shared<AddingObjectComponent>(), u"Add");
 	}
 };
 
