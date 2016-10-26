@@ -7,7 +7,7 @@
 void Texture_Basic()
 {
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("Texture_Basic").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(u"Texture_Basic", 640, 480, asd::EngineOption());
 
 	// 空の画像を生成する。
 	std::shared_ptr<asd::Texture2D> texture =

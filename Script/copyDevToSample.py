@@ -5,9 +5,9 @@ aceutils.cdToScript()
 aceutils.cd(r'../')
 
 if aceutils.isWin():
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Dev/unitTest_Engine_cpp.sln /p:configuration=Debug')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Dev/unitTest_Engine_cpp.sln /p:configuration=Release')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Dev/unitTest_Engine_cs.sln /p:configuration=Release')
+	aceutils.call(r'"C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild" Dev/unitTest_Engine_cpp.sln /p:configuration=Debug')
+	aceutils.call(r'"C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild" Dev/unitTest_Engine_cpp.sln /p:configuration=Release')
+	aceutils.call(r'"C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild" Dev/unitTest_Engine_cs.sln /p:configuration=Release')
 
 def copyDev(targetDir):
 	aceutils.mkdir(targetDir+r'/')
