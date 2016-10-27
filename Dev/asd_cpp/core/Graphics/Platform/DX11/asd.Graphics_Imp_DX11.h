@@ -26,6 +26,29 @@ namespace asd {
 
 		static TextureFormat GetTextureFormat(DXGI_FORMAT format);
 	};
+
+	class DistortingCallbackDX11
+		: public EffectDistortingCallback
+	{
+		::EffekseerRendererDX11::Renderer* renderer = nullptr;
+		ID3D11Texture2D* backGroundTexture = nullptr;
+		ID3D11ShaderResourceView* backGroundTextureSRV = nullptr;
+		D3D11_TEXTURE2D_DESC backGroundTextureDesc = {};
+
+		ID3D11Device*			g_D3d11Device = NULL;
+		ID3D11DeviceContext*	g_D3d11Context = NULL;
+
+
+	public:
+		DistortingCallbackDX11(::EffekseerRendererDX11::Renderer* renderer, ID3D11Device* d3d11Device, ID3D11DeviceContext* d3d11Context);
+		virtual ~DistortingCallbackDX11();
+		void ReleaseTexture();
+
+		// コピー先のテクスチャを準備
+		void PrepareTexture(uint32_t width, uint32_t height, DXGI_FORMAT format);
+
+		virtual void OnDistorting() override;
+	};
 #endif
 
 	//----------------------------------------------------------------------------------

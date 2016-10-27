@@ -93,7 +93,7 @@ namespace asd
 			}
 			else if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
-				m_effectRenderer = ::EffekseerRendererGL::Renderer::Create(instanceCount);
+				m_effectRenderer = ::EffekseerRendererGL::Renderer::Create(instanceCount, EffekseerRendererGL::OpenGLDeviceType::OpenGL3);
 			}
 
 			m_effectManager->SetSpriteRenderer(m_effectRenderer->CreateSpriteRenderer());

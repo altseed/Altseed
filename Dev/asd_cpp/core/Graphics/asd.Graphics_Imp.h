@@ -177,6 +177,11 @@ namespace asd {
 		void Unload(void* data) override;
 	};
 
+	class EffectDistortingCallback 
+		: public ::EffekseerRenderer::DistortingCallback
+	{
+	};
+
 	struct GraphicsOption
 	{
 		bool			IsReloadingEnabled;
