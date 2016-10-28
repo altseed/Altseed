@@ -145,11 +145,23 @@ namespace asd {
 #if _WIN32
 				auto g = (Graphics_Imp_DX11*) m_graphics;
 				m_effectRenderer = ::EffekseerRendererDX11::Renderer::Create(g->GetDevice(), g->GetContext(), 6000);
+
+				auto distortion = new DistortingCallbackDX11(
+					(::EffekseerRendererDX11::Renderer*)m_effectRenderer,
+					g->GetDevice(),
+					g->GetContext());
+
+				m_effectRenderer->SetDistortingCallback(distortion);
 #endif
 			}
 			else if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
-				m_effectRenderer = ::EffekseerRendererGL::Renderer::Create(6000);
+				m_effectRenderer = ::EffekseerRendererGL::Renderer::Create(6000, EffekseerRendererGL::OpenGLDeviceType::OpenGL3);
+
+				auto distortion = new DistortingCallbackGL(
+					(::EffekseerRendererGL::Renderer*)m_effectRenderer);
+
+				m_effectRenderer->SetDistortingCallback(distortion);
 			}
 
 			m_effectManager->SetSpriteRenderer(m_effectRenderer->CreateSpriteRenderer());

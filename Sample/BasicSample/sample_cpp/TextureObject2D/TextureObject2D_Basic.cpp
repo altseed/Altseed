@@ -7,11 +7,11 @@
 void TextureObject2D_Basic()
 {
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("TextureObject2D_Basic").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(u"TextureObject2D_Basic", 640, 480, asd::EngineOption());
 
 	// 画像を読み込む。
 	std::shared_ptr<asd::Texture2D> texture = 
-		asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Picture1.png").c_str());
+		asd::Engine::GetGraphics()->CreateTexture2D(u"Data/Texture/Picture1.png");
 
 	// 画像描画オブジェクトのインスタンスを生成する。
 	std::shared_ptr<asd::TextureObject2D> obj = std::make_shared<asd::TextureObject2D>();

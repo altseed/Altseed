@@ -7,11 +7,11 @@
 void Texture_Edit()
 {
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("Texture_Edit").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(u"Texture_Edit", 640, 480, asd::EngineOption());
 
 	// 画像を編集可能な状態で読み込む。
 	std::shared_ptr<asd::Texture2D> texture =
-		asd::Engine::GetGraphics()->CreateEditableTexture2D(asd::ToAString("Data/Texture/Picture1.png").c_str());
+		asd::Engine::GetGraphics()->CreateEditableTexture2D(u"Data/Texture/Picture1.png");
 
 	// 画像を編集する。
 	asd::TextureLockInfomation lockInfo;

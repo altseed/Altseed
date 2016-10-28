@@ -2,13 +2,16 @@
 import os.path
 import aceutils
 
-version = "0.9.2"
+version = "1.0.0"
 
 def genCS():
     targetDir = r'NuGetPackage/CSharp/'
     aceutils.cdToScript()
     aceutils.cd(r'../')
     
+    # GenerateHeader
+    aceutils.call(r'python Dev/generate_swig.py')
+
     aceutils.call(aceutils.cmd_compile + r'Dev/asd_cs.sln /p:configuration=Release')
 
     if not os.path.exists(targetDir):

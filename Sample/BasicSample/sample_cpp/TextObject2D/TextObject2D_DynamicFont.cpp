@@ -7,11 +7,11 @@
 void TextObject2D_DynamicFont()
 {
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("TextObject2D_DynamicFont").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(u"TextObject2D_DynamicFont", 640, 480, asd::EngineOption());
 
 	{
 		// 動的フォントを生成する。
-		auto font = asd::Engine::GetGraphics()->CreateDynamicFont(asd::ToAString("").c_str(), 35, asd::Color(255, 0, 0, 255), 1, asd::Color(255, 255, 255, 255));
+		auto font = asd::Engine::GetGraphics()->CreateDynamicFont(u"", 35, asd::Color(255, 0, 0, 255), 1, asd::Color(255, 255, 255, 255));
 
 		// TextObject2Dを生成する
 		auto obj = std::make_shared<asd::TextObject2D>();
@@ -23,7 +23,7 @@ void TextObject2D_DynamicFont()
 		obj->SetPosition(asd::Vector2DF(100, 100));
 
 		// 描画する文字列を指定する。
-		obj->SetText(asd::ToAString("動的フォントによる文字列描画").c_str());
+		obj->SetText(u"動的フォントによる文字列描画");
 
 		// 文字描画オブジェクトのインスタンスをエンジンへ追加する。
 		asd::Engine::AddObject2D(obj);
