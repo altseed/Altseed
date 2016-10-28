@@ -48,8 +48,8 @@ class Joystick_Axis : ISample
 				for (int axisIndex = 0; axisIndex < joystick.AxesCount; axisIndex++)
                 {
                     var axisVal = joystick.GetAxisState(axisIndex);
-                    displayStr += ("軸 " + axisIndex.ToString() + ": ");
-                    displayStr += axisVal.ToString();
+                    displayStr += ("軸 " + axisIndex + ": ");
+                    displayStr += axisVal;
                     displayStr += "\n";
                 }
 

@@ -35,7 +35,7 @@ public class Mouse_Position : ISample
         {
             // マウスカーソルの座標を取得して表示する。
             asd.Vector2DF pos = asd.Engine.Mouse.Position;
-            stateText.Text = "マウスカーソルの位置 : (" + pos.X.ToString() + "," + pos.Y.ToString() + ")";
+            stateText.Text = "マウスカーソルの位置 : (" + pos.X + "," + pos.Y + ")";
 
             // Altseedを更新する。
             asd.Engine.Update();
