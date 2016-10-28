@@ -68,7 +68,7 @@ class SampleBrowserLayer : asd.Layer2D
 		}
 
 		var y = camera.Src.Y - asd.Engine.Mouse.MiddleButton.WheelRotation * 30;
-		y = Math.Max(0, y);
+		y = Math.Max(0.0f, y);
 		y = Math.Min(rows * ItemOffset.Y - 480 + 24 + 60, y);
 		camera.Src = new asd.RectI(
 			camera.Src.X,
