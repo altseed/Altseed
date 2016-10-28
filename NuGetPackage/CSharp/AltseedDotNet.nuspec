@@ -15,9 +15,13 @@
         <tags>Game</tags>
     </metadata>
     <files>
-        <file src="AltseedDotNet.targets" target="build\AltseedDotNet.targets" />
-        <file src="Altseed_core.dll" target="build\Altseed_core.dll" />
+        <file src="AltseedDotNet.net45.targets" target="build\net45\AltseedDotNet.net45.targets" />
+        <file src="Altseed_core.dll" target="build\net45\Altseed_core.dll" />
+        <file src="AltseedDotNet.xamarin.targets" target="build\Xamarin.Mac\AltseedDotNet.xamarin.targets" />
+        <file src="libAltseed_core.dylib" target="build\Xamarin.Mac\libAltseed_core.dylib" />
         <file src="Altseed.dll" target="lib\net45\Altseed.dll" />
         <file src="Altseed.xml" target="lib\net45\Altseed.xml" />
+        <file src="Altseed.dll" target="lib\Xamarin.Mac\Altseed.dll" />
+        <file src="Altseed.xml" target="lib\Xamarin.Mac\Altseed.xml" />
     </files>
 </package>
