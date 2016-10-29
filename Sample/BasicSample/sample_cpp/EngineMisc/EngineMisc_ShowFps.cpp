@@ -31,7 +31,7 @@ void EngineMisc_ShowFps()
 		
 		// 表示する文字列を生成する。
 		char str[16];
-		sprintf_s(str, 16, "%2.1ffps", fps);
+		sprintf_s(str, 16, "FPS %f", fps);
 
 		// 文字列をオブジェクトに設定する。
 		obj->SetText(asd::ToAString(str).c_str());

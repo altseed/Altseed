@@ -28,7 +28,7 @@ void TextObject2D_Centering()
 
 	// 描画位置を指定する。
 	auto pos = asd::Vector2DF(asd::Engine::GetWindowSize().X - size.X, asd::Engine::GetWindowSize().Y - size.Y);
-	obj->SetPosition(pos / 2);
+	obj->SetPosition(pos / 2.0f);
 
 	// 文字描画オブジェクトのインスタンスをエンジンへ追加する。
 	asd::Engine::AddObject2D(obj);

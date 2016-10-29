@@ -40,7 +40,7 @@ class TextObject2D_Centering : ISample
 
             // 描画位置を指定する。（画面中心が基準）
             var pos = new asd.Vector2DF(asd.Engine.WindowSize.X - size.X, asd.Engine.WindowSize.Y - size.Y);
-            obj.Position = pos / 2;
+            obj.Position = pos / 2.0f;
 
             // 文字描画オブジェクトのインスタンスをエンジンへ追加する。
             asd.Engine.AddObject2D(obj);

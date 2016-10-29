@@ -38,7 +38,7 @@ class EngineMisc_ShowFps : ISample
 			float fps = asd.Engine.CurrentFPS;
 
 			// 表示する文字列を生成する。
-			var str = string.Format("{0:00.0}fps", fps);
+			var str = "FPS : " + fps; 
 
 			// 文字列をオブジェクトに設定する。
 			obj.Text = str;

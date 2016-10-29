@@ -40,10 +40,10 @@ class File_StaticFile : ISample
 		byte[] textBytes = staticFile.Buffer;
 
 		// UTF-8でバイト列をデコードする
-		char[] text = Encoding.UTF8.GetChars(textBytes);
+		string text = asd.StringHelper.ConvertUTF8(textBytes);
 
 		// 描画する文字列の指定
-		obj.Text = string.Concat(text);
+		obj.Text = text;
 
 		// オブジェクトのインスタンスをエンジンへ追加する。
 		asd.Engine.AddObject2D(obj);
