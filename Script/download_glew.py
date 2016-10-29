@@ -3,6 +3,7 @@ import aceutils
 pathname = 'glew-1.13.0'
 
 aceutils.cdToScript()
+aceutils.mkdir('../Downloads')
 
 with aceutils.CurrentDir('../Downloads'):
 	aceutils.rm(r'glew-1.13.0.zip')

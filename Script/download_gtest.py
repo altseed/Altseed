@@ -2,6 +2,7 @@
 import aceutils
 
 aceutils.cdToScript()
+aceutils.mkdir('../Downloads')
 
 with aceutils.CurrentDir('../Downloads'):
 	aceutils.rm(r"gtest-1.7.0.zip")

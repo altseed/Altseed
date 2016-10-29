@@ -5,6 +5,7 @@ zipname = 'glfw-3.2.1.zip'
 pathname = 'glfw-3.2.1'
 
 aceutils.cdToScript()
+aceutils.mkdir('../Downloads')
 
 with aceutils.CurrentDir('../Downloads'):
 	aceutils.rm(zipname)

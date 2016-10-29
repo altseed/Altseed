@@ -294,9 +294,9 @@ master.zip
 /Product/lib/
 /Document/Doxygen/
 
-/CPP_XML/
-/Reference_CPP/
-/Reference_CS/
+Doxygen_Core/
+Doxygen_CPP/
+Doxygen_CS/
 
 # Result of Test
 /Dev/bin/TestSS/

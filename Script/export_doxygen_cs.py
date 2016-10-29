@@ -1,7 +1,7 @@
 import aceutils
 
 aceutils.cdToScript()
-aceutils.cd(r'../')
-
-aceutils.call(r'doxygen Script/Doxyfile_cs')
-aceutils.copytree(r'Reference_CS/html/', targetDir+r'/Reference_CS')
+aceutils.mkdir('../Doxygen')
+aceutils.cd(r'../Doxygen/')
+aceutils.call(r'doxygen ../Script/Doxyfile_cs')
+aceutils.copytree(r'Doxygen_CS/html/', targetDir+r'/Reference_CS')

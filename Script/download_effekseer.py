@@ -2,6 +2,7 @@
 import aceutils
 
 aceutils.cdToScript()
+aceutils.mkdir('../Downloads')
 
 with aceutils.CurrentDir('../Downloads'):
 	aceutils.rm(r'master.zip')
@@ -49,6 +50,7 @@ with aceutils.CurrentDir('../Downloads'):
 		aceutils.copy(r'effekseer_bin/Debug/Effekseer.lib', r'../Dev/lib/x86/Debug/')
 		aceutils.copy(r'effekseer_bin/Debug/EffekseerRendererDX11.lib', r'../Dev/lib/x86/Debug/')
 		aceutils.copy(r'effekseer_bin/Debug/EffekseerRendererGL.lib', r'../Dev/lib/x86/Debug/')
+
 		aceutils.copy(r'effekseer_bin/Release/Effekseer.lib', r'../Dev/lib/x86/Release/')
 		aceutils.copy(r'effekseer_bin/Release/EffekseerRendererDX11.lib', r'../Dev/lib/x86/Release/')
 		aceutils.copy(r'effekseer_bin/Release/EffekseerRendererGL.lib', r'../Dev/lib/x86/Release/')
@@ -56,6 +58,7 @@ with aceutils.CurrentDir('../Downloads'):
 		aceutils.copy(r'effekseer_bin_x64/Debug/Effekseer.lib', r'../Dev/lib/x64/Debug/')
 		aceutils.copy(r'effekseer_bin_x64/Debug/EffekseerRendererDX11.lib', r'../Dev/lib/x64/Debug/')
 		aceutils.copy(r'effekseer_bin_x64/Debug/EffekseerRendererGL.lib', r'../Dev/lib/x64/Debug/')
+		
 		aceutils.copy(r'effekseer_bin_x64/Release/Effekseer.lib', r'../Dev/lib/x64/Release/')
 		aceutils.copy(r'effekseer_bin_x64/Release/EffekseerRendererDX11.lib', r'../Dev/lib/x64/Release/')
 		aceutils.copy(r'effekseer_bin_x64/Release/EffekseerRendererGL.lib', r'../Dev/lib/x64/Release/')

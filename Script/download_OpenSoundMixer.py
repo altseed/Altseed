@@ -3,6 +3,7 @@ import aceutils
 import itertools
 
 aceutils.cdToScript()
+aceutils.mkdir('../Downloads')
 
 with aceutils.CurrentDir('../Downloads'):
 	aceutils.rm(r'master.zip')

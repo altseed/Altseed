@@ -2,6 +2,7 @@
 import aceutils
 
 aceutils.cdToScript()
+aceutils.mkdir('../Downloads')
 
 with aceutils.CurrentDir('../Downloads'):
 	aceutils.rm(r'2.85.1.zip')
