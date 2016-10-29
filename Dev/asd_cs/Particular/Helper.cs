@@ -167,5 +167,15 @@ namespace asd.Particular
             buffer.Clear();
             buffer.AddRange(bytes);
         }
+
+		public static string ConvertUTF8(byte[] buffer)
+		{
+			return Encoding.UTF8.GetString(buffer);
+		}
+
+		public static string ConvertUTF8(List<byte> buffer)
+		{
+			return Encoding.UTF8.GetString(buffer.ToArray());
+		}
 	}
 }

@@ -156,7 +156,7 @@ public class Helper
 			*/
 		}
 
-		public static void CopyStreamFileToList(asd.swig.StreamFile CoreInstance, java.util.ArrayList<java.lang.Integer> buffer, int size)
+		public static void CopyStreamFileToList(asd.swig.StreamFile CoreInstance, java.util.ArrayList<java.lang.Byte> buffer, int size)
 		{
 			/*
 			swig.Accessor.StreamFile_Read_(CoreInstance, size);
@@ -168,4 +168,20 @@ public class Helper
             buffer.AddRange(bytes);
 			*/
         }
+
+		public static java.lang.String ConvertUTF8(byte[] buffer)
+		{
+			return new String(buffer, java.nio.charset.StandardCharsets.UTF_8);
+		}
+
+		public static java.lang.String ConvertUTF8(java.util.ArrayList<Byte> buffer)
+		{
+			byte[] buf = new byte[(int)buffer.size()];
+			for(int i = 0; i < buf.length; i++)
+			{
+				buf[i] = buffer.get(i);
+			}
+
+			return new String(buf, java.nio.charset.StandardCharsets.UTF_8);
+		}
 }
