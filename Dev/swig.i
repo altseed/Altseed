@@ -267,7 +267,7 @@ StructTranslator.Enqueue_##NAME($javainput)
 	}
 
 	public static asd.Color Dequeue_Color(asd.Color v) {
-		return new asd.Color((byte)StructTranslator.DequeueInt(), (byte)StructTranslator.DequeueInt(), (byte)StructTranslator.DequeueInt(), (byte)StructTranslator.DequeueInt());
+		return new asd.Color((short)StructTranslator.DequeueInt(), (short)StructTranslator.DequeueInt(), (short)StructTranslator.DequeueInt(), (short)StructTranslator.DequeueInt());
 	}
 
 	public static asd.Color Enqueue_Color(asd.Color v) {
