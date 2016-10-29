@@ -192,3 +192,16 @@ if isWin():
 		cmd_cmake_x64 = r'cmake -G "Visual Studio 12 Win64" '
 		cmd_compile = r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" '
 
+# with式を使ってカレントディレクトリの状態を見やすくするクラス
+# with式に与えるとブロック内の処理は指定したディレクトリで処理されます
+class CurrentDir:
+	def __init__(self, path):
+		self.prev = os.getcwd()
+		self.path = path
+	def __enter__(self):
+		cd(self.path)
+		#print("cd: " + os.getcwd())
+		return self
+	def __exit__(self, type, value, traceback):
+		cd(self.prev)
+		#print("cd: " + os.getcwd())
