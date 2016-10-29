@@ -51,7 +51,7 @@ with aceutils.CurrentDir('../Downloads'):
 		files = ('libogg_static', 'libvorbis_static', 'libvorbisfile_static')
 		for a, c, i, f in itertools.product(architectures, configurations, ides, files):
 			src = r'OpenSoundMixer-master/lib/{0}/{1}/{2}/{3}.lib'.format(a, c, i, f)
-			dst = r'../Dev/lib/{0}/{1}/{2}/'.format(a, c, i, f)
+			dst = r'../Dev/lib/{0}/{1}/{2}/'.format(a, c, i)
 			aceutils.copy(src, dst)
 
 	else:

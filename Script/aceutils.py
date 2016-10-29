@@ -193,7 +193,7 @@ if isWin():
 		cmd_compile = r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" '
 
 # with式を使ってカレントディレクトリの状態を見やすくするクラス
-# with式に与えるとブロック内の処理は指定したディレクトリで処理されます
+# withブロックに与えるとブロック内の処理は指定したディレクトリで処理されます
 class CurrentDir:
 	def __init__(self, path):
 		self.prev = os.getcwd()
