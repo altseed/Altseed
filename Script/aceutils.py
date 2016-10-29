@@ -132,6 +132,13 @@ def editCmakeForACE(path,enc='utf-8'):
 	if 'GLFW' in lines:
 		lines = lines.replace('-Wall', '-Wall -fPIC')
 
+	# libGD
+	if 'PROJECT(GD)' in lines:
+		lines = lines.replace('FIND_PACKAGE(ZLIB)', '')
+		lines = lines.replace('ENDIF(ZLIB_FOUND)', '')
+		lines = lines.replace('IF(ZLIB_FOUND)', '')
+		lines = lines.replace('INCLUDE_DIRECTORIES(${ZLIB_INCLUDE_DIR})', '')
+		lines = lines.replace('SET(HAVE_LIBZ 1)', '')
 
 	lines = lines + "\n"
 	lines = lines + "# ForACE\n"
