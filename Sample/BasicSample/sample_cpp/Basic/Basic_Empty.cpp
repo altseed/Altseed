@@ -7,7 +7,7 @@
 void Basic_Empty()
 {
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("Empty").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(u"Empty", 640, 480, asd::EngineOption());
 
 	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())

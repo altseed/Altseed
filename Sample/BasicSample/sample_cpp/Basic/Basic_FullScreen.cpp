@@ -7,13 +7,13 @@ void Basic_FullScreen()
 	option.IsFullScreen = true;
 
 	// 作成した初期化オプションを用いてAltseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("Empty").c_str(), 640, 480, option);
+	asd::Engine::Initialize(u"Empty", 640, 480, option);
 
 	// 操作説明文を文字列オブジェクトとして作成。CreateDynamicFontで作成したフォントオブジェクトを用いる
-	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(asd::ToAString("").c_str(), 20, asd::Color(255, 255, 255, 255), 2, asd::Color(0, 0, 0, 255));
+	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(u"", 20, asd::Color(255, 255, 255, 255), 2, asd::Color(0, 0, 0, 255));
 	auto obj = std::make_shared<asd::TextObject2D>();
 	obj->SetFont(font);
-	obj->SetText(asd::ToAString("Escキーで終了").c_str());
+	obj->SetText(u"Escキーで終了");
 
 	// 操作説明文のオブジェクトをエンジンに登録する。
 	asd::Engine::AddObject2D(obj);

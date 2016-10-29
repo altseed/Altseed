@@ -117,10 +117,10 @@ public class Helper
 			return count;
 		}
 
-		public static asd.swig.VectorUint8 CreateVectorUint8FromArray(short[] array)
+		public static asd.swig.VectorUint8 CreateVectorUint8FromArray(byte[] array)
 		{
 			asd.swig.VectorUint8 buf = new asd.swig.VectorUint8();
-			for (short b : array)
+			for (byte b : array)
 			{
 				buf.add(b);
 			}
@@ -133,19 +133,19 @@ public class Helper
 			buf.delete();
 		}
 
-		public static short[] CreateArrayFromVectorUint8(asd.swig.VectorUint8 buf)
+		public static byte[] CreateArrayFromVectorUint8(asd.swig.VectorUint8 buf)
 		{
-			short[] dst = new short[(int)buf.size()];
+			byte[] dst = new byte[(int)buf.size()];
 			
 			for(int i = 0; i < dst.length; i++)
 			{
-				dst[i] = buf.get(i);
+				dst[i] = (byte)(buf.get(i) - 128);
 			}
 
 			return dst;
 		}
 
-		public static short[] CreateArrayFromStaticFile(asd.swig.StaticFile CoreInstance)
+		public static byte[] CreateArrayFromStaticFile(asd.swig.StaticFile CoreInstance)
 		{
 			return null;
 			/*
@@ -156,7 +156,7 @@ public class Helper
 			*/
 		}
 
-		public static void CopyStreamFileToList(asd.swig.StreamFile CoreInstance, java.util.ArrayList<java.lang.Integer> buffer, int size)
+		public static void CopyStreamFileToList(asd.swig.StreamFile CoreInstance, java.util.ArrayList<java.lang.Byte> buffer, int size)
 		{
 			/*
 			swig.Accessor.StreamFile_Read_(CoreInstance, size);
@@ -168,4 +168,20 @@ public class Helper
             buffer.AddRange(bytes);
 			*/
         }
+
+		public static java.lang.String ConvertUTF8(byte[] buffer)
+		{
+			return new String(buffer, java.nio.charset.StandardCharsets.UTF_8);
+		}
+
+		public static java.lang.String ConvertUTF8(java.util.ArrayList<Byte> buffer)
+		{
+			byte[] buf = new byte[(int)buffer.size()];
+			for(int i = 0; i < buf.length; i++)
+			{
+				buf[i] = buffer.get(i);
+			}
+
+			return new String(buf, java.nio.charset.StandardCharsets.UTF_8);
+		}
 }

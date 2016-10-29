@@ -34,7 +34,7 @@ public class Mouse_Wheel : ISample
         while (asd.Engine.DoEvents())
         {
             // マウスのホイールの回転状態を取得して表示する。
-            wheelStateText.Text = "ホイールの回転度合 : " + asd.Engine.Mouse.MiddleButton.WheelRotation.ToString();
+            wheelStateText.Text = "ホイールの回転度合 : " + asd.Engine.Mouse.MiddleButton.WheelRotation;
 
             // Altseedを更新する。
             asd.Engine.Update();

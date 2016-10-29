@@ -281,6 +281,7 @@
     <Compile Include="swig\Window_Imp.cs" />
     <Compile Include="swig\WritingDirection.cs" />
     <Compile Include="Utils\InternalGetter.cs" />
+    <Compile Include="Utils\StringHelper.cs" />
     <Compile Include="Window\Cursor.cs" />
     <Compile Include="Wrappers.cs" />
   </ItemGroup>

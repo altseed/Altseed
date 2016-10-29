@@ -41,10 +41,10 @@ class File_StreamFile : ISample
 		staticFile.Read(buffer, 32);
 
 		// UTF-8でバイト列をデコードする
-		char[] text = Encoding.UTF8.GetChars(buffer.ToArray());
+		string text = asd.StringHelper.ConvertUTF8(buffer);
 
 		// 描画する文字列の指定
-		obj.Text = string.Concat(text);
+		obj.Text = text;
 
 		// オブジェクトのインスタンスをエンジンへ追加する。
 		asd.Engine.AddObject2D(obj);

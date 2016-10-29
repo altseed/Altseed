@@ -7,10 +7,10 @@
 void Joystick_Axis()
 {
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("Joystick_Axis").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(u"Joystick_Axis", 640, 480, asd::EngineOption());
 
 	// ジョイスティックの状態を表示するテキストを生成する。
-	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(asd::ToAString("").c_str(), 35, asd::Color(255, 255, 255, 255), 1, asd::Color(0, 0, 0, 255));
+	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(u"", 35, asd::Color(255, 255, 255, 255), 1, asd::Color(0, 0, 0, 255));
 
 	// アナログスティックの入力状態を表示する文字描画オブジェクトを設定して、エンジンに追加する。
 	auto stateText = std::make_shared<asd::TextObject2D>();
@@ -21,12 +21,12 @@ void Joystick_Axis()
 	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())
 	{
-		asd::astring displayStr = asd::ToAString("");
+		asd::astring displayStr = u"";
 
 		// ジョイスティックが接続されているかどうかを確認する。
 		if (!asd::Engine::GetJoystickContainer()->GetIsPresentAt(0))
 		{
-			displayStr += asd::ToAString("ジョイスティックが接続されていません。");
+			displayStr += u"ジョイスティックが接続されていません。";
 		}
 		else
 		{
