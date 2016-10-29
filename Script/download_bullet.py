@@ -4,13 +4,13 @@ import aceutils
 aceutils.cdToScript()
 
 aceutils.cd(r'../')
-aceutils.rm(r'bullet-2.82-r2704.zip')
-aceutils.rmdir(r'bullet-2.82-r2704')
+aceutils.rm(r'2.85.1.zip')
+aceutils.rmdir(r'bullet3-2.85.1')
 
-aceutils.wget(r'https://bullet.googlecode.com/files/bullet-2.82-r2704.zip')
-aceutils.unzip(r'bullet-2.82-r2704.zip')
+aceutils.wget(r'https://github.com/bulletphysics/bullet3/archive/2.85.1.zip')
+aceutils.unzip(r'2.85.1.zip')
 
-aceutils.editCmakeForACE(r'bullet-2.82-r2704/CMakeLists.txt','cp932')
+aceutils.editCmakeForACE(r'bullet3-2.85.1/CMakeLists.txt','cp932')
 
 aceutils.rmdir(r"bullet_bin")
 aceutils.rmdir(r"bullet_bin_x64")
@@ -21,14 +21,14 @@ aceutils.mkdir(r"bullet_bin_x64")
 aceutils.cd(r"bullet_bin")
 
 if aceutils.isWin():
-	aceutils.call(aceutils.cmd_cmake+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D BUILD_DEMOS:BOOL=OFF ../bullet-2.82-r2704/')
+	aceutils.call(aceutils.cmd_cmake+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D BUILD_DEMOS:BOOL=OFF ../bullet3-2.85.1/')
 	aceutils.call(aceutils.cmd_compile + r'BULLET_PHYSICS.sln /p:configuration=Debug')
 	aceutils.call(aceutils.cmd_compile + r'BULLET_PHYSICS.sln /p:configuration=Release')
 elif aceutils.isMac():
-	aceutils.call(r'cmake -G "Unix Makefiles" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../bullet-2.82-r2704/')
+	aceutils.call(r'cmake -G "Unix Makefiles" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../bullet3-2.85.1/')
 	aceutils.call(r'make')
 else:
-	aceutils.call(r'cmake -G "Unix Makefiles" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF ../bullet-2.82-r2704/')
+	aceutils.call(r'cmake -G "Unix Makefiles" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF ../bullet3-2.85.1/')
 	aceutils.call(r'make')
 
 aceutils.cd(r"../")
@@ -36,14 +36,14 @@ aceutils.cd(r"../")
 aceutils.cd(r"bullet_bin_x64")
 
 if aceutils.isWin():
-	aceutils.call(aceutils.cmd_cmake_x64+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D BUILD_DEMOS:BOOL=OFF ../bullet-2.82-r2704/')
+	aceutils.call(aceutils.cmd_cmake_x64+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D BUILD_DEMOS:BOOL=OFF ../bullet3-2.85.1/')
 	aceutils.call(aceutils.cmd_compile + r'BULLET_PHYSICS.sln /p:configuration=Debug')
 	aceutils.call(aceutils.cmd_compile + r'BULLET_PHYSICS.sln /p:configuration=Release')
 
 aceutils.cd(r"../")
 
 
-aceutils.copytreeWithExt(r'bullet-2.82-r2704/src/',r'Dev/include/',['.h'])
+aceutils.copytreeWithExt(r'bullet3-2.85.1/src/',r'Dev/include/',['.h'])
 
 if aceutils.isWin():
 
