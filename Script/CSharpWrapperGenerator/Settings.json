@@ -1,5 +1,5 @@
 {
-	"DoxygenXmlDirPath": "../../Documents/Doxygen_Core/xml/",
+	"DoxygenXmlDirPath": "../../Doxygen/Doxygen_Core/xml/",
 	"SwigCSharpDirPath": "../../Dev/asd_cs/swig/",
 	"ExportFilePath": "../../Dev/asd_cs/Wrappers.cs",
 	"ClassBlackList":
