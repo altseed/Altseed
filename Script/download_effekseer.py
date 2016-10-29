@@ -2,79 +2,69 @@
 import aceutils
 
 aceutils.cdToScript()
-aceutils.cd(r'../')
-aceutils.rm(r'master.zip')
-aceutils.rmdir(r'Effekseer-master')
+aceutils.mkdir('../Downloads')
 
-aceutils.wget(r'https://github.com/effekseer/Effekseer/archive/master.zip')
-aceutils.unzip(r'master.zip')
+with aceutils.CurrentDir('../Downloads'):
+	aceutils.rm(r'master.zip')
+	aceutils.rmdir(r'Effekseer-master')
+	aceutils.rmdir(r"effekseer_bin")
+	aceutils.rmdir(r"effekseer_bin_x64")
 
-aceutils.editCmakeForACE(r'Effekseer-master/Dev/Cpp/CMakeLists.txt','cp932')
+	aceutils.wget(r'https://github.com/effekseer/Effekseer/archive/master.zip')
+	aceutils.unzip(r'master.zip')
+	aceutils.editCmakeForACE(r'Effekseer-master/Dev/Cpp/CMakeLists.txt','cp932')
+	aceutils.mkdir(r"effekseer_bin")
+	aceutils.mkdir(r"effekseer_bin_x64")
 
-aceutils.rmdir(r"effekseer_bin")
-aceutils.rmdir(r"effekseer_bin_x64")
+	with aceutils.CurrentDir('effekseer_bin'):
+		if aceutils.isWin():
+			aceutils.call(aceutils.cmd_cmake+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../Effekseer-master/Dev/Cpp/')
+			aceutils.call(aceutils.cmd_compile + r'Effekseer.sln /p:configuration=Debug')
+			aceutils.call(aceutils.cmd_compile + r'Effekseer.sln /p:configuration=Release')
+		elif aceutils.isMac():
+			aceutils.call(r'cmake -G "Unix Makefiles" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF -D USE_GLEW_STATIC:BOOL=OFF -D USE_GLEW_DLL:BOOL=OFF -D USE_OPENGL3:BOOL=ON -D USE_OPENAL:BOOL=OFF "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../Effekseer-master/Dev/Cpp/')
+			aceutils.call(r'make')
+		else:
+			aceutils.call(r'cmake -G "Unix Makefiles" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF -D USE_OPENAL:BOOL=OFF ../Effekseer-master/Dev/Cpp/')
+			aceutils.call(r'make')
 
-aceutils.mkdir(r"effekseer_bin")
-aceutils.mkdir(r"effekseer_bin_x64")
+	with aceutils.CurrentDir('effekseer_bin_x64'):
+		if aceutils.isWin():
+			aceutils.call(aceutils.cmd_cmake_x64+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../Effekseer-master/Dev/Cpp/')
+			aceutils.call(aceutils.cmd_compile + r'Effekseer.sln /p:configuration=Debug')
+			aceutils.call(aceutils.cmd_compile + r'Effekseer.sln /p:configuration=Release')
 
+	if aceutils.isWin():
+		aceutils.mkdir(r'../Dev/lib/x86/')
+		aceutils.mkdir(r'../Dev/lib/x86/Debug')
+		aceutils.mkdir(r'../Dev/lib/x86/Release')
 
-aceutils.cd(r"effekseer_bin")
+		aceutils.mkdir(r'../Dev/lib/x64/')
+		aceutils.mkdir(r'../Dev/lib/x64/Debug')
+		aceutils.mkdir(r'../Dev/lib/x64/Release')
 
-if aceutils.isWin():
-	aceutils.call(aceutils.cmd_cmake+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../Effekseer-master/Dev/Cpp/')
-	aceutils.call(aceutils.cmd_compile + r'Effekseer.sln /p:configuration=Debug')
-	aceutils.call(aceutils.cmd_compile + r'Effekseer.sln /p:configuration=Release')
-elif aceutils.isMac():
-	aceutils.call(r'cmake -G "Unix Makefiles" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF -D USE_GLEW_STATIC:BOOL=OFF -D USE_GLEW_DLL:BOOL=OFF -D USE_OPENGL3:BOOL=ON -D USE_OPENAL:BOOL=OFF "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../Effekseer-master/Dev/Cpp/')
-	aceutils.call(r'make')
-else:
-	aceutils.call(r'cmake -G "Unix Makefiles" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF -D USE_OPENAL:BOOL=OFF ../Effekseer-master/Dev/Cpp/')
-	aceutils.call(r'make')
+		aceutils.copy(r'Effekseer-master/Dev/Cpp/Effekseer/Effekseer.h', r'../Dev/include/')
+		aceutils.copy(r'Effekseer-master/Dev/Cpp/EffekseerRendererDX11/EffekseerRendererDX11.h', r'../Dev/include/')
+		aceutils.copy(r'Effekseer-master/Dev/Cpp/EffekseerRendererGL/EffekseerRendererGL.h', r'../Dev/include/')
 
-aceutils.cd(r"../")
+		aceutils.copy(r'effekseer_bin/Debug/Effekseer.lib', r'../Dev/lib/x86/Debug/')
+		aceutils.copy(r'effekseer_bin/Debug/EffekseerRendererDX11.lib', r'../Dev/lib/x86/Debug/')
+		aceutils.copy(r'effekseer_bin/Debug/EffekseerRendererGL.lib', r'../Dev/lib/x86/Debug/')
 
+		aceutils.copy(r'effekseer_bin/Release/Effekseer.lib', r'../Dev/lib/x86/Release/')
+		aceutils.copy(r'effekseer_bin/Release/EffekseerRendererDX11.lib', r'../Dev/lib/x86/Release/')
+		aceutils.copy(r'effekseer_bin/Release/EffekseerRendererGL.lib', r'../Dev/lib/x86/Release/')
 
-aceutils.cd(r"effekseer_bin_x64")
+		aceutils.copy(r'effekseer_bin_x64/Debug/Effekseer.lib', r'../Dev/lib/x64/Debug/')
+		aceutils.copy(r'effekseer_bin_x64/Debug/EffekseerRendererDX11.lib', r'../Dev/lib/x64/Debug/')
+		aceutils.copy(r'effekseer_bin_x64/Debug/EffekseerRendererGL.lib', r'../Dev/lib/x64/Debug/')
+		
+		aceutils.copy(r'effekseer_bin_x64/Release/Effekseer.lib', r'../Dev/lib/x64/Release/')
+		aceutils.copy(r'effekseer_bin_x64/Release/EffekseerRendererDX11.lib', r'../Dev/lib/x64/Release/')
+		aceutils.copy(r'effekseer_bin_x64/Release/EffekseerRendererGL.lib', r'../Dev/lib/x64/Release/')
 
-if aceutils.isWin():
-	aceutils.call(aceutils.cmd_cmake_x64+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../Effekseer-master/Dev/Cpp/')
-	aceutils.call(aceutils.cmd_compile + r'Effekseer.sln /p:configuration=Debug')
-	aceutils.call(aceutils.cmd_compile + r'Effekseer.sln /p:configuration=Release')
-
-aceutils.cd(r"../")
-
-
-if aceutils.isWin():
-	aceutils.mkdir(r'Dev/lib/x86/')
-	aceutils.mkdir(r'Dev/lib/x86/Debug')
-	aceutils.mkdir(r'Dev/lib/x86/Release')
-
-	aceutils.mkdir(r'Dev/lib/x64/')
-	aceutils.mkdir(r'Dev/lib/x64/Debug')
-	aceutils.mkdir(r'Dev/lib/x64/Release')
-
-	aceutils.copy(r'Effekseer-master/Dev/Cpp/Effekseer/Effekseer.h', r'Dev/include/')
-	aceutils.copy(r'Effekseer-master/Dev/Cpp/EffekseerRendererDX11/EffekseerRendererDX11.h', r'Dev/include/')
-	aceutils.copy(r'Effekseer-master/Dev/Cpp/EffekseerRendererGL/EffekseerRendererGL.h', r'Dev/include/')
-
-	aceutils.copy(r'effekseer_bin/Debug/Effekseer.lib', r'Dev/lib/x86/Debug/')
-	aceutils.copy(r'effekseer_bin/Debug/EffekseerRendererDX11.lib', r'Dev/lib/x86/Debug/')
-	aceutils.copy(r'effekseer_bin/Debug/EffekseerRendererGL.lib', r'Dev/lib/x86/Debug/')
-	aceutils.copy(r'effekseer_bin/Release/Effekseer.lib', r'Dev/lib/x86/Release/')
-	aceutils.copy(r'effekseer_bin/Release/EffekseerRendererDX11.lib', r'Dev/lib/x86/Release/')
-	aceutils.copy(r'effekseer_bin/Release/EffekseerRendererGL.lib', r'Dev/lib/x86/Release/')
-
-	aceutils.copy(r'effekseer_bin_x64/Debug/Effekseer.lib', r'Dev/lib/x64/Debug/')
-	aceutils.copy(r'effekseer_bin_x64/Debug/EffekseerRendererDX11.lib', r'Dev/lib/x64/Debug/')
-	aceutils.copy(r'effekseer_bin_x64/Debug/EffekseerRendererGL.lib', r'Dev/lib/x64/Debug/')
-	aceutils.copy(r'effekseer_bin_x64/Release/Effekseer.lib', r'Dev/lib/x64/Release/')
-	aceutils.copy(r'effekseer_bin_x64/Release/EffekseerRendererDX11.lib', r'Dev/lib/x64/Release/')
-	aceutils.copy(r'effekseer_bin_x64/Release/EffekseerRendererGL.lib', r'Dev/lib/x64/Release/')
-
-else:
-	aceutils.copy(r'Effekseer-master/Dev/Cpp/Effekseer/Effekseer.h', r'Dev/include/')
-	aceutils.copy(r'Effekseer-master/Dev/Cpp/EffekseerRendererGL/EffekseerRendererGL.h', r'Dev/include/')
-	aceutils.copy(r'effekseer_bin/libEffekseer.a', r'Dev/lib/')
-	aceutils.copy(r'effekseer_bin/libEffekseerRendererGL.a', r'Dev/lib/')
-
-
+	else:
+		aceutils.copy(r'Effekseer-master/Dev/Cpp/Effekseer/Effekseer.h', r'../Dev/include/')
+		aceutils.copy(r'Effekseer-master/Dev/Cpp/EffekseerRendererGL/EffekseerRendererGL.h', r'../Dev/include/')
+		aceutils.copy(r'effekseer_bin/libEffekseer.a', r'../Dev/lib/')
+		aceutils.copy(r'effekseer_bin/libEffekseerRendererGL.a', r'../Dev/lib/')

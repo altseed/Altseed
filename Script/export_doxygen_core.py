@@ -3,4 +3,4 @@ import aceutils
 aceutils.cdToScript()
 aceutils.mkdir('../Doxygen')
 aceutils.cd(r'../Doxygen/')
-aceutils.call(r'doxygen ../Script/Doxyfile_cpp')
+aceutils.call(r'doxygen ../Script/Doxyfile_cpp_XML')
