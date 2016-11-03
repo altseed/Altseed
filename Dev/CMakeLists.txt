@@ -127,7 +127,7 @@ else()
 
 	find_package(JNI)
 	list(APPEND common_inc ${JNI_INCLUDE_DIRS})
-	list(APPEND common_lib ${JNI_LIBRARIES})
+	#list(APPEND common_lib ${JNI_LIBRARIES})
 
 	if(NOT APPLE)
 		find_package(X11 REQUIRED)
