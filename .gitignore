@@ -258,8 +258,10 @@ bullet-2.82-r2704.zip
 master.zip
 
 /Dev/cmake/
+CMakeFiles/
 
 /Dev/packages/
+packages/
 
 /Dev/amcr-glfw/
 /Dev/include/GLFW/
