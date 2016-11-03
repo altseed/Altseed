@@ -68,7 +68,7 @@ Core側のコンパイルやEngineのテストなど、様々な部分で使わ�
 |ライブラリ|スクリプト|説明|
 |---|---|---|
 |glfw for Altseed|`download_glfw.py`||
-|zip/libpng|`download_libpng.py`|Windowsでは実行する必要はありません。|
+|zlib/libpng|`download_libpng.py`|Windowsでは実行する必要はありません。|
 |glew|`download_glew.py`|Windows以外ではスクリプトによる導入はできませんので、次節を参照してください。|
 |Box2D|`download_Box2D.py`||
 |bullet|`download_bullet.py`||
