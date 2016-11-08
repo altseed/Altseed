@@ -24,7 +24,7 @@ namespace unitTest_Engine_cs
 		//[STAThread]
 		static void Main(string[] args)
 		{
-			TestOnAllDevice(typeof(BugFix.AddObjectThenAddChild));
+			TestOnAllDevice(typeof(BugFix.DisposeAndChangeParent));
 			Console.ReadKey();
 			return;
 
