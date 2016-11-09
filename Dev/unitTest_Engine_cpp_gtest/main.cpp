@@ -107,6 +107,7 @@ EXTERN_ENGINE_TEST(Profiler, Profiling)
 
 EXTERN_ENGINE_TEST(BugFix, DisposeAndChangeParent)
 EXTERN_ENGINE_TEST(BugFix, MemoryLeak)
+EXTERN_ENGINE_TEST(BugFix, RepeatedlyAddAndRemoveObject)
 
 #if defined(PERFORMANCE_MODE)
 EXTERN_ENGINE_TEST(Performance, MassModelObject3D)
@@ -129,7 +130,7 @@ int main(int argc, char **argv)
 	::testing::InitGoogleTest(&argc, argv);
 	
 	
-	//CALL_ENGINE_TEST(ObjectSystem, DisposeOnTerminate, true);
+	//CALL_ENGINE_TEST(BugFix, RepeatedlyAddAndRemoveObject, true);
 	//getchar();
 	//return 0;
 	

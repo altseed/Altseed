@@ -23,6 +23,7 @@
     <ClCompile Include="..\BugFix\CameraAndSetTexture.cpp" />
     <ClCompile Include="..\BugFix\DisposeAndChangeParent.cpp" />
     <ClCompile Include="..\BugFix\MemoryLeak.cpp" />
+    <ClCompile Include="..\BugFix\RepeatedlyAddAndRemoveObject.cpp" />
     <ClCompile Include="..\BugFix\SetSourceOfTexture.cpp" />
     <ClCompile Include="..\BugFix\TransformOutOfUpdate.cpp" />
     <ClCompile Include="..\BugFix\VanishInComponent.cpp" />

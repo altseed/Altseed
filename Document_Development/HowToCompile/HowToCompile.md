@@ -128,9 +128,14 @@ Dev/unitTest_Engine_cpp.sln
 Dev/unitTest_Engine_cs.sln
 ```
 
+このふたつのソリューションにはテスト プロジェクトが含まれています。
+
+Windows10上でテストのDebugビルド版を実行するには、スタート > 設定 > オプション機能を追加する から「Graphics Tools」をインストールする必要があります。
+
 ### 他
 
 ```Script/compile.py``` を実行します。
+
 
 ## Java版への対応
 

@@ -219,6 +219,9 @@
     <ClCompile Include="..\ObjectSystem\DisposeOnTerminate.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\BugFix\RepeatedlyAddAndRemoveObject.cpp">
+      <Filter>BugFix</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

@@ -105,7 +105,11 @@ namespace asd
 			var content = asd.Particular.SortedList.Get(contents_, obj.UpdatePriority);
 			content.AddLast(obj);
 			obj.OnUpdatePriorityChanged = Redistribution;
-			
+
+			if (!obj.IsRegisteredToLayer)
+			{
+				Owner.__Register(obj);
+			}
 			Owner.__AddToCore(obj);
 			if(raiseEvent)
 			{
@@ -120,6 +124,10 @@ namespace asd
 				return;
 			}
 
+			if (obj.IsRegisteredToLayer)
+			{
+				Owner.__Unregister(obj);
+			}
 			if(raiseEvent)
 			{
 				obj.RaiseOnRemoved();
