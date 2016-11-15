@@ -16,11 +16,11 @@ void AssertGlyphData(GlyphData& expected, GlyphData& actual)
 
 void Font_GlyphDataSerialize()
 {
-	static astring fileName = ToAString(L"test.aff");
+	static astring fileName = ToAString(u"test.aff");
 	static int count = 3;
 
 	vector<GlyphData> glyphs;
-	astring str = ToAString(L"NumAni");
+	astring str = ToAString(u"NumAni");
 	for (int i = 0; i < count; ++i)
 	{
 		RectI rect(i*20, 0, 20, 40);

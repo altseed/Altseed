@@ -96,9 +96,9 @@ void Graphics_TextureFormat(bool isOpenGLMode)
 	StartGraphicsTest();
 	SetGLEnable(isOpenGLMode);
 
-	asd::Log* log = asd::Log_Imp::Create(L"graphics.html", L"描画");
+	asd::Log* log = asd::Log_Imp::Create(u"graphics.htmu", u"描画");
 
-	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(L"TextureFormat").c_str());
+	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(u"TextureFormat").c_str());
 	ASSERT_TRUE(window != nullptr);
 
 	auto file = asd::File_Imp::Create();
@@ -114,16 +114,16 @@ void Graphics_TextureFormat(bool isOpenGLMode)
 	const int32_t textureCount = 4;
 	std::shared_ptr<asd::Texture2D> textures[textureCount];
 
-	textures[0] = graphics->CreateTexture2D(asd::ToAString(L"Data/Texture/Format_PNG.png").c_str());
+	textures[0] = graphics->CreateTexture2D(asd::ToAString(u"Data/Texture/Format_PNG.png").c_str());
 	ASSERT_TRUE(textures[0] != nullptr);
 
-	textures[1] = graphics->CreateTexture2D(asd::ToAString(L"Data/Texture/Format_DDS_DXT1.dds").c_str());
+	textures[1] = graphics->CreateTexture2D(asd::ToAString(u"Data/Texture/Format_DDS_DXT1.dds").c_str());
 	ASSERT_TRUE(textures[1] != nullptr);
 
-	textures[2] = graphics->CreateTexture2D(asd::ToAString(L"Data/Texture/Format_DDS_DXT3.dds").c_str());
+	textures[2] = graphics->CreateTexture2D(asd::ToAString(u"Data/Texture/Format_DDS_DXT3.dds").c_str());
 	ASSERT_TRUE(textures[2] != nullptr);
 
-	textures[3] = graphics->CreateTexture2D(asd::ToAString(L"Data/Texture/Format_DDS_DXT5.dds").c_str());
+	textures[3] = graphics->CreateTexture2D(asd::ToAString(u"Data/Texture/Format_DDS_DXT5.dds").c_str());
 	ASSERT_TRUE(textures[3] != nullptr);
 	
 	auto vertexBuffer = graphics->CreateVertexBuffer_Imp(sizeof(Vertex), 4, false);
