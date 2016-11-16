@@ -4,8 +4,11 @@ import compile
 import sys
 
 type = 'cs'
-if(len(sys.argv) >= 2:
+if len(sys.argv) == 2:
 	type = sys.argv[1]
+
+if len(sys.argv) == 3:
+	type = sys.argv[2]
 
 compile.init()
 compile.compile(type)
@@ -56,9 +59,9 @@ def copyDev(targetDir):
 		aceutils.copy(r'Dev/bin/Altseed.jar', sampleDir+r'bin/')
 
 		if aceutils.isWin():
-			exec_sync('.\Script\CSharpTranslator\LanguageTranslator.exe '+sampleDir+r'sample_cs/ '+sampleDir+r'sample_java/ java '+sampleDir+r'bin/Altseed.dll')
+			aceutils.call('.\Script\CSharpTranslator\LanguageTranslator.exe '+sampleDir+r'sample_cs/ '+sampleDir+r'sample_java/ java '+sampleDir+r'bin/Altseed.dll')
 		else:
-			exec_sync('mono ./Script/CSharpTranslator/LanguageTranslator.exe '+sampleDir+r'sample_cs/ '+sampleDir+r'sample_java/ java '+sampleDir+r'bin/Altseed.dll')
+			aceutils.call('mono ./Script/CSharpTranslator/LanguageTranslator.exe '+sampleDir+r'sample_cs/ '+sampleDir+r'sample_java/ java '+sampleDir+r'bin/Altseed.dll')
 
 		if aceutils.isWin():
 			aceutils.copy(r'Dev/bin/Altseed_core.dll', sampleDir+r'bin/')

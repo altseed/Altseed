@@ -179,9 +179,9 @@ def editCmakeForACE(path,enc='utf-8'):
 	f.close()
 
 # strings
-cmd_cmake = ''
-cmd_cmake_x64 = ''
-cmd_compile = ''
+cmd_cmake = r'cmake -G "Visual Studio 14" '
+cmd_cmake_x64 = r'cmake -G "Visual Studio 14 Win64" '
+cmd_compile = r'"C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild" '
 
 if isWin():
 	if (len(sys.argv) == 1) or (len(sys.argv) == 2 and sys.argv[1] == 'Visual Studio 14'):
