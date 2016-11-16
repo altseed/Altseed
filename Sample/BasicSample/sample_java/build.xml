@@ -3,10 +3,17 @@
 
 
 <target name="build">
+	<mkdir dir="./classes"/>
 	<javac	srcdir=".;"
-		destdir="./../bin"
+		destdir="./classes"
 		encoding="UTF-8"
 		classpath="./../bin/Altseed.jar" />
+
+	<jar jarfile="BasicSample.jar" basedir="./classes" destfile="./../bin/BasicSample.jar">
+		<manifest>
+			<attribute name="Main-Class" value="Program"/>
+		</manifest>
+	</jar>
 </target>
 
 
