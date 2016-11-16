@@ -7,7 +7,8 @@
 	<javac	srcdir=".;"
 		destdir="./classes"
 		encoding="UTF-8"
-		classpath="./../bin/Altseed.jar" />
+		classpath="./../bin/Altseed.jar"
+		includeantruntime="false" />
 
 	<jar jarfile="BasicSample.jar" basedir="./classes" destfile="./../bin/BasicSample.jar">
 		<manifest>
