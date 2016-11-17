@@ -12,6 +12,7 @@
 
 	<jar jarfile="BasicSample.jar" basedir="./classes" destfile="./../bin/BasicSample.jar">
 		<manifest>
+      <attribute name="Class-Path" value=". Altseed.jar"/>
 			<attribute name="Main-Class" value="Program"/>
 		</manifest>
 	</jar>

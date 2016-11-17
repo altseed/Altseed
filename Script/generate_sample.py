@@ -11,6 +11,10 @@ if len(sys.argv) == 3:
 	type = sys.argv[2]
 
 compile.init()
+
+if type=='java':
+	compile.compile('cs')
+	
 compile.compile(type)
 
 aceutils.cdToScript()
@@ -55,7 +59,7 @@ def copyDev(targetDir):
 			aceutils.copy(r'Dev/bin/libAltseed_core.so', sampleDir+r'bin/')
 
 	if type == 'java':
-
+		aceutils.copy(r'Dev/bin/Altseed.dll', sampleDir+r'bin/')
 		aceutils.copy(r'Dev/bin/Altseed.jar', sampleDir+r'bin/')
 
 		if aceutils.isWin():

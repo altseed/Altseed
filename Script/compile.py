@@ -55,7 +55,7 @@ def compile(type):
 			aceutils.call(aceutils.cmd_compile + r'Dev/unitTest_Engine_cs.sln /p:configuration=Release')
 
 		if type=='java':
-			aceutils.call(aceutils.cmd_compile + r'Dev/unitTest_Engine_cpp.sln /p:configuration=Release')
+			aceutils.call(aceutils.cmd_compile + r'Dev/unitTest_Engine_cpp.sln /p:configuration=Release /p:platform=x64')
 			aceutils.cd(r'Dev/asd_java')
 			aceutils.call(r'ant')
 			aceutils.cd(r'../../')
