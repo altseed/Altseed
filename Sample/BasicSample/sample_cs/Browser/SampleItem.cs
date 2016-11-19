@@ -67,10 +67,9 @@ class SampleItem : asd.TextureObject2D
 
 	public asd.RectangleShape GetArea()
 	{
-		return new asd.RectangleShape
-		{
-			DrawingArea = new asd.RectF(Position.X, Position.Y, Size.X, Size.Y),
-		};
+		var area = new asd.RectangleShape();
+		area.DrawingArea = new asd.RectF(Position.X, Position.Y, Size.X, Size.Y);
+		return area;
 	}
 
 	private string GetWrappedString(asd.Font font, string title)
