@@ -19,7 +19,12 @@ class MapObject2D_Basic : ISample
 		get { return "マップチップの描画"; }
 	}
 
-    public void Run()
+	public string ClassName
+	{
+		get { return "MapObject2D_Basic"; }
+	}
+
+	public void Run()
     {
         // Altseedを初期化する。
         asd.Engine.Initialize("MapObject2D_Basic", 640, 480, new asd.EngineOption());

@@ -14,6 +14,11 @@ class ImagePackageUI_Basic : ISample
 		get { return "ImagePackage"; }
 	}
 
+	public string ClassName
+	{
+		get { return "ImagePackageUI_Basic"; }
+	}
+
 	public void Run()
 	{
 		// Altseedを初期化する。

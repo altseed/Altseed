@@ -40,4 +40,9 @@ class Window_External : ISample
 	{
 		get { return "外部のウィンドウ"; }
 	}
+
+	public string ClassName
+	{
+		get { return "Window_External"; }
+	}
 }

@@ -14,6 +14,11 @@ class ImagePackageUI_Component : ISample
 		get { return "ImagePackageとアニメーション"; }
 	}
 
+	public string ClassName
+	{
+		get { return "ImagePackageUI_Component"; }
+	}
+
 	class AlphaAnimationComponent : asd.Object2DComponent
 	{
 		int time = 0;

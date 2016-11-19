@@ -78,6 +78,11 @@ class Pause_Basic : ISample
 		get { return "ポーズ"; }
 	}
 
+	public string ClassName
+	{
+		get { return "Pause_Basic"; }
+	}
+
 	public void Run()
 	{
 		// Altseedを初期化する。

@@ -135,5 +135,10 @@ class DrawAdditionally2D_Material : ISample
 	{
 		get { return "追加描画(シェーダー)"; }
 	}
+
+	public string ClassName
+	{
+		get { return "DrawAdditionally2D_Material"; }
+	}
 }
 

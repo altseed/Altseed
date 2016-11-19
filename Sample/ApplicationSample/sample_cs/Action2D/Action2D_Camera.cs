@@ -11,6 +11,11 @@ class Action2D_Camera : ISample
 		get { return "アクションゲームのカメラ"; }
 	}
 
+	public string ClassName
+	{
+		get { return "Action2D_Camera"; }
+	}
+
 	public void Run()
 	{
 		// Altseedを初期化する。

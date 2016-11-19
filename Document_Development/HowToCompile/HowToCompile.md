@@ -148,6 +148,18 @@ Windows10上でテストのDebugビルド版を実行するには、スタート
 
 Dev/asd_java/ で ```ant``` を実行します。
 
+## サンプル
+
+```Script/generate_sample.py``` を実行します。
+
+C++のサンプルを生成する場合、```Script/generate_sample.py cpp```
+
+C#のサンプルを生成する場合、```Script/generate_sample.py cs```
+
+Javaのサンプルを生成する場合、```Script/generate_sample.py java```
+
+と入力します。
+
 ## リリース
 
 DoxygenとPandocをインストールします。

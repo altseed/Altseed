@@ -19,7 +19,12 @@ class MapObject2D_Camera : ISample
 		get { return "マップチップとスクロール"; }
 	}
 
-    public void Run()
+	public string ClassName
+	{
+		get { return "MapObject2D_Camera"; }
+	}
+
+	public void Run()
     {
         // Altseedを初期化する
         asd.Engine.Initialize("MapObject2D_Camera", 640, 480, new asd.EngineOption());
