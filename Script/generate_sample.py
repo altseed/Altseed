@@ -51,6 +51,9 @@ def copyDev(targetDir):
 
 	if type == 'cs':
 		aceutils.copy(r'Dev/bin/Altseed.dll', sampleDir+r'bin/')
+		aceutils.copy(r'Dev/bin/Altseed.dll', sampleDir+r'sample_cs/')
+		aceutils.copy(r'Dev/bin/Altseed.xml', sampleDir+r'sample_cs/')
+
 		if aceutils.isWin():
 			aceutils.copy(r'Dev/bin/Altseed_core.dll', sampleDir+r'bin/')
 		elif aceutils.isMac():
