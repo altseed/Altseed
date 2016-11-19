@@ -1,4 +1,5 @@
 ﻿
+#if __CS__
 class Window_External : ISample
 {
 	public void Run()
@@ -46,3 +47,4 @@ class Window_External : ISample
 		get { return "Window_External"; }
 	}
 }
+#endif

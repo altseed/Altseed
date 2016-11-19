@@ -11,9 +11,10 @@ class Program
     {
         ISample[] samples =
 			{
-				new Window_External(),
-
-				new ImagePackageUI_Basic(),
+#if __CS__
+			new Window_External(),
+#endif
+			new ImagePackageUI_Basic(),
 				new ImagePackageUI_AlphaBlend(),
 				new ImagePackageUI_Component(),
 
