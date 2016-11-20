@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project default="build" name="Altseed">
+
+
+<target name="build">
+	<mkdir dir="./classes"/>
+	<javac	srcdir=".;"
+		destdir="./classes"
+		encoding="UTF-8"
+		classpath="./../bin/Altseed.jar"
+		includeantruntime="false" />
+
+	<jar jarfile="BasicSample.jar" basedir="./classes" destfile="./../bin/BasicSample.jar">
+		<manifest>
+      <attribute name="Class-Path" value=". Altseed.jar"/>
+			<attribute name="Main-Class" value="Program"/>
+		</manifest>
+	</jar>
+</target>
+
+
+</project>
