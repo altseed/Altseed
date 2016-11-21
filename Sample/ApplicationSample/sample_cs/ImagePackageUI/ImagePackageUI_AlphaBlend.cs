@@ -14,6 +14,11 @@ class ImagePackageUI_AlphaBlend : ISample
 		get { return "ImagePackageとアルファブレンド"; }
 	}
 
+	public string ClassName
+	{
+		get { return "ImagePackageUI_AlphaBlend"; }
+	}
+
 	public void Run()
 	{
 		// Altseedを初期化する。

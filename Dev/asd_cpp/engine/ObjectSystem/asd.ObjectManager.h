@@ -78,6 +78,7 @@ namespace asd
 				RegistrationCommand::Remove,
 				raiseEvent);
 			Engine::m_changesToCommit.push(e);
+
 			m_owner->Unregister(content);
 		}
 
@@ -101,6 +102,11 @@ namespace asd
 			}
 			content->m_onUpdatePriorityChanged = [this, content](int x) { Redistribute(content); };
 
+			// Add/Removeの繰り返しでnullptrになってしまうことがあるので改めて設定
+			if (content->GetLayer() == nullptr)
+			{
+				m_owner->Register(content);
+			}
 			m_owner->AddToCore(content);
 			if (raiseEvent)
 			{
@@ -115,6 +121,11 @@ namespace asd
 				return;
 			}
 
+			// Add/Removeの繰り返しでnullptrでなくなってしまうことがあるので改めて設定
+			if (content->GetLayer() != nullptr)
+			{
+				m_owner->Unregister(content);
+			}
 			if (raiseEvent)
 			{
 				content->RaiseOnRemoved();

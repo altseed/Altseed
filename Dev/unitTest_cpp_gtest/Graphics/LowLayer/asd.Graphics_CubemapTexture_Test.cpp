@@ -180,9 +180,9 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 	StartGraphicsTest();
 	SetGLEnable(isOpenGLMode);
 
-	asd::Log* log = asd::Log_Imp::Create(L"graphics.html", L"描画");
+	asd::Log* log = asd::Log_Imp::Create(u"graphics.html", u"描画");
 
-	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(L"CubemapTexture").c_str());
+	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(u"CubemapTexture").c_str());
 	ASSERT_TRUE(window != nullptr);
 
 	auto file = asd::File_Imp::Create();

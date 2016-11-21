@@ -89,6 +89,7 @@ namespace asd
 			ChildTransformingMode transformingMode);
 		void ImmediatelyRemoveChild(const Object2D::Ptr& child);
 
+
 	protected:
 
 		/**

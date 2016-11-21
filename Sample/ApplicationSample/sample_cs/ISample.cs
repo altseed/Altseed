@@ -2,13 +2,14 @@
 interface ISample
 {
 	void Run();
-	string Description { get; }
+	string ClassName { get; }
 	string Title { get; }
+	string Description { get; }
 }
 
 class Recorder
 {
-	static string currentName = string.Empty;
+	static string currentName = "";
 
 	static int currentTime = 0;
 

@@ -6,7 +6,7 @@ void Graphics_Empty(bool isOpenGLMode)
 	StartGraphicsTest();
 	SetGLEnable(isOpenGLMode);
 
-	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(L"Empty").c_str());
+	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(u"Empty").c_str());
 	ASSERT_TRUE(window != nullptr);
 
 	auto file = asd::File_Imp::Create();

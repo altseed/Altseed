@@ -6,7 +6,7 @@ pathname = r'libgd-fc14a8c1bb22542db00858a04495413f0c290001'
 
 aceutils.cdToScript()
 
-with aceutils.CurrentDir('../Downloads/')
+with aceutils.CurrentDir('../Downloads'):
 	aceutils.rm(zipname)
 	aceutils.rmdir(pathname)
 	aceutils.rmdir(r"gd_bin")

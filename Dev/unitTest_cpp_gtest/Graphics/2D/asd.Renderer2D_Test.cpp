@@ -21,9 +21,9 @@ void Graphics_Renderer2D(bool isOpenGLMode)
 	StartGraphicsTest();
 	SetGLEnable(isOpenGLMode);
 
-	asd::Log* log = asd::Log_Imp::Create(L"graphics.html", L"描画");
+	asd::Log* log = asd::Log_Imp::Create(u"graphics.html", u"描画");
 
-	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(L"Renderer2D").c_str());
+	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(u"Renderer2D").c_str());
 	ASSERT_TRUE(window != nullptr);
 
 	auto file = asd::File_Imp::Create();
@@ -36,7 +36,7 @@ void Graphics_Renderer2D(bool isOpenGLMode)
 	auto graphics = asd::Graphics_Imp::Create(window, isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11, log, file, go);
 	ASSERT_TRUE(graphics != nullptr);
 
-	auto texture = graphics->CreateTexture2D(asd::ToAString(L"Data/Texture/Sample1.png").c_str());
+	auto texture = graphics->CreateTexture2D(asd::ToAString(u"Data/Texture/Sample1.png").c_str());
 	ASSERT_TRUE(texture != nullptr);
 
 	auto renderer = new asd::Renderer2D_Imp(graphics, log);

@@ -128,9 +128,14 @@ Dev/unitTest_Engine_cpp.sln
 Dev/unitTest_Engine_cs.sln
 ```
 
+このふたつのソリューションにはテスト プロジェクトが含まれています。
+
+Windows10上でテストのDebugビルド版を実行するには、スタート > 設定 > オプション機能を追加する から「Graphics Tools」をインストールする必要があります。
+
 ### 他
 
 ```Script/compile.py``` を実行します。
+
 
 ## Java版への対応
 
@@ -142,6 +147,18 @@ Dev/unitTest_Engine_cs.sln
 警告が出ても変換はされている？
 
 Dev/asd_java/ で ```ant``` を実行します。
+
+## サンプル
+
+```Script/generate_sample.py``` を実行します。
+
+C++のサンプルを生成する場合、```Script/generate_sample.py cpp```
+
+C#のサンプルを生成する場合、```Script/generate_sample.py cs```
+
+Javaのサンプルを生成する場合、```Script/generate_sample.py java```
+
+と入力します。
 
 ## リリース
 

@@ -8,7 +8,7 @@ using namespace asd;
 
 void Font_IndexTable()
 {
-	static astring fileName = ToAString(L"test.aff");
+	static astring fileName = ToAString(u"test.aff");
 
 	AffIndexTable table;
 	table.AppendFontIndex(L'N', 0);

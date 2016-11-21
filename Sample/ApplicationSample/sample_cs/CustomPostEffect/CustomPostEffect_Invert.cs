@@ -118,5 +118,10 @@ class CustomPostEffect_Invert : ISample
 	{
 		get { return "反転ポストエフェクト"; }
 	}
+
+	public string ClassName
+	{
+		get { return "CustomPostEffect_Invert"; }
+	}
 }
 

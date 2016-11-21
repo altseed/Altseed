@@ -2,7 +2,7 @@
 /// <summary>
 /// ポーズを実行するレイヤー
 /// </summary>
-class Pause_PauseLayer : asd.Layer2D
+class Pause_Basic_PauseLayer : asd.Layer2D
 {
 	protected override void OnAdded()
 	{
@@ -35,11 +35,11 @@ class Pause_PauseLayer : asd.Layer2D
 /// <summary>
 /// ゲームの挙動を描画するレイヤー
 /// </summary>
-class Pause_MainLayer : asd.Layer2D
+class Pause_Basic_MainLayer : asd.Layer2D
 {
 	asd.TextureObject2D obj = null;
 
-	public Pause_MainLayer()
+	public Pause_Basic_MainLayer()
 	{
 		// 画像を表示するオブジェクトを生成する。
 		obj = new asd.TextureObject2D();
@@ -54,7 +54,7 @@ class Pause_MainLayer : asd.Layer2D
 		// スペースが押されたら、ポーズレイヤーを追加する。
 		if(asd.Engine.Keyboard.GetKeyState(asd.Keys.Space) == asd.KeyState.Push)
 		{
-			var pauseLayer = new Pause_PauseLayer();
+			var pauseLayer = new Pause_Basic_PauseLayer();
 			Scene.AddLayer(pauseLayer);
 		}
 
@@ -78,6 +78,11 @@ class Pause_Basic : ISample
 		get { return "ポーズ"; }
 	}
 
+	public string ClassName
+	{
+		get { return "Pause_Basic"; }
+	}
+
 	public void Run()
 	{
 		// Altseedを初期化する。
@@ -87,7 +92,7 @@ class Pause_Basic : ISample
 		var scene = new asd.Scene();
 
 		// ゲームの挙動を描画するレイヤーを生成する
-		var layer = new Pause_MainLayer();
+		var layer = new Pause_Basic_MainLayer();
 
 		// シーンにレイヤーを追加する
 		scene.AddLayer(layer);

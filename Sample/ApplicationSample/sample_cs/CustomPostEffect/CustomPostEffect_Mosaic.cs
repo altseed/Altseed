@@ -146,6 +146,11 @@ class CustomPostEffect_Mosaic : ISample
 		get { return "モザイク ポストエフェクト"; }
 	}
 
+	public string ClassName
+	{
+		get { return "CustomPostEffect_Mosaic"; }
+	}
+
 	public void Run()
 	{
 		// Altseedを初期化する。

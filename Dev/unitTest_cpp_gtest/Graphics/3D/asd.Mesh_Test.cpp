@@ -82,7 +82,7 @@ static std::shared_ptr<asd::Mesh> CreateMesh(asd::Graphics* graphics)
 
 	mesh->AddMaterial();
 
-	auto texture = graphics->CreateTexture2D(asd::ToAString(L"Data/Texture/Sample1.png").c_str());
+	auto texture = graphics->CreateTexture2D(asd::ToAString(u"Data/Texture/Sample1.png").c_str());
 
 	mesh->SetColorTexture(0, texture.get());
 	return mesh;
@@ -160,9 +160,9 @@ void Graphics_Mesh(bool isOpenGLMode)
 	StartGraphicsTest();
 	SetGLEnable(isOpenGLMode);
 
-	asd::Log* log = asd::Log_Imp::Create(L"graphics.html", L"メッシュ");
+	asd::Log* log = asd::Log_Imp::Create(u"graphics.html", u"メッシュ");
 
-	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(L"メッシュ").c_str());
+	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(u"メッシュ").c_str());
 	ASSERT_TRUE(window != nullptr);
 
 	auto file = asd::File_Imp::Create();

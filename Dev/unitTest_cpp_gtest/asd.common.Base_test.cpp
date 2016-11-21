@@ -48,7 +48,7 @@ TEST(CharSet, Utf8ToUtf16)
 }
 
 TEST(CharSet, ToWide)
-{
+{	
 	auto expected = wstring(L"文字列のWide化");
 
 	wstring actual = asd::ToWide("文字列のWide化");
@@ -58,7 +58,8 @@ TEST(CharSet, ToWide)
 
 TEST(CharSet, ToAString_wchar)
 {
-#if _WIN32
+//#if _WIN32
+#if 0
 	auto actual = asd::ToAString(L"文字列のAString化");
 
 	// windowsでは achar は wchar_t なので
@@ -66,7 +67,7 @@ TEST(CharSet, ToAString_wchar)
 		asd::astring(L"文字列のAString化"),
 		actual);
 #else
-	auto actual = asd::ToAString(L"文字列のAString化");
+	auto actual = asd::ToAString(u"文字列のAString化");
 
 	// *nixでは achar は char16_t
 	ASSERT_EQ(
@@ -77,7 +78,8 @@ TEST(CharSet, ToAString_wchar)
 
 TEST(CharSet, ToAString_char)
 {
-#if _WIN32
+//#if _WIN32
+#if 0
 	auto actual = asd::ToAString("文字列のAString化");
 
 	// windowsでは achar は wchar_t なので

@@ -8,7 +8,7 @@ using namespace asd;
 
 static void Font_AffHeader()
 {
-	static astring fileName = ToAString(L"test.aff");
+	static astring fileName = ToAString(u"test.aff");
 
 	auto header = make_shared<AffHeader>(ToAString("test"));
 	header->SetFontSize(10);

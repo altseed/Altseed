@@ -1,4 +1,17 @@
 ﻿
+class ImagePackageUI_Component_AlphaAnimationComponent : asd.Object2DComponent
+{
+	int time = 0;
+	protected override void OnUpdate()
+	{
+		// アルファ値をsinカーブでアニメーションするようにする。
+		var alpha = (byte)((float)(System.Math.Sin(time / 20.0f) + 1.0f) / 2.0f * 255);
+		var owner = (asd.TextureObject2D)Owner;
+		owner.Color = new asd.Color(255, 255, 255, alpha);
+		time++;
+	}
+}
+
 /// <summary>
 /// ImagePackageを用いてUIを配置して、特定の名前の画像をアニメーションさせるサンプル。
 /// </summary>
@@ -14,17 +27,9 @@ class ImagePackageUI_Component : ISample
 		get { return "ImagePackageとアニメーション"; }
 	}
 
-	class AlphaAnimationComponent : asd.Object2DComponent
+	public string ClassName
 	{
-		int time = 0;
-		protected override void OnUpdate()
-		{
-			// アルファ値をsinカーブでアニメーションするようにする。
-			var alpha = (byte)((float)(System.Math.Sin(time / 20.0f) + 1.0f) / 2.0f * 255);
-			var owner = (asd.TextureObject2D)Owner;
-			owner.Color = new asd.Color(255, 255, 255, alpha);
-			time++;
-		}
+		get { return "ImagePackageUI_Component"; }
 	}
 
 	public void Run()
@@ -51,7 +56,7 @@ class ImagePackageUI_Component : ISample
 			if (imagePackage.GetImageName(i) == "Background_Light")
 			{
 				textureObject2D.AlphaBlend = asd.AlphaBlendMode.Add;
-				textureObject2D.AddComponent(new AlphaAnimationComponent(), "AlphaAnimation");
+				textureObject2D.AddComponent(new ImagePackageUI_Component_AlphaAnimationComponent(), "AlphaAnimation");
 			}
 		}
 
