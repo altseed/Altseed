@@ -10,7 +10,7 @@
 		classpath="./../bin/Altseed.jar"
 		includeantruntime="false" />
 
-	<jar jarfile="BasicSample.jar" basedir="./classes" destfile="./../bin/BasicSample.jar">
+	<jar jarfile="ApplicationSample.jar" basedir="./classes" destfile="./../bin/ApplicationSample.jar">
 		<manifest>
       <attribute name="Class-Path" value=". Altseed.jar"/>
 			<attribute name="Main-Class" value="Program"/>
