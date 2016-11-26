@@ -23,9 +23,10 @@ namespace asd {
 	{
 	private:
 
-		Graphics *m_graphics;
+		Graphics*	m_graphics = nullptr;
+		CoreMapObject2D_Imp* mapObject2D = nullptr;
+		Texture2D*	m_texture = nullptr;
 
-		Texture2D* m_texture;
 		RectF m_src;
 		Color m_color;
 		bool m_turnLR;
@@ -40,7 +41,7 @@ namespace asd {
 		culling2d::Object *cullingObject;
 		bool alreadyCullingUpdated;
 #endif
-		CoreMapObject2D_Imp* mapObject2D;
+		
 
 		Texture2D* GetTexture_() const;
 		void SetTexture_(Texture2D* texture);

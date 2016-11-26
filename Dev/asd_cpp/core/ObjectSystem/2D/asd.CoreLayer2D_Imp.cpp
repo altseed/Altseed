@@ -421,19 +421,26 @@ namespace asd
 
 			auto obj_Imp = CoreObject2DToImp(userData->Object);
 
-			if (userData->IsObject&&userData->Object->GetObjectType() != Object2DType::Effect)
+			if (userData->Object->GetObjectType() == Object2DType::Map)
+			{
+			}
+			else if (userData->Object->GetObjectType() == Object2DType::Effect)
+			{
+			}
+			else
 			{
 				auto obj = userData->Object;
 				obj->Draw(m_renderer);
 			}
-			else if (userData->Object->GetObjectType() == Object2DType::Map)
-			{
-				auto mapObj = (CoreMapObject2D_Imp*)CoreObject2DToImp(userData->Object);
-				auto chip = userData->Chip;
+		}
 
-				mapObj->DrawChip(m_renderer, chip);
-			}
+		for (auto& obj : m_objects)
+		{
+			if (obj->GetObjectType() != Object2DType::Map) continue;
+			auto imp = (CoreMapObject2D_Imp*)CoreObject2DToImp(obj);
 
+			imp->Culling(cullingObjects);
+			imp->Draw(m_renderer);
 		}
 	}
 

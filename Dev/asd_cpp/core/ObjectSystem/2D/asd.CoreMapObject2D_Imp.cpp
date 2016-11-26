@@ -93,6 +93,7 @@ namespace asd
 #endif
 
 		}
+
 		return pair.second;
 	}
 
@@ -126,6 +127,7 @@ namespace asd
 			}
 #endif
 		}
+
 		return removed;
 	}
 
@@ -230,9 +232,27 @@ namespace asd
 			chip->GetTextureFilterType());
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
+	void CoreMapObject2D_Imp::Culling(const std::vector<culling2d::Object*>& culledObjects)
+	{
+		renderedChips.clear();
+
+		for (auto& culledObj : culledObjects)
+		{
+			auto userData = (Culling2DUserData*)(culledObj->GetUserData());
+
+			if (userData->Object->GetObjectType() == Object2DType::Map)
+			{
+				auto chip = userData->Chip;
+				renderedChips.push_back(chip);
+			}
+		}
+
+		std::sort(
+			renderedChips.begin(), 
+			renderedChips.end(), 
+			[](CoreChip2D* a, CoreChip2D* b) { return b->GetDrawingPriority() < a->GetDrawingPriority(); });
+	}
+
 	void CoreMapObject2D_Imp::Draw(Renderer2D* renderer)
 	{
 		if (!m_objectInfo.GetIsDrawn())
@@ -243,16 +263,15 @@ namespace asd
 		auto parentMatrix = GetParentsMatrix();
 		auto matrix = GetMatrixToTransform();
 
-		for (auto chip : m_chips)
+		for (auto chip : renderedChips)
 		{
-			DrawChipInternal(chip, matrix, parentMatrix, renderer);
+			auto c = (CoreChip2D_Imp*)chip;
+
+			DrawChipInternal(c, matrix, parentMatrix, renderer);
 		}
 
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	void CoreMapObject2D_Imp::DrawChip(Renderer2D* renderer, CoreChip2D* chip)
 	{
 		if (!m_objectInfo.GetIsDrawn())
@@ -264,8 +283,7 @@ namespace asd
 
 		auto texture = chip_Imp->GetTexture();
 
-		if (m_chips.find(chip_Imp) == m_chips.end() || texture == nullptr) return;
-
+		assert(m_chips.find(chip_Imp) != m_chips.end());
 
 		auto parentMatrix = GetParentsMatrix();
 		auto matrix = GetMatrixToTransform();

@@ -19,6 +19,8 @@ namespace asd
 		int m_drawingPtiority;
 		uint32_t firstSortedKey;
 
+		std::vector<CoreChip2D*> renderedChips;
+
 		void DrawChipInternal(CoreChip2D_Imp* chip, Matrix33& matrix, Matrix33& parentMatrix, Renderer2D* renderer);
 	public:
 		CoreMapObject2D_Imp(Graphics_Imp* graphics);
@@ -50,7 +52,9 @@ namespace asd
 		uint32_t GetFirstSortedKey();
 		void SetFirstSortedKey(uint32_t sortedKey);
 #endif
-		void Draw(Renderer2D* renderer);
+		void Culling(const std::vector<culling2d::Object*>& culledObjects);
+
+		void Draw(Renderer2D* renderer) override;
 
 		void DrawChip(Renderer2D* renderer, CoreChip2D* chip);
 
