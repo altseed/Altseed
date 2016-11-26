@@ -104,7 +104,7 @@ C#版Altseedをコンパイルするための準備の手順は以下のとお�
 1. `Dev/generateCoreToEngineHeader.py`
 2. `Dev/generateEngineHeader.py`
 3. `Dev/generate_swig.py`
-4. `Script/export_cpp_xml.py`
+4. `Script/export_doxygen_core.py`
 5. `Script/generateSwigWrapper.py`
 
 ### スクリプトの説明
@@ -114,7 +114,7 @@ C#版Altseedをコンパイルするための準備の手順は以下のとお�
 |`Dev/generateCoreToEngineHeader.py`|Core側コードを元にC++ Engine側コードを生成します。|
 |`Dev/generateEngineHeader.py`|C++ Engineのユーザーがincludeするヘッダファイルを生成します。|
 |`Dev/generate_swig.py`|Core側とC# Engine側を繋ぐC#コードを生成します。|
-|`Script/export_cpp_xml.py`|Core側のコードのdoxygenドキュメントを生成します。 `generateSwigWrapper.py`を実行する前に実行する必要があります。|
+|`Script/export_doxygen_core.py`|Core側のコードのdoxygenドキュメントを生成します。 `generateSwigWrapper.py`を実行する前に実行する必要があります。|
 |`Script/generateSwigWrapper.py`|swigで生成されたラッパーをC# Engine側のためにラップするコードを生成します。|
 
 ## 4. コンパイル
