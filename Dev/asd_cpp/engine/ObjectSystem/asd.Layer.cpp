@@ -67,6 +67,8 @@ namespace asd
 		{
 			for (auto& p : m_postEffects)
 			{
+				if (!p->GetIsEnabled()) continue;
+
 				GetScene()->m_coreScene->BeginPostEffect(p->GetCoreObject());
 
 				GetScene()->m_coreScene->GetSrcTarget()->AddRef();

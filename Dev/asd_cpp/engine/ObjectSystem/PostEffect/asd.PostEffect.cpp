@@ -26,4 +26,14 @@ namespace asd
 			target.get(),
 			material.get());
 	}
+
+	bool PostEffect::GetIsEnabled() const
+	{
+		return isEnabled;
+	}
+
+	void PostEffect::SetIsEnabled(bool value)
+	{
+		isEnabled = value;
+	}
 }

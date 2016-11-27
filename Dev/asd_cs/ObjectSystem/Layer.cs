@@ -196,6 +196,8 @@ namespace asd
 			{
 				foreach(var p in postEffects)
 				{
+					if (!p.IsEnabled) continue;
+
 					Scene.CoreInstance.BeginPostEffect(p.CoreInstance);
 
 					var src_ = Scene.CoreInstance.GetSrcTarget();

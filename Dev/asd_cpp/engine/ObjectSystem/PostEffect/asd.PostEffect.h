@@ -27,6 +27,8 @@ namespace asd
 
 		CorePostEffect* GetCoreObject() const;
 
+		bool	isEnabled = true;
+
 	protected:
 		/**
 		@brief	オーバーライドして、毎フレーム描画される処理を記述できる。
@@ -43,5 +45,17 @@ namespace asd
 	public:
 		PostEffect();
 		virtual ~PostEffect();
+
+		/**
+			@brief	このポストエフェクトが有効かどうか、取得する。
+			@return	有効かどうか
+		*/
+		bool GetIsEnabled() const;
+
+		/**
+		@brief	このポストエフェクトが有効かどうか、設定する。
+		@param	value	有効かどうか
+		*/
+		void SetIsEnabled(bool value);
 	};
 }

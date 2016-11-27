@@ -26,6 +26,8 @@ namespace asd
             }
 
             GC.PostEffects.AddObject(p, this);
+
+			IsEnabled = true;
         }
 
         #region IDisposable Support
@@ -129,5 +131,10 @@ namespace asd
 
             coreInstance.DrawOnTexture2DWithMaterial(IG.GetRenderTexture2D(target), IG.GetMaterial2D(material));
         }
+
+		/// <summary>
+		/// このポストエフェクトが有効かどうか、取得、設定する。
+		/// </summary>
+		public bool IsEnabled { get; set; }
     }
 }
