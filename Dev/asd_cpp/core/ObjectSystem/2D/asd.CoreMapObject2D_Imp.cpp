@@ -250,7 +250,7 @@ namespace asd
 		std::sort(
 			renderedChips.begin(), 
 			renderedChips.end(), 
-			[](CoreChip2D* a, CoreChip2D* b) { return b->GetDrawingPriority() < a->GetDrawingPriority(); });
+			[](CoreChip2D* a, CoreChip2D* b) { return b->GetDrawingPriority() > a->GetDrawingPriority(); });
 	}
 
 	void CoreMapObject2D_Imp::Draw(Renderer2D* renderer)
@@ -270,25 +270,6 @@ namespace asd
 			DrawChipInternal(c, matrix, parentMatrix, renderer);
 		}
 
-	}
-
-	void CoreMapObject2D_Imp::DrawChip(Renderer2D* renderer, CoreChip2D* chip)
-	{
-		if (!m_objectInfo.GetIsDrawn())
-		{
-			return;
-		}
-
-		auto chip_Imp = (CoreChip2D_Imp*)chip;
-
-		auto texture = chip_Imp->GetTexture();
-
-		assert(m_chips.find(chip_Imp) != m_chips.end());
-
-		auto parentMatrix = GetParentsMatrix();
-		auto matrix = GetMatrixToTransform();
-
-		DrawChipInternal(chip_Imp, matrix, parentMatrix, renderer);
 	}
 
 	//----------------------------------------------------------------------------------

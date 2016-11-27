@@ -56,8 +56,6 @@ namespace asd
 
 		void Draw(Renderer2D* renderer) override;
 
-		void DrawChip(Renderer2D* renderer, CoreChip2D* chip);
-
 		culling2d::Circle GetChipBoundingCircle(CoreChip2D* chip);
 		/*
 		CORE_OBJECT2D_IMP_COMMON
