@@ -22,6 +22,13 @@ namespace asd
 			return degree * Reverse180 * (float)Math.PI;
 		}
 
+		public static float Clamp(float v, float max, float min)
+		{
+			if (v > max) v = max;
+			if (v < min) v = min;
+			return v;
+		}
+
 		public static T Clamp<T>(T v, T max, T min) where T : System.IComparable<T>
 		{
 			if (asd.Particular.Helper.CompareTo(v, max) > 0)
