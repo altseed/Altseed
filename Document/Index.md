@@ -3,13 +3,16 @@
 ### はじめに
 「Altseed」は筑波大学のサークル「AmusementCreators」のメンバーが中心となって開発されているゲームエンジンです。
 
-特徴としてC++、C#の2つのプログラミング言語で開発できる、という点があります。現在はWindows、Mac上でC++、C#の2種類しか動作しませんが
-対応OS、対応言語共に増えていく予定です。
+特徴としてC++、C#、Javaの3つのプログラミング言語で開発できる、という点があります。
+現在はWindows、Mac上でC++、C#、Javaの3種類しか動作します。
+今後、対応OS、対応言語共に増えていく予定です。
 
 2Dゲームを開発するために必要な機能はひと通り用意されており、開発中ですが3Dゲームを開発するための機能も用意はされています。
 
 * [導入方法(C++版、Windows)](./HowToIntroduce/Windows_CPP.md)
 * [導入方法(C#版、Windows)](./HowToIntroduce/Windows_CS.md)
+* [導入方法(Java版、Windows)](./HowToIntroduce/Windows_JAVA.md)
+
 * Linuxの場合、自分でソースコードからコンパイルする必要があります。
 
 * [リファレンス](./Reference/Main.md)
