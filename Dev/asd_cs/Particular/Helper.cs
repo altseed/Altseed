@@ -177,5 +177,10 @@ namespace asd.Particular
 		{
 			return Encoding.UTF8.GetString(buffer.ToArray());
 		}
+
+		public static byte ConvertColor(int c)
+		{
+			return (byte)c;
+		}
 	}
 }

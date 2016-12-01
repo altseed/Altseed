@@ -184,4 +184,9 @@ public class Helper
 
 			return new String(buf, java.nio.charset.StandardCharsets.UTF_8);
 		}
+
+		public static short ConvertColor(int c)
+		{
+			return (short)c;
+		}
 }

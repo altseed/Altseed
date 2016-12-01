@@ -59,8 +59,8 @@ namespace asd
 				cn = 1.0f;
 			}
 
-			byte cp_ = (byte)MathHelper.Clamp(cp * 255, 255.0f, 0.0f);
-			byte cn_ = (byte)MathHelper.Clamp(cn * 255, 255.0f, 0.0f);
+			int cp_ = (int)MathHelper.Clamp(cp * 255, 255.0f, 0.0f);
+			int cn_ = (int)MathHelper.Clamp(cn * 255, 255.0f, 0.0f);
 		
 			DrawRectangleWithPreviousScene(
 				new Vector2DF(0.0f, 0.0f),

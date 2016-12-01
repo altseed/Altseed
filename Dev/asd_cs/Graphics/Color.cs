@@ -22,8 +22,16 @@ namespace asd
 			A = a;
 		}
 
+		public Color(int r, int g, int b, int a)
+		{
+			R = Particular.Helper.ConvertColor(r);
+			G = Particular.Helper.ConvertColor(g);
+			B = Particular.Helper.ConvertColor(b);
+			A = Particular.Helper.ConvertColor(a);
+		}
+
 		public Color(byte r, byte g, byte b)
-			: this(r, g, b, 255)
+			: this(r, g, b, (byte)255)
 		{
 		}
 
