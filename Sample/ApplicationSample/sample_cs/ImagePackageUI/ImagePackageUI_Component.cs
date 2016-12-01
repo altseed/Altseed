@@ -5,7 +5,7 @@ class ImagePackageUI_Component_AlphaAnimationComponent : asd.Object2DComponent
 	protected override void OnUpdate()
 	{
 		// アルファ値をsinカーブでアニメーションするようにする。
-		var alpha = (byte)((float)(System.Math.Sin(time / 20.0f) + 1.0f) / 2.0f * 255);
+		var alpha = (int)((float)(System.Math.Sin(time / 20.0f) + 1.0f) / 2.0f * 255);
 		var owner = (asd.TextureObject2D)Owner;
 		owner.Color = new asd.Color(255, 255, 255, alpha);
 		time++;
