@@ -5,7 +5,7 @@ import makeDocumentHtml
 import os
 import os.path
 
-versionNumber = '100'
+versionNumber = '110'
 
 def getTargetDir(type):
 	common = 'Altseed_' + type.upper() + '_' + versionNumber
@@ -325,14 +325,41 @@ def release_java():
 	init(type, targetDir)
 
 	# GenerateHeader	
-	aceutils.call(r'python Dev/generate_swig.py')
-	aceutils.call(r'python Script/generateTranslatedCode.py')
+	aceutils.call(r'python Dev/generate_swig.py java')
+	aceutils.call(r'python Script/generateTranslatedCode.py java')
 		
 	compile(type)
 
 	aceutils.mkdir(targetDir+r'/')
 
+	copyTool(type, targetDir)
+
 	makeDocument(type, targetDir,'java')
+
+	# Sample
+	aceutils.mkdir(targetDir+r'/Sample/')
+
+	def copySampleFiles(from_,to_):
+		sampleDir = to_
+		sampleBinDir = sampleDir+r'bin/'
+
+		aceutils.mkdir(sampleDir)
+		aceutils.mkdir(sampleBinDir)
+	
+		aceutils.copytreeWithExt(from_ + r'bin/',sampleBinDir,[ r'.wav', r'.ogg', r'.png', r'.aip', r'.efk', r'.aff', r'.pack', r'.txt'])
+
+		if aceutils.isWin():
+			aceutils.copy(r'Dev/bin/Altseed_core.dll', sampleBinDir)
+		elif aceutils.isMac():
+			aceutils.copy(r'Dev/bin/libAltseed_core.dylib', sampleBinDir)
+
+		aceutils.mkdir(sampleDir+r'sample_java/')
+		aceutils.copytreeWithExt(from_ + r'sample_java/',sampleDir+r'sample_java/',[ r'.java', r'.xml'])
+
+		aceutils.copy(r'Dev/bin/Altseed.jar', sampleBinDir)
+
+	copySampleFiles(r'Sample/BasicSample/',targetDir+r'/Sample/BasicSample/')
+	copySampleFiles(r'Sample/ApplicationSample/',targetDir+r'/Sample/ApplicationSample/')
 
 	# Runtime
 	runtimeDir = targetDir+r'/Runtime/'
@@ -344,6 +371,11 @@ def release_java():
 	elif aceutils.isMac():
 		aceutils.copy(r'Dev/bin/libAltseed_core.dylib', runtimeDir)
 	aceutils.copy(r'Dev/bin/Altseed.jar', runtimeDir)
+
+	# Readme
+	aceutils.copy(r'readme_java.txt', targetDir+r'/readme.txt')
+
+	# Template
 
 release_common()
 release_cpp()
