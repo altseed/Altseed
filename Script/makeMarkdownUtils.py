@@ -87,14 +87,14 @@ def include_sample(ls,relCodePath,pattern,sampleDir,ssDir,sampleDirPrefix,mode='
 
                 for targetPath in targetPaths:
                     print('include : ' + targetPath)
-				    				    
+
                     # コードの編集
                     with open(targetPath, mode='r', encoding='utf-8-sig') as f:
                         for fl in f.readlines():
                             if ext=='.cpp':
                                 fl = fl.replace(r'void ' + sampleName + '()',r'int main()')
                                 fl = fl.replace(r'return;',r'return 0;')
-				    
+
                             if ext=='.cs':
                                 fl = fl.replace(r'public void Run()','[System.STAThread]\r\n\tstatic void Main(string[] args)')
                                 fl = fl.replace(r' : ISample','')
@@ -102,15 +102,15 @@ def include_sample(ls,relCodePath,pattern,sampleDir,ssDir,sampleDirPrefix,mode='
                                     continue
                                 if 'Recorder.CaptureScreen' in fl:
                                     continue
-				    
+
                             if ext=='.java':
-                                fl = fl.replace(r'public    void Run(){','public static void main(String args[]){')
+                                fl = fl.replace(r'public void Run()','public static void main(String args[])')
                                 fl = fl.replace(r'implements ISample','')
                                 if 'Recorder.TakeScreenShot' in fl:
                                     continue
                                 if 'Recorder.CaptureScreen' in fl:
                                     continue
-				    
+
                             ls_included.append(fl)
                     
                 ls_included.append('\n```\n')
