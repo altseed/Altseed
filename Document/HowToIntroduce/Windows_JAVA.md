@@ -66,13 +66,13 @@ Windowsでは:
 
 ```java -classpath ./;Altseed.jar Main```
 
-Macでは:
+黒いウインドウが表示されれば成功です。
+
+Macでは、GUIを適切に動作させるため、実行時に `-XstartOnFirstThread` オプションが必要です:
 
 ```javac Main.java -classpath ./Altseed.jar```
 
 ```java -classpath ./;Altseed.jar -XstartOnFirstThread Main```
-
-黒いウインドウが表示されれば成功です。
 
 ### Eclipseを使用する場合
 
