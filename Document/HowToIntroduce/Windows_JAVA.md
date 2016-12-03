@@ -1,9 +1,9 @@
 ﻿
-## Java版の導入(Windows)
+## Java版の導入
 
 Java版の導入方法について説明しています。
 
-Java版はWindows(64bit)でないと動作しません。ご注意ください。
+Windowsでは、Java版はWindows(64bit)でないと動作しません。ご注意ください。
 
 ### Altseedのダウンロード
 
@@ -19,7 +19,7 @@ Java版はWindows(64bit)でないと動作しません。ご注意ください�
 
 [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)をインストールします。
 
-環境変数を以下のように設定します。
+Windowsでは、環境変数を以下のように設定します。
 
 | 環境変数名 | 値 |
 |:-----------|------------:|
@@ -60,9 +60,17 @@ class Main
 
 コマンドラインから以下のように打ち込みます。
 
+Windowsでは:
+
 ```javac Main.java -classpath ./Altseed.jar```
 
 ```java -classpath ./;Altseed.jar Main```
+
+Macでは:
+
+```javac Main.java -classpath ./Altseed.jar```
+
+```java -classpath ./;Altseed.jar -XstartOnFirstThread Main```
 
 黒いウインドウが表示されれば成功です。
 
