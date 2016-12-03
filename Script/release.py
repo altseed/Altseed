@@ -362,8 +362,35 @@ def release_java():
 
 		aceutils.copy(r'Dev/bin/Altseed.jar', sampleBinDir)
 
+	def editFiles(targetDir):
+		files = []
+		for f in aceutils.get_files(targetDir):
+			basename = os.path.basename(f)
+			ext = os.path.splitext(basename)[1]
+
+			if r'Sample' in basename or 'Program' in basename:
+				aceutils.rm(f)
+				continue
+			
+			if ext == '.java':
+				files.append(f)
+
+		for file in files:
+			ls = []
+			with open(file, mode='r', encoding='utf-8-sig') as f:
+				for l in f.readlines():
+					l = l.replace(r'public void Run()','public static void main(String args[])')
+					l = l.replace(r'implements ISample','')
+					ls.append(l)
+	
+			with open(file, mode='w', encoding='utf-8-sig') as f:
+				f.writelines(ls)
+
 	copySampleFiles(r'Sample/BasicSample/',targetDir+r'/Sample/BasicSample/')
 	copySampleFiles(r'Sample/ApplicationSample/',targetDir+r'/Sample/ApplicationSample/')
+
+	editFiles(targetDir+r'/Sample/BasicSample/')
+	editFiles(targetDir+r'/Sample/ApplicationSample/')
 
 	# Runtime
 	runtimeDir = targetDir+r'/Runtime/'
