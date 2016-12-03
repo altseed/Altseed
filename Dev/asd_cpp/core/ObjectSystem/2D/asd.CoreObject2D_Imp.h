@@ -31,6 +31,8 @@ namespace asd
 		bool alreadyCullingUpdated;
 		std::set<CoreObject2D*> children;
 
+		int32_t			indexInLayer = 0;
+
 		void SetCullingUpdate(CoreObject2D_Imp* obj);
 
 	public:
@@ -96,6 +98,11 @@ namespace asd
 			}
 			m_objectInfo.SetIsAlive(value);
 		}
+
+		// レイヤー処理系
+		int32_t GetIndexInLayer() { return indexInLayer; }
+
+		void SetIndexInLayer(int32_t value) { indexInLayer = value; }
 
 		// オブジェクトシステム系
 		void SetLayer(CoreLayer2D* layer)

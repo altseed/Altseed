@@ -226,6 +226,8 @@ namespace asd
 
 		{
 			auto o = CoreObject2DToImp(object);
+			o->SetIndexInLayer(indexInLayer);
+			indexInLayer++;
 
 #if __CULLING_2D__
 			if (object->GetObjectType() == Object2DType::Map)
@@ -408,7 +410,8 @@ namespace asd
 #if __CULLING_2D__
 	void CoreLayer2D_Imp::DrawObjectsWithCulling(int32_t group, RectF drawRange)
 	{
-
+		std::map<int32_t, CoreObject2D*> renderedObjects;
+		
 		auto cullingSrc = culling2d::RectF(drawRange.X, drawRange.Y, drawRange.Width, drawRange.Height);
 		auto cullingObjects = world->GetCullingObjects(cullingSrc);
 
@@ -420,27 +423,26 @@ namespace asd
 			if ((userData->Object->GetCameraGroup() & group) == 0) continue;
 
 			auto obj_Imp = CoreObject2DToImp(userData->Object);
+			renderedObjects[obj_Imp->GetIndexInLayer()] = userData->Object;
+		}
 
-			if (userData->Object->GetObjectType() == Object2DType::Map)
+		for (auto& o : renderedObjects)
+		{
+			auto obj_Imp = CoreObject2DToImp(o.second);
+
+			if (o.second->GetObjectType() == Object2DType::Map)
 			{
+				auto imp = (CoreMapObject2D_Imp*)obj_Imp;
+				imp->Culling(cullingObjects);
+				imp->Draw(m_renderer);
 			}
-			else if (userData->Object->GetObjectType() == Object2DType::Effect)
+			else if (o.second->GetObjectType() == Object2DType::Effect)
 			{
 			}
 			else
 			{
-				auto obj = userData->Object;
-				obj->Draw(m_renderer);
+				o.second->Draw(m_renderer);
 			}
-		}
-
-		for (auto& obj : m_objects)
-		{
-			if (obj->GetObjectType() != Object2DType::Map) continue;
-			auto imp = (CoreMapObject2D_Imp*)CoreObject2DToImp(obj);
-
-			imp->Culling(cullingObjects);
-			imp->Draw(m_renderer);
 		}
 	}
 

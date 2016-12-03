@@ -240,6 +240,8 @@ namespace asd
 		{
 			auto userData = (Culling2DUserData*)(culledObj->GetUserData());
 
+			if (userData->Object != this) continue;
+
 			if (userData->Object->GetObjectType() == Object2DType::Map)
 			{
 				auto chip = userData->Chip;

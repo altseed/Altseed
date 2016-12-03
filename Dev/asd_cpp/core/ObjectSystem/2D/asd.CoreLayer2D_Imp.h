@@ -58,6 +58,8 @@ namespace asd
 		Renderer2D_Imp*		m_rendererForCamera;
 		Core*				core = nullptr;
 
+		int32_t				indexInLayer = 0;
+
 		CoreLayer2D_Imp(Core* core, Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~CoreLayer2D_Imp();
 
