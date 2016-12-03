@@ -6,7 +6,7 @@ class Program
 		ISample[] samples =
 			{
 				new Basic_Empty(),
-				new Basic_FullScreen(), 
+				//new Basic_FullScreen(), 
 
                 new TextureObject2D_Basic(),
                 new TextureObject2D_Transform(),

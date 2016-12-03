@@ -105,7 +105,7 @@ int main(int argc, char** argv)
 	std::vector<SampleInfo> samples =
 	{
 		INFO(Basic_Empty, "Altseedの基本", "空のウィンドウを表示するサンプル。"),
-		INFO(Basic_FullScreen, "フルスクリーンモード", "アプリケーションをフルスクリーンで起動するサンプル。"),
+		//INFO(Basic_FullScreen, "フルスクリーンモード", "アプリケーションをフルスクリーンで起動するサンプル。"),
 
 		INFO(TextureObject2D_Basic, "画像の表示", "画像を表示する基本的なサンプルです。"),
 		INFO(TextureObject2D_Turn, "画像の上下反転", "画像の上下を反転して描画するサンプルです。"),
