@@ -328,6 +328,9 @@ def release_java():
 	aceutils.call(r'python Dev/generate_swig.py java')
 	aceutils.call(r'python Script/generateTranslatedCode.py java')
 		
+	# Sample
+	aceutils.call(r'python Script/generate_sample.py java')
+
 	compile(type)
 
 	aceutils.mkdir(targetDir+r'/')
@@ -340,13 +343,14 @@ def release_java():
 	aceutils.mkdir(targetDir+r'/Sample/')
 
 	def copySampleFiles(from_,to_):
+
 		sampleDir = to_
 		sampleBinDir = sampleDir+r'bin/'
 
 		aceutils.mkdir(sampleDir)
 		aceutils.mkdir(sampleBinDir)
 	
-		aceutils.copytreeWithExt(from_ + r'bin/',sampleBinDir,[ r'.wav', r'.ogg', r'.png', r'.aip', r'.efk', r'.aff', r'.pack', r'.txt'])
+		aceutils.copytreeWithExt(from_ + r'bin/',sampleBinDir,[ r'.jar', r'.wav', r'.ogg', r'.png', r'.aip', r'.efk', r'.aff', r'.pack', r'.txt'])
 
 		if aceutils.isWin():
 			aceutils.copy(r'Dev/bin/Altseed_core.dll', sampleBinDir)
