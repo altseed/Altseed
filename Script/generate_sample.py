@@ -20,6 +20,29 @@ compile.compile(type)
 aceutils.cdToScript()
 aceutils.cd(r'../')
 
+def editFiles(targetDir):
+	files = []
+	for f in aceutils.get_files(targetDir):
+		basename = os.path.basename(f)
+		ext = os.path.splitext(basename)[1]
+		if ext == '.cs' or ext == '.java':
+			files.append(f)
+
+	for file in files:
+		ls = []
+		with open(file, mode='r', encoding='utf-8-sig') as f:
+			for l in f.readlines():
+				if 'TakeScreenShot' in l:
+					continue
+				if 'CaptureScreen' in l:
+					continue
+
+				else:
+					ls.append(l)
+
+		with open(file, mode='w',  encoding='utf-8') as f:
+			f.writelines(ls)
+
 def copyDev(targetDir):
 	aceutils.mkdir(targetDir+r'/')
 
@@ -70,13 +93,14 @@ def copyDev(targetDir):
 		else:
 			aceutils.call('mono ./Script/CSharpTranslator/LanguageTranslator.exe '+sampleDir+r'sample_cs/ '+sampleDir+r'sample_java/ java '+sampleDir+r'bin/Altseed.dll')
 
+		editFiles(sampleDir+r'sample_java/')
+
 		if aceutils.isWin():
 			aceutils.copy(r'Dev/bin/Altseed_core.dll', sampleDir+r'bin/')
 		elif aceutils.isMac():
 			aceutils.copy(r'Dev/bin/libAltseed_core.dylib', sampleDir+r'bin/')
 		else:
 			aceutils.copy(r'Dev/bin/libAltseed_core.so', sampleDir+r'bin/')
-
 
 copyDev(r'Sample/BasicSample')
 copyDev(r'Sample/ApplicationSample')
