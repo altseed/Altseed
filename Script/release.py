@@ -331,6 +331,15 @@ def release_java():
 	# Sample
 	aceutils.call(r'python Script/generate_sample.py java')
 
+	aceutils.cd(r'Sample/BasicSample/sample_java/')
+	aceutils.call(r'ant')
+	aceutils.cd(r'../../../')
+
+	aceutils.cd(r'Sample/ApplicationSample/sample_java/')
+	aceutils.call(r'ant')
+	aceutils.cd(r'../../../')
+
+
 	compile(type)
 
 	aceutils.mkdir(targetDir+r'/')
@@ -367,13 +376,12 @@ def release_java():
 		for f in aceutils.get_files(targetDir):
 			basename = os.path.basename(f)
 			ext = os.path.splitext(basename)[1]
-
-			if r'Sample' in basename or 'Program' in basename:
-				aceutils.rm(f)
-				continue
 			
 			if ext == '.java':
-				files.append(f)
+				if r'Sample' in basename or 'Program' in basename:
+					aceutils.rm(f)
+				else:
+					files.append(f)
 
 		for file in files:
 			ls = []

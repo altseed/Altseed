@@ -25,8 +25,11 @@ def editFiles(targetDir):
 	for f in aceutils.get_files(targetDir):
 		basename = os.path.basename(f)
 		ext = os.path.splitext(basename)[1]
-		if ext == '.cs' or ext == '.java':
-			files.append(f)
+		if ext == '.java':
+			if 'Recorder' in basename:
+				aceutils.rm(f)
+			else:
+				files.append(f)
 
 	for file in files:
 		ls = []
@@ -42,6 +45,7 @@ def editFiles(targetDir):
 
 		with open(file, mode='w',  encoding='utf-8') as f:
 			f.writelines(ls)
+
 
 def copyDev(targetDir):
 	aceutils.mkdir(targetDir+r'/')
