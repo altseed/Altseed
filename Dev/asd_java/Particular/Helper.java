@@ -139,7 +139,7 @@ public class Helper
 			
 			for(int i = 0; i < dst.length; i++)
 			{
-				dst[i] = (byte)(buf.get(i) - 128);
+				dst[i] = (byte)buf.get(i);
 			}
 
 			return dst;
@@ -147,13 +147,14 @@ public class Helper
 
 		public static byte[] CreateArrayFromStaticFile(asd.swig.StaticFile CoreInstance)
 		{
-			return null;
-			/*
-			System.IntPtr raw = CoreInstance.GetData();
-			byte[] bytes = new byte[CoreInstance.GetSize()];
-			System.Runtime.InteropServices.Marshal.Copy(raw, bytes, 0, CoreInstance.GetSize());
+			asd.swig.VectorUint8 buffer = CoreInstance.GetBuffer();
+			if (buffer == null)
+			{
+				return null;
+			}
+			byte[] bytes = CreateArrayFromVectorUint8(buffer);
+			DisposeVectorUint8(buffer);
 			return bytes;
-			*/
 		}
 
 		public static void CopyStreamFileToList(asd.swig.StreamFile CoreInstance, java.util.ArrayList<java.lang.Byte> buffer, int size)
