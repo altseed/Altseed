@@ -185,7 +185,8 @@ def release_cpp():
 		elif aceutils.isMac():
 			aceutils.copy(r'Dev/lib/libAltseed.a', sampleDir+r'cpp/lib/')
 
-		aceutils.copy(r'Sample/BasicSample/sample_cpp.sln', sampleDir)
+		aceutils.copy(from_+r'sample_cpp.sln',to_)
+
 		aceutils.mkdir(sampleDir+r'sample_cpp/')
 		aceutils.copytreeWithExt(from_ + r'sample_cpp/',sampleDir+r'sample_cpp/',[ r'.h', r'.cpp', r'.filters', r'.config', r'.vcxproj', r'.cs', r'.csproj', r'.sln', r'.wav', r'.ogg', r'.png', r'.aip', r'.efk', r'.aff', r'.pack', r'.txt'])
 
@@ -281,6 +282,8 @@ def release_cs():
 		aceutils.copytreeWithExt(from_ + r'sample_cs/',sampleDir+r'sample_cs/',[ r'.h', r'.cpp', r'.filters', r'.config', r'.vcxproj', r'.cs', r'.csproj', r'.sln', r'.wav', r'.ogg', r'.png', r'.aip', r'.efk', r'.aff', r'.pack', r'.txt'])
 
 		editCSFiles(sampleDir+r'sample_cs/')
+		
+		aceutils.copy(from_+r'sample_cs.sln',to_)
 
 		aceutils.copy(r'Dev/bin/Altseed.dll', sampleDir+r'sample_cs/')
 		aceutils.copy(r'Dev/bin/Altseed.XML', sampleDir+r'sample_cs/')
