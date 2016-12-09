@@ -1,22 +1,17 @@
 ﻿Altseed
 =========================
 
-Altseed(元AC-Engine)はC++、C#対応ゲームエンジンです。
+AltseedはC++、C#、Java対応ゲームエンジンです。
 
-**JVM版を公開しました。(2016/06/11)**
+[![Slack Status](https://altseed.herokuapp.com/badge.svg)](https://altseed.herokuapp.com/)
 
-JavaやScalaで使用できるAltseedです。
-現在、ベータ版です。
+**最新版 2016/12/03**
 
-ドキュメントはありませんが、JavaとScalaのサンプルコードが付属しています。
-
-[JVM版(ベータ版)](https://github.com/altseed/Altseed/releases/tag/Altseed_JVM)
-
-
-**最新版 2016/04/12**
 * [ウェブサイト](http://altseed.github.io/)
 * [導入方法(C++版、Windows)](Document/HowToIntroduce/Windows_CPP.md)
 * [導入方法(C#版、Windows)](Document/HowToIntroduce/Windows_CS.md)
+* [導入方法(Java版、Windows)](Document/HowToIntroduce/Windows_JAVA.md)
+
 * Linuxの場合、自分でソースコードからコンパイルする必要があります。
 
 [ユーザーマニュアル](Document/Index.md)
@@ -59,7 +54,7 @@ githubにバグや要望を報告する
 
 #### 公式チャット
 
-Slackを使用しています。公式サイトからどうぞ。
+Slackを使用しています。
 
 #### メーリングリスト
 
