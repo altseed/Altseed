@@ -196,5 +196,18 @@ namespace asd
 		LayerType GetLayerType() const override { return LayerType::Layer2D; }
 
 		int GetObjectCount() const;
+
+		/**
+			@brief	エフェクトの歪みが有効かどうか、取得する。
+			@return	有効/無効
+		*/
+		bool GetIsDistortionEnabled() const;
+
+		/**
+			@brief	エフェクトの歪みが有効かどうか、設定する。
+			@param	value	有効/無効
+		*/
+		void SetIsDistortionEnabled(bool value);
+
 	};
 }

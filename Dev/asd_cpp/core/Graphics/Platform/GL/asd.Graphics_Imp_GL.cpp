@@ -181,6 +181,12 @@ namespace asd {
 
 		void DistortingCallbackGL::OnDistorting()
 		{
+			if (!IsEnabled)
+			{
+				renderer->SetBackground(0);
+				return;
+			}
+
 			GLint viewport[4];
 			glGetIntegerv(GL_VIEWPORT, viewport);
 			uint32_t width = viewport[2];

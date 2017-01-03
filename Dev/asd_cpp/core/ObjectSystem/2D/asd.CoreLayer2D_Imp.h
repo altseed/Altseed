@@ -60,6 +60,8 @@ namespace asd
 
 		int32_t				indexInLayer = 0;
 
+		bool				isDistortionEnabled = true;
+
 		CoreLayer2D_Imp(Core* core, Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~CoreLayer2D_Imp();
 
@@ -106,6 +108,9 @@ namespace asd
 		void BeginDrawing();
 		void Draw();
 		void EndDrawing();
+
+		bool GetIsDistortionEnabled() const override;
+		void SetIsDistortionEnabled(bool value) override;
 
 		// 共通部分
 		virtual int GetDrawingPriority() const { return CoreLayer_Imp::GetDrawingPriority(); }

@@ -180,6 +180,8 @@ namespace asd {
 	class EffectDistortingCallback 
 		: public ::EffekseerRenderer::DistortingCallback
 	{
+	public:
+		bool	IsEnabled = false;
 	};
 
 	struct GraphicsOption

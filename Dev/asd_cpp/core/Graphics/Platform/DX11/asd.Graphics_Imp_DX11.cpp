@@ -392,6 +392,12 @@ namespace asd {
 
 		void DistortingCallbackDX11::OnDistorting()
 		{
+			if (!IsEnabled)
+			{
+				renderer->SetBackground(nullptr);
+				return;
+			}
+
 			HRESULT hr = S_OK;
 
 			ID3D11RenderTargetView* renderTargetView = nullptr;

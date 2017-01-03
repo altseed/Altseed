@@ -253,4 +253,14 @@ namespace asd
 	{
 		return m_objects->GetContents().size();
 	}
+
+	bool Layer2D::GetIsDistortionEnabled() const
+	{
+		return m_coreLayer->GetIsDistortionEnabled();
+	}
+
+	void Layer2D::SetIsDistortionEnabled(bool value)
+	{
+		m_coreLayer->SetIsDistortionEnabled(value);
+	}
 }

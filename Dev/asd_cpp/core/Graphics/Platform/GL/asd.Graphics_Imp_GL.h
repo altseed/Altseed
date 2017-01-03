@@ -31,7 +31,7 @@ namespace asd {
 	};
 
 	class DistortingCallbackGL
-		: public EffekseerRenderer::DistortingCallback
+		: public EffectDistortingCallback
 	{
 		GLuint framebufferForCopy = 0;
 		GLuint backGroundTexture = 0;

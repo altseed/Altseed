@@ -152,6 +152,7 @@ namespace asd {
 					g->GetContext());
 
 				m_effectRenderer->SetDistortingCallback(distortion);
+				
 #endif
 			}
 			else if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
@@ -205,6 +206,9 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	void Renderer2D_Imp::DrawCache()
 	{
+		auto distortion = (EffectDistortingCallback*)this->m_effectRenderer->GetDistortingCallback();
+		distortion->IsEnabled = IsDistortionEnabled;
+
 		auto ang = angle;
 
 		// エフェクト設定
