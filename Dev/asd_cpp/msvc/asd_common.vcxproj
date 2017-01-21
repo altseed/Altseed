@@ -164,6 +164,7 @@
     <ClInclude Include="..\common\utility\asd.PointerArray.h" />
     <ClInclude Include="..\common\utility\asd.Timer.h" />
     <ClInclude Include="..\common\utility\asd.TypeErasureCopy.h" />
+    <ClInclude Include="..\common\Utility\asd.ToU16String.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\common\asd.common.cpp" />

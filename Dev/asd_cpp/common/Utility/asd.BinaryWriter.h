@@ -151,7 +151,7 @@ public:
 	*/
 	void Push(astring const& content)
 	{
-		auto l = content.length();
+		int32_t l = content.length();
 
 		int8_t* pc = static_cast<int8_t*>(static_cast<void*>(&l));
 		for (int i = 0; i < 4; i++)
@@ -163,8 +163,9 @@ public:
 			//copy
 			achar a = content.at(i);
 			int8_t* pcs = static_cast<int8_t*>(static_cast<void*>(&a));
-			m_data.push_back(static_cast<int8_t>(pcs[0]));
-			m_data.push_back(static_cast<int8_t>(pcs[1]));
+			for (int j = 0; j < sizeof(achar) / sizeof(int8_t); j++) {
+				m_data.push_back(pcs[j]);
+			}
 		}
 
 	}
@@ -195,6 +196,21 @@ public:
 
 	}
 
+
+	//-----------------------------------------------------------------------------------
+	//
+	//-----------------------------------------------------------------------------------
+	/**
+	@brief	boolをシリアライズし、バイト列の末尾に追加する
+	@param	content	シリアライズする実数
+	*/
+	void Push(bool content) {
+		int8_t* pc = static_cast<int8_t*>(static_cast<void*>(&content));
+		for (int i = 0; i < sizeof(bool); i++)
+		{
+			m_data.push_back(pc[i]);
+		}
+	}
 
 	//-----------------------------------------------------------------------------------
 	//
