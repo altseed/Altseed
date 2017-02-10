@@ -334,6 +334,44 @@ namespace asd {
 	}
 
 	/// <summary>
+	/// イメージパッケージ内の要素の種類 
+	///	</summary>
+	public enum ImagePackageElementType : int
+	{
+		/// <summary>
+		/// 画像 
+		/// </summary>
+		Image = asd.swig.ImagePackageElementType.Image,
+		/// <summary>
+		/// ボタン 
+		/// </summary>
+		Button = asd.swig.ImagePackageElementType.Button,
+	}
+
+	/// <summary>
+	/// イメージパッケージ内の要素の種類(追加情報) 
+	///	</summary>
+	public enum ImagePackageAdditionalElementType : int
+	{
+		/// <summary>
+		/// なし 
+		/// </summary>
+		None = asd.swig.ImagePackageAdditionalElementType.None,
+		/// <summary>
+		/// ボタンの時、通常状態で表示される 
+		/// </summary>
+		Normal = asd.swig.ImagePackageAdditionalElementType.Normal,
+		/// <summary>
+		/// ボタンの時、押されている状態で表示される 
+		/// </summary>
+		Pressed = asd.swig.ImagePackageAdditionalElementType.Pressed,
+		/// <summary>
+		/// ボタンの時、マウスが重なっている状態で表示される 
+		/// </summary>
+		Hovered = asd.swig.ImagePackageAdditionalElementType.Hovered,
+	}
+
+	/// <summary>
 	/// 
 	///	</summary>
 	public enum Object2DType : int
@@ -1331,6 +1369,26 @@ namespace asd {
 		public asd.RectI GetImageArea(int index)
 		{
 			return CoreInstance.GetImageArea(index);
+		}
+
+		/// <summary>
+		/// 格納されている画像の種類を取得する。 
+		/// </summary>
+		/// <param name="index">インデックス </param>
+		/// <returns>画像の種類 </returns>
+		public ImagePackageElementType GetElementType(int index)
+		{
+			return (asd.ImagePackageElementType)CoreInstance.GetElementType(index);
+		}
+
+		/// <summary>
+		/// 格納されている画像の追加情報の種類を取得する。 
+		/// </summary>
+		/// <param name="index">インデックス </param>
+		/// <returns>追加情報の種類 </returns>
+		public ImagePackageAdditionalElementType GetAdditionalElementType(int index)
+		{
+			return (asd.ImagePackageAdditionalElementType)CoreInstance.GetAdditionalElementType(index);
 		}
 
 	}

@@ -222,6 +222,8 @@
     <Compile Include="swig\GraphicsDeviceType.cs" />
     <Compile Include="swig\Graphics_Imp.cs" />
     <Compile Include="swig\ImagePackage.cs" />
+    <Compile Include="swig\ImagePackageAdditionalElementType.cs" />
+    <Compile Include="swig\ImagePackageElementType.cs" />
     <Compile Include="swig\InterpolationType.cs" />
     <Compile Include="swig\IReference.cs" />
     <Compile Include="swig\Joystick.cs" />
