@@ -47,8 +47,8 @@ namespace FBX2MDL
 		int32_t external = 0;
 		m_writer->Push(external);
 		m_writer->Push(material.DiffuseTexturePath);
-		m_writer->Push(asd::ToAString("").c_str());
-		m_writer->Push(asd::ToAString("").c_str());
+		m_writer->Push(asd::ToAString(""));
+		m_writer->Push(asd::ToAString(""));
 	}
 
 	void FBXExporter::WriteMaterials(const std::vector<Material>& materials)

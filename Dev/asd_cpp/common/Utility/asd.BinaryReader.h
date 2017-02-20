@@ -86,7 +86,7 @@ template<> inline int32_t BinaryReader::Get()
 	return *(static_cast<int32_t*>(static_cast<void*>(cs)));
 	*/
 	size_t const size = sizeof(int32_t);
-	if (idx + size > data.size()) { return int32_t(); }
+	if (idx + size > data.size()) { assert(!"Lack of buffer (int32_t)."); return int32_t(); }
 	int32_t v = 0;
 	std::memcpy(&v, data.data() + idx, size);
 	idx += size;
@@ -97,7 +97,7 @@ template<> inline int32_t BinaryReader::Get()
 template<> inline int16_t BinaryReader::Get()
 {
 	size_t const size = sizeof(int16_t);
-	if (idx + size > data.size()) { return int16_t(); }
+	if (idx + size > data.size()) { assert(!"Lack of buffer (int16_t)."); return int16_t(); }
 	int16_t v = 0;
 	std::memcpy(&v, data.data() + idx, size);
 	idx += size;
@@ -107,7 +107,7 @@ template<> inline int16_t BinaryReader::Get()
 template<> inline uint16_t BinaryReader::Get()
 {
 	size_t const size = sizeof(uint16_t);
-	if (idx + size > data.size()) { return uint16_t(); }
+	if (idx + size > data.size()) { assert(!"Lack of buffer (uint16_t)."); return uint16_t(); }
 	uint16_t v = 0;
 	std::memcpy(&v, data.data() + idx, size);
 	idx += size;
@@ -118,7 +118,7 @@ template<> inline uint16_t BinaryReader::Get()
 template<> inline int8_t BinaryReader::Get()
 {
 	size_t const size = sizeof(int8_t);
-	if (idx + size > data.size()) { return int8_t(); }
+	if (idx + size > data.size()) { assert(!"Lack of buffer (int8_t)."); return int8_t(); }
 	int8_t v = 0;
 	std::memcpy(&v, data.data() + idx, size);
 	idx += size;
@@ -128,7 +128,7 @@ template<> inline int8_t BinaryReader::Get()
 template<> inline uint8_t BinaryReader::Get()
 {
 	size_t const size = sizeof(uint8_t);
-	if (idx + size > data.size()) { return uint8_t(); }
+	if (idx + size > data.size()) { assert(!"Lack of buffer (uint8_t)."); return uint8_t(); }
 	uint8_t v = 0;
 	std::memcpy(&v, data.data() + idx, size);
 	idx += size;
@@ -141,7 +141,7 @@ template<> inline std::string BinaryReader::Get()
 	int32_t const len = Get<int32_t>();
 	size_t const size = sizeof(char);
 
-	if (idx + size * len > data.size()) { return std::string(); }
+	if (idx + size * len > data.size()) { assert(!"Lack of buffer (string)."); return std::string(); }
 
 	std::string v = std::string((char const*)(data.data() + idx), (size_t)len);
 	idx += size * len;
@@ -152,7 +152,7 @@ template<> inline astring BinaryReader::Get()
 	int32_t const len = Get<int32_t>();
 	size_t const size = sizeof(achar);
 
-	if (idx + size * len > data.size()) { return asd::astring(); }
+	if (idx + size * len > data.size()) { assert(!"Lack of buffer (astring)."); return asd::astring(); }
 
 	asd::astring v = asd::astring((achar const*)(data.data() + idx), (size_t)len);
 	idx += size * len;
@@ -198,7 +198,7 @@ template<> inline astring BinaryReader::Get()
 template<> inline float BinaryReader::Get()
 {
 	size_t const size = sizeof(float);
-	if (idx + size > data.size()) { return float(); }
+	if (idx + size > data.size()) { assert(!"Lack of buffer (float)."); return float(); }
 	float v = 0.0f;
 	std::memcpy(&v, data.data() + idx, size);
 	idx += size;
@@ -208,7 +208,7 @@ template<> inline float BinaryReader::Get()
 template<> inline bool BinaryReader::Get()
 {
 	size_t const size = sizeof(bool);
-	if (idx + size > data.size()) { return bool(); }
+	if (idx + size > data.size()) { assert(!"Lack of buffer (bool)."); return bool(); }
 	bool v = false;
 	std::memcpy(&v, data.data() + idx, size);
 	idx += size;
