@@ -1,8 +1,8 @@
 import aceutils
 
-path = r'https://github.com/glfw/glfw/releases/download/3.2.1/'
-zipname = 'glfw-3.2.1.zip'
-pathname = 'glfw-3.2.1'
+path = r'https://github.com/glfw/glfw/archive/'
+zipname = '7a8516d296c40402bd64f29ad1800ebd98483a07.zip'
+pathname = 'glfw-7a8516d296c40402bd64f29ad1800ebd98483a07'
 
 aceutils.cdToScript()
 aceutils.mkdir('../Downloads')
