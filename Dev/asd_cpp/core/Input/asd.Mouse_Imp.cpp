@@ -84,6 +84,15 @@ namespace asd{
 		return m_position;
 	}
 
+	void Mouse_Imp::SetPosition(Vector2DF pos)
+	{
+		double x = pos.X;
+		double y = pos.Y;
+		m_position = pos;
+
+		glfwSetCursorPos(m_window, x, y);
+	}
+
 	MouseButtonState Mouse_Imp::GetButtonInputState(MouseButtons mouseButton) const
 	{
 		return buttonInputStates[static_cast<int>(mouseButton)];

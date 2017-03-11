@@ -77,6 +77,9 @@ engineHeader.readLines("asd_cpp/common/Graphics/asd.Color.h")
 
 engineHeader.readLines("asd_cpp/common/Utility/asd.BinaryReader.h")
 engineHeader.readLines("asd_cpp/common/Utility/asd.BinaryWriter.h")
+engineHeader.readLines("asd_cpp/common/Utility/asd.ToU16String.h")
+
+
 
 engineHeader.readLines("asd_cpp/core/asd.Core.Base.h")
 engineHeader.readLines("asd_cpp/core/asd.ReferenceObject.h")

@@ -2240,11 +2240,12 @@ namespace asd {
 		internal asd.swig.Mouse CoreInstance { get; set; }
 
 		/// <summary>
-		/// 
+		/// マウスポインタの位置を取得または設定する。
 		/// </summary>
 		public asd.Vector2DF Position
 		{
 			get { return CoreInstance.GetPosition(); }
+			set { CoreInstance.SetPosition(value); }
 		}
 
 		/// <summary>

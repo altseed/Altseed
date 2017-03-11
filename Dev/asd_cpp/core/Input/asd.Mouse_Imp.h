@@ -13,6 +13,7 @@ namespace asd{
 		SideButton* GetRightButton() const override;
 		MiddleButton* GetMiddleButton() const override;
 		Vector2DF GetPosition() const override;
+		void SetPosition(Vector2DF pos) override;
 		void RefreshInputState();
 
 		MouseButtonState GetButtonInputState(MouseButtons mouseButton) const override;
