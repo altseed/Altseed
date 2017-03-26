@@ -2,6 +2,7 @@
 #include<vector>
 #include<fstream>
 #include<string>
+#include<cstring>
 #include<cstdlib>
 #include<algorithm>
 #include<cstdint>
