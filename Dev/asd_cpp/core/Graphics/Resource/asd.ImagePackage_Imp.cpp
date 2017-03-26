@@ -119,7 +119,20 @@ namespace asd
 
 	ImagePackageAdditionalElementType ImagePackage_Imp::GetAdditionalElementType(int32_t index)
 	{
+
+#if _WIN32
 		if (index < 0 || textures.size() <= index) return ImagePackageAdditionalElementType::None;
+
+#elif __APPLE__
+        if (index < 0 || textures.size() <= index) return ImagePackageAdditionalElementType::None;
+
+#else
+
+#undef None
+		if (index < 0 || textures.size() <= index) return ImagePackageAdditionalElementType::None;
+#define None 0L
+
+#endif
 		return additionalElementTypes[index];
 	}
 }
