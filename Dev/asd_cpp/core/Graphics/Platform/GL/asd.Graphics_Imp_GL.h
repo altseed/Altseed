@@ -120,7 +120,7 @@ namespace asd {
 #if _WIN32
 #elif __APPLE__
 #else
-		static Graphics_Imp_GL* Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen);
+		static Graphics_Imp_GL* Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option);
 #endif
 
 		Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) override;
