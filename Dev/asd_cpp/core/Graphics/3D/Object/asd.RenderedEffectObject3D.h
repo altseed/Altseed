@@ -24,7 +24,13 @@ namespace asd
 		std::vector<Effekseer::Handle>	m_handles;
 		Effect*							m_effect;
 		Renderer3D*						m_renderer = nullptr;
+#if _WIN32
 		bool							m_syncEffects = nullptr;
+#elif __APPLE__
+		bool							m_syncEffects = nullptr;
+#else
+        bool							m_syncEffects = false;
+#endif
 
 		RenderedEffectObject3DProxy*				proxy = nullptr;
 
