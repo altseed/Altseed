@@ -29,7 +29,7 @@ namespace asd
 #elif __APPLE__
 		bool							m_syncEffects = nullptr;
 #else
-        bool							m_syncEffects = false;
+		bool							m_syncEffects = false;
 #endif
 
 		RenderedEffectObject3DProxy*				proxy = nullptr;

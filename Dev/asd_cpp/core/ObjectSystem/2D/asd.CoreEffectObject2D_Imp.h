@@ -19,7 +19,7 @@ namespace asd
 #elif __APPLE__
 		bool							m_syncEffects = nullptr;
 #else
-        bool							m_syncEffects = false;
+		bool							m_syncEffects = false;
 #endif
 		Renderer2D_Imp*					m_renderer;
 		int								m_drawingPtiority;

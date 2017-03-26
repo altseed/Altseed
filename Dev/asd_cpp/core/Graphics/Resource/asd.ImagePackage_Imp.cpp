@@ -124,7 +124,7 @@ namespace asd
 		if (index < 0 || textures.size() <= index) return ImagePackageAdditionalElementType::None;
 
 #elif __APPLE__
-        if (index < 0 || textures.size() <= index) return ImagePackageAdditionalElementType::None;
+		if (index < 0 || textures.size() <= index) return ImagePackageAdditionalElementType::None;
 
 #else
 
