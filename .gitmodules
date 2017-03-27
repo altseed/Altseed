@@ -37,3 +37,6 @@
 [submodule "Downloads/Culling3D"]
 	path = Downloads/Culling3D
 	url = https://github.com/altseed/Culling3D
+[submodule "Downloads/glew"]
+	path = Downloads/glew
+	url = https://github.com/nigels-com/glew
