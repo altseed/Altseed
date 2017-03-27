@@ -1,0 +1,39 @@
+[submodule "Downloads/glfw"]
+	path = Downloads/glfw
+	url = https://github.com/glfw/glfw
+[submodule "Downloads/libpng"]
+	path = Downloads/libpng
+	url = https://github.com/glennrp/libpng
+[submodule "Downloads/zlib"]
+	path = Downloads/zlib
+	url = https://github.com/madler/zlib
+[submodule "Downloads/Box2D-Linux"]
+	path = Downloads/Box2D-Linux
+	url = https://github.com/flyover/Box2D
+[submodule "Downloads/Box2D"]
+	path = Downloads/Box2D
+	url = https://github.com/erincatto/Box2D
+[submodule "Downloads/bullet3"]
+	path = Downloads/bullet3
+	url = https://github.com/bulletphysics/bullet3
+[submodule "Downloads/googletest"]
+	path = Downloads/googletest
+	url = https://github.com/google/googletest
+[submodule "Downloads/Effekseer"]
+	path = Downloads/Effekseer
+	url = https://github.com/effekseer/Effekseer
+[submodule "Downloads/OpenSoundMixer"]
+	path = Downloads/OpenSoundMixer
+	url = https://github.com/altseed/OpenSoundMixer
+[submodule "Downloads/freetype"]
+	path = Downloads/freetype
+	url = https://git.savannah.gnu.org/git/freetype/freetype2.git
+[submodule "Downloads/libgd"]
+	path = Downloads/libgd
+	url = https://github.com/libgd/libgd/
+[submodule "Downloads/Culling2D"]
+	path = Downloads/Culling2D
+	url = https://github.com/altseed/Culling2D
+[submodule "Downloads/Culling3D"]
+	path = Downloads/Culling3D
+	url = https://github.com/altseed/Culling3D

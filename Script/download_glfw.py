@@ -1,20 +1,14 @@
 import aceutils
 
-path = r'https://github.com/glfw/glfw/archive/'
-zipname = '7a8516d296c40402bd64f29ad1800ebd98483a07.zip'
-pathname = 'glfw-7a8516d296c40402bd64f29ad1800ebd98483a07'
+pathname = 'glfw'
 
 aceutils.cdToScript()
 aceutils.mkdir('../Downloads')
 
 with aceutils.CurrentDir('../Downloads'):
-	aceutils.rm(zipname)
-	aceutils.rmdir(pathname)
 	aceutils.rmdir(r"glfw_bin")
 	aceutils.rmdir(r"glfw_bin_x64")
 
-	aceutils.wget(path + zipname)
-	aceutils.unzip(zipname)
 	aceutils.editCmakeForACE(pathname + r'/CMakeLists.txt')
 	aceutils.mkdir(r"glfw_bin")
 	aceutils.mkdir(r"glfw_bin_x64")
@@ -25,10 +19,10 @@ with aceutils.CurrentDir('../Downloads'):
 			aceutils.call(aceutils.cmd_compile + r'ALL_BUILD.vcxproj /p:configuration=Debug')
 			aceutils.call(aceutils.cmd_compile + r'ALL_BUILD.vcxproj /p:configuration=Release')
 		elif aceutils.isMac():
-			aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../Dev "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../' + pathname + '/')
+			aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../../Dev "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../' + pathname + '/')
 			aceutils.call(r'make install')
 		else:
-			aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev ../' + pathname + '/')
+			aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../../Dev ../' + pathname + '/')
 			aceutils.call(r'make install')
 
 	with aceutils.CurrentDir('glfw_bin_x64'):
