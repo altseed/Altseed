@@ -21,6 +21,8 @@ Windowsでは実行ファイルへパスを通す必要があります。
 Windowsではパッケージ管理ツール Chocolatey を使用することで容易に導入できます。
 Chocolateyは管理者として実行する必要があります。
 
+また、Altseedと外部ライブラリのソースコードを取得するために、Gitクライアントツール(GitHub for Windows, TortoiseGit等)が必要です。
+
 ### Windows
 
 * Visual Studio 2015
@@ -96,7 +98,7 @@ Core側のコンパイルやEngineのテストなど、様々な部分で使わ�
 
 ### Git Submodule
 
-初めに、外部ライブラリのソースコードを取得するために、Gitのサブモジュールを初期化し、再帰的にアップデートしてください。
+初めに、外部ライブラリのソースコードを取得するために、Altseedの Git サブモジュールを初期化し、再帰的にアップデートしてください。
 
 [使用しているサブモジュール一覧](../submodules.md)
 
@@ -106,7 +108,7 @@ Core側のコンパイルやEngineのテストなど、様々な部分で使わ�
 
 TortoiseGitを使用している場合、 <kbd>右クリック</kbd> > <kbd>TortoiseGit</kbd> > <kbd>サブモジュールのアップデート</kbd> と選択し、「サブモジュールを初期化する」と「再帰的」にチェックを入れて実行します。
 
-#### Linux/Macの場合、またはWindowsでコマンドラインで git を使える場合
+#### Linux/Macの場合、またはWindowsで git コマンドを使える場合
 
 Altseedのディレクトリで、コマンド
 
@@ -114,27 +116,31 @@ Altseedのディレクトリで、コマンド
 
 を実行します。
 
+GitHub for Windows を使用している場合、レポジトリ一覧からAltseedを右クリックし、 <kbd>open a shell here</kbd> をクリックするとPowerShellが起動するので、上記のコマンドを実行してください。
+
 
 ### スクリプトの実行
 
-Gitのサブモジュールをアップデートをした後、実行するスクリプトについて説明します。スクリプトは`Script`ディレクトリに置いてあります。
+サブモジュールをアップデートした後、実行するスクリプトについて説明します。スクリプトは`Script`ディレクトリに置いてあります。
+
+これらのスクリプトを実行することで、ライブラリがコンパイルされます。
 
 GNU Make を使う場合は自動的に実行されるので、 [4. コンパイル](#4-コンパイル) の項まで飛ばしてください。
 
 |ライブラリ|スクリプト|説明|
 |---|---|---|
-|glfw for Altseed|`download_glfw.py`||
-|zlib/libpng|`download_libpng.py`|Windowsでは実行する必要はありません。|
-|glew|`download_glew.py`|Windows以外ではスクリプトによる導入はできませんので、次節を参照してください。|
-|Box2D|`download_Box2D.py`||
-|bullet|`download_bullet.py`||
-|GoogleTest|`download_gtest.py`||
-|Effekseer|`download_effekseer.py`||
-|OpenSoundMixer|`download_OpenSoundMixer.py`|スクリプト実行中にエラーが起きても問題ない場合があります。Altseedチームによるライブラリ。|
-|FreeType|`download_freetype.py`||
-|GD Library|`download_libgd.py`||
-|2Dカリング|`download_culling2d.py`|Altseedチームによるライブラリ|
-|3Dカリング|`download_culling3d.py`|Altseedチームによるライブラリ|
+|glfw for Altseed|`build_glfw.py`||
+|zlib/libpng|`build_libpng.py`|Windowsでは実行する必要はありません。|
+|glew|`build_glew.py`|Windows以外ではスクリプトによる導入はできませんので、次節を参照してください。|
+|Box2D|`build_Box2D.py`||
+|bullet|`build_bullet.py`||
+|GoogleTest|`build_gtest.py`||
+|Effekseer|`build_effekseer.py`||
+|OpenSoundMixer|`build_OpenSoundMixer.py`|スクリプト実行中にエラーが起きても問題ない場合があります。Altseedチームによるライブラリ。|
+|FreeType|`build_freetype.py`||
+|GD Library|`build_libgd.py`||
+|2Dカリング|`build_culling2d.py`|Altseedチームによるライブラリ|
+|3Dカリング|`build_culling3d.py`|Altseedチームによるライブラリ|
 
 ### その他のライブラリの導入手順
 
@@ -149,6 +155,8 @@ GNU Make を使う場合は自動的に実行されるので、 [4. コンパイ
 
 Altseedのコードをコンパイルするには、いくつかのスクリプトによってコードを生成する必要があります。
 
+GNU Make を使う場合は自動的に実行されるので、 [4. コンパイル](#4-コンパイル) まで飛ばしてください。
+
 C++版Altseedをコンパイルするための準備の手順は以下のとおりです。
 
 1. `Dev/generateCoreToEngineHeader.py`
@@ -162,8 +170,6 @@ C#版Altseedをコンパイルするための準備の手順は以下のとお�
 3. `Dev/generate_swig.py`
 4. `Script/export_doxygen_core.py`
 5. `Script/generateSwigWrapper.py`
-
-GNU Make を使う場合は自動的に実行されるので、 [4. コンパイル](#4-コンパイル) まで飛ばしてください。
 
 ### スクリプトの説明
 

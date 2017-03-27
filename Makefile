@@ -22,7 +22,7 @@ glfw-clean:
 	cd Downloads/glfw; git reset --hard HEAD
 
 $(GLFW_LIB):
-	$(PYTHON) Script/download_glfw.py
+	$(PYTHON) Script/build_glfw.py
 
 
 LIBPNG_LIB=Downloads/libpng_bin/libpng16.a
@@ -33,7 +33,7 @@ libpng-clean:
 	cd Downloads/libpng; git reset --hard HEAD
 
 $(LIBPNG_LIB):
-	$(PYTHON) Script/download_libpng.py
+	$(PYTHON) Script/build_libpng.py
 
 
 BOX2D_LIB=Downloads/box2d_bin/Box2D/libBox2D.a
@@ -45,7 +45,7 @@ box2d-clean:
 	cd Downloads/Box2D-Linux; git reset --hard HEAD 
 
 $(BOX2D_LIB):
-	$(PYTHON) Script/download_Box2D.py
+	$(PYTHON) Script/build_Box2D.py
 
 
 BULLET_LIB=Downloads/bullet_bin/src/BulletCollision/libBulletCollision.a
@@ -56,7 +56,7 @@ bullet-clean:
 	cd Downloads/bullet3; git reset --hard HEAD
 
 $(BULLET_LIB):
-	$(PYTHON) Script/download_bullet.py
+	$(PYTHON) Script/build_bullet.py
 
 
 GOOGLETEST_LIB=Downloads/gtest_bin/libgtest.a
@@ -67,7 +67,7 @@ googletest-clean:
 	cd Downloads/googletest; git reset --hard HEAD
 
 $(GOOGLETEST_LIB):
-	$(PYTHON) Script/download_gtest.py
+	$(PYTHON) Script/build_gtest.py
 	
 
 EFFEKSEER_LIB=Downloads/effekseer_bin/libEffekseer.a
@@ -78,7 +78,7 @@ effekseer-clean:
 	cd Downloads/Effekseer; $(GIT) reset --hard HEAD
 
 $(EFFEKSEER_LIB):
-	$(PYTHON) Script/download_effekseer.py
+	$(PYTHON) Script/build_effekseer.py
 	
 
 OPENSOUNDMIXER_LIB=Downloads/osm_bin/lib/libOpenSoundMixer.a
@@ -89,7 +89,7 @@ opensoundmixer-clean:
 	cd Downloads/OpenSoundMixer; $(GIT) reset --hard HEAD
 
 $(OPENSOUNDMIXER_LIB):
-	$(PYTHON) Script/download_OpenSoundMixer.py
+	$(PYTHON) Script/build_OpenSoundMixer.py
 
 
 FREETYPE_LIB=Downloads/freetype_bin/libfreetype.a
@@ -100,7 +100,7 @@ freetype-clean:
 	cd Downloads/freetype; $(GIT) reset --hard HEAD
 
 $(FREETYPE_LIB):
-	$(PYTHON) Script/download_freetype.py
+	$(PYTHON) Script/build_freetype.py
 	
 
 LIBGD_LIB=Downloads/gd_bin/Bin/libgd.a
@@ -111,7 +111,7 @@ libgd-clean:
 	cd Downloads/libgd; $(GIT) reset --hard HEAD
 
 $(LIBGD_LIB):
-	$(PYTHON) Script/download_libgd.py
+	$(PYTHON) Script/build_libgd.py
 	
 
 CULLING2D_LIB=Downloads/culling2d_bin/bin/libCulling2D.a
@@ -122,7 +122,7 @@ culling2d-clean:
 	cd Downloads/Culling2D; $(GIT) reset --hard HEAD
 
 $(CULLING2D_LIB):
-	$(PYTHON) Script/download_culling2d.py
+	$(PYTHON) Script/build_culling2d.py
 
 
 CULLING3D_LIB=Downloads/culling3d_bin/libCulling3D.a
@@ -133,7 +133,7 @@ culling3d-clean:
 	cd Downloads/Culling3D; $(GIT) reset --hard HEAD
 
 $(CULLING3D_LIB):
-	$(PYTHON) Script/download_culling3d.py
+	$(PYTHON) Script/build_culling3d.py
 
 
 plugins-all: box2d bullet culling2d culling3d effekseer freetype glfw googletest libgd libpng opensoundmixer
