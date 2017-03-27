@@ -14,7 +14,13 @@ namespace asd
 
 		std::vector<Effekseer::Handle>	m_handles;
 		Effect*							m_effect;
+#if _WIN32
 		bool							m_syncEffects = nullptr;
+#elif __APPLE__
+		bool							m_syncEffects = nullptr;
+#else
+		bool							m_syncEffects = false;
+#endif
 		Renderer2D_Imp*					m_renderer;
 		int								m_drawingPtiority;
 
