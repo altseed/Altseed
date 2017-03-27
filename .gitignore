@@ -25,6 +25,7 @@
 *.sln.docstates
 *.sln.ide/
 .vscode/
+*.swp
 
 # Build results
 
