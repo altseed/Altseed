@@ -20,7 +20,7 @@ endif()
 if (MSVC)
 	# “Á‚É‰½‚à
 else()
-	set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC" ${CMAKE_CXX_FLAGS})
+	set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC -fpermissive" ${CMAKE_CXX_FLAGS})
 	set(CMAKE_C_FLAGS "-fPIC" ${CMAKE_C_FLAGS})
 
 endif()
