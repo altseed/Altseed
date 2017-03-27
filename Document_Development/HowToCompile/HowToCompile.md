@@ -61,9 +61,19 @@ libogg libvorbis libvorbisfiles libSM libICE libX11 libXext libXrandr libXi libX
 
 Core側のコンパイルやEngineのテストなど、様々な部分で使われるライブラリの導入手順です。
 
-### スクリプトで導入できるライブラリ
+### Git Submodule
 
-スクリプトを実行することで導入できるライブラリを説明します。スクリプトは`Script`ディレクトリに置いてあります。
+初めに、Gitのサブモジュールをアップデートしてください。
+
+#### Windowsの場合
+
+[参考:Git のサブモジュールってどんなもの？](http://qiita.com/go_astrayer/items/8667140aef8875742a36)
+
+TortoiseGitを使用している場合、「再帰的」「リモート追跡ブランチ・チェックなし」で実行します。
+
+### スクリプトの実行
+
+Gitのサブモジュールをアップデートをした後、実行するスクリプトについて説明します。スクリプトは`Script`ディレクトリに置いてあります。
 
 |ライブラリ|スクリプト|説明|
 |---|---|---|
