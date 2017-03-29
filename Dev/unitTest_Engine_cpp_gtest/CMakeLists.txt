@@ -43,6 +43,12 @@ if (MSVC)
 	endif()
 endif()
 
+
+if(NOT MSVC AND NOT APPLE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+    set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} "-Wl,--no-as-needed -lX11 -ldl")
+endif()
+
 include_directories(../include/)
 
 link_directories(${PROJECT_SOURCE_DIR}/../lib/)

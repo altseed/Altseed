@@ -155,10 +155,11 @@ Dev/cmake/Makefile:
 		../ ;
 
 
-csharp-prepare: plugins-all cpp-prepare
-	$(PYTHON) Script/export_doxygen_core.py
+csharp-prepare: plugins-all cpp-prepare Doxygen
 	$(PYTHON) Script/generateSwigWrapper.py
 
+Doxygen:
+	$(PYTHON) Script/export_doxygen_core.py
 
 java-prepare: plugins-all cpp-prepare Dev/asd_java/asd/AltseedObject.java 
 	$(PYTHON) Dev/generate_swig.py java
