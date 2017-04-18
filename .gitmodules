@@ -44,3 +44,7 @@
 	path = Downloads/AltseedPlatform
 	url = https://github.com/altseed/AltseedWindowExp.git
 	ignore = dirty
+[submodule "Downloads/AltseedRHI"]
+	path = Downloads/AltseedRHI
+	url = https://github.com/altseed/AltseedRHI.git
+	ignore = dirty
