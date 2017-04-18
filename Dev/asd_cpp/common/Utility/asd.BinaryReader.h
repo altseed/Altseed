@@ -72,20 +72,6 @@ public:
 
 template<> inline int32_t BinaryReader::Get()
 {
-	/*
-	int8_t cs[4];
-	for (int i = 0; i < 4; i++)
-	{
-		assert(!data.empty());
-		if (data.empty()){
-			return static_cast<int32_t>(0);
-		}
-		cs[i] = data.front();
-		data.pop_front();
-	}
-
-	return *(static_cast<int32_t*>(static_cast<void*>(cs)));
-	*/
 	size_t const size = sizeof(int32_t);
 	if (idx + size > data.size()) { assert(!"Lack of buffer (int32_t)."); return int32_t(); }
 	int32_t v = 0;
@@ -95,12 +81,30 @@ template<> inline int32_t BinaryReader::Get()
 
 }
 
+template<> inline int32_t const& BinaryReader::Get()
+{
+	size_t const size = sizeof(int32_t);
+	if (idx + size > data.size()) { assert(!"Lack of buffer (int32_t)."); return int32_t(); }
+	int32_t const& v = *((int32_t const*)(data.data() + idx));
+	idx += size;
+	return v;
+}
+
 template<> inline int16_t BinaryReader::Get()
 {
 	size_t const size = sizeof(int16_t);
 	if (idx + size > data.size()) { assert(!"Lack of buffer (int16_t)."); return int16_t(); }
 	int16_t v = 0;
 	std::memcpy(&v, data.data() + idx, size);
+	idx += size;
+	return v;
+}
+
+template<> inline int16_t const& BinaryReader::Get()
+{
+	size_t const size = sizeof(int16_t);
+	if (idx + size > data.size()) { assert(!"Lack of buffer (int16_t)."); return int16_t(); }
+	int16_t const& v = *((int16_t const*)(data.data() + idx));
 	idx += size;
 	return v;
 }
@@ -115,6 +119,14 @@ template<> inline uint16_t BinaryReader::Get()
 	return v;
 }
 
+template<> inline uint16_t const& BinaryReader::Get()
+{
+	size_t const size = sizeof(uint16_t);
+	if (idx + size > data.size()) { assert(!"Lack of buffer (uint16_t)."); return uint16_t(); }
+	uint16_t const& v = *((uint16_t const*)(data.data() + idx));
+	idx += size;
+	return v;
+}
 
 template<> inline int8_t BinaryReader::Get()
 {
@@ -126,12 +138,30 @@ template<> inline int8_t BinaryReader::Get()
 	return v;
 }
 
+template<> inline int8_t const& BinaryReader::Get()
+{
+	size_t const size = sizeof(int8_t);
+	if (idx + size > data.size()) { assert(!"Lack of buffer (int8_t)."); return int8_t(); }
+	int8_t const& v = *((int8_t const*)(data.data() + idx));
+	idx += size;
+	return v;
+}
+
 template<> inline uint8_t BinaryReader::Get()
 {
 	size_t const size = sizeof(uint8_t);
 	if (idx + size > data.size()) { assert(!"Lack of buffer (uint8_t)."); return uint8_t(); }
 	uint8_t v = 0;
 	std::memcpy(&v, data.data() + idx, size);
+	idx += size;
+	return v;
+}
+
+template<> inline uint8_t const& BinaryReader::Get()
+{
+	size_t const size = sizeof(uint8_t);
+	if (idx + size > data.size()) { assert(!"Lack of buffer (uint8_t)."); return uint8_t(); }
+	uint8_t const& v = *((uint8_t const*)(data.data() + idx));
 	idx += size;
 	return v;
 }
@@ -206,12 +236,30 @@ template<> inline float BinaryReader::Get()
 	return v;
 }
 
+template<> inline float const& BinaryReader::Get()
+{
+	size_t const size = sizeof(float);
+	if (idx + size > data.size()) { assert(!"Lack of buffer (float)."); return float(); }
+	float const& v = *((float const*)(data.data() + idx));
+	idx += size;
+	return v;
+}
+
 template<> inline bool BinaryReader::Get()
 {
 	size_t const size = sizeof(bool);
 	if (idx + size > data.size()) { assert(!"Lack of buffer (bool)."); return bool(); }
 	bool v = false;
 	std::memcpy(&v, data.data() + idx, size);
+	idx += size;
+	return v;
+}
+
+template<> inline bool const& BinaryReader::Get()
+{
+	size_t const size = sizeof(bool);
+	if (idx + size > data.size()) { assert(!"Lack of buffer (bool)."); return bool(); }
+	bool const& v = *((bool const*)(data.data() + idx));
 	idx += size;
 	return v;
 }

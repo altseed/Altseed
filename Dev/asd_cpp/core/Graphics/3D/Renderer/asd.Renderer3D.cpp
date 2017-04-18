@@ -2,6 +2,7 @@
 #include "asd.Renderer3D.h"
 
 #include "../../asd.Graphics_Imp.h"
+#include "../../Helper/asd.EffekseerHelper.h"
 
 #include "../Object/asd.RenderedObject3D.h"
 #include "../Object/asd.RenderedCameraObject3D.h"
@@ -9,10 +10,6 @@
 
 #include "../../Command/asd.RenderingCommandExecutor.h"
 
-#if _WIN32
-#include "../../Platform/DX11/asd.Graphics_Imp_DX11.h"
-#endif
-#include "../../Platform/GL/asd.Graphics_Imp_GL.h"
 
 #include "asd.Renderer3DProxy.h"
 
@@ -84,17 +81,7 @@ namespace asd
 			const int32_t instanceCount = 8000;
 
 			m_effectManager = ::Effekseer::Manager::Create(instanceCount, false);
-			if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
-			{
-#if _WIN32
-				auto g = (Graphics_Imp_DX11*) m_graphics;
-				m_effectRenderer = ::EffekseerRendererDX11::Renderer::Create(g->GetDevice(), g->GetContext(), instanceCount);
-#endif
-			}
-			else if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
-			{
-				m_effectRenderer = ::EffekseerRendererGL::Renderer::Create(instanceCount, EffekseerRendererGL::OpenGLDeviceType::OpenGL3);
-			}
+			m_effectRenderer = EffekseerHelper::CreateRenderer(m_graphics, instanceCount);
 
 			m_effectManager->SetSpriteRenderer(m_effectRenderer->CreateSpriteRenderer());
 			m_effectManager->SetRibbonRenderer(m_effectRenderer->CreateRibbonRenderer());
@@ -126,7 +113,7 @@ namespace asd
 		ReleaseObjects(newObjects);
 		ReleaseObjects(removingObjects);
 
-		m_effectRenderer->Destory();
+		m_effectRenderer->Destroy();
 		m_effectManager->Destroy();
 		m_effectRenderer = nullptr;
 		m_effectManager = nullptr;

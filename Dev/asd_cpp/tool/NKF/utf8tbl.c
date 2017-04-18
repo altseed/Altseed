@@ -3,6 +3,9 @@
  *
  */
 
+// Altseed
+#if !( defined(__ANDROID__) || defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+
 #include "config.h"
 #include "utf8tbl.h"
 
@@ -14626,3 +14629,6 @@ const unsigned short *const x0212_shiftjis[] = {
                  0,                 0,                 0,
 };
 #endif /* X0212_ENABLE */
+
+// Altseed
+#endif

@@ -2,39 +2,41 @@
 #include "asd.CubemapTexture_Imp_DX11.h"
 #include "../asd.Graphics_Imp_DX11.h"
 
-#include "../../../../3rdParty/DirectXToolKit/DDSTextureLoader.h"
+//#include "../../../../3rdParty/DirectXToolKit/DDSTextureLoader.h"
 
 namespace asd
 {
 	CubemapTexture_Imp_DX11::CubemapTexture_Imp_DX11(
 		Graphics* graphics,
+		ar::CubemapTexture* rhi,
 		TextureFormat format,
-		ID3D11Resource* texture,
-		ID3D11ShaderResourceView* textureSRV, 
-		std::array<std::vector<ID3D11RenderTargetView*>, 6>& textureRTVs, 
 		Vector2DI size,
 		int32_t mipmapCount)
 		: CubemapTexture_Imp(graphics, format, size, mipmapCount)
-		, m_texture(texture)
-		, m_textureSRV(textureSRV)
-		, m_textureRTVs(textureRTVs)
+		, rhi(rhi)
+		//, m_texture(texture)
+		//, m_textureSRV(textureSRV)
+		//, m_textureRTVs(textureRTVs)
 	{
 	}
 
 	CubemapTexture_Imp_DX11::~CubemapTexture_Imp_DX11()
 	{
-		SafeRelease(m_texture);
-		SafeRelease(m_textureSRV);
+		//SafeRelease(m_texture);
+		//SafeRelease(m_textureSRV);
+		//
+		//for (auto& v : m_textureRTVs)
+		//{
+		//	for (auto& v_ : v)
+		//	{
+		//		v_->Release();
+		//	}
+		//}
 
-		for (auto& v : m_textureRTVs)
-		{
-			for (auto& v_ : v)
-			{
-				v_->Release();
-			}
-		}
+		asd::SafeDelete(rhi);
 	}
 
+	/*
 	ID3D11RenderTargetView* CubemapTexture_Imp_DX11::GetRenderTargetView(int32_t direction, int32_t mipmap)
 	{
 		if (direction < 0) return nullptr;
@@ -44,9 +46,11 @@ namespace asd
 		
 		return m_textureRTVs[direction][mipmap];
 	}
+	*/
 
 	CubemapTexture_Imp* CubemapTexture_Imp_DX11::Create(Graphics_Imp* graphics, const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom)
 	{
+		/*
 		auto loadFile = [graphics](const achar* path, std::vector<uint8_t>& dst)-> bool
 		{
 			auto staticFile = graphics->GetFile()->CreateStaticFile(path);
@@ -166,32 +170,6 @@ namespace asd
 			}
 		}
 
-		/*
-		for (int32_t m = 0; m < mipmapCount; m++)
-		{
-			auto w = width;
-			auto h = height;
-			ImageHelper::GetMipmapSize(m, w, h);
-
-			for (int32_t i = 0; i < 6; i++)
-			{
-				auto ind = i + m * 6;
-
-				if (m == 0)
-				{
-					data[ind].pSysMem = buffers[i];
-				}
-				else
-				{
-					data[ind].pSysMem = nulldata.data();
-				}
-
-				data[ind].SysMemPitch = w * 4;
-				data[ind].SysMemSlicePitch = data[ind].SysMemPitch * h;
-			}
-		}
-		*/
-
 		auto hr = g->GetDevice()->CreateTexture2D(&TexDesc, data.data(), &texture);
 
 		if (FAILED(hr))
@@ -242,13 +220,14 @@ namespace asd
 				v_->Release();
 			}
 		}
-
+		*/
 		return nullptr;
 	}
 
 
 	CubemapTexture_Imp* CubemapTexture_Imp_DX11::Create(Graphics_Imp* graphics, const achar* path, int32_t mipmapCount)
 	{
+		/*
 		auto loadFile = [graphics](const achar* path, std::vector<uint8_t>& dst)-> bool
 		{
 			auto staticFile = graphics->GetFile()->CreateStaticFile(path);
@@ -408,6 +387,7 @@ namespace asd
 				v_->Release();
 			}
 		}
+		*/
 
 		return nullptr;
 	}
@@ -415,6 +395,26 @@ namespace asd
 
 	CubemapTexture_Imp* CubemapTexture_Imp_DX11::Create(Graphics_Imp* graphics, const achar* path)
 	{
+		auto staticFile = graphics->GetFile()->CreateStaticFile(path);
+		if (staticFile.get() == nullptr) return nullptr;
+
+		auto g = (Graphics_Imp_DX11*)graphics;
+
+		auto rhi = ar::CubemapTexture::Create(g->GetRHI());
+		if (rhi->Initialize(g->GetRHI(), (void*)staticFile->GetBuffer().data(), staticFile->GetBuffer().size()))
+		{
+			return new CubemapTexture_Imp_DX11(
+				graphics,
+				rhi,
+				(asd::TextureFormat)rhi->GetFormat(),
+				Vector2DI(rhi->GetWidth(), rhi->GetHeight()),
+				rhi->GetMipmapCount());
+		}
+
+		asd::SafeDelete(rhi);
+
+		return nullptr;
+		/*
 		auto staticFile = graphics->GetFile()->CreateStaticFile(path);
 		if (staticFile.get() == nullptr) return nullptr;
 
@@ -457,5 +457,6 @@ namespace asd
 			std::array<std::vector<ID3D11RenderTargetView*>, 6>(), 
 			Vector2DI(desc.Width, desc.Height), 
 			cubeDesc.TextureCube.MipLevels);
+		*/
 	}
 }

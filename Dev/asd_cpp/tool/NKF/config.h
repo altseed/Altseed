@@ -1,4 +1,7 @@
-﻿#ifndef _CONFIG_H_
+﻿// Altseed
+#if !( defined(__ANDROID__) || defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+
+#ifndef _CONFIG_H_
 #define _CONFIG_H_
 
 /* UTF8 input and output */
@@ -49,3 +52,6 @@
 /* #define DEFAULT_CODE_UTF8   */
 
 #endif /* _CONFIG_H_ */
+
+// Altseed
+#endif

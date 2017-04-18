@@ -3,7 +3,7 @@
 
 #include <array>
 
-#if !_WIN32
+#if !( defined(_WIN32) || defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
 namespace asd_x11
 {
 	// http://davescode.ohost.de/code/MessageBoxX11.c
@@ -579,6 +579,10 @@ namespace asd
 	{
 #if _WIN32
 		::MessageBoxW(NULL, (const wchar_t*)text, (const wchar_t*)title, MB_OK);
+#elif ( defined(__ANDROID__) || defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+		auto title_ = ToUtf8String(title);
+		auto text_ = ToUtf8String(text);
+		printf("%s\n", text_.c_str());
 #else
 		auto title_ = ToUtf8String(title);
 		auto text_ = ToUtf8String(text);

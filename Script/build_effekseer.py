@@ -8,23 +8,12 @@ with aceutils.CurrentDir('../Downloads'):
 	aceutils.rmdir(r"effekseer_bin")
 	aceutils.rmdir(r"effekseer_bin_x64")
 
-	if aceutils.isWin():
-		aceutils.editCmakeForACE(r'Effekseer/Dev/Cpp/CMakeLists.txt','cp932')
-	elif aceutils.isMac():
-		aceutils.editCmakeForACE(r'Effekseer/Dev/Cpp/CMakeLists.txt','cp932')
-	# in Linux, using 'cp932' twice on the same file can cause an error "UnicodeDecodeError: 'cp932' codec can't decode byte 0x9a in position 23: illegal multibyte sequence".
-	else:
-		try: 
-			aceutils.editCmakeForACE(r'Effekseer/Dev/Cpp/CMakeLists.txt','cp932')
-		except:
-			aceutils.editCmakeForACE(r'Effekseer/Dev/Cpp/CMakeLists.txt')
-	
 	aceutils.mkdir(r"effekseer_bin")
 	aceutils.mkdir(r"effekseer_bin_x64")
 
 	with aceutils.CurrentDir('effekseer_bin'):
 		if aceutils.isWin():
-			aceutils.call(aceutils.cmd_cmake+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../Effekseer/Dev/Cpp/')
+			aceutils.call(aceutils.cmd_cmake+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=ON ../Effekseer/Dev/Cpp/')
 			aceutils.call(aceutils.cmd_compile + r'Effekseer.sln /p:configuration=Debug')
 			aceutils.call(aceutils.cmd_compile + r'Effekseer.sln /p:configuration=Release')
 		elif aceutils.isMac():
@@ -36,7 +25,7 @@ with aceutils.CurrentDir('../Downloads'):
 
 	with aceutils.CurrentDir('effekseer_bin_x64'):
 		if aceutils.isWin():
-			aceutils.call(aceutils.cmd_cmake_x64+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../Effekseer/Dev/Cpp/')
+			aceutils.call(aceutils.cmd_cmake_x64+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=ON ../Effekseer/Dev/Cpp/')
 			aceutils.call(aceutils.cmd_compile + r'Effekseer.sln /p:configuration=Debug')
 			aceutils.call(aceutils.cmd_compile + r'Effekseer.sln /p:configuration=Release')
 

@@ -51,6 +51,7 @@ namespace asd
 
 			auto data = reader.Get(area.Width * area.Height * 4);
 
+			/*
 			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				auto data_ = data;
@@ -59,6 +60,7 @@ namespace asd
 					memcpy(&(data[y * area.Width * 4]), &(data_[(area.Height - 1 - y) * area.Width * 4]), area.Width * 4);
 				}
 			}
+			*/
 
 			ret->textures[i] = g->CreateTexture2DWithRawData(area.Width, area.Height, TextureFormat::R8G8B8A8_UNORM_SRGB, data.data());
 			ret->areas[i] = area;

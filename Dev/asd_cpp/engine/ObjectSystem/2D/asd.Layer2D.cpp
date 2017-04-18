@@ -95,18 +95,20 @@ namespace asd
 	}
 
 
-	void Layer2D::DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
-		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
-		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+	void Layer2D::DrawSpriteAdditionally(
+		const Vector2DF& upperLeftPos, const Vector2DF& upperRightPos, const Vector2DF& lowerRightPos, const Vector2DF& lowerLeftPos,
+		const Color& upperLeftCol, const Color& upperRightCol, const Color& lowerRightCol, const Color& lowerLeftCol,
+		const Vector2DF& upperLeftUV, const Vector2DF& upperRightUV, const Vector2DF& lowerRightUV, const Vector2DF& lowerLeftUV,
 		std::shared_ptr<Texture2D>  texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
 		if (m_coreLayer == nullptr) return;
 		m_coreLayer->DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, texture.get(), alphaBlend, priority);
 	}
 
-	void Layer2D::DrawSpriteWithMaterialAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
-		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
-		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+	void Layer2D::DrawSpriteWithMaterialAdditionally(
+		const Vector2DF& upperLeftPos, const Vector2DF& upperRightPos, const Vector2DF& lowerRightPos, const Vector2DF& lowerLeftPos,
+		const Color& upperLeftCol, const Color& upperRightCol, const Color& lowerRightCol, const Color& lowerLeftCol,
+		const Vector2DF& upperLeftUV, const Vector2DF& upperRightUV, const Vector2DF& lowerRightUV, const Vector2DF& lowerLeftUV,
 		std::shared_ptr<Material2D> material, AlphaBlendMode alphaBlend, int32_t priority)
 	{
 		if (m_coreLayer == nullptr) return;
@@ -127,7 +129,7 @@ namespace asd
 			priority);
 	}
 
-	void Layer2D::DrawRectangleAdditionally(RectF drawingArea, Color color, RectF uv, std::shared_ptr<Texture2D> texture, AlphaBlendMode alphaBlend, int32_t priority)
+	void Layer2D::DrawRectangleAdditionally(const RectF& drawingArea, const Color& color, const RectF& uv, const std::shared_ptr<Texture2D>& texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
 		if (m_coreLayer==nullptr) return;
 		m_coreLayer->DrawRectangleAdditionally(drawingArea, color, uv, texture.get(), alphaBlend, priority);

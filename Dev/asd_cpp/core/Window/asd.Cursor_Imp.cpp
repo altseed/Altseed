@@ -6,6 +6,8 @@
 
 namespace asd
 {
+#if ( defined(_CONSOLE_GAME) )
+#else
 	Cursor_Imp::Cursor_Imp(GLFWcursor* native)
 		: native(native)
 	{
@@ -39,4 +41,5 @@ namespace asd
 
 		return new Cursor_Imp(cursor);
 	}
+#endif
 }

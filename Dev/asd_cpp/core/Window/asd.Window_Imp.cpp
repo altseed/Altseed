@@ -15,6 +15,8 @@ namespace asd {
 //
 //----------------------------------------------------------------------------------
 
+#if ( defined(_CONSOLE_GAME) )
+#else
 static void CallbackOnFocus(GLFWwindow* window, int b)
 {
 	auto w = (Window_Imp*)glfwGetWindowUserPointer(window);
@@ -32,6 +34,7 @@ static void CallbackOnFocus(GLFWwindow* window, int b)
 
 	}
 }
+#endif
 
 Window_Imp::Window_Imp(Log* logger)
 	: m_logger(logger)
@@ -78,9 +81,12 @@ Window_Imp* Window_Imp::Create(
 			ret->m_size.X = width;
 			ret->m_size.Y = height;
 
+#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+#else
 			auto glfwWindow = (GLFWwindow*)window->GetNativeWindow();
 			glfwSetWindowUserPointer(glfwWindow, ret);
 			glfwSetWindowFocusCallback(glfwWindow, CallbackOnFocus);
+#endif
 
 			if (logger != nullptr) logger->WriteLine("ウインドウ作成成功");
 		}
@@ -131,6 +137,8 @@ void Window_Imp::SetSize(Vector2DI size)
 
 void Window_Imp::SetCursor(Cursor* cursor)
 {
+#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+#else
 	auto glfwWindow = (GLFWwindow*)window->GetNativeWindow();
 
 	if (cursor == nullptr)
@@ -144,10 +152,14 @@ void Window_Imp::SetCursor(Cursor* cursor)
 	glfwSetCursor(glfwWindow, c->GetNative());
 
 	SafeSubstitute(currentCursor, cursor);
+#endif
 }
 
 const achar* Window_Imp::GetClipboardString()
 {
+#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+	return nullptr;
+#else
 	auto glfwWindow = (GLFWwindow*)window->GetNativeWindow();
 
 	auto s = glfwGetClipboardString(glfwWindow);
@@ -176,10 +188,13 @@ const achar* Window_Imp::GetClipboardString()
 	temp[259] = 0;
 
 	return temp;
+#endif
 }
 
 void Window_Imp::SetClipboardString(const achar* s)
 {
+#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+#else
 	auto glfwWindow = (GLFWwindow*)window->GetNativeWindow();
 
 	std::vector<int8_t> dst;
@@ -187,6 +202,7 @@ void Window_Imp::SetClipboardString(const achar* s)
 	Utf16ToUtf8(dst, (int16_t*)s);
 
 	glfwSetClipboardString(glfwWindow, (const char*)dst.data());
+#endif
 }
 
 ap::Window* Window_Imp::GetWindow()

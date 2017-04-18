@@ -54,7 +54,7 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 
 	asd::Log* log = asd::Log_Imp::Create(u"graphics.html", u"ポストエフェクト");
 
-	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(u"PostEffect").c_str());
+	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(u"PostEffect").c_str(), log, asd::WindowPositionType::Default, isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11, asd::ColorSpaceType::LinearSpace, false);
 	ASSERT_TRUE(window != nullptr);
 
 	auto file = asd::File_Imp::Create();
@@ -64,6 +64,7 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 	go.IsFullScreen = false;
 	go.IsReloadingEnabled = false;
 	go.ColorSpace = asd::ColorSpaceType::LinearSpace;
+	go.GraphicsDevice = isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11;
 	auto graphics = asd::Graphics_Imp::Create(window, isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11, log, file, go);
 	ASSERT_TRUE(graphics != nullptr);
 

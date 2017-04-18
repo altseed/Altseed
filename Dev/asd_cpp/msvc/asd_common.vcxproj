@@ -85,7 +85,6 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -98,7 +97,6 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -113,7 +111,6 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -129,7 +126,6 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -155,8 +151,6 @@
     <ClInclude Include="..\common\Math\asd.Vector2DI.h" />
     <ClInclude Include="..\common\Math\asd.Vector3DF.h" />
     <ClInclude Include="..\common\Math\asd.Vector4DF.h" />
-    <ClInclude Include="..\common\Thread\asd.CriticalSection.h" />
-    <ClInclude Include="..\common\Thread\asd.Thread.h" />
     <ClInclude Include="..\common\utility\asd.BinaryReader.h" />
     <ClInclude Include="..\common\utility\asd.BinaryWriter.h" />
     <ClInclude Include="..\common\Utility\asd.CopyArray.h" />
@@ -164,7 +158,6 @@
     <ClInclude Include="..\common\utility\asd.PointerArray.h" />
     <ClInclude Include="..\common\utility\asd.Timer.h" />
     <ClInclude Include="..\common\utility\asd.TypeErasureCopy.h" />
-    <ClInclude Include="..\common\Utility\asd.ToU16String.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\common\asd.common.cpp" />
@@ -181,8 +174,6 @@
     <ClCompile Include="..\common\Math\asd.Vector3DF.cpp" />
     <ClCompile Include="..\common\Math\asd.RectI.cpp" />
     <ClCompile Include="..\common\Math\asd.Vector4DF.cpp" />
-    <ClCompile Include="..\common\Thread\asd.CriticalSection.cpp" />
-    <ClCompile Include="..\common\Thread\asd.Thread.cpp" />
     <ClCompile Include="..\common\utility\asd.PointerArray.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

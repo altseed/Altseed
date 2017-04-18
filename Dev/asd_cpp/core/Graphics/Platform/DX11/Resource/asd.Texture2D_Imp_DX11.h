@@ -17,16 +17,15 @@ namespace asd {
 		: public Texture2D_Imp
 	{
 	private:
-		ID3D11Texture2D*	m_texture;
-		ID3D11ShaderResourceView*	m_textureSRV;
+		ar::Texture2D*		rhi = nullptr;
+
 		std::vector<uint8_t>		m_resource;
 
 		Texture2D_Imp_DX11(Graphics* graphics);
-		Texture2D_Imp_DX11(Graphics* graphics, ID3D11Texture2D* texture, ID3D11ShaderResourceView* textureSRV, Vector2DI size, TextureFormat format);
+		Texture2D_Imp_DX11(Graphics* graphics, ar::Texture2D* rhi, Vector2DI size, TextureFormat format);
 
 		virtual ~Texture2D_Imp_DX11();
 
-		bool GenerateTextureFromInternal(bool isSRGB);
 	public:
 		static Texture2D_Imp_DX11* Create(Graphics_Imp_DX11* graphics, uint8_t* data, int32_t size, bool isEditable, bool isSRGB);
 
@@ -40,7 +39,7 @@ namespace asd {
 
 		void Reload(void* data, int32_t size);
 
-		ID3D11ShaderResourceView* GetShaderResourceView() { return m_textureSRV; }
+		ar::Texture2D* GetRHI() const { return rhi; }
 	};
 
 	//----------------------------------------------------------------------------------

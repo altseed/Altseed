@@ -123,72 +123,12 @@ namespace asd {
 		static std::string GetFormatName(Graphics_Imp* graphics, TextureFormat format);
 	};
 
-	class EffectTextureLoader
-		: public ::Effekseer::TextureLoader
-	{
-	protected:
-		Graphics_Imp*	m_graphics = nullptr;
-
-		struct Cache
-		{
-			bool IsDDS;
-			int32_t Count;
-			void* Ptr;
-			int32_t Width;
-			int32_t Height;
-		};
-		std::map<astring, Cache>		m_caches;
-		std::map<void*, astring>		dataToKey;
-
-		virtual void* InternalLoad(Graphics_Imp* graphics, std::vector<uint8_t>& data, int32_t width, int32_t height ) = 0;
-		virtual void* InternalLoadDDS(Graphics_Imp* graphics, const std::vector<uint8_t>& data) = 0;
-
-		virtual void InternalUnload(void* data) = 0;
-		virtual bool IsReversed() = 0;
-	public:
-
-		EffectTextureLoader(Graphics_Imp* graphics);
-		virtual ~EffectTextureLoader();
-
-		void* Load(const EFK_CHAR* path, Effekseer::TextureType textureType) override;
-		void Unload(void* data) override;
-	};
-
-	class EffectModelLoader
-		: public ::Effekseer::ModelLoader
-	{
-		Graphics_Imp*	m_graphics = nullptr;
-		struct Cache
-		{
-			int32_t Count;
-			void* Ptr;
-		};
-		std::map<astring, Cache>		m_caches;
-		std::map<void*, astring>		dataToKey;
-
-		virtual void* InternalLoad(Graphics_Imp* graphics, const std::vector<uint8_t>& data) = 0;
-		virtual void InternalUnload(void* data) = 0;
-
-	public:
-		EffectModelLoader(Graphics_Imp* graphics);
-		virtual ~EffectModelLoader();
-
-		void* Load(const EFK_CHAR* path) override;
-		void Unload(void* data) override;
-	};
-
-	class EffectDistortingCallback 
-		: public ::EffekseerRenderer::DistortingCallback
-	{
-	public:
-		bool	IsEnabled = false;
-	};
-
 	struct GraphicsOption
 	{
 		bool			IsReloadingEnabled;
 		bool			IsFullScreen;
 		ColorSpaceType	ColorSpace;
+		GraphicsDeviceType	GraphicsDevice;
 	};
 #endif
 
@@ -206,12 +146,15 @@ namespace asd {
 		static const int32_t		MaxTextureCount = 16;
 
 	private:
+		ar::Manager*			rhi = nullptr;
+
 		std::set<DeviceObject*>	m_deviceObjects;
 
 		VertexBuffer_Imp*	m_vertexBufferPtr;
 		IndexBuffer_Imp*	m_indexBufferPtr;
 		NativeShader_Imp*	m_shaderPtr;
 
+		Effekseer::FileInterface*	m_effectFileInterface = nullptr;
 		Effekseer::Setting*	m_effectSetting = nullptr;
 
 		ShaderCache*		m_shaderCache = nullptr;
@@ -296,6 +239,7 @@ namespace asd {
 		std::shared_ptr<ResourceContainer<Model_Imp>> ModelContainer;
 		std::shared_ptr<ResourceContainer<ImagePackage_Imp>> ImagePackageContainer;
 
+		ar::Manager* GetRHI() const { return rhi; }
 		File* GetFile() { return m_file; }
 		Log* GetLog() { return m_log; }
 		GraphicsOption GetOption() { return option; }
@@ -306,7 +250,7 @@ namespace asd {
 #endif
 
 #if !SWIG
-		Graphics_Imp(Vector2DI size, Log* log, File* file, GraphicsOption option);
+		Graphics_Imp(ar::Manager* manager, Vector2DI size, Log* log, File* file, GraphicsOption option);
 		virtual ~Graphics_Imp();
 
 		static Graphics_Imp* Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log, File* file, GraphicsOption option);
@@ -419,6 +363,8 @@ namespace asd {
 		*/
 		Shader2D* CreateShader2D_(const achar* shaderText) override;
 
+		Shader2D* CreateShader2DFromBinary_(const achar* path) override;
+
 		/**
 			@brief	マテリアル(2D)を生成する。
 			@param	shader	シェーダー
@@ -501,7 +447,21 @@ namespace asd {
 		const char* pixelShaderText,
 		const char* pixelShaderFileName,
 		std::vector <VertexLayout>& layout,
+		bool is32Bit,
 		std::vector <Macro>& macro) = 0;
+
+	/**
+	@brief	シェーダーを生成する。
+	@note
+	基本的にShaderCacheを経由してシェーダーを生成するため、この関数を直接使う機会は殆ど無い。
+	*/
+	virtual NativeShader_Imp* CreateShader_Imp_(
+		const uint8_t* vertexShader,
+		int32_t vertexShaderSize,
+		const uint8_t* pixelShader,
+		int32_t pixelShaderSize,
+		std::vector <VertexLayout>& layout,
+		bool is32Bit) { return nullptr; }
 
 	/**
 	@brief	シェーダーを生成する。
@@ -514,9 +474,10 @@ namespace asd {
 		const char* pixelShaderText,
 		const char* pixelShaderFileName,
 		std::vector <VertexLayout>& layout,
+		bool is32Bit,
 		std::vector <Macro>& macro)
 	{
-		return CreateSharedPtr(CreateShader_Imp_(vertexShaderText, vertexShaderFileName, pixelShaderText, pixelShaderFileName, layout, macro));
+		return CreateSharedPtr(CreateShader_Imp_(vertexShaderText, vertexShaderFileName, pixelShaderText, pixelShaderFileName, layout, is32Bit, macro));
 	}
 
 	/**
@@ -644,6 +605,12 @@ namespace asd {
 		@return	スレッド
 	*/
 	std::shared_ptr<RenderingThread>& GetRenderingThread() { return m_renderingThread; }
+
+	/**
+		@brief	エフェクトのファイルインターフェースを取得する。
+		@return	ファイルインターフェース
+	*/
+	Effekseer::FileInterface* GetEffectFileInterface() { return m_effectFileInterface; }
 
 	/**
 		@brief	エフェクトの設定を取得する。

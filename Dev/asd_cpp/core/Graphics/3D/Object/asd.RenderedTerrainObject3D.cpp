@@ -1,7 +1,9 @@
 ﻿
 #include "asd.RenderedTerrainObject3D.h"
 
+#if !defined(_CONSOLE_GAME)
 #include "../Resource/asd.Terrain3D_Imp.h"
+#endif
 
 #include "../Renderer/asd.Renderer3D.h"
 #include "../Renderer/asd.Renderer3DProxy.h"
@@ -28,6 +30,7 @@
 
 namespace asd
 {
+#if !defined(_CONSOLE_GAME)
 	RenderedTerrainObject3DProxy::RenderedTerrainObject3DProxy(Graphics* graphics)
 	{
 		auto g = (Graphics_Imp*) graphics;
@@ -608,19 +611,23 @@ namespace asd
 
 			surfaceCount++;
 		}
-	
 	}
+#endif
 
 	RenderedTerrainObject3D::RenderedTerrainObject3D(Graphics* graphics)
 		: RenderedObject3D(graphics)
 	{
+#if !defined(_CONSOLE_GAME)
 		proxy = new RenderedTerrainObject3DProxy(graphics);
+#endif
 	}
 
 	RenderedTerrainObject3D::~RenderedTerrainObject3D()
 	{
+#if !defined(_CONSOLE_GAME)
 		SafeRelease(terrain);
 		SafeRelease(proxy);
+#endif
 	}
 
 	void RenderedTerrainObject3D::SetMaterialPropertyBlock(MaterialPropertyBlock* block)
@@ -631,20 +638,25 @@ namespace asd
 
 	void RenderedTerrainObject3D::SetTerrain(Terrain3D* terrain)
 	{
+#if !defined(_CONSOLE_GAME)
 		SafeSubstitute(this->terrain, terrain);
+#endif
 	}
 
 	void RenderedTerrainObject3D::OnApplyingNextSRT()
 	{
 		auto pos = this->GetPosition();
 		
+#if !defined(_CONSOLE_GAME)
 		proxy->UpdateCullingMatrix(GetLocalMatrix());
+#endif
 	}
 
 	void RenderedTerrainObject3D::Flip(float deltaTime)
 	{
 		RenderedObject3D::Flip(deltaTime);
 
+#if !defined(_CONSOLE_GAME)
 		auto t = (Terrain3D_Imp*) terrain;
 		t->Commit();
 
@@ -672,5 +684,6 @@ namespace asd
 		}
 
 		proxy->materialPropertyBlock = materialPropertyBlock;
+#endif
 	}
 }

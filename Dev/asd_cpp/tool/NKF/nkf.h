@@ -4,6 +4,9 @@
  * 
  */
 
+// Altseed
+#if !( defined(__ANDROID__) || defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+
 #ifndef NKF_H
 #define NKF_H
 
@@ -200,3 +203,6 @@ extern "C" {
 //
 
 #endif /* NKF_H */
+
+// Altseed
+#endif

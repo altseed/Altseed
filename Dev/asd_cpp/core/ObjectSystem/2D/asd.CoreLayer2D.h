@@ -36,19 +36,21 @@ namespace asd
 		virtual bool GetIsDistortionEnabled() const = 0;
 		virtual void SetIsDistortionEnabled(bool value) = 0;
 
-		virtual void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
-			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
-			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+		virtual void DrawSpriteAdditionally(
+			const Vector2DF& upperLeftPos, const Vector2DF& upperRightPos, const Vector2DF& lowerRightPos, const Vector2DF& lowerLeftPos,
+			const Color& upperLeftCol, const Color& upperRightCol, const Color& lowerRightCol, const Color& lowerLeftCol,
+			const Vector2DF& upperLeftUV, const Vector2DF& upperRightUV, const Vector2DF& lowerRightUV, const Vector2DF& lowerLeftUV,
 			Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority) = 0;
 
-		virtual void DrawSpriteWithMaterialAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
-			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
-			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+		virtual void DrawSpriteWithMaterialAdditionally(
+			const Vector2DF& upperLeftPos, const Vector2DF& upperRightPos, const Vector2DF& lowerRightPos, const Vector2DF& lowerLeftPos,
+			const Color& upperLeftCol, const Color& upperRightCol, const Color& lowerRightCol, const Color& lowerLeftCol,
+			const Vector2DF& upperLeftUV, const Vector2DF& upperRightUV, const Vector2DF& lowerRightUV, const Vector2DF& lowerLeftUV,
 			Material2D* material, AlphaBlendMode alphaBlend, int32_t priority) = 0;
 
 		virtual void DrawTextAdditionally(Vector2DF pos, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int32_t priority) = 0;
 
-		virtual void DrawRectangleAdditionally(RectF drawingArea, Color color, RectF uv, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority) = 0;
+		virtual void DrawRectangleAdditionally(const RectF& drawingArea, const Color& color, const RectF& uv, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority) = 0;
 		virtual void DrawRotatedRectangleAdditionally(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority) = 0;
 		virtual void DrawTriangleAdditionally(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority) = 0;
 

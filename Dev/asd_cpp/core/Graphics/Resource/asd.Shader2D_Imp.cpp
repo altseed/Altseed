@@ -150,6 +150,7 @@ gl_FragColor = texture2D(g_texture, inUV.xy);
 				ToUtf8String(shaderText).c_str(),
 				ToUtf8String(shaderFileName).c_str(),
 				vl,
+				true,
 				macro);
 		}
 		else if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
@@ -160,6 +161,7 @@ gl_FragColor = texture2D(g_texture, inUV.xy);
 				ToUtf8String(shaderText).c_str(),
 				ToUtf8String(shaderFileName).c_str(),
 				vl,
+				true,
 				macro);
 		}
 		else
@@ -174,7 +176,35 @@ gl_FragColor = texture2D(g_texture, inUV.xy);
 			shader);
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
+	Shader2D_Imp* Shader2D_Imp::Create(Graphics* graphics, const achar* path, Log* log)
+	{
+		auto g = (Graphics_Imp*)graphics;
+
+		std::vector<asd::VertexLayout> vl;
+		vl.push_back(asd::VertexLayout("Pos", asd::VertexLayoutFormat::R32G32B32_FLOAT));
+		vl.push_back(asd::VertexLayout("UV", asd::VertexLayoutFormat::R32G32_FLOAT));
+		vl.push_back(asd::VertexLayout("Color", asd::VertexLayoutFormat::R8G8B8A8_UNORM));
+
+		std::vector<asd::Macro> macro;
+
+		std::shared_ptr<NativeShader_Imp> shader;
+
+		if (g->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
+		{
+			return nullptr;
+		}
+		else if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
+		{
+			return nullptr;
+		}
+		else
+		{
+			assert(0);
+		}
+
+		if (shader == nullptr) return nullptr;
+
+		return new Shader2D_Imp(g, shader);
+	}
+
 }

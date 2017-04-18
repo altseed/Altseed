@@ -114,7 +114,10 @@ namespace asd
 
 	int32_t GetThreadID()
 	{
-#if _WIN32
+
+#if defined(_CONSOLE_GAME)
+		return 0;
+#elif _WIN32
 		return GetCurrentThreadId();
 #else
 		return syscall(SYS_gettid);

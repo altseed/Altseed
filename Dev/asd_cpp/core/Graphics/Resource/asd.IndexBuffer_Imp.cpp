@@ -23,7 +23,7 @@ IndexBuffer_Imp::IndexBuffer_Imp(Graphics* graphics, int indexCount, bool isDyna
 	, m_is32bit(is32bit)
 {
 	auto g = (Graphics_Imp*) GetGraphics();
-	g->IncVRAM(m_indexCount * (m_is32bit ? sizeof(int32_t) : sizeof(int16_t)));
+	g->IncVRAM(m_indexMaxCount * (m_is32bit ? sizeof(int32_t) : sizeof(int16_t)));
 }
 
 //-----------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ IndexBuffer_Imp::IndexBuffer_Imp(Graphics* graphics, int indexCount, bool isDyna
 IndexBuffer_Imp::~IndexBuffer_Imp()
 {
 	auto g = (Graphics_Imp*) GetGraphics();
-	g->DecVRAM(m_indexCount * (m_is32bit ? sizeof(int32_t) : sizeof(int16_t)));
+	g->DecVRAM(m_indexMaxCount * (m_is32bit ? sizeof(int32_t) : sizeof(int16_t)));
 }
 
 //-----------------------------------------------------------------------------------

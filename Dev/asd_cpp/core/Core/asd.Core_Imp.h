@@ -58,8 +58,12 @@ namespace asd {
 
 		LayerRenderer*				layerRenderer = nullptr;
 
+#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+
+#else
 		std::vector<astring>						m_screenShots;
 		std::vector<std::shared_ptr<GifAnimation>>	gifAnimations;
+#endif
 
 		int32_t				m_targetFPS;
 		float				m_currentFPS;

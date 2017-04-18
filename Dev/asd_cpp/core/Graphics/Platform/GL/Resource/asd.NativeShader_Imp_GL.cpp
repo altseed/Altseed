@@ -344,6 +344,7 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 	const char* pixelShaderText,
 	const char* pixelShaderFileName,
 	std::vector <VertexLayout>& layout,
+	bool is32Bit,
 	std::vector <Macro>& macro,
 	Log* log)
 {

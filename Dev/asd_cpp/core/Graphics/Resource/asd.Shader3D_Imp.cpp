@@ -107,6 +107,7 @@ namespace asd {
 				ToUtf8String(shaderText).c_str(),
 				ToUtf8String(shaderFileName).c_str(),
 				vl,
+				true,
 				macro);
 
 			shader_light = g->CreateShader_Imp(
@@ -115,6 +116,7 @@ namespace asd {
 				ToUtf8String(shaderText).c_str(),
 				ToUtf8String(shaderFileName).c_str(),
 				vl,
+				true,
 				macro_light);
 
 			shader_depth = g->CreateShader_Imp(
@@ -123,6 +125,7 @@ namespace asd {
 				ToUtf8String(shaderText).c_str(),
 				ToUtf8String(shaderFileName).c_str(),
 				vl,
+				true,
 				macro_depth);
 
 			shader_light_depth = g->CreateShader_Imp(
@@ -131,6 +134,7 @@ namespace asd {
 				ToUtf8String(shaderText).c_str(),
 				ToUtf8String(shaderFileName).c_str(),
 				vl,
+				true,
 				macro_light_depth);
 		}
 		else if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
@@ -141,6 +145,7 @@ namespace asd {
 				ToUtf8String(shaderText).c_str(),
 				ToUtf8String(shaderFileName).c_str(),
 				vl,
+				true,
 				macro);
 
 			shader_light = g->CreateShader_Imp(
@@ -149,6 +154,7 @@ namespace asd {
 				ToUtf8String(shaderText).c_str(),
 				ToUtf8String(shaderFileName).c_str(),
 				vl,
+				true,
 				macro_light);
 
 			shader_depth = g->CreateShader_Imp(
@@ -157,6 +163,7 @@ namespace asd {
 				ToUtf8String(shaderText).c_str(),
 				ToUtf8String(shaderFileName).c_str(),
 				vl,
+				true,
 				macro_depth);
 
 			shader_light_depth = g->CreateShader_Imp(
@@ -165,6 +172,7 @@ namespace asd {
 				ToUtf8String(shaderText).c_str(),
 				ToUtf8String(shaderFileName).c_str(),
 				vl,
+				true,
 				macro_light_depth);
 		}
 		else
@@ -236,6 +244,7 @@ namespace asd {
 					ToUtf8String(shaderText.c_str()).c_str(),
 					ToUtf8String(shaderFileName.c_str()).c_str(),
 					vl,
+					true,
 					macro);
 
 				shaders_light[i] = g->CreateShader_Imp(
@@ -244,6 +253,7 @@ namespace asd {
 					ToUtf8String(shaderText.c_str()).c_str(),
 					ToUtf8String(shaderFileName.c_str()).c_str(),
 					vl,
+					true,
 					macro_light);
 
 				shaders_depth[i] = g->CreateShader_Imp(
@@ -252,6 +262,7 @@ namespace asd {
 					ToUtf8String(shaderText.c_str()).c_str(),
 					ToUtf8String(shaderFileName.c_str()).c_str(),
 					vl,
+					true,
 					macro_depth);
 
 				shaders_light_depth[i] = g->CreateShader_Imp(
@@ -260,6 +271,7 @@ namespace asd {
 					ToUtf8String(shaderText.c_str()).c_str(),
 					ToUtf8String(shaderFileName.c_str()).c_str(),
 					vl,
+					true,
 					macro_light_depth);
 			}
 			else if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
@@ -270,6 +282,7 @@ namespace asd {
 					ToUtf8String(shaderText.c_str()).c_str(),
 					ToUtf8String(shaderFileName.c_str()).c_str(),
 					vl,
+					true,
 					macro);
 
 				shaders_light[i] = g->CreateShader_Imp(
@@ -278,6 +291,7 @@ namespace asd {
 					ToUtf8String(shaderText.c_str()).c_str(),
 					ToUtf8String(shaderFileName.c_str()).c_str(),
 					vl,
+					true,
 					macro_light);
 
 				shaders_depth[i] = g->CreateShader_Imp(
@@ -286,6 +300,7 @@ namespace asd {
 					ToUtf8String(shaderText.c_str()).c_str(),
 					ToUtf8String(shaderFileName.c_str()).c_str(),
 					vl,
+					true,
 					macro_depth);
 
 				shaders_light_depth[i] = g->CreateShader_Imp(
@@ -294,6 +309,7 @@ namespace asd {
 					ToUtf8String(shaderText.c_str()).c_str(),
 					ToUtf8String(shaderFileName.c_str()).c_str(),
 					vl,
+					true,
 					macro_light_depth);
 			}
 
@@ -338,6 +354,7 @@ namespace asd {
 				ToUtf8String(shaderText.c_str()).c_str(),
 				ToUtf8String(shaderFileName.c_str()).c_str(),
 				vl,
+				true,
 				macro);
 
 			shader_light = g->CreateShader_Imp(
@@ -346,6 +363,7 @@ namespace asd {
 				ToUtf8String(shaderText.c_str()).c_str(),
 				ToUtf8String(shaderFileName.c_str()).c_str(),
 				vl,
+				true,
 				macro_light);
 		}
 		else if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
@@ -356,6 +374,7 @@ namespace asd {
 				ToUtf8String(shaderText.c_str()).c_str(),
 				ToUtf8String(shaderFileName.c_str()).c_str(),
 				vl,
+				true,
 				macro);
 
 			shader_light = g->CreateShader_Imp(
@@ -364,6 +383,7 @@ namespace asd {
 				ToUtf8String(shaderText.c_str()).c_str(),
 				ToUtf8String(shaderFileName.c_str()).c_str(),
 				vl,
+				true,
 				macro_light);
 		}
 

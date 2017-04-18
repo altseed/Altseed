@@ -3,6 +3,9 @@
  *
  */
 
+// Altseed
+#if !( defined(__ANDROID__) || defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+
 #ifndef _UTF8TBL_H_
 #define _UTF8TBL_H_
 
@@ -68,5 +71,7 @@ extern const unsigned short cp932inv[2][189];
 extern const unsigned short shiftjis_x0212[3][189];
 extern const unsigned short *const x0212_shiftjis[];
 #endif /* X0212_ENABLE */
+
+#endif
 
 #endif

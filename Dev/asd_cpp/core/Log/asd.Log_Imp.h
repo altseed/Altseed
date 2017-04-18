@@ -4,7 +4,8 @@
 
 namespace asd
 {
-	class Log_Imp : public Log
+	class Log_Imp 
+		: public Log
 	{
 	private:
 		LogLevel m_outputLevel;

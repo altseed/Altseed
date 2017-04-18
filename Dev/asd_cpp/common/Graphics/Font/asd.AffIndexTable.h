@@ -10,7 +10,7 @@ namespace asd
 	{
 	public:
 		static const int CHARCODE_MAX = 65536;
-		static const int16_t NONAVAILABLE = 0xff;
+		static const int16_t NONAVAILABLE = 0xffff;
 
 	private:
 		std::array<int16_t, CHARCODE_MAX> m_indexes;

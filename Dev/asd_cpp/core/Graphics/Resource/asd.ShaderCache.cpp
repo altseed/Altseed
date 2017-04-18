@@ -51,6 +51,7 @@ namespace asd
 				pixelShaderCode,
 				ToUtf8String(key).c_str(),
 				layout,
+				true,
 				macro);
 
 			if (shader != nullptr)
@@ -60,6 +61,44 @@ namespace asd
 			}
 		}
 		
+		if (shader == nullptr) return nullptr;
+
+		return std::shared_ptr<NativeShader_Imp>(shader, ShaderCacheReferenceDeleter());
+	}
+
+	std::shared_ptr<NativeShader_Imp> ShaderCache::CreateFromBinary(
+		const achar* key,
+		const uint8_t* vertexShader,
+		int32_t vertexShaderSize,
+		const uint8_t* pixelShader,
+		int32_t pixelShaderSize,
+		std::vector <VertexLayout>& layout)
+	{
+		NativeShader_Imp* shader = nullptr;
+
+		auto it = m_shaders.find(key);
+		if (it != m_shaders.end())
+		{
+			shader = it->second;
+			SafeAddRef(shader);
+		}
+		else
+		{
+			shader = m_graphics->CreateShader_Imp_(
+				vertexShader,
+				vertexShaderSize,
+				pixelShader,
+				pixelShaderSize,
+				layout,
+				true);
+
+			if (shader != nullptr)
+			{
+				m_shaders[key] = shader;
+				shader->SetKey(key);
+			}
+		}
+
 		if (shader == nullptr) return nullptr;
 
 		return std::shared_ptr<NativeShader_Imp>(shader, ShaderCacheReferenceDeleter());
