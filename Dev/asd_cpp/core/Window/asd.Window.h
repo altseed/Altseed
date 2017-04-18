@@ -38,16 +38,6 @@ public:
 	*/
 	virtual void SetTitle( const achar* title ) = 0;
 
-	virtual Vector2DI GetPrimaryMonitorPosition() = 0;
-
-	virtual Vector2DI GetPrimaryMonitorSize() = 0;
-
-	virtual Vector2DI GetWindowPosition() = 0;
-
-	virtual void SetWindowPosition(Vector2DI position) = 0;
-
-	virtual void ShowWindow() = 0;
-
 	/**
 		@brief	ウインドウを閉じる。
 	*/

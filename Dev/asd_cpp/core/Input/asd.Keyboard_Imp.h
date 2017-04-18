@@ -5,20 +5,19 @@
 
 namespace asd{
 
-	class Keyboard_Imp:public Keyboard
+	class Keyboard_Imp
+		: public Keyboard
 	{
+	private:
+		Window_Imp*	window = nullptr;
+		ap::Keyboard*	keyboard = nullptr;
+
 	public:
-		static Keyboard_Imp* Create(Window_Imp *window_Imp);
+		static Keyboard_Imp* Create(Window_Imp* window);
 		void RefreshInputState();
 		KeyState GetKeyState(Keys key) const override;
-		Keyboard_Imp(Window_Imp *window_Imp);
+		Keyboard_Imp(Window_Imp* window);
 		virtual ~Keyboard_Imp();
-	private:
-		static const int KEY_NUM = 121;
-		static const int m_keyCode[128];
-		bool m_currentHit[KEY_NUM];
-		bool m_preHit[KEY_NUM];
-		GLFWwindow* m_window;
 	};
 
 }

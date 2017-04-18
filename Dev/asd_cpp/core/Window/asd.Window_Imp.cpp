@@ -20,6 +20,25 @@ namespace asd {
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+
+static void CallbackOnFocus(GLFWwindow* window, int b)
+{
+	auto w = (Window_Imp*)glfwGetWindowUserPointer(window);
+	if (b == GL_TRUE)
+	{
+		auto onFocused = w->OnFocused;
+
+		if (onFocused)
+		{
+			onFocused();
+		}
+	}
+	else
+	{
+
+	}
+}
+
 Window_Imp::Window_Imp(Log* logger)
 	: m_logger(logger)
 {
@@ -29,49 +48,115 @@ Window_Imp::Window_Imp(Log* logger)
 Window_Imp::~Window_Imp()
 {
 	SafeRelease(currentCursor);
+	SafeDelete(window);
 }
 
-Window_Imp* Window_Imp::Create(int32_t width, int32_t height, const achar* title, Log* logger, ColorSpaceType colorSpaceType, bool isFullScreen)
+Window_Imp* Window_Imp::Create(
+	int32_t width,
+	int32_t height,
+	const achar* title,
+	Log* logger,
+	WindowPositionType windowPositionType,
+	GraphicsDeviceType graphicsDeviceType,
+	ColorSpaceType colorSpaceType,
+	bool isFullScreen)
 {
-	Window_Imp* ret = nullptr;
-
 	if (logger != nullptr) logger->WriteHeading("ウインドウ");
 
-#ifdef _WIN32
-	ret = Window_Imp_Win::Create(width, height, title, logger, colorSpaceType, isFullScreen);
-#else
-	ret = Window_Imp_X11::Create( width, height, title, logger, colorSpaceType, isFullScreen);
-#endif
-	if (ret != nullptr)
+	auto ret = new Window_Imp(logger);
+	auto window = ap::Window::Create();
+
+	ap::WindowInitializationParameter initParam;
+	initParam.WindowWidth = width;
+	initParam.WindowHeight = height;
+	initParam.Title = std::u16string(title);
+	initParam.WindowPosition = (ap::WindowPositionType)windowPositionType;
+	initParam.ColorSpace = (ap::ColorSpaceType)colorSpaceType;
+	initParam.GraphicsDevice = (ap::GraphicsDeviceType)graphicsDeviceType;
+	initParam.IsFullscreenMode = isFullScreen;
+
+	if (ret != nullptr && window != nullptr)
 	{
-		if (logger != nullptr) logger->WriteLine("ウインドウ作成成功");
+		auto errorCode = window->Initialize(initParam);
+		if (errorCode == ap::ErrorCode::OK)
+		{
+			ret->window = window;
+			ret->m_size.X = width;
+			ret->m_size.Y = height;
+
+			auto glfwWindow = (GLFWwindow*)window->GetNativeWindow();
+			glfwSetWindowUserPointer(glfwWindow, ret);
+			glfwSetWindowFocusCallback(glfwWindow, CallbackOnFocus);
+
+			if (logger != nullptr) logger->WriteLine("ウインドウ作成成功");
+		}
+		else
+		{
+			if (logger != nullptr) logger->WriteLine("ウインドウ作成失敗");
+			goto End;
+		}
 	}
+	else
+	{
+		if (logger != nullptr) logger->WriteLine("ウインドウ作成失敗");
+		goto End;
+	}
+
 	return ret;
+
+End:;
+	SafeRelease(ret);
+	SafeDelete(window);
+	return nullptr;
+}
+
+bool Window_Imp::DoEvent()
+{
+	return window->DoEvent();
+}
+
+void Window_Imp::SetTitle(const achar* title)
+{
+	window->SetTitle(title);
+}
+
+void Window_Imp::Close()
+{
+	window->Close();
+}
+
+void* Window_Imp::GetWindowHandle() const
+{
+	return window->GetHandle();
 }
 
 void Window_Imp::SetSize(Vector2DI size)
 {
-	glfwSetWindowSize(m_window, size.X, size.Y);
+	window->SetSize(size.X, size.Y);
 }
 
 void Window_Imp::SetCursor(Cursor* cursor)
 {
+	auto glfwWindow = (GLFWwindow*)window->GetNativeWindow();
+
 	if (cursor == nullptr)
 	{
-		glfwSetCursor(m_window,nullptr);
+		glfwSetCursor(glfwWindow, nullptr);
 		SafeRelease(currentCursor);
 		return;
 	}
 
 	auto c = (Cursor_Imp*) cursor;
-	glfwSetCursor(m_window, c->GetNative());
+	glfwSetCursor(glfwWindow, c->GetNative());
 
 	SafeSubstitute(currentCursor, cursor);
 }
 
 const achar* Window_Imp::GetClipboardString()
 {
-	auto s = glfwGetClipboardString(m_window);
+	auto glfwWindow = (GLFWwindow*)window->GetNativeWindow();
+
+	auto s = glfwGetClipboardString(glfwWindow);
 	static achar temp[260];
 
 	if (s == nullptr)
@@ -101,14 +186,18 @@ const achar* Window_Imp::GetClipboardString()
 
 void Window_Imp::SetClipboardString(const achar* s)
 {
+	auto glfwWindow = (GLFWwindow*)window->GetNativeWindow();
+
 	std::vector<int8_t> dst;
 
 	Utf16ToUtf8(dst, (int16_t*)s);
 
-	glfwSetClipboardString(m_window, (const char*)dst.data());
+	glfwSetClipboardString(glfwWindow, (const char*)dst.data());
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+ap::Window* Window_Imp::GetWindow()
+{
+	return window;
+}
+
 }

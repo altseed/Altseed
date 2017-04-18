@@ -1309,7 +1309,7 @@ End:
 Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log, File* file, GraphicsOption option)
 {
 	auto size = window->GetSize();
-	auto handle = glfwGetWin32Window(((Window_Imp*) window)->GetWindow());
+	auto handle = (HWND)((Window_Imp*)window)->GetWindowHandle();
 	return Create(handle, size.X, size.Y, log, file, option);
 }
 

@@ -39,6 +39,31 @@
 
 #endif
 
+// AltseedPlatform
+#include <AltseedPlatform.h>
+
+#if _WIN32
+
+#ifdef _WIN64
+
+#if _DEBUG
+#pragma comment(lib,"x64/Debug/AltseedPlatform_Win.lib")
+#else
+#pragma comment(lib,"x64/Release/AltseedPlatform_Win.lib")
+#endif
+
+#else
+
+#if _DEBUG
+#pragma comment(lib,"x86/Debug/AltseedPlatform_Win.lib")
+#else
+#pragma comment(lib,"x86/Release/AltseedPlatform_Win.lib")
+#endif
+
+#endif
+
+#endif
+
 
 // GLU
 #pragma comment(lib, "glu32.lib")
@@ -54,6 +79,26 @@
 #define GLFW_EXPOSE_NATIVE_X11
 #define GLFW_EXPOSE_NATIVE_GLX
 #include <X11/extensions/Xrandr.h>
+#endif
+
+#if _WIN32
+#ifdef _WIN64
+
+#ifdef _DEBUG
+#pragma comment(lib,"x64/Debug/glfw3.lib")
+#else
+#pragma comment(lib,"x64/Release/glfw3.lib")
+#endif
+
+#else
+
+#ifdef _DEBUG
+#pragma comment(lib,"x86/Debug/glfw3.lib")
+#else
+#pragma comment(lib,"x86/Release/glfw3.lib")
+#endif
+
+#endif
 #endif
 
 #include <GLFW/glfw3.h>

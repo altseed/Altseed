@@ -18,9 +18,6 @@
 
 #include "../../../Log/asd.Log.h"
 
-// Windows以外でGoogleTestとGLFWNativeのヘッダが干渉する(2013/12)
-#include <GLFW/glfw3native.h>
-
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -251,7 +248,7 @@ namespace asd {
 
 	auto window_ = ((Window_Imp*)window)->GetWindow();
 
-	glfwMakeContextCurrent(window_);
+	window_->MakeContextCurrent();
 	GLCheckError();
 	
 	if (option.ColorSpace == ColorSpaceType::LinearSpace)
@@ -259,10 +256,6 @@ namespace asd {
 		glEnable(GL_FRAMEBUFFER_SRGB);
 	}
 	
-	// 同期しない
-	glfwSwapInterval(0);
-	GLCheckError();
-
 #pragma region RenderState
 	glGenSamplers(MaxTextureCount, m_samplers);
 	GLCheckError();
@@ -290,7 +283,7 @@ namespace asd {
 	GLCheckError();
 #endif
 
-	CreateContextBeforeThreading(window_);
+	CreateContextBeforeThreading(window);
 
 #ifdef __APPLE__
 	GLCheckError();
@@ -301,7 +294,7 @@ namespace asd {
 	{
 		Sleep(1);
 	}
-	CreateContextAfterThreading(window_);
+	CreateContextAfterThreading(window);
 
 #ifdef __APPLE__
 	GLCheckError();
@@ -481,8 +474,7 @@ void Graphics_Imp_GL::StartRenderingThread()
 {
 	if (m_window != nullptr)
 	{
-		auto window_ = ((Window_Imp*) m_window)->GetWindow();
-		CreateContextOnThread(window_);
+		CreateContextOnThread(m_window);
 	}
 	else
 	{
@@ -859,7 +851,7 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create(::asd::Window* window, Log* log, File *
 	writeLogHeading(ToAString("描画(OpenGL)"));
 
 	auto window_ = ((Window_Imp*) window)->GetWindow();
-	glfwMakeContextCurrent(window_);
+	window_->MakeContextCurrent();
 	GLCheckError();
 
 #ifndef __APPLE__
@@ -882,10 +874,10 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create(::asd::Window* window, Log* log, File *
 	writeLog(ToAString(""));
 
 	// Retinaなどへの対応
-	auto glfwWindow = reinterpret_cast<Window_Imp*>(window)->GetWindow();
+	auto internalWindow = reinterpret_cast<Window_Imp*>(window)->GetWindow();
 	int bufferX, bufferY;
-	glfwGetFramebufferSize(glfwWindow, &bufferX, &bufferY);
-
+	internalWindow->GetFrameBufferSize(bufferX, bufferY);
+	
 	return new Graphics_Imp_GL(Vector2DI(bufferX, bufferY), window, log, file, option);
 
 End:;
@@ -1401,7 +1393,7 @@ void Graphics_Imp_GL::Present()
 	if (m_window != nullptr)
 	{
 		auto window_ = ((Window_Imp*) m_window)->GetWindow();
-		glfwSwapBuffers(window_);
+		window_->Present();
 	}
 	else
 	{
@@ -1493,7 +1485,7 @@ void Graphics_Imp_GL::MakeContextCurrent()
 	if (m_window != nullptr)
 	{
 		auto window_ = ((Window_Imp*) m_window)->GetWindow();
-		glfwMakeContextCurrent(window_);
+		window_->MakeContextCurrent();
 	}
 	else
 	{
@@ -1507,7 +1499,8 @@ void Graphics_Imp_GL::MakeContextNone()
 {
 	if (m_window != nullptr)
 	{
-		glfwMakeContextCurrent(nullptr);
+		auto window_ = ((Window_Imp*)m_window)->GetWindow();
+		window_->MakeContextNone();
 	}
 	else
 	{
@@ -1531,11 +1524,11 @@ void Graphics_Imp_GL::SetWindowSize(Vector2DI size)
 	m_size = size;
 }
 
-void Graphics_Imp_GL::CreateContextBeforeThreading(GLFWwindow* window)
+void Graphics_Imp_GL::CreateContextBeforeThreading(Window* window)
 {
 }
 
-void Graphics_Imp_GL::CreateContextOnThread(GLFWwindow* window)
+void Graphics_Imp_GL::CreateContextOnThread(Window* window)
 {
 	if (window == nullptr) return;
 
@@ -1547,7 +1540,7 @@ void Graphics_Imp_GL::CreateContextOnThread(GLFWwindow* window)
 	m_endStarting = true;
 }
 
-void Graphics_Imp_GL::CreateContextAfterThreading(GLFWwindow* window)
+void Graphics_Imp_GL::CreateContextAfterThreading(Window* window)
 {
 }
 

@@ -168,9 +168,6 @@
     <ClInclude Include="..\core\Window\asd.Window_Imp.h">
       <Filter>Window</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Window\asd.Window_Imp_Win.h">
-      <Filter>Window</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Log\asd.Log_Imp.h">
       <Filter>Log</Filter>
     </ClInclude>
@@ -1031,9 +1028,6 @@
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">
       <Filter>Log</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\Window\asd.Window_Imp_Win.cpp">
-      <Filter>Window</Filter>
-    </ClCompile>
     <ClCompile Include="..\core\Window\asd.Window_Imp.cpp">
       <Filter>Window</Filter>
     </ClCompile>
@@ -1449,12 +1443,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\core\Window\asd.Window_Imp_X11.cpp">
-      <Filter>Window</Filter>
-    </None>
-    <None Include="..\core\Window\asd.Window_Imp_X11.h">
-      <Filter>Window</Filter>
-    </None>
     <None Include="..\core\Input\asd.JoystickContainer.h">
       <Filter>Input</Filter>
     </None>

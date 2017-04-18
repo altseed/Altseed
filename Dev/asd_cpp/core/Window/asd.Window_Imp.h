@@ -25,11 +25,11 @@ namespace asd {
 		, public ReferenceObject
 	{
 	protected:
+		ap::Window*	window = nullptr;
+
 		Vector2DI	m_size;
 		Log*		m_logger;
 		Cursor*		currentCursor = nullptr;
-
-		GLFWwindow*	m_window = nullptr;
 
 		Window_Imp(Log* logger);
 		virtual ~Window_Imp();
@@ -43,11 +43,27 @@ namespace asd {
 			@param	isFullScreen	フルスクリーンか
 			@return	ウインドウ
 		*/
-		static Window_Imp* Create(int32_t width, int32_t height, const achar* title, Log* logger = nullptr, ColorSpaceType colorSpaceType = ColorSpaceType::LinearSpace, bool isFullScreen = false);
+		static Window_Imp* Create(
+			int32_t width, 
+			int32_t height, 
+			const achar* title, 
+			Log* logger, 
+			WindowPositionType windowPositionType,
+			GraphicsDeviceType graphicsDeviceType,
+			ColorSpaceType colorSpaceType, 
+			bool isFullScreen);
 
-		Vector2DI GetSize() const { return m_size; }
+		bool DoEvent() override;
 
-		void SetSize(Vector2DI size);
+		void SetTitle(const achar* title) override;
+
+		virtual void Close() override;
+
+		virtual void* GetWindowHandle() const override;
+
+		Vector2DI GetSize() const override { return m_size; }
+
+		void SetSize(Vector2DI size) override;
 
 		void SetCursor(Cursor* cursor);
 
@@ -58,7 +74,7 @@ namespace asd {
 #ifndef SWIG
 		std::function<void()> OnFocused;
 
-		virtual GLFWwindow* GetWindow() = 0;
+		ap::Window* GetWindow();
 #endif
 
 #if !SWIG

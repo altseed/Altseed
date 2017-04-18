@@ -185,19 +185,19 @@ namespace asd {
 		@brief	描画スレッド用にコンテキストを生成する。(描画スレッド生成前)
 		@param	window	ウインドウ
 		*/
-		void CreateContextBeforeThreading(GLFWwindow* window);
+		void CreateContextBeforeThreading(Window* window);
 
 		/**
 			@brief	描画スレッド用にコンテキストを生成する。(描画スレッド上)
 			@param	window	ウインドウ
 		*/
-		void CreateContextOnThread(GLFWwindow* window);
+		void CreateContextOnThread(Window* window);
 
 		/**
 		@brief	描画スレッド用にコンテキストを生成する。(描画スレッド生成後)
 		@param	window	ウインドウ
 		*/
-		void CreateContextAfterThreading(GLFWwindow* window);
+		void CreateContextAfterThreading(Window* window);
 
 		/**
 			@brief	フレームバッファをバインドする。
