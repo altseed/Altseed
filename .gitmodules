@@ -40,3 +40,7 @@
 [submodule "Downloads/glew"]
 	path = Downloads/glew
 	url = https://github.com/nigels-com/glew
+[submodule "Downloads/AltseedPlatform"]
+	path = Downloads/AltseedPlatform
+	url = https://github.com/altseed/AltseedWindowExp.git
+	ignore = dirty

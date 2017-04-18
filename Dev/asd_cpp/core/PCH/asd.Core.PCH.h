@@ -47,17 +47,17 @@
 #ifdef _WIN64
 
 #if _DEBUG
-#pragma comment(lib,"x64/Debug/AltseedPlatform_Win.lib")
+#pragma comment(lib,"x64/Debug/AltseedPlatform.lib")
 #else
-#pragma comment(lib,"x64/Release/AltseedPlatform_Win.lib")
+#pragma comment(lib,"x64/Release/AltseedPlatform.lib")
 #endif
 
 #else
 
 #if _DEBUG
-#pragma comment(lib,"x86/Debug/AltseedPlatform_Win.lib")
+#pragma comment(lib,"x86/Debug/AltseedPlatform.lib")
 #else
-#pragma comment(lib,"x86/Release/AltseedPlatform_Win.lib")
+#pragma comment(lib,"x86/Release/AltseedPlatform.lib")
 #endif
 
 #endif
