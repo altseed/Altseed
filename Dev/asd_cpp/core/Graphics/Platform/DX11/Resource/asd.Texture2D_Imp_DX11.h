@@ -17,6 +17,8 @@ namespace asd {
 		: public Texture2D_Imp
 	{
 	private:
+		ar::Texture2D*		rhi = nullptr;
+
 		ID3D11Texture2D*	m_texture;
 		ID3D11ShaderResourceView*	m_textureSRV;
 		std::vector<uint8_t>		m_resource;
@@ -41,6 +43,8 @@ namespace asd {
 		void Reload(void* data, int32_t size);
 
 		ID3D11ShaderResourceView* GetShaderResourceView() { return m_textureSRV; }
+
+		ar::Texture2D* GetRHI() const { return rhi; }
 	};
 
 	//----------------------------------------------------------------------------------

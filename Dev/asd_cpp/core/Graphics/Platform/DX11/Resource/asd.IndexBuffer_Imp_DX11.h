@@ -17,6 +17,8 @@ namespace asd {
 		: public IndexBuffer_Imp
 	{
 	private:
+		ar::IndexBuffer*					rhi = nullptr;
+
 		ID3D11Buffer*	m_buffer;
 		void*			m_lockedResource;
 
@@ -32,6 +34,8 @@ namespace asd {
 		void Unlock();
 
 		ID3D11Buffer* GetBuffer() { return m_buffer; }
+
+		ar::IndexBuffer* GetRHI() const { return rhi; }
 	};
 
 	//----------------------------------------------------------------------------------

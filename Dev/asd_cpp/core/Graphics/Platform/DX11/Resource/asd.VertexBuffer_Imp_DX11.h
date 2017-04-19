@@ -17,6 +17,7 @@ namespace asd {
 		: public VertexBuffer_Imp
 	{
 	private:
+		ar::VertexBuffer*					rhi = nullptr;
 
 		ID3D11Buffer*			m_buffer;
 		void*					m_lockedResource;
@@ -38,6 +39,8 @@ namespace asd {
 		void Unlock();
 
 		ID3D11Buffer* GetBuffer() { return m_buffer; }
+
+		ar::VertexBuffer* GetRHI() const { return rhi; }
 	};
 
 	//----------------------------------------------------------------------------------

@@ -18,6 +18,8 @@ namespace asd {
 		: public RenderTexture2D_Imp
 	{
 	protected:
+		ar::RenderTexture2D*		rhi = nullptr;
+
 		ID3D11Texture2D*			m_texture;
 		ID3D11ShaderResourceView*	m_textureSRV;
 		ID3D11RenderTargetView*		m_textureRTV;
@@ -36,6 +38,8 @@ namespace asd {
 
 		ID3D11RenderTargetView* GetRenderTargetView() { return m_textureRTV; }
 		ID3D11ShaderResourceView* GetShaderResourceView() { return m_textureSRV; }
+
+		ar::RenderTexture2D* GetRHI() const { return rhi; }
 	};
 
 	//----------------------------------------------------------------------------------

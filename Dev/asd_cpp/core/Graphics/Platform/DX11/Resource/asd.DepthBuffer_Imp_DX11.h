@@ -21,6 +21,8 @@ namespace asd {
 		: public DepthBuffer_Imp
 	{
 	protected:
+		ar::DepthTexture*					rhi = nullptr;
+
 		ID3D11Texture2D*			m_depthBuffer;
 		ID3D11DepthStencilView*		m_depthStencilView;
 		ID3D11ShaderResourceView*	m_depthSRV;
@@ -34,6 +36,8 @@ namespace asd {
 		ID3D11DepthStencilView* GetDepthStencilView(){ return m_depthStencilView; }
 
 		ID3D11ShaderResourceView* GetShaderResourceView() { return m_depthSRV; }
+
+		ar::DepthTexture* GetRHI() const { return rhi; }
 	};
 
 	//----------------------------------------------------------------------------------

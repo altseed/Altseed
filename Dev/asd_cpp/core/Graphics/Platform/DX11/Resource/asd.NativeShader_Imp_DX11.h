@@ -17,6 +17,8 @@ namespace asd {
 		: public NativeShader_Imp
 	{
 	private:
+		ar::Shader*					rhi = nullptr;
+
 		ID3D11VertexShader*			m_vertexShader;
 		ID3D11PixelShader*			m_pixelShader;
 		ID3D11InputLayout*			m_vertexDeclaration;
@@ -91,6 +93,10 @@ namespace asd {
 		ID3D11InputLayout* GetLayout() { return m_vertexDeclaration; };
 		ID3D11VertexShader *GetVertexShader() { return m_vertexShader; }
 		ID3D11PixelShader* GetPixelShader() { return m_pixelShader; }
+
+		ar::Shader* GetRHI() const { return rhi; }
+		ar::ConstantBuffer* GetRHIVertexConstantBuffer() const { return nullptr; }
+		ar::ConstantBuffer* GetRHIPixelConstantBuffer() const { return nullptr; }
 	};
 
 	//----------------------------------------------------------------------------------

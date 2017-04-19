@@ -10,6 +10,8 @@ namespace asd
 		: public CubemapTexture_Imp
 	{
 	private:
+		ar::CubemapTexture*					rhi = nullptr;
+
 		ID3D11Resource*	m_texture;
 		ID3D11ShaderResourceView*	m_textureSRV;
 		
@@ -28,5 +30,7 @@ namespace asd
 		static CubemapTexture_Imp* Create(Graphics_Imp* graphics, const achar* path, int32_t mipmapCount);
 
 		static CubemapTexture_Imp* Create(Graphics_Imp* graphics, const achar* path);
+
+		ar::CubemapTexture* GetRHI() const { return rhi; }
 	};
 }

@@ -206,6 +206,8 @@ namespace asd {
 		static const int32_t		MaxTextureCount = 16;
 
 	private:
+		ar::Manager*			rhi = nullptr;
+
 		std::set<DeviceObject*>	m_deviceObjects;
 
 		VertexBuffer_Imp*	m_vertexBufferPtr;
@@ -296,6 +298,7 @@ namespace asd {
 		std::shared_ptr<ResourceContainer<Model_Imp>> ModelContainer;
 		std::shared_ptr<ResourceContainer<ImagePackage_Imp>> ImagePackageContainer;
 
+		ar::Manager* GetRHI() const { return rhi; }
 		File* GetFile() { return m_file; }
 		Log* GetLog() { return m_log; }
 		GraphicsOption GetOption() { return option; }
@@ -306,7 +309,7 @@ namespace asd {
 #endif
 
 #if !SWIG
-		Graphics_Imp(Vector2DI size, Log* log, File* file, GraphicsOption option);
+		Graphics_Imp(ar::Manager* manager, Vector2DI size, Log* log, File* file, GraphicsOption option);
 		virtual ~Graphics_Imp();
 
 		static Graphics_Imp* Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log, File* file, GraphicsOption option);

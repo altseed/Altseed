@@ -464,6 +464,7 @@ namespace asd {
 //
 //----------------------------------------------------------------------------------
 Graphics_Imp_DX11::Graphics_Imp_DX11(
+	ar::Manager* manager,
 	Window* window,
 	Vector2DI size,
 	Log* log,
@@ -479,35 +480,35 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	ID3D11RenderTargetView*	defaultBackRenderTargetView,
 	ID3D11Texture2D* defaultDepthBuffer,
 	ID3D11DepthStencilView* defaultDepthStencilView)
-	: Graphics_Imp(size, log,file, option)
+	: Graphics_Imp(manager, size, log,file, option)
 	, m_window(window)
-	, m_device(device)
-	, m_context(context)
-	, m_dxgiDevice(dxgiDevice)
-	, m_adapter(adapter)
-	, m_dxgiFactory(dxgiFactory)
-	, m_swapChain(swapChain)
-	, m_defaultBack(defaultBack)
-	, m_defaultBackRenderTargetView(defaultBackRenderTargetView)
-	, m_defaultDepthBuffer(defaultDepthBuffer)
-	, m_defaultDepthStencilView(defaultDepthStencilView)
-	, m_currentDepthStencilView(nullptr)
+	//, m_device(device)
+	//, m_context(context)
+	//, m_dxgiDevice(dxgiDevice)
+	//, m_adapter(adapter)
+	//, m_dxgiFactory(dxgiFactory)
+	//, m_swapChain(swapChain)
+	//, m_defaultBack(defaultBack)
+	//, m_defaultBackRenderTargetView(defaultBackRenderTargetView)
+	//, m_defaultDepthBuffer(defaultDepthBuffer)
+	//, m_defaultDepthStencilView(defaultDepthStencilView)
+	//, m_currentDepthStencilView(nullptr)
 {
 	SafeAddRef(window);
 
-	for (auto i = 0; i < MaxRenderTarget; i++)
-	{
-		m_currentBackRenderTargetViews[i] = nullptr;
-	}
+	//for (auto i = 0; i < MaxRenderTarget; i++)
+	//{
+	//	m_currentBackRenderTargetViews[i] = nullptr;
+	//}
 
-	GenerateRenderStates();
+	//GenerateRenderStates();
 
 	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 	
 	GetEffectSetting()->SetTextureLoader(new EffectTextureLoader_DX11(this));
 	GetEffectSetting()->SetModelLoader(new EffectModelLoader_DX11(this));
 
-	auto flevel = m_device->GetFeatureLevel();
+	auto flevel = GetDevice()->GetFeatureLevel();
 
 	if (flevel == D3D_FEATURE_LEVEL_9_3 ||
 		flevel == D3D_FEATURE_LEVEL_9_2 ||
@@ -515,6 +516,9 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	{
 		isInitializedAsDX9 = true;
 	}
+	rhiContext = ar::Context::Create(GetRHI());
+
+	renderTargets.fill(0);
 }
 
 //----------------------------------------------------------------------------------
@@ -528,56 +532,69 @@ Graphics_Imp_DX11::~Graphics_Imp_DX11()
 		Sleep(1);
 	}
 	m_renderingThread.reset();
-	
-	for (auto i = 0; i < MaxRenderTarget; i++)
-	{
-		SafeRelease(m_currentBackRenderTargetViews[i]);
-	}
+
+	//for (auto i = 0; i < MaxRenderTarget; i++)
+	//{
+	//	SafeRelease(m_currentBackRenderTargetViews[i]);
+	//}
 
 #pragma region RenderStates
-	for (int32_t ct = 0; ct < CulTypeCount; ct++)
-	{
-		SafeRelease(m_rStates[ct]);
-	}
-
-	for (int32_t dt = 0; dt < DepthTestCount; dt++)
-	{
-		for (int32_t dw = 0; dw < DepthWriteCount; dw++)
-		{
-			SafeRelease(m_dStates[dt][dw]);
-		}
-	}
-
-	for (int32_t i = 0; i < AlphaTypeCount; i++)
-	{
-		SafeRelease(m_bStates[i]);
-	}
-
-	for (int32_t f = 0; f < TextureFilterCount; f++)
-	{
-		for (int32_t w = 0; w < TextureWrapCount; w++)
-		{
-			SafeRelease(m_sStates[f][w]);
-		}
-	}
+	//for (int32_t ct = 0; ct < CulTypeCount; ct++)
+	//{
+	//	SafeRelease(m_rStates[ct]);
+	//}
+	//
+	//for (int32_t dt = 0; dt < DepthTestCount; dt++)
+	//{
+	//	for (int32_t dw = 0; dw < DepthWriteCount; dw++)
+	//	{
+	//		SafeRelease(m_dStates[dt][dw]);
+	//	}
+	//}
+	//
+	//for (int32_t i = 0; i < AlphaTypeCount; i++)
+	//{
+	//	SafeRelease(m_bStates[i]);
+	//}
+	//
+	//for (int32_t f = 0; f < TextureFilterCount; f++)
+	//{
+	//	for (int32_t w = 0; w < TextureWrapCount; w++)
+	//	{
+	//		SafeRelease(m_sStates[f][w]);
+	//	}
+	//}
 #pragma endregion
 
 
-	SafeRelease(m_currentDepthStencilView);
+	//SafeRelease(m_currentDepthStencilView);
+	//
+	//SafeRelease(m_defaultBack);
+	//SafeRelease(m_defaultBackRenderTargetView);
+	//
+	//SafeRelease(m_defaultDepthBuffer);
+	//SafeRelease(m_defaultDepthStencilView);
+	//
+	//SafeRelease(m_device);
+	//SafeRelease(m_context);
+	//SafeRelease(m_dxgiDevice);
+	//SafeRelease(m_adapter);
+	//SafeRelease(m_dxgiFactory);
+	//SafeRelease(m_swapChain);
 
-	SafeRelease(m_defaultBack);
-	SafeRelease(m_defaultBackRenderTargetView);
+	for (auto& r : currentRenderTargets)
+	{
+		SafeRelease(r);
+	}
+	SafeRelease(currentDepthTarget);
 
-	SafeRelease(m_defaultDepthBuffer);
-	SafeRelease(m_defaultDepthStencilView);
+	for (auto& r : renderTargets)
+	{
+		SafeRelease(r);
+	}
+	SafeRelease(depthTarget);
 
-	SafeRelease(m_device);
-	SafeRelease(m_context);
-	SafeRelease(m_dxgiDevice);
-	SafeRelease(m_adapter);
-	SafeRelease(m_dxgiFactory);
-	SafeRelease(m_swapChain);
-
+	asd::SafeDelete(rhiContext);
 	SafeRelease(m_window);
 
 }
@@ -678,7 +695,7 @@ void Graphics_Imp_DX11::WriteAdapterInformation(Log* log, IDXGIAdapter1* adapter
 		}
 	}
 }
-
+/*
 void Graphics_Imp_DX11::GenerateRenderStates()
 {
 	D3D11_CULL_MODE cullTbl [] =
@@ -810,6 +827,59 @@ void Graphics_Imp_DX11::GenerateRenderStates()
 		}
 	}
 }
+*/
+
+void Graphics_Imp_DX11::ApplyRenderTargets()
+{
+	if (isRenderTargetDirty)
+	{
+		// reset all
+		for (auto& r : renderTargets)
+		{
+			SafeAddRef(r);
+		}
+		SafeAddRef(depthTarget);
+
+		for (auto& r : currentRenderTargets)
+		{
+			SafeRelease(r);
+		}
+		SafeRelease(currentDepthTarget);
+
+		// end scene
+		if (isSceneRunning)
+		{
+			rhiContext->End();
+			GetRHI()->EndScene();
+		}
+
+		// set parameter
+		currentRenderTargets = renderTargets;
+		currentDepthTarget = depthTarget;
+
+		ar::SceneParameter sceneParam;
+		
+		for (int32_t i = 0; i < 4; i++)
+		{
+			if (currentRenderTargets[i] == nullptr) continue;
+			auto rt = (RenderTexture2D_Imp_DX11*)currentRenderTargets[i];
+			
+			sceneParam.RenderTargets[i] = rt->GetRHI();
+		}
+
+		if (currentDepthTarget != nullptr)
+		{
+			auto db = (DepthBuffer_Imp_DX11*)currentDepthTarget;
+			sceneParam.DepthTarget = db->GetRHI();
+		}
+
+		GetRHI()->BeginScene(sceneParam);
+		rhiContext->Begin();
+
+		isRenderTargetDirty = false;
+		isSceneRunning = true;
+	}
+}
 
 //----------------------------------------------------------------------------------
 //
@@ -858,6 +928,73 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 	assert(indexBuffer != nullptr);
 	assert(shaderPtr != nullptr);
 
+	auto v_impl = (VertexBuffer_Imp_DX11*)vertexBuffer;
+	auto i_impl = (IndexBuffer_Imp_DX11*)indexBuffer;
+	auto s_impl = (NativeShader_Imp_DX11*)shaderPtr;
+
+	drawParam.VertexBufferPtr = v_impl->GetRHI();
+	drawParam.IndexBufferPtr = i_impl->GetRHI();
+	drawParam.ShaderPtr = s_impl->GetRHI();
+	drawParam.VertexConstantBufferPtr = s_impl->GetRHIVertexConstantBuffer();
+	drawParam.PixelConstantBufferPtr = s_impl->GetRHIPixelConstantBuffer();
+	
+	vertexBufferOffset = v_impl->GetVertexOffset();
+
+	for (auto& bt : s_impl->GetBindingTextures())
+	{
+		if (bt.second.TexturePtr == nullptr) continue;
+		auto tex = bt.second.TexturePtr.get();
+		auto id = bt.first;
+
+		ar::Texture* rhi = nullptr;
+
+		if (bt.second.TexturePtr->GetType() == TextureClassType::Texture2D)
+		{
+			auto t = (Texture2D_Imp_DX11*)tex;
+			rhi = t->GetRHI();
+		}
+		else if (tex->GetType() == TextureClassType::RenderTexture2D)
+		{
+			auto t = (RenderTexture2D_Imp_DX11*)tex;
+			rhi = t->GetRHI();
+		}
+		else if (tex->GetType() == TextureClassType::CubemapTexture)
+		{
+			auto t = (CubemapTexture_Imp_DX11*)tex;
+			rhi = t->GetRHI();
+		}
+		else if (tex->GetType() == TextureClassType::DepthBuffer)
+		{
+			auto t = (DepthBuffer_Imp_DX11*)tex;
+			rhi = t->GetRHI();
+		}
+
+		if (id >= 0xff)
+		{
+			// 頂点シェーダーに設定
+			if (id - 0xff < drawParam.VertexShaderTextures.size())
+			{
+				drawParam.VertexShaderTextures[id - 0xff];
+			}
+
+			nextState.textureFilterTypes_vs[id - 0xff] = bt.second.FilterType;
+			nextState.textureWrapTypes_vs[id - 0xff] = bt.second.WrapType;
+		}
+		else
+		{
+			// ピクセルシェーダーに設定
+			if (id - 0xff < drawParam.PixelShaderTextures .size())
+			{
+				drawParam.PixelShaderTextures[id];
+			}
+
+			// ステート設定
+			nextState.textureFilterTypes[id] = bt.second.FilterType;
+			nextState.textureWrapTypes[id] = bt.second.WrapType;
+		}
+	}
+
+	/*
 	{
 		auto vBuf = ((VertexBuffer_Imp_DX11*)vertexBuffer)->GetBuffer();
 		uint32_t vertexSize = vertexBuffer->GetSize();
@@ -953,6 +1090,7 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 
 		GetContext()->VSSetShaderResources(0, srv_vs.size(), srv_vs.data());
 		GetContext()->PSSetShaderResources(0, srv_ps.size(), srv_ps.data());
+		*/
 
 		/*
 		for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
@@ -998,8 +1136,8 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 				nextState.textureWrapTypes[i] = wrapType;
 			}
 		}
-		*/
 	}
+	*/
 
 	CommitRenderState(false);
 }
@@ -1012,10 +1150,22 @@ void Graphics_Imp_DX11::DrawPolygonInternal(int32_t count, VertexBuffer_Imp* ver
 	int32_t vertexBufferOffset = 0;
 
 	UpdateDrawStates(vertexBuffer, indexBuffer, shaderPtr, vertexBufferOffset);
+	
+	drawParam.InstanceCount = 1;
+	drawParam.VertexOffset = vertexBufferOffset;
+	drawParam.IndexCount = count * 3;
+	drawParam.IndexOffset = 0;
+
+	ApplyRenderTargets();
+
+	rhiContext->Draw(drawParam);
+
+	/*
 	GetContext()->DrawIndexed(
 		count * 3,
 		0,
 		vertexBufferOffset);
+	*/
 }
 
 void Graphics_Imp_DX11::DrawPolygonInternal(int32_t offset, int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr)
@@ -1023,10 +1173,22 @@ void Graphics_Imp_DX11::DrawPolygonInternal(int32_t offset, int32_t count, Verte
 	int32_t vertexBufferOffset = 0;
 
 	UpdateDrawStates(vertexBuffer, indexBuffer, shaderPtr, vertexBufferOffset);
+
+	drawParam.InstanceCount = 1;
+	drawParam.VertexOffset = vertexBufferOffset;
+	drawParam.IndexCount = count * 3;
+	drawParam.IndexOffset = offset * 3;
+
+	ApplyRenderTargets();
+
+	rhiContext->Draw(drawParam);
+
+	/*
 	GetContext()->DrawIndexed(
 		count * 3,
 		offset * 3,
 		vertexBufferOffset);
+	*/
 }
 
 //----------------------------------------------------------------------------------
@@ -1037,12 +1199,24 @@ void Graphics_Imp_DX11::DrawPolygonInstancedInternal(int32_t count, VertexBuffer
 	int32_t vertexBufferOffset = 0;
 
 	UpdateDrawStates(vertexBuffer, indexBuffer, shaderPtr, vertexBufferOffset);
+
+	drawParam.InstanceCount = instanceCount;
+	drawParam.VertexOffset = 0;
+	drawParam.IndexCount = count * 3;
+	drawParam.IndexOffset = 0;
+
+	ApplyRenderTargets();
+
+	rhiContext->Draw(drawParam);
+
+	/*
 	GetContext()->DrawIndexedInstanced(
 		count * 3,
 		instanceCount,
 		0,
 		0,
 		0);
+	*/
 }
 
 //----------------------------------------------------------------------------------
@@ -1050,6 +1224,7 @@ void Graphics_Imp_DX11::DrawPolygonInstancedInternal(int32_t count, VertexBuffer
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::BeginInternal()
 {
+	/*
 	// 描画先のリセット
 	m_context->OMSetRenderTargets(1, &m_defaultBackRenderTargetView, m_defaultDepthStencilView);
 
@@ -1067,6 +1242,30 @@ void Graphics_Imp_DX11::BeginInternal()
 
 	// 描画範囲のリセット
 	SetViewport(0, 0, m_size.X, m_size.Y);
+	*/
+
+	// Reset targets
+	for (auto& r : renderTargets)
+	{
+		SafeRelease(r);
+	}
+	SafeRelease(depthTarget);
+
+	isRenderTargetDirty = true;
+
+	GetRHI()->BeginRendering();
+}
+
+void Graphics_Imp_DX11::EndInternal()
+{
+	if (isSceneRunning)
+	{
+		rhiContext->End();
+		GetRHI()->EndScene();
+		isSceneRunning = false;
+	}
+
+	GetRHI()->EndRendering();
 }
 
 //----------------------------------------------------------------------------------
@@ -1088,7 +1287,84 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 
 	writeLogHeading(ToAString("描画(DirectX11)"));
 
-	/* DirectX初期化 */
+	// ShowData
+	{
+		IDXGIFactory1* dxgiFactory = NULL;
+		std::vector<IDXGIAdapter1*> adapters;
+
+		HRESULT hr;
+
+		hr = CreateDXGIFactory1(__uuidof(IDXGIFactory1), (void**)&dxgiFactory);
+		if (dxgiFactory == NULL)
+		{
+			writeLog(ToAString("ファクトリの作成に失敗"));
+			goto End;
+		}
+
+		for (int32_t i = 0;; i++)
+		{
+			IDXGIAdapter1* temp = 0;
+			if (dxgiFactory->EnumAdapters1(i, &temp) != DXGI_ERROR_NOT_FOUND)
+			{
+				WriteAdapterInformation(log, temp, i);
+				temp->Release();
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		dxgiFactory->Release();
+	}
+
+	ar::Manager* manager = ar::Manager::Create(ar::GraphicsDeviceType::DirectX11);
+	ar::ManagerInitializationParameter initParam;
+	initParam.WindowWidth = width;
+	initParam.WindowHeight = height;
+	initParam.IsFullscreenMode = option.IsFullScreen;
+	initParam.ColorSpace = (ar::ColorSpaceType)option.ColorSpace;
+	initParam.Handles[0] = handle;
+
+	auto errorCode = manager->Initialize(initParam);
+
+	if (errorCode == ar::ErrorCode::OK)
+	{
+
+	}
+	else if (errorCode == ar::ErrorCode::FailedToCreateFactory)
+	{
+		writeLog(ToAString("ファクトリの作成に失敗"));
+		goto End;
+	}
+	else if (errorCode == ar::ErrorCode::FailedToGetAdapter)
+	{
+		writeLog(ToAString("アダプタの取得に失敗"));
+		goto End;
+	}
+	else if (errorCode == ar::ErrorCode::FailedToCreateDevice)
+	{
+		writeLog(ToAString("デバイスの作成に失敗"));
+		goto End;
+	}
+	else if (errorCode == ar::ErrorCode::FailedToCreateSwapChain)
+	{
+		writeLog(ToAString("スワップチェーンの作成に失敗"));
+		goto End;
+	}
+	else if (errorCode == ar::ErrorCode::FailedToGetBackBuffer)
+	{
+		writeLog(ToAString("バックバッファの取得に失敗"));
+		goto End;
+	}
+	else if (errorCode == ar::ErrorCode::FailedToCreateBackBufferTarget)
+	{
+		writeLog(ToAString("バックバッファのレンダーターゲットの取得に失敗"));
+		goto End;
+	}
+
+	/*
+	// DirectX初期化
 	ID3D11Device*			device = NULL;
 	ID3D11DeviceContext*	context = NULL;
 	IDXGIDevice1*			dxgiDevice = NULL;
@@ -1271,6 +1547,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 	for (auto& a : adapters) a->Release();
 
 	return new Graphics_Imp_DX11(
+		manager,
 		window,
 		Vector2DI(width, height),
 		log,
@@ -1286,16 +1563,38 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 		defaultBackRenderTargetView,
 		depthBuffer,
 		depthStencilView);
+		*/
+
+return new Graphics_Imp_DX11(
+	manager,
+	window,
+	Vector2DI(width, height),
+	log,
+	file,
+	option,
+	nullptr,
+	nullptr,
+	nullptr,
+	nullptr,
+	nullptr,
+	nullptr,
+	nullptr,
+	nullptr,
+	nullptr,
+	nullptr);
 End:
-	SafeRelease(depthBuffer);
-	SafeRelease(depthStencilView);
-	SafeRelease(swapChain);
-	SafeRelease(dxgiFactory);
-	SafeRelease(adapter);
-	SafeRelease(dxgiDevice);
-	SafeRelease(context);
-	SafeRelease(device);
-	for (auto& a : adapters) a->Release();
+
+	asd::SafeDelete(manager);
+
+	//SafeRelease(depthBuffer);
+	//SafeRelease(depthStencilView);
+	//SafeRelease(swapChain);
+	//SafeRelease(dxgiFactory);
+	//SafeRelease(adapter);
+	//SafeRelease(dxgiDevice);
+	//SafeRelease(context);
+	//SafeRelease(device);
+	//for (auto& a : adapters) a->Release();
 
 	writeLog(ToAString("DirectX11初期化失敗"));
 	writeLog(ToAString(""));
@@ -1381,6 +1680,7 @@ DepthBuffer_Imp* Graphics_Imp_DX11::CreateDepthBuffer_Imp(int32_t width, int32_t
 
 void Graphics_Imp_DX11::CommitRenderState(bool forced)
 {
+	/*
 	bool changeDepth = forced;
 	bool changeRasterizer = forced;
 	bool changeBlend = forced;
@@ -1477,8 +1777,26 @@ void Graphics_Imp_DX11::CommitRenderState(bool forced)
 			GetContext()->PSSetSamplers(i, 1, samplerTbl);
 		}
 	}
+	*/
 
 	currentState = nextState;
+
+	drawParam.AlphaBlend = (ar::AlphaBlendMode)currentState.renderState.AlphaBlendState;
+	drawParam.Culling = (ar::CullingType)currentState.renderState.Culling;
+	drawParam.IsDepthTest = currentState.renderState.DepthTest;
+	drawParam.IsDepthWrite = currentState.renderState.DepthWrite;
+
+	for (int32_t i = 0; i < drawParam.VertexShaderTextures.size(); i++)
+	{
+		drawParam.VertexShaderTextureFilers[i] = (ar::TextureFilterType)currentState.textureFilterTypes_vs[i];
+		drawParam.VertexShaderTextureWraps[i] = (ar::TextureWrapType)currentState.textureWrapTypes_vs[i];
+	}
+	
+	for (int32_t i = 0; i < drawParam.PixelShaderTextures.size(); i++)
+	{
+		drawParam.PixelShaderTextureFilers[i] = (ar::TextureFilterType)currentState.textureFilterTypes[i];
+		drawParam.PixelShaderTextureWraps[i] = (ar::TextureWrapType)currentState.textureWrapTypes[i];
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -1486,6 +1804,21 @@ void Graphics_Imp_DX11::CommitRenderState(bool forced)
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_Imp* depthBuffer)
 {
+	SafeAddRef(texture);
+	SafeAddRef(depthBuffer);
+
+	for (auto& r : renderTargets)
+	{
+		SafeRelease(r);
+	}
+	SafeRelease(depthTarget);
+
+	isRenderTargetDirty = true;
+
+	renderTargets[0] = texture;
+	depthTarget = depthBuffer;
+
+	/*
 	// 強制リセット(テクスチャと描画先同時設定不可のため)
 	for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
 	{
@@ -1542,6 +1875,7 @@ void Graphics_Imp_DX11::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffe
 		m_currentDepthStencilView = ds;
 		SafeAddRef(m_currentDepthStencilView);
 	}
+	*/
 }
 
 //----------------------------------------------------------------------------------
@@ -1549,6 +1883,27 @@ void Graphics_Imp_DX11::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffe
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTexture2D_Imp* texture2, RenderTexture2D_Imp* texture3, RenderTexture2D_Imp* texture4, DepthBuffer_Imp* depthBuffer)
 {
+	SafeAddRef(texture1);
+	SafeAddRef(texture2);
+	SafeAddRef(texture3);
+	SafeAddRef(texture4);
+	SafeAddRef(depthBuffer);
+
+	for (auto& r : renderTargets)
+	{
+		SafeRelease(r);
+	}
+	SafeRelease(depthTarget);
+
+	isRenderTargetDirty = true;
+
+	renderTargets[0] = texture1;
+	renderTargets[1] = texture2;
+	renderTargets[2] = texture3;
+	renderTargets[3] = texture4;
+	depthTarget = depthBuffer;
+
+	/*
 	// 強制リセット(テクスチャと描画先同時設定不可のため)
 	for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
 	{
@@ -1620,10 +1975,14 @@ void Graphics_Imp_DX11::SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTex
 		m_currentDepthStencilView = ds;
 		SafeAddRef(m_currentDepthStencilView);
 	}
+	*/
 }
 
 void Graphics_Imp_DX11::SetRenderTarget(CubemapTexture_Imp* texture, int32_t direction, int32_t mipmap, DepthBuffer_Imp* depthBuffer)
 {
+	assert(0);
+
+	/*
 	auto tex = (CubemapTexture_Imp_DX11*) texture;
 
 	// 強制リセット(テクスチャと描画先同時設定不可のため)
@@ -1682,11 +2041,13 @@ void Graphics_Imp_DX11::SetRenderTarget(CubemapTexture_Imp* texture, int32_t dir
 		m_currentDepthStencilView = ds;
 		SafeAddRef(m_currentDepthStencilView);
 	}
+	*/
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+/*
 void Graphics_Imp_DX11::SetViewport(int32_t x, int32_t y, int32_t width, int32_t height)
 {
 	D3D11_VIEWPORT vp;
@@ -1698,6 +2059,7 @@ void Graphics_Imp_DX11::SetViewport(int32_t x, int32_t y, int32_t width, int32_t
 	vp.MaxDepth = 1.0f;
 	m_context->RSSetViewports(1, &vp);
 }
+*/
 
 //----------------------------------------------------------------------------------
 //
@@ -1715,6 +2077,9 @@ void Graphics_Imp_DX11::FlushCommand()
 
 void Graphics_Imp_DX11::SetIsFullscreenMode(bool isFullscreenMode)
 {
+	GetRHI()->SetIsFullscreenMode(isFullscreenMode);
+
+	/*
 	BOOL isScreenMode = FALSE;
 	m_swapChain->GetFullscreenState(&isScreenMode, 0);
 
@@ -1729,10 +2094,13 @@ void Graphics_Imp_DX11::SetIsFullscreenMode(bool isFullscreenMode)
 	{
 		m_swapChain->SetFullscreenState(FALSE, 0);
 	}
+	*/
 }
 
 void Graphics_Imp_DX11::SetWindowSize(Vector2DI size)
 {
+	GetRHI()->SetWindowSize(size.X, size.Y);
+	/*
 	// リセット
 	SetRenderTarget(nullptr, nullptr);
 	SafeRelease(m_defaultBack);
@@ -1786,6 +2154,7 @@ void Graphics_Imp_DX11::SetWindowSize(Vector2DI size)
 	m_device->CreateDepthStencilView(m_defaultDepthBuffer, &viewDesc, &m_defaultDepthStencilView);
 
 	SetRenderTarget(nullptr, nullptr);
+	*/
 }
 
 //----------------------------------------------------------------------------------
@@ -1793,6 +2162,15 @@ void Graphics_Imp_DX11::SetWindowSize(Vector2DI size)
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::Clear(bool isColorTarget, bool isDepthTarget, const Color& color)
 {
+	ar::Color color_;
+	color_.R = color.R;
+	color_.G = color.G;
+	color_.B = color.B;
+	color_.A = color.A;
+
+	GetRHI()->Clear(isColorTarget, isDepthTarget, color_);
+
+	/*
 	if (isColorTarget)
 	{
 		float ClearColor [] = { color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f };
@@ -1808,6 +2186,7 @@ void Graphics_Imp_DX11::Clear(bool isColorTarget, bool isDepthTarget, const Colo
 	{
 		m_context->ClearDepthStencilView(m_currentDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
+	*/
 }
 
 //----------------------------------------------------------------------------------
@@ -1815,44 +2194,37 @@ void Graphics_Imp_DX11::Clear(bool isColorTarget, bool isDepthTarget, const Colo
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::Present()
 {
-	// 同期しない
-	m_swapChain->Present(0, 0);
+	//// 同期しない
+	//m_swapChain->Present(0, 0);
+	GetRHI()->Present();
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::SaveScreenshot(const achar* path)
 {
-	//HRESULT hr;
+	std::vector<Color> bufs;
+	Vector2DI size;
 
-	ID3D11Resource* resource = nullptr;
+	SaveScreenshot(bufs, size);
 
-	m_defaultBackRenderTargetView->GetResource(&resource);
-
-
-	SaveTexture(path, resource, m_size);
-	
-//END:;
-	SafeRelease(resource);
+	ImageHelper::SaveImage(path, size.X, size.Y, bufs.data(), false);
 }
 
 void Graphics_Imp_DX11::SaveScreenshot(std::vector<Color>& bufs, Vector2DI& size)
 {
-	ID3D11Resource* resource = nullptr;
+	std::vector<ar::Color> dst;
+	int32_t width;
+	int32_t height;
 
-	m_defaultBackRenderTargetView->GetResource(&resource);
+	GetRHI()->SaveScreen(dst, width, height);
 
-	size = m_size;
-
-	SaveTexture(bufs, resource, m_size);
-
-	SafeRelease(resource);
+	bufs.resize(width * height);
+	memcpy(bufs.data(), dst.data(), width * height * sizeof(Color));
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+/*
 bool Graphics_Imp_DX11::SaveTexture(const achar* path, ID3D11Resource* texture, Vector2DI size)
 {
 	std::vector<Color> bufs;
@@ -1866,7 +2238,9 @@ bool Graphics_Imp_DX11::SaveTexture(const achar* path, ID3D11Resource* texture, 
 
 	return true;
 }
+*/
 
+/*
 bool Graphics_Imp_DX11::SaveTexture(std::vector<Color>& bufs, ID3D11Resource* texture, Vector2DI size)
 {
 	ID3D11Texture2D* texture_ = nullptr;
@@ -1920,6 +2294,7 @@ END:;
 	SafeRelease(texture_);
 	return false;
 }
+*/
 
 //----------------------------------------------------------------------------------
 //

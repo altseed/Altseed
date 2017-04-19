@@ -65,6 +65,32 @@
 #endif
 
 
+// AltseedPlatform
+#include <AltseedRHI.h>
+
+#if _WIN32
+
+#ifdef _WIN64
+
+#if _DEBUG
+#pragma comment(lib,"x64/Debug/AltseedRHI.lib")
+#else
+#pragma comment(lib,"x64/Release/AltseedRHI.lib")
+#endif
+
+#else
+
+#if _DEBUG
+#pragma comment(lib,"x86/Debug/AltseedRHI.lib")
+#else
+#pragma comment(lib,"x86/Release/AltseedRHI.lib")
+#endif
+
+#endif
+
+#endif
+
+
 // GLU
 #pragma comment(lib, "glu32.lib")
 

@@ -238,7 +238,7 @@ namespace asd {
 //
 //----------------------------------------------------------------------------------
 	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::asd::Window* window, Log* log, File *file, GraphicsOption option)
-		: Graphics_Imp(size, log,file, option)
+		: Graphics_Imp(nullptr, size, log,file, option)
 	, m_window(window)
 	, m_endStarting(false)
 {
@@ -312,7 +312,7 @@ namespace asd {
 //
 //----------------------------------------------------------------------------------
 	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log, File* file, GraphicsOption option)
-		: Graphics_Imp(size, log,file, option)
+		: Graphics_Imp(nullptr, size, log,file, option)
 	, m_window(nullptr)
 	, m_endStarting(false)
 {

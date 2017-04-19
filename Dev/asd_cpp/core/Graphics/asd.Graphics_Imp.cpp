@@ -842,8 +842,9 @@ Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, File* file, GraphicsOption option)
-	: m_size(size)
+Graphics_Imp::Graphics_Imp(ar::Manager* manager, Vector2DI size, Log* log, File* file, GraphicsOption option)
+	: rhi(manager)
+	, m_size(size)
 	, m_vertexBufferPtr(nullptr)
 	, m_indexBufferPtr(nullptr)
 	, m_shaderPtr(nullptr)
@@ -898,6 +899,8 @@ Graphics_Imp::~Graphics_Imp()
 
 	SafeRelease(m_effectSetting);
 	//SafeRelease(m_log);
+
+	asd::SafeDelete(rhi);
 }
 
 //----------------------------------------------------------------------------------
