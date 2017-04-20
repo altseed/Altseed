@@ -2166,6 +2166,8 @@ void Graphics_Imp_DX11::SetWindowSize(Vector2DI size)
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::Clear(bool isColorTarget, bool isDepthTarget, const Color& color)
 {
+	ApplyRenderTargets();
+
 	ar::Color color_;
 	color_.R = color.R;
 	color_.G = color.G;

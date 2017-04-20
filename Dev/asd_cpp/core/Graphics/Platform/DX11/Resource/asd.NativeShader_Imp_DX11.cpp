@@ -674,6 +674,14 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 		compilerParam.VertexShaderTexts.push_back(vertexShaderText);
 		compilerParam.PixelShaderTexts.push_back(pixelShaderText);
 
+		// DirectX
+		const char* device = "DIRECTX";
+		const char* one = "1";
+		{
+			ar::ShaderMacro m(device, one);
+			compilerParam.Macros.push_back(m);
+		}
+
 		for (auto& macro_ : macro)
 		{
 			ar::ShaderMacro m(macro_.Name, macro_.Definition);
@@ -742,7 +750,7 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 		std::vector<ConstantLayout> vcls;
 		std::vector<TextureLayout> vtls;
 
-		int32_t ps_uniformBufferSize = rhi->GetVertexConstantBufferSize();
+		int32_t ps_uniformBufferSize = rhi->GetPixelConstantBufferSize();
 		std::vector<ConstantLayout> pcls;
 		std::vector<TextureLayout> ptls;
 
