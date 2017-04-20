@@ -674,6 +674,12 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 		compilerParam.VertexShaderTexts.push_back(vertexShaderText);
 		compilerParam.PixelShaderTexts.push_back(pixelShaderText);
 
+		for (auto& macro_ : macro)
+		{
+			ar::ShaderMacro m(macro_.Name, macro_.Definition);
+			compilerParam.Macros.push_back(m);
+		}
+
 		if (!compiler->Compile(compilerResult, compilerParam))
 		{
 			log->WriteHeading("シェーダーコンパイル失敗");
