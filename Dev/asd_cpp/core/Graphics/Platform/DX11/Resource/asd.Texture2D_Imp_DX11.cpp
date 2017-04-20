@@ -20,8 +20,8 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	Texture2D_Imp_DX11::Texture2D_Imp_DX11(Graphics* graphics)
 		: Texture2D_Imp(graphics)
-		, m_texture(nullptr)
-		, m_textureSRV(nullptr)
+		//, m_texture(nullptr)
+		//, m_textureSRV(nullptr)
 	{
 	
 	}
@@ -29,10 +29,11 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Texture2D_Imp_DX11::Texture2D_Imp_DX11(Graphics* graphics, ID3D11Texture2D* texture, ID3D11ShaderResourceView* textureSRV, Vector2DI size, TextureFormat format)
+	Texture2D_Imp_DX11::Texture2D_Imp_DX11(Graphics* graphics, ar::Texture2D* rhi, ID3D11Texture2D* texture, ID3D11ShaderResourceView* textureSRV, Vector2DI size, TextureFormat format)
 		: Texture2D_Imp(graphics)
-		, m_texture(texture)
-		, m_textureSRV(textureSRV)
+		, rhi(rhi)
+		//, m_texture(texture)
+		//, m_textureSRV(textureSRV)
 	{
 		m_format = format;
 		m_size = size;
@@ -50,13 +51,15 @@ namespace asd {
 		auto g = (Graphics_Imp*) GetGraphics();
 		g->DecVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
 
-		SafeRelease(m_texture);
-		SafeRelease(m_textureSRV);
+		//SafeRelease(m_texture);
+		//SafeRelease(m_textureSRV);
+		asd::SafeDelete(rhi);
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	/*
 	bool Texture2D_Imp_DX11::GenerateTextureFromInternal(bool isSRGB)
 	{
 		auto g = (Graphics_Imp_DX11*) GetGraphics();
@@ -151,7 +154,7 @@ namespace asd {
 		g->IncVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
 		return true;
 	}
-
+	*/
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -159,9 +162,19 @@ namespace asd {
 	{
 		if (size == 0) return nullptr;
 
+		auto rhi = ar::Texture2D::Create(graphics->GetRHI());
+
+		if (rhi->Initialize(graphics->GetRHI(), data, size, isEditable, isSRGB))
+		{
+			return new Texture2D_Imp_DX11(graphics, rhi, nullptr, nullptr, Vector2DI(rhi->GetWidth(), rhi->GetHeight()), (asd::TextureFormat)rhi->GetFormat());
+		}
+
+		asd::SafeDelete(rhi);
+
+		/*
 		if (ImageHelper::IsPNG(data, size))
 		{
-			/* ロードしてみる */
+			// ロードしてみる
 			Texture2D_Imp_DX11* texture = new Texture2D_Imp_DX11(graphics);
 			if (!texture->InternalLoad(data, size, false))
 			{
@@ -180,7 +193,7 @@ namespace asd {
 				texture->m_resource = texture->m_internalTextureData;
 			}
 			
-			/* 必要ないので消す */
+			// 必要ないので消す
 			texture->InternalUnload();
 
 			return texture;
@@ -258,6 +271,8 @@ namespace asd {
 			}
 
 		}
+		*/
+
 
 		return nullptr;
 	}
@@ -267,6 +282,17 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	Texture2D_Imp_DX11* Texture2D_Imp_DX11::Create(Graphics_Imp_DX11* graphics, int32_t width, int32_t height, TextureFormat format, void* data)
 	{
+		auto rhi = ar::Texture2D::Create(graphics->GetRHI());
+
+		if (rhi->Initialize(graphics->GetRHI(), width, height, (ar::TextureFormat)format, data, true))
+		{
+			return new Texture2D_Imp_DX11(graphics, rhi, nullptr, nullptr, Vector2DI(rhi->GetWidth(), rhi->GetHeight()), (asd::TextureFormat)rhi->GetFormat());
+		}
+
+		asd::SafeDelete(rhi);
+
+
+		/*
 		auto g = (Graphics_Imp_DX11*) graphics;
 
 		ID3D11Texture2D*			texture = nullptr;
@@ -344,6 +370,7 @@ namespace asd {
 		SafeRelease(texture);
 		SafeRelease(textureSRV);
 		return nullptr;
+		*/
 	}
 
 	//----------------------------------------------------------------------------------
@@ -351,8 +378,16 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	bool Texture2D_Imp_DX11::Save(const achar* path)
 	{
-		auto g = (Graphics_Imp_DX11*) GetGraphics();
-		return g->SaveTexture(path, m_texture, GetSize());
+		std::vector<ar::Color> dst;
+		int32_t width;
+		int32_t height;
+
+		if (rhi->Save(dst, width, height))
+		{
+			ar::ImageHelper::SavePNG(path, width, height, dst.data());
+			return true;
+		}
+		return false;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -360,6 +395,9 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	bool Texture2D_Imp_DX11::Lock(TextureLockInfomation* info)
 	{
+		return rhi->Lock((ar::TextureLockInfomation*)info);
+
+		/*
 		if (info == nullptr) return false;
 		if (m_resource.size() == 0) return false;
 
@@ -367,6 +405,7 @@ namespace asd {
 		info->pitch = ImageHelper::GetPitch(m_format);
 		info->size = m_size;
 		return true;
+		*/
 	}
 
 	//----------------------------------------------------------------------------------
@@ -374,6 +413,8 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	void Texture2D_Imp_DX11::Unlock()
 	{
+		rhi->Unlock();
+		/*
 		auto g = (Graphics_Imp_DX11*) GetGraphics();
 
 		// 非ダイナミック限定
@@ -384,6 +425,7 @@ namespace asd {
 			m_resource.data(),
 			m_size.X * ImageHelper::GetPitch(m_format),
 			0);
+		*/
 	}
 
 	//----------------------------------------------------------------------------------
@@ -394,6 +436,19 @@ namespace asd {
 		auto g = (Graphics_Imp*) GetGraphics();
 		g->DecVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
 
+		asd::SafeDelete(rhi);
+
+		rhi = ar::Texture2D::Create(g->GetRHI());
+
+
+		if (rhi->Initialize(g->GetRHI(), data, size, false, this->m_format == TextureFormat::R8G8B8A8_UNORM_SRGB))
+		{
+		}
+
+		g->IncVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
+
+
+		/*
 		SafeRelease(m_texture);
 		SafeRelease(m_textureSRV);
 
@@ -406,6 +461,9 @@ namespace asd {
 		GenerateTextureFromInternal(m_format == TextureFormat::R8G8B8A8_UNORM_SRGB);
 
 		InternalUnload();
+		*/
+
+		
 	}
 
 	//----------------------------------------------------------------------------------

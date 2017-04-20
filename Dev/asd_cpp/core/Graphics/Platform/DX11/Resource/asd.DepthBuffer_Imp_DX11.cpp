@@ -12,11 +12,12 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	DepthBuffer_Imp_DX11::DepthBuffer_Imp_DX11(Graphics* graphics, ID3D11Texture2D* depthBuffer, ID3D11DepthStencilView* depthStencilView, ID3D11ShaderResourceView* depthSRV, Vector2DI size)
+	DepthBuffer_Imp_DX11::DepthBuffer_Imp_DX11(Graphics* graphics, ar::DepthTexture* rhi, ID3D11Texture2D* depthBuffer, ID3D11DepthStencilView* depthStencilView, ID3D11ShaderResourceView* depthSRV, Vector2DI size)
 		: DepthBuffer_Imp(graphics, size)
-		, m_depthBuffer(depthBuffer)
-		, m_depthStencilView(depthStencilView)
-		, m_depthSRV(depthSRV)
+		, rhi(rhi)
+		//, m_depthBuffer(depthBuffer)
+		//, m_depthStencilView(depthStencilView)
+		//, m_depthSRV(depthSRV)
 	{
 	}
 
@@ -25,9 +26,10 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	DepthBuffer_Imp_DX11::~DepthBuffer_Imp_DX11()
 	{
-		SafeRelease(m_depthBuffer);
-		SafeRelease(m_depthStencilView);
-		SafeRelease(m_depthSRV);
+		//SafeRelease(m_depthBuffer);
+		//SafeRelease(m_depthStencilView);
+		//SafeRelease(m_depthSRV);
+		asd::SafeDelete(rhi);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -37,6 +39,16 @@ namespace asd {
 	{
 		auto g = (Graphics_Imp_DX11*)graphics;
 
+		auto rhi = ar::DepthTexture::Create(g->GetRHI());
+		if (rhi->Initialize(g->GetRHI(), width, height))
+		{
+			return new DepthBuffer_Imp_DX11(graphics, rhi, nullptr, nullptr, nullptr, Vector2DI(width, height));
+		}
+
+		asd::SafeDelete(rhi);
+		return nullptr;
+
+		/*
 		ID3D11Texture2D* depthBuffer = nullptr;
 		ID3D11DepthStencilView* depthStencilView = nullptr;
 		ID3D11ShaderResourceView* srv = nullptr;
@@ -88,6 +100,7 @@ namespace asd {
 		SafeRelease(depthStencilView);
 		SafeRelease(srv);
 		return nullptr;
+		*/
 	}
 
 	//----------------------------------------------------------------------------------

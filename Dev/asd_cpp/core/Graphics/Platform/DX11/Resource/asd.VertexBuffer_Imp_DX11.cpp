@@ -12,12 +12,13 @@ namespace asd {
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-	VertexBuffer_Imp_DX11::VertexBuffer_Imp_DX11(Graphics* graphics, ID3D11Buffer* buffer, int32_t size, int32_t count, bool isDynamic)
+	VertexBuffer_Imp_DX11::VertexBuffer_Imp_DX11(Graphics* graphics, ar::VertexBuffer* rhi, ID3D11Buffer* buffer, int32_t size, int32_t count, bool isDynamic)
 	: VertexBuffer_Imp(graphics, size, count, isDynamic)
-	, m_buffer(buffer)
-	, m_vertexRingOffset(0)
-	, m_ringLockedOffset(0)
-	, m_ringLockedSize(0)
+	, rhi(rhi)
+	//, m_buffer(buffer)
+	//, m_vertexRingOffset(0)
+	//, m_ringLockedOffset(0)
+	//, m_ringLockedSize(0)
 {
 	m_lockedResource = new uint8_t[count * size];
 	memset(m_lockedResource, 0, (size_t) m_size * count);
@@ -28,8 +29,9 @@ namespace asd {
 //----------------------------------------------------------------------------------
 VertexBuffer_Imp_DX11::~VertexBuffer_Imp_DX11()
 {
+	asd::SafeDelete(rhi);
 	SafeDeleteArray(m_lockedResource);
-	SafeRelease(m_buffer);
+	//SafeRelease(m_buffer);
 }
 
 //----------------------------------------------------------------------------------
@@ -39,31 +41,38 @@ VertexBuffer_Imp_DX11* VertexBuffer_Imp_DX11::Create(Graphics* graphics, int32_t
 {
 	auto g = (Graphics_Imp_DX11*) graphics;
 
-	D3D11_BUFFER_DESC hBufferDesc;
-	ZeroMemory(&hBufferDesc, sizeof(hBufferDesc));
-
-	hBufferDesc.ByteWidth = size * count;
-	hBufferDesc.Usage = isDynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
-	hBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	hBufferDesc.CPUAccessFlags = isDynamic ? D3D11_CPU_ACCESS_WRITE : 0;
-	hBufferDesc.MiscFlags = 0;
-	hBufferDesc.StructureByteStride = sizeof(float) ;
-
-	D3D11_SUBRESOURCE_DATA hSubResourceData;
-	hSubResourceData.pSysMem = NULL;
-	hSubResourceData.SysMemPitch = 0;
-	hSubResourceData.SysMemSlicePitch = 0;
+	//D3D11_BUFFER_DESC hBufferDesc;
+	//ZeroMemory(&hBufferDesc, sizeof(hBufferDesc));
+	//
+	//hBufferDesc.ByteWidth = size * count;
+	//hBufferDesc.Usage = isDynamic ? D3D11_USAGE_DYNAMIC : D3D11_USAGE_DEFAULT;
+	//hBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	//hBufferDesc.CPUAccessFlags = isDynamic ? D3D11_CPU_ACCESS_WRITE : 0;
+	//hBufferDesc.MiscFlags = 0;
+	//hBufferDesc.StructureByteStride = sizeof(float) ;
+	//
+	//D3D11_SUBRESOURCE_DATA hSubResourceData;
+	//hSubResourceData.pSysMem = NULL;
+	//hSubResourceData.SysMemPitch = 0;
+	//hSubResourceData.SysMemSlicePitch = 0;
 
 
 	/* 生成 */
 	ID3D11Buffer* vb = NULL;
-	HRESULT hr = g->GetDevice()->CreateBuffer(&hBufferDesc, NULL, &vb);
-	if (FAILED(hr))
+	//HRESULT hr = g->GetDevice()->CreateBuffer(&hBufferDesc, NULL, &vb);
+	//if (FAILED(hr))
+	//{
+	//	return NULL;
+	//}
+
+	auto rhi = ar::VertexBuffer::Create(g->GetRHI());
+	if (!rhi->Initialize(g->GetRHI(), size, count, isDynamic))
 	{
-		return NULL;
+		asd::SafeDelete(rhi);
+		return nullptr;
 	}
 
-	return new VertexBuffer_Imp_DX11(g, vb, size, count, isDynamic);
+	return new VertexBuffer_Imp_DX11(g, rhi, vb, size, count, isDynamic);
 }
 
 //-----------------------------------------------------------------------------------
@@ -83,7 +92,7 @@ void VertexBuffer_Imp_DX11::Lock()
 	
 
 	/* 次のRingBufferLockは強制的にDiscard */
-	m_vertexRingOffset = m_maxCount * m_size;
+	//m_vertexRingOffset = m_maxCount * m_size;
 }
 
 //-----------------------------------------------------------------------------------
@@ -100,6 +109,16 @@ bool VertexBuffer_Imp_DX11::RingBufferLock(int32_t count)
 
 	if (count > m_maxCount) return false;
 
+	auto p = rhi->LockRingBuffer(count);
+
+	m_resource = (uint8_t*)p;
+
+	m_vertexOffset = 0;
+	m_ringBufferLock = true;
+
+	return true;
+
+	/*
 	auto lockedSize = count * m_size;
 
 	if (m_vertexRingOffset + lockedSize > m_maxCount * m_size)
@@ -128,6 +147,7 @@ bool VertexBuffer_Imp_DX11::RingBufferLock(int32_t count)
 	m_ringBufferLock = true;
 
 	return true;
+	*/
 }
 
 //-----------------------------------------------------------------------------------
@@ -141,6 +161,8 @@ void VertexBuffer_Imp_DX11::Unlock()
 
 	if (m_isLock)
 	{
+		rhi->Write(m_lockedResource, this->GetMaxCount() * this->GetSize());
+		/*
 		if (m_isDynamic)
 		{
 			D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -166,10 +188,13 @@ void VertexBuffer_Imp_DX11::Unlock()
 				0
 				);
 		}
+		*/
 	}
 
 	if (m_ringBufferLock)
 	{
+		rhi->Unlock();
+		/*
 		D3D11_MAPPED_SUBRESOURCE mappedResource;
 		g->GetContext()->Map(
 			m_buffer,
@@ -187,6 +212,7 @@ void VertexBuffer_Imp_DX11::Unlock()
 		memcpy(dst, src, m_ringLockedSize);
 
 		g->GetContext()->Unmap(m_buffer, 0);
+		*/
 	}
 
 	m_resource = NULL;

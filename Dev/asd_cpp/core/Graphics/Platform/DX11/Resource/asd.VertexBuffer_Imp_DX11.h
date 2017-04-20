@@ -19,16 +19,17 @@ namespace asd {
 	private:
 		ar::VertexBuffer*					rhi = nullptr;
 
-		ID3D11Buffer*			m_buffer;
+		//ID3D11Buffer*			m_buffer;
 		void*					m_lockedResource;
 
+		/*
 		uint32_t				m_vertexRingOffset;
 
 		int32_t					m_ringLockedOffset;
 		int32_t					m_ringLockedSize;
+		*/
 
-
-		VertexBuffer_Imp_DX11(Graphics* graphics, ID3D11Buffer* buffer, int32_t size, int32_t count, bool isDynamic);
+		VertexBuffer_Imp_DX11(Graphics* graphics, ar::VertexBuffer* rhi, ID3D11Buffer* buffer, int32_t size, int32_t count, bool isDynamic);
 		virtual ~VertexBuffer_Imp_DX11();
 	public:
 
@@ -38,7 +39,7 @@ namespace asd {
 		bool RingBufferLock(int32_t count);
 		void Unlock();
 
-		ID3D11Buffer* GetBuffer() { return m_buffer; }
+		//ID3D11Buffer* GetBuffer() { return m_buffer; }
 
 		ar::VertexBuffer* GetRHI() const { return rhi; }
 	};

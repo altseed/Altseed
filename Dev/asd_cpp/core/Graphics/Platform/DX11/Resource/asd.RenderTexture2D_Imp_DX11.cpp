@@ -11,11 +11,12 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	RenderTexture2D_Imp_DX11::RenderTexture2D_Imp_DX11(Graphics* graphics, ID3D11Texture2D* texture, ID3D11ShaderResourceView* textureSRV, ID3D11RenderTargetView* textureRTV, Vector2DI size, TextureFormat format)
+	RenderTexture2D_Imp_DX11::RenderTexture2D_Imp_DX11(Graphics* graphics, ar::RenderTexture2D* rhi, ID3D11Texture2D* texture, ID3D11ShaderResourceView* textureSRV, ID3D11RenderTargetView* textureRTV, Vector2DI size, TextureFormat format)
 		: RenderTexture2D_Imp(graphics, size)
-		, m_texture(texture)
-		, m_textureSRV(textureSRV)
-		, m_textureRTV(textureRTV)
+		, rhi(rhi)
+		//, m_texture(texture)
+		//, m_textureSRV(textureSRV)
+		//, m_textureRTV(textureRTV)
 	{
 		m_format = format;
 	}
@@ -25,9 +26,11 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	RenderTexture2D_Imp_DX11::~RenderTexture2D_Imp_DX11()
 	{
-		SafeRelease(m_texture);
-		SafeRelease(m_textureSRV);
-		SafeRelease(m_textureRTV);
+		//SafeRelease(m_texture);
+		//SafeRelease(m_textureSRV);
+		//SafeRelease(m_textureRTV);
+
+		asd::SafeDelete(rhi);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -37,6 +40,16 @@ namespace asd {
 	{
 		auto g = (Graphics_Imp_DX11*) graphics;
 
+		auto rhi = ar::RenderTexture2D::Create(g->GetRHI());
+		if (rhi->Initialize(g->GetRHI(), width, height, (ar::TextureFormat)format))
+		{
+			return new RenderTexture2D_Imp_DX11(g, rhi, nullptr, nullptr, nullptr, Vector2DI(width, height), format);
+		}
+
+		asd::SafeDelete(rhi);
+		return nullptr;
+
+		/*
 		ID3D11Texture2D*			texture = nullptr;
 		ID3D11ShaderResourceView*	textureSRV = nullptr;
 		ID3D11RenderTargetView*		textureRTV = nullptr;
@@ -116,6 +129,7 @@ namespace asd {
 		SafeRelease(textureSRV);
 		SafeRelease(textureRTV);
 		return nullptr;
+		*/
 	}
 
 	//----------------------------------------------------------------------------------
@@ -123,8 +137,16 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	bool RenderTexture2D_Imp_DX11::Save(const achar* path)
 	{
-		auto g = (Graphics_Imp_DX11*) GetGraphics();
-		return g->SaveTexture(path, m_texture, GetSize());
+		std::vector<ar::Color> dst;
+		int32_t width;
+		int32_t height;
+
+		if (rhi->Save(dst, width, height))
+		{
+			ar::ImageHelper::SavePNG(path, width, height, dst.data());
+			return true;
+		}
+		return false;
 	}
 
 	//----------------------------------------------------------------------------------

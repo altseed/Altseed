@@ -50,13 +50,16 @@ namespace asd {
 		std::map<std::string, TextureLayout> m_ps_textureLayouts;
 		std::vector<TextureLayout*>	textureLayoutsArray;
 
+		/*
 		static ID3DBlob* CompileVertexShader(Graphics_Imp_DX11* g, const char* vertexShaderText, const char* vertexShaderFileName, std::vector <Macro>& macro, Log* log);
 		static ID3DBlob* CompilePixelShader(Graphics_Imp_DX11* g, const char* vertexShaderText, const char* vertexShaderFileName, std::vector <Macro>& macro, Log* log);
 
 		static void Reflect(void* buf, int32_t bufSize, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<TextureLayout>& textures);
+		*/
 	public:
 		NativeShader_Imp_DX11(
-			Graphics* graphics, 
+			Graphics* graphics,
+			ar::Shader* rhi,
 			ID3D11VertexShader* vertexShader, 
 			ID3D11PixelShader* pixelShader, 
 			ID3D11InputLayout* layout,
@@ -78,7 +81,7 @@ namespace asd {
 		void SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType) override;
 		void SetTexture(int32_t id, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType) override;
 
-		void AssignConstantBuffer();
+		//void AssignConstantBuffer();
 
 		static NativeShader_Imp_DX11* Create(
 			Graphics* graphics,

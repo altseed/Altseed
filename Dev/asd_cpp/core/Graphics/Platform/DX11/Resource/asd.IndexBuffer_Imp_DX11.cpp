@@ -12,9 +12,10 @@ namespace asd {
 //-----------------------------------------------------------------------------------
 //
 //-----------------------------------------------------------------------------------
-IndexBuffer_Imp_DX11::IndexBuffer_Imp_DX11(Graphics* graphics, ID3D11Buffer* buffer, int maxCount, bool isDynamic, bool is32bit)
+IndexBuffer_Imp_DX11::IndexBuffer_Imp_DX11(Graphics* graphics, ar::IndexBuffer* rhi, ID3D11Buffer* buffer, int maxCount, bool isDynamic, bool is32bit)
 	: IndexBuffer_Imp(graphics, maxCount, isDynamic, is32bit)
-	, m_buffer(buffer)
+	, rhi(rhi)
+	//, m_buffer(buffer)
 	, m_lockedResource(NULL)
 {
 	m_lockedResource = new uint8_t[GetIndexSize() * maxCount];
@@ -25,8 +26,9 @@ IndexBuffer_Imp_DX11::IndexBuffer_Imp_DX11(Graphics* graphics, ID3D11Buffer* buf
 //-----------------------------------------------------------------------------------
 IndexBuffer_Imp_DX11::~IndexBuffer_Imp_DX11()
 {
-	SafeRelease(m_buffer);
+	//SafeRelease(m_buffer);
 	SafeDeleteArray(m_lockedResource);
+	asd::SafeDelete(rhi);
 }
 
 //-----------------------------------------------------------------------------------
@@ -34,7 +36,19 @@ IndexBuffer_Imp_DX11::~IndexBuffer_Imp_DX11()
 //-----------------------------------------------------------------------------------
 IndexBuffer_Imp_DX11* IndexBuffer_Imp_DX11::Create(Graphics* graphics, int maxCount, bool isDynamic, bool is32bit)
 {
-	auto g = (Graphics_Imp_DX11*) graphics;
+	auto g = (Graphics_Imp_DX11*)graphics;
+
+	auto rhi = ar::IndexBuffer::Create(g->GetRHI());
+	if (rhi->Initialize(g->GetRHI(), maxCount, is32bit))
+	{
+		return new IndexBuffer_Imp_DX11(g, rhi, nullptr, maxCount, isDynamic, is32bit);
+	}
+
+	asd::SafeDelete(rhi);
+
+	return nullptr;
+
+	/*
 	auto indSize = is32bit ? sizeof(int32_t) : sizeof(int16_t);
 
 	D3D11_BUFFER_DESC hBufferDesc;
@@ -58,6 +72,7 @@ IndexBuffer_Imp_DX11* IndexBuffer_Imp_DX11::Create(Graphics* graphics, int maxCo
 	}
 
 	return new IndexBuffer_Imp_DX11(g, ib, maxCount, isDynamic, is32bit);
+	*/
 }
 
 //-----------------------------------------------------------------------------------
@@ -81,6 +96,8 @@ void IndexBuffer_Imp_DX11::Unlock()
 
 	assert(m_isLock);
 
+	rhi->Write(rhi, GetIndexSize() * GetMaxCount());
+	/*
 	if (m_isDynamic)
 	{
 		D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -105,6 +122,7 @@ void IndexBuffer_Imp_DX11::Unlock()
 			m_indexCount * GetMaxCount(),
 			0);
 	}
+	*/
 
 	m_resource = NULL;
 	m_isLock = false;

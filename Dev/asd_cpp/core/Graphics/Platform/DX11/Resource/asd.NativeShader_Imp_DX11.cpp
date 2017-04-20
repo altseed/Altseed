@@ -13,6 +13,7 @@
 //----------------------------------------------------------------------------------
 namespace asd {
 
+/*
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -64,7 +65,7 @@ ID3DBlob* NativeShader_Imp_DX11::CompileVertexShader(Graphics_Imp_DX11* g, const
 	}
 	else
 	{
-		/* この方法だとVS4.0以上でのコンパイルが要求 */
+		// この方法だとVS4.0以上でのコンパイルが要求
 		hr = D3DCompile(
 			vertexShaderText,
 			strlen(vertexShaderText),
@@ -163,7 +164,7 @@ macro.push_back(m);
 	}
 	else
 	{
-		/* この方法だとPS4.0以上でのコンパイルが要求 */
+		// この方法だとPS4.0以上でのコンパイルが要求
 		hr = D3DCompile(
 			vertexShaderText,
 			strlen(vertexShaderText),
@@ -347,12 +348,13 @@ void NativeShader_Imp_DX11::Reflect(void* buf, int32_t bufSize, std::vector<Cons
 
 	uniformBufferSize = offset;
 }
-
+*/
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
 NativeShader_Imp_DX11::NativeShader_Imp_DX11(
 	Graphics* graphics, 
+	ar::Shader* rhi,
 	ID3D11VertexShader* vertexShader, 
 	ID3D11PixelShader* pixelShader, 
 	ID3D11InputLayout* layout,
@@ -363,6 +365,7 @@ NativeShader_Imp_DX11::NativeShader_Imp_DX11(
 	int32_t ps_uniformBufferSize,
 	std::vector<TextureLayout> ps_textures)
 	: NativeShader_Imp(graphics)
+	, rhi(rhi)
 	, m_vertexShader(vertexShader)
 	, m_pixelShader(pixelShader)
 	, m_vertexDeclaration(layout)
@@ -460,6 +463,8 @@ NativeShader_Imp_DX11::~NativeShader_Imp_DX11()
 
 	SafeDeleteArray(m_vertexConstantBuffer);
 	SafeDeleteArray(m_pixelConstantBuffer);
+
+	asd::SafeDelete(rhi);
 }
 
 //----------------------------------------------------------------------------------
@@ -593,6 +598,7 @@ void NativeShader_Imp_DX11::SetTexture(int32_t id, Texture* texture, TextureFilt
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+/*
 void NativeShader_Imp_DX11::AssignConstantBuffer()
 {
 	auto g = (Graphics_Imp_DX11*) GetGraphics();
@@ -609,7 +615,7 @@ void NativeShader_Imp_DX11::AssignConstantBuffer()
 		g->GetContext()->PSSetConstantBuffers(0, 1, &m_constantBufferToPS);
 	}
 }
-
+*/
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -623,6 +629,9 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 	std::vector <Macro>& macro,
 	Log* log)
 {
+
+
+	/*
 	// Hash
 	std::string macroStr;
 	for (auto& macro_ : macro)
@@ -836,6 +845,7 @@ End:;
 	SafeRelease(il);
 
 	return nullptr;
+	*/
 }
 
 //----------------------------------------------------------------------------------
