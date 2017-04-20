@@ -517,8 +517,10 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 		isInitializedAsDX9 = true;
 	}
 	rhiContext = ar::Context::Create(GetRHI());
+	rhiContext->Initialize(GetRHI());
 
 	renderTargets.fill(0);
+	currentRenderTargets.fill(0);
 }
 
 //----------------------------------------------------------------------------------
@@ -938,7 +940,9 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 	drawParam.VertexConstantBufferPtr = s_impl->GetRHIVertexConstantBuffer();
 	drawParam.PixelConstantBufferPtr = s_impl->GetRHIPixelConstantBuffer();
 	
-	vertexBufferOffset = v_impl->GetVertexOffset();
+	vertexBufferOffset = v_impl->GetRHI()->GetVertexOffset();
+
+	s_impl->AssignConstantBuffer();
 
 	for (auto& bt : s_impl->GetBindingTextures())
 	{
@@ -974,7 +978,7 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 			// 頂点シェーダーに設定
 			if (id - 0xff < drawParam.VertexShaderTextures.size())
 			{
-				drawParam.VertexShaderTextures[id - 0xff];
+				drawParam.VertexShaderTextures[id - 0xff] = rhi;
 			}
 
 			nextState.textureFilterTypes_vs[id - 0xff] = bt.second.FilterType;
@@ -983,9 +987,9 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 		else
 		{
 			// ピクセルシェーダーに設定
-			if (id - 0xff < drawParam.PixelShaderTextures .size())
+			if (id < drawParam.PixelShaderTextures.size())
 			{
-				drawParam.PixelShaderTextures[id];
+				drawParam.PixelShaderTextures[id] = rhi;
 			}
 
 			// ステート設定
@@ -1609,7 +1613,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log, File* fil
 {
 	auto size = window->GetSize();
 	auto handle = (HWND)((Window_Imp*)window)->GetWindowHandle();
-	return Create(handle, size.X, size.Y, log, file, option);
+	return Create(window, handle, size.X, size.Y, log, file, option);
 }
 
 //----------------------------------------------------------------------------------

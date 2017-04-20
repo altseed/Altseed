@@ -113,6 +113,7 @@ bool VertexBuffer_Imp_DX11::RingBufferLock(int32_t count)
 
 	m_resource = (uint8_t*)p;
 
+	m_offset = 0;
 	m_vertexOffset = 0;
 	m_ringBufferLock = true;
 

@@ -409,12 +409,12 @@ namespace asd
 			return new CubemapTexture_Imp_DX11(
 				graphics,
 				rhi,
-				GraphicsHelper_DX11::GetTextureFormat(desc.Format),
+				(asd::TextureFormat)rhi->GetFormat(),
 				nullptr,
 				nullptr,
 				std::array<std::vector<ID3D11RenderTargetView*>, 6>(),
-				Vector2DI(desc.Width, desc.Height),
-				cubeDesc.TextureCube.MipLevels);
+				Vector2DI(rhi->GetWidth(), rhi->GetHeight()),
+				rhi->GetMipmapCount());
 		}
 
 		asd::SafeDelete(rhi);

@@ -18,12 +18,17 @@ namespace asd {
 	{
 	private:
 		ar::Shader*					rhi = nullptr;
+		ar::ConstantBuffer*			rhiConstantVB = nullptr;
+		ar::ConstantBuffer*			rhiConstantPB = nullptr;
 
-		ID3D11VertexShader*			m_vertexShader;
-		ID3D11PixelShader*			m_pixelShader;
-		ID3D11InputLayout*			m_vertexDeclaration;
-		ID3D11Buffer*				m_constantBufferToVS;
-		ID3D11Buffer*				m_constantBufferToPS;
+		int32_t vs_uniformBufferSize_ = 0;
+		int32_t ps_uniformBufferSize_ = 0;
+
+		//ID3D11VertexShader*			m_vertexShader;
+		//ID3D11PixelShader*			m_pixelShader;
+		//ID3D11InputLayout*			m_vertexDeclaration;
+		//ID3D11Buffer*				m_constantBufferToVS;
+		//ID3D11Buffer*				m_constantBufferToPS;
 
 		struct ConstantLayout
 		{
@@ -81,7 +86,7 @@ namespace asd {
 		void SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType) override;
 		void SetTexture(int32_t id, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType) override;
 
-		//void AssignConstantBuffer();
+		void AssignConstantBuffer() override;
 
 		static NativeShader_Imp_DX11* Create(
 			Graphics* graphics,
@@ -93,13 +98,13 @@ namespace asd {
 			std::vector <Macro>& macro,
 			Log* log);
 
-		ID3D11InputLayout* GetLayout() { return m_vertexDeclaration; };
-		ID3D11VertexShader *GetVertexShader() { return m_vertexShader; }
-		ID3D11PixelShader* GetPixelShader() { return m_pixelShader; }
+		//ID3D11InputLayout* GetLayout() { return m_vertexDeclaration; };
+		//ID3D11VertexShader *GetVertexShader() { return m_vertexShader; }
+		//ID3D11PixelShader* GetPixelShader() { return m_pixelShader; }
 
 		ar::Shader* GetRHI() const { return rhi; }
-		ar::ConstantBuffer* GetRHIVertexConstantBuffer() const { return nullptr; }
-		ar::ConstantBuffer* GetRHIPixelConstantBuffer() const { return nullptr; }
+		ar::ConstantBuffer* GetRHIVertexConstantBuffer() const { return rhiConstantVB; }
+		ar::ConstantBuffer* GetRHIPixelConstantBuffer() const { return rhiConstantPB; }
 	};
 
 	//----------------------------------------------------------------------------------

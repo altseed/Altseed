@@ -96,7 +96,7 @@ void IndexBuffer_Imp_DX11::Unlock()
 
 	assert(m_isLock);
 
-	rhi->Write(rhi, GetIndexSize() * GetMaxCount());
+	rhi->Write(m_resource, GetIndexSize() * GetMaxCount());
 	/*
 	if (m_isDynamic)
 	{

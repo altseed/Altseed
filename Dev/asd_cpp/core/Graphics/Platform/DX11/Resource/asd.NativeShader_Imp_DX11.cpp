@@ -366,12 +366,14 @@ NativeShader_Imp_DX11::NativeShader_Imp_DX11(
 	std::vector<TextureLayout> ps_textures)
 	: NativeShader_Imp(graphics)
 	, rhi(rhi)
-	, m_vertexShader(vertexShader)
-	, m_pixelShader(pixelShader)
-	, m_vertexDeclaration(layout)
-	, m_constantBufferToVS(nullptr)
-	, m_constantBufferToPS(nullptr)
+	//, m_vertexShader(vertexShader)
+	//, m_pixelShader(pixelShader)
+	//, m_vertexDeclaration(layout)
+	//, m_constantBufferToVS(nullptr)
+	//, m_constantBufferToPS(nullptr)
 {
+	auto g = (Graphics_Imp_DX11*)graphics;
+
 	int32_t index = 0;
 
 	index = 0;
@@ -412,9 +414,14 @@ NativeShader_Imp_DX11::NativeShader_Imp_DX11(
 	if (vs_uniformBufferSize > 0)
 	{
 		vs_uniformBufferSize = (vs_uniformBufferSize / 16 + 1) * 16;
-
-		SafeRelease(m_constantBufferToVS);
+		rhiConstantVB = ar::ConstantBuffer::Create(g->GetRHI());
+		rhiConstantVB->Initialize(g->GetRHI(), vs_uniformBufferSize);
 		m_vertexConstantBuffer = new uint8_t[vs_uniformBufferSize];
+
+		vs_uniformBufferSize_ = vs_uniformBufferSize;
+		/*
+		SafeRelease(m_constantBufferToVS);
+		
 	
 		auto g = (Graphics_Imp_DX11*) GetGraphics();
 
@@ -427,15 +434,21 @@ NativeShader_Imp_DX11::NativeShader_Imp_DX11(
 		hBufferDesc.StructureByteStride = sizeof(float);
 
 		g->GetDevice()->CreateBuffer(&hBufferDesc, NULL, &m_constantBufferToVS);
+		*/
 	}
 
 	if (ps_uniformBufferSize > 0)
 	{
 		ps_uniformBufferSize = (ps_uniformBufferSize / 16 + 1) * 16;
-
-		SafeRelease(m_constantBufferToPS);
+		rhiConstantPB = ar::ConstantBuffer::Create(g->GetRHI());
+		rhiConstantPB->Initialize(g->GetRHI(), ps_uniformBufferSize);
 		m_pixelConstantBuffer = new uint8_t[ps_uniformBufferSize];
 
+		ps_uniformBufferSize_ = ps_uniformBufferSize;
+
+		/*
+		SafeRelease(m_constantBufferToPS);
+	
 		auto g = (Graphics_Imp_DX11*) GetGraphics();
 
 		D3D11_BUFFER_DESC hBufferDesc;
@@ -447,6 +460,7 @@ NativeShader_Imp_DX11::NativeShader_Imp_DX11(
 		hBufferDesc.StructureByteStride = sizeof(float);
 
 		g->GetDevice()->CreateBuffer(&hBufferDesc, NULL, &m_constantBufferToPS);
+		*/
 	}
 }
 
@@ -455,16 +469,18 @@ NativeShader_Imp_DX11::NativeShader_Imp_DX11(
 //----------------------------------------------------------------------------------
 NativeShader_Imp_DX11::~NativeShader_Imp_DX11()
 {
-	SafeRelease(m_constantBufferToVS);
-	SafeRelease(m_constantBufferToPS);
-	SafeRelease(m_vertexShader);
-	SafeRelease(m_pixelShader);
-	SafeRelease(m_vertexDeclaration);
+	//SafeRelease(m_constantBufferToVS);
+	//SafeRelease(m_constantBufferToPS);
+	//SafeRelease(m_vertexShader);
+	//SafeRelease(m_pixelShader);
+	//SafeRelease(m_vertexDeclaration);
 
 	SafeDeleteArray(m_vertexConstantBuffer);
 	SafeDeleteArray(m_pixelConstantBuffer);
 
 	asd::SafeDelete(rhi);
+	asd::SafeDelete(rhiConstantVB);
+	asd::SafeDelete(rhiConstantPB);
 }
 
 //----------------------------------------------------------------------------------
@@ -598,24 +614,21 @@ void NativeShader_Imp_DX11::SetTexture(int32_t id, Texture* texture, TextureFilt
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-/*
 void NativeShader_Imp_DX11::AssignConstantBuffer()
 {
 	auto g = (Graphics_Imp_DX11*) GetGraphics();
 
 	if (m_vertexConstantBuffer != nullptr)
 	{
-		g->GetContext()->UpdateSubresource(m_constantBufferToVS, 0, NULL, m_vertexConstantBuffer, 0, 0);
-		g->GetContext()->VSSetConstantBuffers(0, 1, &m_constantBufferToVS);
+		rhiConstantVB->SetData(m_vertexConstantBuffer, vs_uniformBufferSize_, 0);
 	}
 
 	if (m_pixelConstantBuffer != nullptr)
 	{
-		g->GetContext()->UpdateSubresource(m_constantBufferToPS, 0, NULL, m_pixelConstantBuffer, 0, 0);
-		g->GetContext()->PSSetConstantBuffers(0, 1, &m_constantBufferToPS);
+		rhiConstantPB->SetData(m_pixelConstantBuffer, ps_uniformBufferSize_, 0);
 	}
 }
-*/
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -629,7 +642,165 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 	std::vector <Macro>& macro,
 	Log* log)
 {
+	auto g = (Graphics_Imp_DX11*)graphics;
+	
+	ar::ShaderCompilerParameter compilerParam;
+	ar::ShaderCompilerResult compilerResult;
 
+	
+	// Hash
+	std::string macroStr;
+	for (auto& macro_ : macro)
+	{
+		macroStr = macroStr + macro_.Definition;
+		macroStr = macroStr + macro_.Name;
+	}
+
+	auto hashMacro = CalcHash(macroStr.c_str());
+	auto hashVS = CalcHash(vertexShaderText);
+	auto hashPS = CalcHash(pixelShaderText);
+
+	char cacheFile[256];
+	sprintf(cacheFile, "ShaderCache/dx_%d_%d_%d.ch", hashMacro, hashVS, hashPS);
+
+	HRESULT hr;
+
+	FILE* fp = nullptr;
+	fopen_s(&fp, cacheFile, "rb");
+	if (fp == nullptr)
+	{
+		auto compiler = ar::Compiler::Create(g->GetRHI());
+
+		compilerParam.VertexShaderTexts.push_back(vertexShaderText);
+		compilerParam.PixelShaderTexts.push_back(pixelShaderText);
+
+		if (!compiler->Compile(compilerResult, compilerParam))
+		{
+			log->WriteHeading("シェーダーコンパイル失敗");
+			log->WriteLine(vertexShaderFileName);
+			log->WriteLine(pixelShaderFileName);
+			log->WriteLine(ToAString(compilerResult.ErrorMessage.c_str()).c_str());
+
+			asd::SafeDelete(compiler);
+		}
+
+		asd::SafeDelete(compiler);
+
+		// 書き込み
+		fopen_s(&fp, cacheFile, "wb");
+		if (fp != nullptr)
+		{
+			auto vs_size = compilerResult.VertexShaderBuffer.size();
+			auto ps_size = compilerResult.PixelShaderBuffer.size();
+
+			fwrite(&vs_size, sizeof(int32_t), 1, fp);
+			fwrite(&ps_size, sizeof(int32_t), 1, fp);
+			fwrite(compilerResult.VertexShaderBuffer.data(), 1, vs_size, fp);
+			fwrite(compilerResult.PixelShaderBuffer.data(), 1, ps_size, fp);
+
+			fclose(fp);
+		}
+	}
+	else
+	{
+		// 読み込み
+		int32_t vs_size = 0;
+		int32_t ps_size = 0;
+
+		fread(&vs_size, sizeof(int32_t), 1, fp);
+		fread(&ps_size, sizeof(int32_t), 1, fp);
+		
+		compilerResult.VertexShaderBuffer.resize(vs_size);
+		compilerResult.PixelShaderBuffer.resize(ps_size);
+		fread(compilerResult.VertexShaderBuffer.data(), 1, vs_size, fp);
+		fread(compilerResult.PixelShaderBuffer.data(), 1, ps_size, fp);
+		fclose(fp);
+	}
+
+	auto rhi = ar::Shader::Create(g->GetRHI());
+
+	std::vector<ar::VertexLayout> layout_;
+	for (auto& l : layout)
+	{
+		ar::VertexLayout l_;
+
+		l_.Name = l.Name;
+		l_.LayoutFormat = (ar::VertexLayoutFormat)l.LayoutFormat;
+
+		layout_.push_back(l_);
+	}
+
+	if (rhi->Initialize(g->GetRHI(), compilerResult, layout_))
+	{
+		int32_t vs_uniformBufferSize = rhi->GetVertexConstantBufferSize();
+		std::vector<ConstantLayout> vcls;
+		std::vector<TextureLayout> vtls;
+
+		int32_t ps_uniformBufferSize = rhi->GetVertexConstantBufferSize();
+		std::vector<ConstantLayout> pcls;
+		std::vector<TextureLayout> ptls;
+
+		for (auto& l : rhi->GetVertexConstantLayouts())
+		{
+			ConstantLayout cl;
+
+			cl.Name = l.first;
+			cl.Count = l.second.Count;
+			cl.Index = l.second.Index;
+			cl.Offset = l.second.Offset;
+			cl.Type = (ConstantBufferFormat)l.second.Type;
+
+			vcls.push_back(cl);
+		}
+
+		for (auto& l : rhi->GetVertexTextureLayouts())
+		{
+			TextureLayout tl;
+			tl.Name = l.first;
+			tl.ID = l.second.ID;
+			tl.Index = l.second.Index;
+			vtls.push_back(tl);
+		}
+
+		for (auto& l : rhi->GetPixelConstantLayouts())
+		{
+			ConstantLayout cl;
+
+			cl.Name = l.first;
+			cl.Count = l.second.Count;
+			cl.Index = l.second.Index;
+			cl.Offset = l.second.Offset;
+			cl.Type = (ConstantBufferFormat)l.second.Type;
+
+			pcls.push_back(cl);
+		}
+
+		for (auto& l : rhi->GetPixelTextureLayouts())
+		{
+			TextureLayout tl;
+			tl.Name = l.first;
+			tl.ID = l.second.ID;
+			tl.Index = l.second.Index;
+			ptls.push_back(tl);
+		}
+
+
+		return new NativeShader_Imp_DX11(
+			g,
+			rhi,
+			nullptr,
+			nullptr,
+			nullptr,
+			vcls,
+			vs_uniformBufferSize,
+			vtls,
+			pcls,
+			ps_uniformBufferSize,
+			ptls);
+	}
+
+	asd::SafeDelete(rhi);
+	return nullptr;
 
 	/*
 	// Hash
