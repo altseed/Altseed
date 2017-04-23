@@ -17,12 +17,11 @@ namespace asd {
 		: public IndexBuffer_Imp
 	{
 	private:
-		ar::IndexBuffer*					rhi = nullptr;
+		ar::IndexBuffer*	rhi = nullptr;
 
-		//ID3D11Buffer*	m_buffer;
 		void*			m_lockedResource;
 
-		IndexBuffer_Imp_DX11(Graphics* graphics, ar::IndexBuffer* rhi, ID3D11Buffer* buffer, int maxCount, bool isDynamic, bool is32bit);
+		IndexBuffer_Imp_DX11(Graphics* graphics, ar::IndexBuffer* rhi, int maxCount, bool isDynamic, bool is32bit);
 
 	public:
 		virtual ~IndexBuffer_Imp_DX11();
@@ -32,8 +31,6 @@ namespace asd {
 	public:
 		void Lock();
 		void Unlock();
-
-		//ID3D11Buffer* GetBuffer() { return m_buffer; }
 
 		ar::IndexBuffer* GetRHI() const { return rhi; }
 	};

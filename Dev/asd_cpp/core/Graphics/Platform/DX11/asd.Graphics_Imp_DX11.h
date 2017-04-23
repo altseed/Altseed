@@ -71,37 +71,7 @@ namespace asd {
 		std::array<RenderTexture2D_Imp*, 4>	currentRenderTargets;
 		DepthBuffer_Imp*	currentDepthTarget = nullptr;
 
-		//ID3D11Device*			m_device;
-		//ID3D11DeviceContext*	m_context;
-		//IDXGIDevice1*			m_dxgiDevice;
-		//IDXGIAdapter1*			m_adapter;
-		//IDXGIFactory1*			m_dxgiFactory;
-		//IDXGISwapChain*			m_swapChain;
-
-		//ID3D11Texture2D*		m_defaultBack;
-		//ID3D11RenderTargetView*	m_defaultBackRenderTargetView;
-		//
-		//ID3D11Texture2D*		m_defaultDepthBuffer;
-		//ID3D11DepthStencilView*	m_defaultDepthStencilView;
-		//
-		//ID3D11RenderTargetView*	m_currentBackRenderTargetViews[MaxRenderTarget];
-		//ID3D11DepthStencilView*	m_currentDepthStencilView;
-
 		bool					isInitializedAsDX9 = false;
-
-#pragma region RenderStates
-		//static const int32_t		DepthTestCount = 2;
-		//static const int32_t		DepthWriteCount = 2;
-		//static const int32_t		CulTypeCount = 3;
-		//static const int32_t		AlphaTypeCount = 7;
-		//static const int32_t		TextureFilterCount = 2;
-		//static const int32_t		TextureWrapCount = 2;
-		//
-		//ID3D11RasterizerState*		m_rStates[CulTypeCount];
-		//ID3D11DepthStencilState*	m_dStates[DepthTestCount][DepthWriteCount];
-		//ID3D11BlendState*			m_bStates[AlphaTypeCount];
-		//ID3D11SamplerState*			m_sStates[TextureFilterCount][TextureWrapCount];
-#pragma endregion
 
 		Graphics_Imp_DX11(
 			ar::Manager* manager,
@@ -123,8 +93,6 @@ namespace asd {
 		virtual ~Graphics_Imp_DX11();
 
 		static void WriteAdapterInformation(Log* log, IDXGIAdapter1* adapter, int32_t index);
-
-		//void GenerateRenderStates();
 
 		void ApplyRenderTargets();
 
@@ -184,8 +152,6 @@ namespace asd {
 
 		void SetRenderTarget(CubemapTexture_Imp* texture, int32_t direction, int32_t mipmap, DepthBuffer_Imp* depthBuffer) override;
 
-		//void SetViewport(int32_t x, int32_t y, int32_t width, int32_t height);
-
 		void MakeContextCurrent();
 
 		void FlushCommand();
@@ -202,12 +168,6 @@ namespace asd {
 		void SaveScreenshot(const achar* path);
 
 		void SaveScreenshot(std::vector<Color>& bufs, Vector2DI& size);
-
-		/*
-		bool SaveTexture(const achar* path, ID3D11Resource* texture, Vector2DI size);
-
-		bool SaveTexture(std::vector<Color>& bufs, ID3D11Resource* texture, Vector2DI size);
-		*/
 
 	public:
 

@@ -535,55 +535,6 @@ Graphics_Imp_DX11::~Graphics_Imp_DX11()
 	}
 	m_renderingThread.reset();
 
-	//for (auto i = 0; i < MaxRenderTarget; i++)
-	//{
-	//	SafeRelease(m_currentBackRenderTargetViews[i]);
-	//}
-
-#pragma region RenderStates
-	//for (int32_t ct = 0; ct < CulTypeCount; ct++)
-	//{
-	//	SafeRelease(m_rStates[ct]);
-	//}
-	//
-	//for (int32_t dt = 0; dt < DepthTestCount; dt++)
-	//{
-	//	for (int32_t dw = 0; dw < DepthWriteCount; dw++)
-	//	{
-	//		SafeRelease(m_dStates[dt][dw]);
-	//	}
-	//}
-	//
-	//for (int32_t i = 0; i < AlphaTypeCount; i++)
-	//{
-	//	SafeRelease(m_bStates[i]);
-	//}
-	//
-	//for (int32_t f = 0; f < TextureFilterCount; f++)
-	//{
-	//	for (int32_t w = 0; w < TextureWrapCount; w++)
-	//	{
-	//		SafeRelease(m_sStates[f][w]);
-	//	}
-	//}
-#pragma endregion
-
-
-	//SafeRelease(m_currentDepthStencilView);
-	//
-	//SafeRelease(m_defaultBack);
-	//SafeRelease(m_defaultBackRenderTargetView);
-	//
-	//SafeRelease(m_defaultDepthBuffer);
-	//SafeRelease(m_defaultDepthStencilView);
-	//
-	//SafeRelease(m_device);
-	//SafeRelease(m_context);
-	//SafeRelease(m_dxgiDevice);
-	//SafeRelease(m_adapter);
-	//SafeRelease(m_dxgiFactory);
-	//SafeRelease(m_swapChain);
-
 	for (auto& r : currentRenderTargets)
 	{
 		SafeRelease(r);
@@ -697,139 +648,6 @@ void Graphics_Imp_DX11::WriteAdapterInformation(Log* log, IDXGIAdapter1* adapter
 		}
 	}
 }
-/*
-void Graphics_Imp_DX11::GenerateRenderStates()
-{
-	D3D11_CULL_MODE cullTbl [] =
-	{
-		D3D11_CULL_BACK,
-		D3D11_CULL_FRONT,
-		D3D11_CULL_NONE,
-	};
-
-	for (int32_t ct = 0; ct < CulTypeCount; ct++)
-	{
-		D3D11_RASTERIZER_DESC rsDesc;
-		ZeroMemory(&rsDesc, sizeof(D3D11_RASTERIZER_DESC));
-		rsDesc.CullMode = cullTbl[ct];
-		rsDesc.FillMode = D3D11_FILL_SOLID;
-		rsDesc.DepthClipEnable = TRUE;
-		GetDevice()->CreateRasterizerState(&rsDesc, &m_rStates[ct]);
-	}
-
-	for (int32_t dt = 0; dt < DepthTestCount; dt++)
-	{
-		for (int32_t dw = 0; dw < DepthWriteCount; dw++)
-		{
-			D3D11_DEPTH_STENCIL_DESC dsDesc;
-			ZeroMemory(&dsDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
-			dsDesc.DepthEnable = dt;
-			dsDesc.DepthWriteMask = (D3D11_DEPTH_WRITE_MASK) dw;
-			dsDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
-			dsDesc.StencilEnable = FALSE;
-			GetDevice()->CreateDepthStencilState(&dsDesc, &m_dStates[dt][dw]);
-		}
-	}
-
-	for (int32_t i = 0; i < AlphaTypeCount; i++)
-	{
-		D3D11_BLEND_DESC Desc;
-		ZeroMemory(&Desc, sizeof(Desc));
-		Desc.AlphaToCoverageEnable = false;
-
-		for (int32_t k = 0; k < 8; k++)
-		{
-			Desc.RenderTarget[k].BlendEnable = i != (int32_t) AlphaBlendMode::Opacity;
-			Desc.RenderTarget[k].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-			Desc.RenderTarget[k].SrcBlendAlpha = D3D11_BLEND_ONE;
-			Desc.RenderTarget[k].DestBlendAlpha = D3D11_BLEND_ONE;
-			Desc.RenderTarget[k].BlendOpAlpha = D3D11_BLEND_OP_MAX;
-
-			switch (i)
-			{
-			case (int32_t) AlphaBlendMode::Opacity:
-				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ZERO;
-				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_ONE;
-				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
-				break;
-			case (int32_t) AlphaBlendMode::Blend:
-				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
-				break;
-			case (int32_t) AlphaBlendMode::Add:
-				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ONE;
-				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
-				break;
-			case (int32_t) AlphaBlendMode::Sub:
-				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ONE;
-				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_REV_SUBTRACT;
-				break;
-
-			case (int32_t) AlphaBlendMode::Mul:
-				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_SRC_COLOR;
-				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_ZERO;
-				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
-				break;
-			case (int32_t) AlphaBlendMode::AddAll:
-				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ONE;
-				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_ONE;
-				Desc.RenderTarget[k].SrcBlendAlpha = D3D11_BLEND_ONE;
-				Desc.RenderTarget[k].DestBlendAlpha = D3D11_BLEND_ONE;
-				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
-				Desc.RenderTarget[k].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-				break;
-			case (int32_t) AlphaBlendMode::OpacityAll:
-				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ZERO;
-				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_ONE;
-				Desc.RenderTarget[k].DestBlendAlpha = D3D11_BLEND_ZERO;
-				Desc.RenderTarget[k].SrcBlendAlpha = D3D11_BLEND_ONE;
-				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
-				Desc.RenderTarget[k].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-				break;
-			}
-		}
-
-		GetDevice()->CreateBlendState(&Desc, &m_bStates[i]);
-	}
-
-	for (int32_t f = 0; f < TextureFilterCount; f++)
-	{
-		for (int32_t w = 0; w < TextureWrapCount; w++)
-		{
-			D3D11_TEXTURE_ADDRESS_MODE Addres [] = {
-				D3D11_TEXTURE_ADDRESS_WRAP,
-				D3D11_TEXTURE_ADDRESS_CLAMP,
-			};
-
-			D3D11_FILTER Filter [] = {
-				D3D11_FILTER_MIN_MAG_MIP_POINT,
-				D3D11_FILTER_MIN_MAG_MIP_LINEAR,
-			};
-
-			uint32_t Anisotropic [] = {
-				0, 0,
-			};
-
-			D3D11_SAMPLER_DESC SamlerDesc = {
-				Filter[f],
-				Addres[w],
-				Addres[w],
-				Addres[w],
-				0.0f,
-				Anisotropic[f],
-				D3D11_COMPARISON_ALWAYS,
-				{ 0.0f, 0.0f, 0.0f, 0.0f },
-				0.0f,
-				D3D11_FLOAT32_MAX, };
-
-			GetDevice()->CreateSamplerState(&SamlerDesc, &m_sStates[f][w]);
-		}
-	}
-}
-*/
 
 void Graphics_Imp_DX11::ApplyRenderTargets()
 {
@@ -1000,151 +818,6 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 		}
 	}
 
-	/*
-	{
-		auto vBuf = ((VertexBuffer_Imp_DX11*)vertexBuffer)->GetBuffer();
-		uint32_t vertexSize = vertexBuffer->GetSize();
-		uint32_t offset = 0;
-		GetContext()->IASetVertexBuffers(0, 1, &vBuf, &vertexSize, &offset);
-		vertexBufferOffset = vertexBuffer->GetVertexOffset();
-	}
-	
-	{
-		auto buf = ((IndexBuffer_Imp_DX11*) indexBuffer)->GetBuffer();
-		if (indexBuffer->Is32Bit())
-		{
-			GetContext()->IASetIndexBuffer(buf, DXGI_FORMAT_R32_UINT, 0);
-		}
-		else
-		{
-			GetContext()->IASetIndexBuffer(buf, DXGI_FORMAT_R16_UINT, 0);
-		}
-	}
-
-	{
-		auto shader = (NativeShader_Imp_DX11*) shaderPtr;
-
-		// シェーダーの設定
-		GetContext()->VSSetShader(shader->GetVertexShader(), NULL, 0);
-		GetContext()->PSSetShader(shader->GetPixelShader(), NULL, 0);
-
-		// レイアウトの設定
-		GetContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		GetContext()->IASetInputLayout(shader->GetLayout());
-
-		// 定数バッファの割り当て
-		shaderPtr->AssignConstantBuffer();
-
-		std::array<ID3D11ShaderResourceView*, 16> srv_vs;
-		std::array<ID3D11ShaderResourceView*, 16> srv_ps;
-		srv_vs.fill(nullptr);
-		srv_ps.fill(nullptr);
-
-		// テクスチャの設定
-		for (auto& bt : shader->GetBindingTextures())
-		{
-			if (bt.second.TexturePtr == nullptr) continue;
-			auto tex = bt.second.TexturePtr.get();
-			auto id = bt.first;
-
-			ID3D11ShaderResourceView* rv = nullptr;
-
-			if (bt.second.TexturePtr->GetType() == TextureClassType::Texture2D)
-			{
-				auto t = (Texture2D_Imp_DX11*) tex;
-				rv = t->GetShaderResourceView();
-			}
-			else if (tex->GetType() == TextureClassType::RenderTexture2D)
-			{
-				auto t = (RenderTexture2D_Imp_DX11*) tex;
-				rv = t->GetShaderResourceView();
-			}
-			else if (tex->GetType() == TextureClassType::CubemapTexture)
-			{
-				auto t = (CubemapTexture_Imp_DX11*) tex;
-				rv = t->GetShaderResourceView();
-			}
-			else if (tex->GetType() == TextureClassType::DepthBuffer)
-			{
-				auto t = (DepthBuffer_Imp_DX11*) tex;
-				rv = t->GetShaderResourceView();
-			}
-
-			if (id >= 0xff)
-			{
-				// 頂点シェーダーに設定
-				if (id - 0xff < srv_vs.size())
-				{
-					srv_vs[id - 0xff] = rv;
-				}
-				
-				nextState.textureFilterTypes_vs[id - 0xff] = bt.second.FilterType;
-				nextState.textureWrapTypes_vs[id - 0xff] = bt.second.WrapType;
-			}
-			else
-			{
-				// ピクセルシェーダーに設定
-				if (id < srv_ps.size())
-				{
-					srv_ps[id] = rv;
-				}
-				// ステート設定
-				nextState.textureFilterTypes[id] = bt.second.FilterType;
-				nextState.textureWrapTypes[id] = bt.second.WrapType;
-			}
-		}
-
-		GetContext()->VSSetShaderResources(0, srv_vs.size(), srv_vs.data());
-		GetContext()->PSSetShaderResources(0, srv_ps.size(), srv_ps.data());
-		*/
-
-		/*
-		for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
-		{
-			Texture* tex = nullptr;
-			char* texName = nullptr;
-			TextureFilterType filterType;
-			TextureWrapType wrapType;
-
-			if (shader->GetTexture(texName, tex, filterType, wrapType, i))
-			{
-				ID3D11ShaderResourceView* rv = nullptr;
-
-				if (tex->GetType() == TEXTURE_CLASS_TEXTURE2D)
-				{
-					auto t = (Texture2D_Imp_DX11*) tex;
-					rv = t->GetShaderResourceView();
-				}
-				else if (tex->GetType() == TEXTURE_CLASS_RENDERTEXTURE2D)
-				{
-					auto t = (RenderTexture2D_Imp_DX11*) tex;
-					rv = t->GetShaderResourceView();
-				}
-				else if (tex->GetType() == TEXTURE_CLASS_CUBEMAPTEXTURE)
-				{
-					auto t = (CubemapTexture_Imp_DX11*) tex;
-					rv = t->GetShaderResourceView();
-				}
-				else if (tex->GetType() == TEXTURE_CLASS_DEPTHBUFFER)
-				{
-					auto t = (DepthBuffer_Imp_DX11*) tex;
-					rv = t->GetShaderResourceView();
-				}
-
-				// 頂点シェーダーに設定
-				GetContext()->VSSetShaderResources(i, 1, &rv);
-
-				// ピクセルシェーダーに設定
-				GetContext()->PSSetShaderResources(i, 1, &rv);
-
-				// ステート設定
-				nextState.textureFilterTypes[i] = filterType;
-				nextState.textureWrapTypes[i] = wrapType;
-			}
-		}
-	}
-	*/
-
 	CommitRenderState(false);
 }
 
@@ -1165,13 +838,6 @@ void Graphics_Imp_DX11::DrawPolygonInternal(int32_t count, VertexBuffer_Imp* ver
 	ApplyRenderTargets();
 
 	rhiContext->Draw(drawParam);
-
-	/*
-	GetContext()->DrawIndexed(
-		count * 3,
-		0,
-		vertexBufferOffset);
-	*/
 }
 
 void Graphics_Imp_DX11::DrawPolygonInternal(int32_t offset, int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr)
@@ -1188,13 +854,6 @@ void Graphics_Imp_DX11::DrawPolygonInternal(int32_t offset, int32_t count, Verte
 	ApplyRenderTargets();
 
 	rhiContext->Draw(drawParam);
-
-	/*
-	GetContext()->DrawIndexed(
-		count * 3,
-		offset * 3,
-		vertexBufferOffset);
-	*/
 }
 
 //----------------------------------------------------------------------------------
@@ -1214,15 +873,6 @@ void Graphics_Imp_DX11::DrawPolygonInstancedInternal(int32_t count, VertexBuffer
 	ApplyRenderTargets();
 
 	rhiContext->Draw(drawParam);
-
-	/*
-	GetContext()->DrawIndexedInstanced(
-		count * 3,
-		instanceCount,
-		0,
-		0,
-		0);
-	*/
 }
 
 //----------------------------------------------------------------------------------
@@ -1230,26 +880,6 @@ void Graphics_Imp_DX11::DrawPolygonInstancedInternal(int32_t count, VertexBuffer
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::BeginInternal()
 {
-	/*
-	// 描画先のリセット
-	m_context->OMSetRenderTargets(1, &m_defaultBackRenderTargetView, m_defaultDepthStencilView);
-
-	for (auto i = 0; i < MaxRenderTarget; i++)
-	{
-		SafeRelease(m_currentBackRenderTargetViews[i]);
-	}
-
-	m_currentBackRenderTargetViews[0] = m_defaultBackRenderTargetView;
-	SafeAddRef(m_currentBackRenderTargetViews[0]);
-
-	SafeRelease(m_currentDepthStencilView);
-	m_currentDepthStencilView = m_defaultDepthStencilView;
-	SafeAddRef(m_currentDepthStencilView);
-
-	// 描画範囲のリセット
-	SetViewport(0, 0, m_size.X, m_size.Y);
-	*/
-
 	// Reset targets
 	for (auto& r : renderTargets)
 	{
@@ -1274,9 +904,6 @@ void Graphics_Imp_DX11::EndInternal()
 	GetRHI()->EndRendering();
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
 Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option)
 {
 	auto writeLogHeading = [log](const astring s) -> void
@@ -1369,208 +996,6 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 		goto End;
 	}
 
-	/*
-	// DirectX初期化
-	ID3D11Device*			device = NULL;
-	ID3D11DeviceContext*	context = NULL;
-	IDXGIDevice1*			dxgiDevice = NULL;
-	IDXGIAdapter1*			adapter = NULL;
-	std::vector<IDXGIAdapter1*>	adapters;
-	IDXGIFactory1*			dxgiFactory = NULL;
-	IDXGISwapChain*			swapChain = NULL;
-	ID3D11Texture2D*		defaultBack = NULL;
-	ID3D11RenderTargetView*	defaultBackRenderTargetView = NULL;
-	ID3D11Texture2D* depthBuffer = nullptr;
-	ID3D11DepthStencilView* depthStencilView = nullptr;
-
-	HRESULT hr;
-
-	hr = CreateDXGIFactory1(__uuidof(IDXGIFactory1), (void**) &dxgiFactory);
-	if (dxgiFactory == NULL)
-	{
-		writeLog(ToAString("ファクトリの作成に失敗"));
-		goto End;
-	}
-
-	for (int32_t i = 0;; i++)
-	{
-		IDXGIAdapter1* temp = 0;
-		if (dxgiFactory->EnumAdapters1(i, &temp) != DXGI_ERROR_NOT_FOUND)
-		{
-			adapters.push_back(temp);
-		}
-		else
-		{
-			break;
-		}
-	}
-
-	if (adapters.size() > 0)
-	{
-		SafeAddRef(adapters[0]);
-		adapter = adapters[0];
-	}
-
-	if (adapter == nullptr)
-	{
-		writeLog(ToAString("アダプタの取得に失敗"));
-		goto End;
-	}
-
-	UINT debugFlag = 0;
-
-#if _DEBUG
-	debugFlag = D3D11_CREATE_DEVICE_DEBUG;
-#endif
-
-	D3D_FEATURE_LEVEL flevels[] = {
-		D3D_FEATURE_LEVEL_11_0,
-		D3D_FEATURE_LEVEL_10_1,
-		D3D_FEATURE_LEVEL_10_0,
-		D3D_FEATURE_LEVEL_9_3,
-		D3D_FEATURE_LEVEL_9_2,
-		D3D_FEATURE_LEVEL_9_1,
-	};
-	int32_t flevelCount = sizeof(flevels) / sizeof(D3D_FEATURE_LEVEL);
-
-	D3D_FEATURE_LEVEL currentFeatureLevel;
-
-	hr = D3D11CreateDevice(
-		adapter,
-		D3D_DRIVER_TYPE_UNKNOWN,
-		NULL,
-		debugFlag,
-		flevels,
-		flevelCount,
-		D3D11_SDK_VERSION,
-		&device,
-		&currentFeatureLevel,
-		&context);
-
-	if FAILED(hr)
-	{
-		writeLog(ToAString("デバイスの作成に失敗"));
-		goto End;
-	}
-
-	if (currentFeatureLevel == D3D_FEATURE_LEVEL_11_0) writeLog(ToAString("レベル11.0でデバイスを作成"));
-	if (currentFeatureLevel == D3D_FEATURE_LEVEL_10_1) writeLog(ToAString("レベル10.1でデバイスを作成"));
-	if (currentFeatureLevel == D3D_FEATURE_LEVEL_10_0) writeLog(ToAString("レベル10.0でデバイスを作成"));
-	if (currentFeatureLevel == D3D_FEATURE_LEVEL_9_3) writeLog(ToAString("レベル9.3でデバイスを作成"));
-	if (currentFeatureLevel == D3D_FEATURE_LEVEL_9_2) writeLog(ToAString("レベル9.2でデバイスを作成"));
-	if (currentFeatureLevel == D3D_FEATURE_LEVEL_9_1) writeLog(ToAString("レベル9.1でデバイスを作成"));
-
-	if (FAILED(device->QueryInterface(__uuidof(IDXGIDevice1), (void**) &dxgiDevice)))
-	{
-		writeLog(ToAString("デバイス1の作成に失敗"));
-		goto End;
-	}
-
-	DXGI_SWAP_CHAIN_DESC hDXGISwapChainDesc;
-	hDXGISwapChainDesc.BufferDesc.Width = width;
-	hDXGISwapChainDesc.BufferDesc.Height = height;
-	hDXGISwapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
-	hDXGISwapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
-	//hDXGISwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-
-	if (option.ColorSpace == ColorSpaceType::LinearSpace)
-	{
-		hDXGISwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-	}
-	else
-	{
-		hDXGISwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	}
-
-	hDXGISwapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-	hDXGISwapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-	hDXGISwapChainDesc.SampleDesc.Count = 1;
-	hDXGISwapChainDesc.SampleDesc.Quality = 0;
-	hDXGISwapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	hDXGISwapChainDesc.BufferCount = 1;
-	hDXGISwapChainDesc.OutputWindow = handle;
-	hDXGISwapChainDesc.Windowed = option.IsFullScreen ? FALSE : TRUE;
-	hDXGISwapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-	hDXGISwapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
-
-	if (FAILED(dxgiFactory->CreateSwapChain(device, &hDXGISwapChainDesc, &swapChain)))
-	{
-		writeLog(ToAString("スワップチェーンの作成に失敗"));
-		goto End;
-	}
-
-	if (FAILED(swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**) &defaultBack)))
-	{
-		writeLog(ToAString("バックバッファの取得に失敗"));
-		goto End;
-	}
-
-	if (FAILED(device->CreateRenderTargetView(defaultBack, NULL, &defaultBackRenderTargetView)))
-	{
-		writeLog(ToAString("バックバッファのレンダーターゲットの取得に失敗"));
-		goto End;
-	}
-
-	D3D11_TEXTURE2D_DESC descDepth;
-	descDepth.Width = width;
-	descDepth.Height = height;
-	descDepth.MipLevels = 1;
-	descDepth.ArraySize = 1;
-	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	descDepth.SampleDesc.Count = 1;
-	descDepth.SampleDesc.Quality = 0;
-	descDepth.Usage = D3D11_USAGE_DEFAULT;
-	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	descDepth.CPUAccessFlags = 0;
-	descDepth.MiscFlags = 0;
-
-
-	if (FAILED(device->CreateTexture2D(&descDepth, NULL, &depthBuffer)))
-	{
-		writeLog(ToAString("深度バッファの作成に失敗"));
-		goto End;
-	}
-
-	D3D11_DEPTH_STENCIL_VIEW_DESC viewDesc;
-	viewDesc.Format = descDepth.Format;
-	viewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
-	viewDesc.Flags = 0;
-	if (FAILED(device->CreateDepthStencilView(depthBuffer, &viewDesc, &depthStencilView)))
-	{
-		writeLog(ToAString("深度バッファのビューの作成に失敗"));
-		goto End;
-	}
-
-	writeLog(ToAString("DirectX11初期化成功"));
-	writeLog(ToAString(""));
-
-	for (size_t i = 0; i < adapters.size(); i++)
-	{
-		WriteAdapterInformation(log, adapters[i], i);
-	}
-
-	// 破棄処理
-	for (auto& a : adapters) a->Release();
-
-	return new Graphics_Imp_DX11(
-		manager,
-		window,
-		Vector2DI(width, height),
-		log,
-		file,
-		option,
-		device,
-		context,
-		dxgiDevice,
-		adapter,
-		dxgiFactory,
-		swapChain,
-		defaultBack,
-		defaultBackRenderTargetView,
-		depthBuffer,
-		depthStencilView);
-		*/
-
 return new Graphics_Imp_DX11(
 	manager,
 	window,
@@ -1591,16 +1016,6 @@ return new Graphics_Imp_DX11(
 End:
 
 	asd::SafeDelete(manager);
-
-	//SafeRelease(depthBuffer);
-	//SafeRelease(depthStencilView);
-	//SafeRelease(swapChain);
-	//SafeRelease(dxgiFactory);
-	//SafeRelease(adapter);
-	//SafeRelease(dxgiDevice);
-	//SafeRelease(context);
-	//SafeRelease(device);
-	//for (auto& a : adapters) a->Release();
 
 	writeLog(ToAString("DirectX11初期化失敗"));
 	writeLog(ToAString(""));
@@ -1686,105 +1101,6 @@ DepthBuffer_Imp* Graphics_Imp_DX11::CreateDepthBuffer_Imp(int32_t width, int32_t
 
 void Graphics_Imp_DX11::CommitRenderState(bool forced)
 {
-	/*
-	bool changeDepth = forced;
-	bool changeRasterizer = forced;
-	bool changeBlend = forced;
-
-	auto& current = currentState.renderState;
-	auto& next = nextState.renderState;
-
-	auto& currentFilter = currentState.textureFilterTypes;
-	auto& nextFilter = nextState.textureFilterTypes;
-
-	auto& currentWrap = currentState.textureWrapTypes;
-	auto& nextWrap = nextState.textureWrapTypes;
-
-	auto& currentFilter_vs = currentState.textureFilterTypes_vs;
-	auto& nextFilter_vs = nextState.textureFilterTypes_vs;
-
-	auto& currentWrap_vs = currentState.textureWrapTypes_vs;
-	auto& nextWrap_vs = nextState.textureWrapTypes_vs;
-
-	if (current.DepthTest != next.DepthTest || forced)
-	{
-		changeDepth = true;
-	}
-
-	if (current.DepthWrite != next.DepthWrite || forced)
-	{
-		changeDepth = true;
-	}
-
-	if (changeDepth)
-	{
-		GetContext()->OMSetDepthStencilState(m_dStates[next.DepthTest][next.DepthWrite], 0);
-	}
-
-	if (current.Culling != next.Culling || forced)
-	{
-		changeRasterizer = true;
-	}
-
-	if (changeRasterizer)
-	{
-		GetContext()->RSSetState(m_rStates[(int32_t)next.Culling]);
-	}
-
-	if (current.AlphaBlendState != next.AlphaBlendState || forced)
-	{
-		changeBlend = true;
-	}
-
-	if (changeBlend)
-	{
-		float blendFactor [] = { 0, 0, 0, 0 };
-		GetContext()->OMSetBlendState(m_bStates[(int32_t) next.AlphaBlendState], blendFactor, 0xFFFFFFFF);
-	}
-
-	for (int32_t i = 0; i < MaxTextureCount; i++)
-	{
-		bool changeSampler = forced;
-
-		if (currentFilter_vs[i] != nextFilter_vs[i] || forced)
-		{
-			changeSampler = true;
-		}
-
-		if (currentWrap_vs[i] != nextWrap_vs[i] || forced)
-		{
-			changeSampler = true;
-		}
-
-		if (changeSampler)
-		{
-			ID3D11SamplerState* samplerTbl [] = { m_sStates[(int32_t) nextFilter_vs[i]][(int32_t) nextWrap_vs[i]] };
-			GetContext()->VSSetSamplers(i, 1, samplerTbl);
-		}
-	}
-
-	for (int32_t i = 0; i < MaxTextureCount; i++)
-	{
-		bool changeSampler = forced;
-
-		if (currentFilter[i] != nextFilter[i] || forced)
-		{
-			changeSampler = true;
-		}
-
-		if (currentWrap[i] != nextWrap[i] || forced)
-		{
-			changeSampler = true;
-		}
-
-		if (changeSampler)
-		{
-			ID3D11SamplerState* samplerTbl [] = { m_sStates[(int32_t) nextFilter[i]][(int32_t) nextWrap[i]] };
-			GetContext()->PSSetSamplers(i, 1, samplerTbl);
-		}
-	}
-	*/
-
 	currentState = nextState;
 
 	drawParam.AlphaBlend = (ar::AlphaBlendMode)currentState.renderState.AlphaBlendState;
@@ -1823,65 +1139,6 @@ void Graphics_Imp_DX11::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffe
 
 	renderTargets[0] = texture;
 	depthTarget = depthBuffer;
-
-	/*
-	// 強制リセット(テクスチャと描画先同時設定不可のため)
-	for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
-	{
-		ID3D11ShaderResourceView* rv = { nullptr };
-		GetContext()->VSSetShaderResources(i, 1, &rv);
-		GetContext()->PSSetShaderResources(i, 1, &rv);
-	}
-
-	if (texture == nullptr)
-	{
-		m_context->OMSetRenderTargets(1, &m_defaultBackRenderTargetView, m_defaultDepthStencilView);
-		SetViewport(0, 0, m_size.X, m_size.Y);
-
-		for (auto i = 0; i < MaxRenderTarget; i++)
-		{
-			SafeRelease(m_currentBackRenderTargetViews[i]);
-		}
-		m_currentBackRenderTargetViews[0] = m_defaultBackRenderTargetView;
-		SafeAddRef(m_currentBackRenderTargetViews[0]);
-
-		SafeRelease(m_currentDepthStencilView);
-		m_currentDepthStencilView = m_defaultDepthStencilView;
-		SafeAddRef(m_currentDepthStencilView);
-
-		return;
-	}
-
-	ID3D11RenderTargetView* rt = nullptr;
-	ID3D11DepthStencilView* ds = nullptr;
-
-	if (texture != nullptr)
-	{
-		rt = ((RenderTexture2D_Imp_DX11*) texture)->GetRenderTargetView();
-	}
-
-	if (depthBuffer != nullptr)
-	{
-		ds = ((DepthBuffer_Imp_DX11*) depthBuffer)->GetDepthStencilView();
-	}
-
-	if (rt != nullptr)
-	{
-		m_context->OMSetRenderTargets(1, &rt, ds);
-		SetViewport(0, 0, texture->GetSize().X, texture->GetSize().Y);
-
-		for (auto i = 0; i < MaxRenderTarget; i++)
-		{
-			SafeRelease(m_currentBackRenderTargetViews[i]);
-		}
-		m_currentBackRenderTargetViews[0] = rt;
-		SafeAddRef(m_currentBackRenderTargetViews[0]);
-
-		SafeRelease(m_currentDepthStencilView);
-		m_currentDepthStencilView = ds;
-		SafeAddRef(m_currentDepthStencilView);
-	}
-	*/
 }
 
 //----------------------------------------------------------------------------------
@@ -1908,80 +1165,6 @@ void Graphics_Imp_DX11::SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTex
 	renderTargets[2] = texture3;
 	renderTargets[3] = texture4;
 	depthTarget = depthBuffer;
-
-	/*
-	// 強制リセット(テクスチャと描画先同時設定不可のため)
-	for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
-	{
-		ID3D11ShaderResourceView* rv = { nullptr };
-		GetContext()->VSSetShaderResources(i, 1, &rv);
-		GetContext()->PSSetShaderResources(i, 1, &rv);
-	}
-
-	if (texture1 == nullptr)
-	{
-		m_context->OMSetRenderTargets(1, &m_defaultBackRenderTargetView, m_defaultDepthStencilView);
-		SetViewport(0, 0, m_size.X, m_size.Y);
-
-		for (auto i = 0; i < MaxRenderTarget; i++)
-		{
-			SafeRelease(m_currentBackRenderTargetViews[i]);
-		}
-		m_currentBackRenderTargetViews[0] = m_defaultBackRenderTargetView;
-		SafeAddRef(m_currentBackRenderTargetViews[0]);
-
-		SafeRelease(m_currentDepthStencilView);
-		m_currentDepthStencilView = m_defaultDepthStencilView;
-		SafeAddRef(m_currentDepthStencilView);
-
-		return;
-	}
-
-	ID3D11RenderTargetView* rt[MaxRenderTarget] = { nullptr, nullptr, nullptr, nullptr };
-	ID3D11DepthStencilView* ds = nullptr;
-
-	if (texture1 != nullptr)
-	{
-		rt[0] = ((RenderTexture2D_Imp_DX11*) texture1)->GetRenderTargetView();
-	}
-
-	if (texture2 != nullptr)
-	{
-		rt[1] = ((RenderTexture2D_Imp_DX11*) texture2)->GetRenderTargetView();
-	}
-
-	if (texture3 != nullptr)
-	{
-		rt[2] = ((RenderTexture2D_Imp_DX11*) texture3)->GetRenderTargetView();
-	}
-
-	if (texture4 != nullptr)
-	{
-		rt[3] = ((RenderTexture2D_Imp_DX11*) texture4)->GetRenderTargetView();
-	}
-
-	if (depthBuffer != nullptr)
-	{
-		ds = ((DepthBuffer_Imp_DX11*) depthBuffer)->GetDepthStencilView();
-	}
-
-	if (rt != nullptr)
-	{
-		m_context->OMSetRenderTargets(4, rt, ds);
-		SetViewport(0, 0, texture1->GetSize().X, texture1->GetSize().Y);
-
-		for (auto i = 0; i < MaxRenderTarget; i++)
-		{
-			SafeAddRef(rt[i]);
-			SafeRelease(m_currentBackRenderTargetViews[i]);
-			m_currentBackRenderTargetViews[i] = rt[i];
-		}
-
-		SafeRelease(m_currentDepthStencilView);
-		m_currentDepthStencilView = ds;
-		SafeAddRef(m_currentDepthStencilView);
-	}
-	*/
 }
 
 void Graphics_Imp_DX11::SetRenderTarget(CubemapTexture_Imp* texture, int32_t direction, int32_t mipmap, DepthBuffer_Imp* depthBuffer)
@@ -2053,23 +1236,6 @@ void Graphics_Imp_DX11::SetRenderTarget(CubemapTexture_Imp* texture, int32_t dir
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-/*
-void Graphics_Imp_DX11::SetViewport(int32_t x, int32_t y, int32_t width, int32_t height)
-{
-	D3D11_VIEWPORT vp;
-	vp.TopLeftX = x;
-	vp.TopLeftY = y;
-	vp.Width = (float) width;
-	vp.Height = (float) height;
-	vp.MinDepth = 0.0f;
-	vp.MaxDepth = 1.0f;
-	m_context->RSSetViewports(1, &vp);
-}
-*/
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::MakeContextCurrent()
 {
 }
@@ -2084,83 +1250,11 @@ void Graphics_Imp_DX11::FlushCommand()
 void Graphics_Imp_DX11::SetIsFullscreenMode(bool isFullscreenMode)
 {
 	GetRHI()->SetIsFullscreenMode(isFullscreenMode);
-
-	/*
-	BOOL isScreenMode = FALSE;
-	m_swapChain->GetFullscreenState(&isScreenMode, 0);
-
-	if (isScreenMode && isFullscreenMode) return;
-	if (!isScreenMode && !isFullscreenMode) return;
-
-	if (isFullscreenMode)
-	{
-		m_swapChain->SetFullscreenState(TRUE, 0);
-	}
-	else
-	{
-		m_swapChain->SetFullscreenState(FALSE, 0);
-	}
-	*/
 }
 
 void Graphics_Imp_DX11::SetWindowSize(Vector2DI size)
 {
 	GetRHI()->SetWindowSize(size.X, size.Y);
-	/*
-	// リセット
-	SetRenderTarget(nullptr, nullptr);
-	SafeRelease(m_defaultBack);
-	SafeRelease(m_defaultBackRenderTargetView);
-	SafeRelease(m_defaultDepthBuffer);
-	SafeRelease(m_defaultDepthStencilView);
-
-	for (auto i = 0; i < MaxRenderTarget; i++)
-	{
-		SafeRelease(m_currentBackRenderTargetViews[i]);
-	}
-
-	SafeRelease(m_currentDepthStencilView);
-
-	m_size = size;
-
-	DXGI_FORMAT format;
-
-	if (GetOption().ColorSpace == ColorSpaceType::LinearSpace)
-	{
-		format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-	}
-	else
-	{
-		format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	}
-
-	m_swapChain->ResizeBuffers(1, size.X, size.Y, format, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
-
-	m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**) &m_defaultBack);
-	m_device->CreateRenderTargetView(m_defaultBack, NULL, &m_defaultBackRenderTargetView);
-	
-	D3D11_TEXTURE2D_DESC descDepth;
-	descDepth.Width = size.X;
-	descDepth.Height = size.Y;
-	descDepth.MipLevels = 1;
-	descDepth.ArraySize = 1;
-	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	descDepth.SampleDesc.Count = 1;
-	descDepth.SampleDesc.Quality = 0;
-	descDepth.Usage = D3D11_USAGE_DEFAULT;
-	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	descDepth.CPUAccessFlags = 0;
-	descDepth.MiscFlags = 0;
-	m_device->CreateTexture2D(&descDepth, NULL, &m_defaultDepthBuffer);
-
-	D3D11_DEPTH_STENCIL_VIEW_DESC viewDesc;
-	viewDesc.Format = descDepth.Format;
-	viewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
-	viewDesc.Flags = 0;
-	m_device->CreateDepthStencilView(m_defaultDepthBuffer, &viewDesc, &m_defaultDepthStencilView);
-
-	SetRenderTarget(nullptr, nullptr);
-	*/
 }
 
 //----------------------------------------------------------------------------------
@@ -2177,24 +1271,6 @@ void Graphics_Imp_DX11::Clear(bool isColorTarget, bool isDepthTarget, const Colo
 	color_.A = color.A;
 
 	GetRHI()->Clear(isColorTarget, isDepthTarget, color_);
-
-	/*
-	if (isColorTarget)
-	{
-		float ClearColor [] = { color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f };
-
-		for (auto i = 0; i < MaxRenderTarget; i++)
-		{
-			if (m_currentBackRenderTargetViews[i] == nullptr) continue;
-			m_context->ClearRenderTargetView(m_currentBackRenderTargetViews[i], ClearColor);
-		}
-	}
-
-	if (isDepthTarget && m_currentDepthStencilView != nullptr)
-	{
-		m_context->ClearDepthStencilView(m_currentDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-	}
-	*/
 }
 
 //----------------------------------------------------------------------------------
@@ -2202,8 +1278,6 @@ void Graphics_Imp_DX11::Clear(bool isColorTarget, bool isDepthTarget, const Colo
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::Present()
 {
-	//// 同期しない
-	//m_swapChain->Present(0, 0);
 	GetRHI()->Present();
 }
 
@@ -2228,84 +1302,5 @@ void Graphics_Imp_DX11::SaveScreenshot(std::vector<Color>& bufs, Vector2DI& size
 	bufs.resize(width * height);
 	memcpy(bufs.data(), dst.data(), width * height * sizeof(Color));
 }
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-/*
-bool Graphics_Imp_DX11::SaveTexture(const achar* path, ID3D11Resource* texture, Vector2DI size)
-{
-	std::vector<Color> bufs;
-
-	if (!SaveTexture(bufs, texture, size))
-	{
-		return false;
-	}
-
-	ImageHelper::SaveImage(path, size.X, size.Y, bufs.data(), false);
-
-	return true;
-}
-*/
-
-/*
-bool Graphics_Imp_DX11::SaveTexture(std::vector<Color>& bufs, ID3D11Resource* texture, Vector2DI size)
-{
-	ID3D11Texture2D* texture_ = nullptr;
-
-	HRESULT hr;
-
-	D3D11_TEXTURE2D_DESC desc;
-	desc.ArraySize = 1;
-	desc.BindFlags = 0;
-	desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
-	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	desc.Width = size.X;
-	desc.Height = size.Y;
-	desc.MipLevels = 1;
-	desc.MiscFlags = 0;
-	desc.SampleDesc.Count = 1;
-	desc.SampleDesc.Quality = 0;
-	desc.Usage = D3D11_USAGE_STAGING;
-
-	hr = GetDevice()->CreateTexture2D(&desc, 0, &texture_);
-	if (FAILED(hr))
-	{
-		goto END;
-	}
-
-	GetContext()->CopyResource(texture_, texture);
-
-	D3D11_MAPPED_SUBRESOURCE mr;
-	UINT sr = D3D11CalcSubresource(0, 0, 0);
-	hr = GetContext()->Map(texture_, sr, D3D11_MAP_READ_WRITE, 0, &mr);
-	if (FAILED(hr))
-	{
-		return false;
-	}
-
-	bufs.resize(size.X * size.Y);
-
-	for (int32_t h = 0; h < size.Y; h++)
-	{
-		auto dst = &(bufs[h * size.X]);
-		auto src = &(((uint8_t*) mr.pData)[h*mr.RowPitch]);
-		memcpy(dst, src, size.X * sizeof(Color));
-	}
-
-	GetContext()->Unmap(texture_, sr);
-
-	SafeRelease(texture_);
-	return true;
-
-END:;
-	SafeRelease(texture_);
-	return false;
-}
-*/
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
 
 }

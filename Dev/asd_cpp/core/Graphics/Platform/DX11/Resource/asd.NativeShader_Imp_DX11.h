@@ -24,18 +24,11 @@ namespace asd {
 		int32_t vs_uniformBufferSize_ = 0;
 		int32_t ps_uniformBufferSize_ = 0;
 
-		//ID3D11VertexShader*			m_vertexShader;
-		//ID3D11PixelShader*			m_pixelShader;
-		//ID3D11InputLayout*			m_vertexDeclaration;
-		//ID3D11Buffer*				m_constantBufferToVS;
-		//ID3D11Buffer*				m_constantBufferToPS;
-
 		struct ConstantLayout
 		{
-			int32_t					Index;
+			int32_t					InternalIndex;
 			std::string				Name;
 			ConstantBufferFormat	Type;
-			//GLint			ID;
 			int32_t			Offset;
 			int32_t			Count;
 		};
@@ -45,7 +38,6 @@ namespace asd {
 			int32_t					InternalIndex;
 			int32_t					Index;
 			std::string				Name;
-			int32_t					ID;
 		};
 
 		std::map < std::string, ConstantLayout>	m_vs_constantLayouts;
@@ -56,12 +48,6 @@ namespace asd {
 		std::map<std::string, TextureLayout> m_ps_textureLayouts;
 		std::vector<TextureLayout*>	textureLayoutsArray;
 
-		/*
-		static ID3DBlob* CompileVertexShader(Graphics_Imp_DX11* g, const char* vertexShaderText, const char* vertexShaderFileName, std::vector <Macro>& macro, Log* log);
-		static ID3DBlob* CompilePixelShader(Graphics_Imp_DX11* g, const char* vertexShaderText, const char* vertexShaderFileName, std::vector <Macro>& macro, Log* log);
-
-		static void Reflect(void* buf, int32_t bufSize, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<TextureLayout>& textures);
-		*/
 	public:
 		NativeShader_Imp_DX11(
 			Graphics* graphics,
@@ -99,10 +85,6 @@ namespace asd {
 			bool is32Bit,
 			std::vector <Macro>& macro,
 			Log* log);
-
-		//ID3D11InputLayout* GetLayout() { return m_vertexDeclaration; };
-		//ID3D11VertexShader *GetVertexShader() { return m_vertexShader; }
-		//ID3D11PixelShader* GetPixelShader() { return m_pixelShader; }
 
 		ar::Shader* GetRHI() const { return rhi; }
 		ar::ConstantBuffer* GetRHIVertexConstantBuffer() const { return rhiConstantVB; }
