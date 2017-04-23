@@ -396,7 +396,7 @@ NativeShader_Imp_DX11::NativeShader_Imp_DX11(
 	index = 0;
 	for (auto& l : vs_textures)
 	{
-		l.Index = index;
+		l.InternalIndex = index;
 		m_vs_textureLayouts[l.Name] = l;
 		textureLayoutsArray.push_back(&(m_vs_textureLayouts[l.Name]));
 		index++;
@@ -404,7 +404,7 @@ NativeShader_Imp_DX11::NativeShader_Imp_DX11(
 
 	for (auto& l : ps_textures)
 	{
-		l.Index = index;
+		l.InternalIndex = index;
 		m_ps_textureLayouts[l.Name] = l;
 		textureLayoutsArray.push_back(&(m_ps_textureLayouts[l.Name]));
 		index++;
@@ -515,12 +515,12 @@ int32_t NativeShader_Imp_DX11::GetTextureID(const char* name)
 
 	if (it_vs != m_vs_textureLayouts.end())
 	{
-		return it_vs->second.Index;
+		return it_vs->second.InternalIndex;
 	}
 
 	if (it_ps != m_ps_textureLayouts.end())
 	{
-		return it_ps->second.Index;
+		return it_ps->second.InternalIndex;
 	}
 	return -1;
 }
@@ -585,12 +585,12 @@ void NativeShader_Imp_DX11::SetTexture(const char* name, Texture* texture, Textu
 
 	if (it_vs != m_vs_textureLayouts.end())
 	{
-		NativeShader_Imp::SetTexture(name, texture, filterType, wrapType, (*it_vs).second.ID + 0xff);
+		NativeShader_Imp::SetTexture(name, texture, filterType, wrapType, (*it_vs).second.Index + 0xff);
 	}
 
 	if (it_ps != m_ps_textureLayouts.end())
 	{
-		NativeShader_Imp::SetTexture(name, texture, filterType, wrapType, (*it_ps).second.ID);
+		NativeShader_Imp::SetTexture(name, texture, filterType, wrapType, (*it_ps).second.Index);
 	}
 }
 
@@ -603,11 +603,11 @@ void NativeShader_Imp_DX11::SetTexture(int32_t id, Texture* texture, TextureFilt
 
 	if (id < m_vs_textureLayouts.size())
 	{
-		NativeShader_Imp::SetTexture(layout->Name.c_str(), texture, filterType, wrapType, layout->ID + 0xff);
+		NativeShader_Imp::SetTexture(layout->Name.c_str(), texture, filterType, wrapType, layout->Index + 0xff);
 	}
 	else
 	{
-		NativeShader_Imp::SetTexture(layout->Name.c_str(), texture, filterType, wrapType, layout->ID);
+		NativeShader_Imp::SetTexture(layout->Name.c_str(), texture, filterType, wrapType, layout->Index);
 	}
 }
 
@@ -639,6 +639,7 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 	const char* pixelShaderText,
 	const char* pixelShaderFileName,
 	std::vector <VertexLayout>& layout,
+	bool is32Bit,
 	std::vector <Macro>& macro,
 	Log* log)
 {
@@ -744,7 +745,7 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 		layout_.push_back(l_);
 	}
 
-	if (rhi->Initialize(g->GetRHI(), compilerResult, layout_))
+	if (rhi->Initialize(g->GetRHI(), compilerResult, layout_, is32Bit))
 	{
 		int32_t vs_uniformBufferSize = rhi->GetVertexConstantBufferSize();
 		std::vector<ConstantLayout> vcls;

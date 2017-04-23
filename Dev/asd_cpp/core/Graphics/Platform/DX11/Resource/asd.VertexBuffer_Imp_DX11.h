@@ -20,7 +20,7 @@ namespace asd {
 		ar::VertexBuffer*					rhi = nullptr;
 
 		//ID3D11Buffer*			m_buffer;
-		void*					m_lockedResource;
+		uint8_t*				m_lockedResource;
 
 		/*
 		uint32_t				m_vertexRingOffset;

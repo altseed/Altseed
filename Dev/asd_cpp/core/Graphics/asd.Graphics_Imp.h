@@ -504,6 +504,7 @@ namespace asd {
 		const char* pixelShaderText,
 		const char* pixelShaderFileName,
 		std::vector <VertexLayout>& layout,
+		bool is32Bit,
 		std::vector <Macro>& macro) = 0;
 
 	/**
@@ -517,9 +518,10 @@ namespace asd {
 		const char* pixelShaderText,
 		const char* pixelShaderFileName,
 		std::vector <VertexLayout>& layout,
+		bool is32Bit,
 		std::vector <Macro>& macro)
 	{
-		return CreateSharedPtr(CreateShader_Imp_(vertexShaderText, vertexShaderFileName, pixelShaderText, pixelShaderFileName, layout, macro));
+		return CreateSharedPtr(CreateShader_Imp_(vertexShaderText, vertexShaderFileName, pixelShaderText, pixelShaderFileName, layout, is32Bit, macro));
 	}
 
 	/**

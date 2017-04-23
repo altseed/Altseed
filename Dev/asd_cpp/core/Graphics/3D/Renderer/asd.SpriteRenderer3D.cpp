@@ -33,11 +33,11 @@ namespace asd {
 		SafeAddRef(graphics);
 
 		m_vertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(SpriteVertex), SpriteCount * 4, true);
-		m_indexBuffer = m_graphics->CreateIndexBuffer_Imp(SpriteCount * 6, false, false);
+		m_indexBuffer = m_graphics->CreateIndexBuffer_Imp(SpriteCount * 6, false, true);
 
 		{
 			m_indexBuffer->Lock();
-			auto ib = m_indexBuffer->GetBuffer<uint16_t>(SpriteCount * 6);
+			auto ib = m_indexBuffer->GetBuffer<uint32_t>(SpriteCount * 6);
 
 			for (int32_t i = 0; i < SpriteCount; i++)
 			{

@@ -163,10 +163,10 @@ namespace asd
 
 				m_pasteVertexBuffer->Unlock();
 			}
-			m_pasteIndexBuffer = g->CreateIndexBuffer_Imp(2 * 3, false, false);
+			m_pasteIndexBuffer = g->CreateIndexBuffer_Imp(2 * 3, false, true);
 
 			m_pasteIndexBuffer->Lock();
-			auto ib = m_pasteIndexBuffer->GetBuffer<uint16_t>(2 * 3);
+			auto ib = m_pasteIndexBuffer->GetBuffer<uint32_t>(2 * 3);
 
 			for (int32_t i = 0; i < 2; i++)
 			{
@@ -205,10 +205,10 @@ namespace asd
 		// シャドー用シェーダー
 		{
 			m_shadowVertexBuffer = g->CreateVertexBuffer_Imp(sizeof(ScreenVertexLayout), 2 * 3, true);
-			m_shadowIndexBuffer = g->CreateIndexBuffer_Imp(2 * 3, false, false);
+			m_shadowIndexBuffer = g->CreateIndexBuffer_Imp(2 * 3, false, true);
 
 			m_shadowIndexBuffer->Lock();
-			auto ib = m_shadowIndexBuffer->GetBuffer<uint16_t>(2 * 3);
+			auto ib = m_shadowIndexBuffer->GetBuffer<uint32_t>(2 * 3);
 
 			for (int32_t i = 0; i < 2; i++)
 			{
@@ -383,10 +383,10 @@ namespace asd
 		// SSAO用シェーダー
 		{
 			m_ssaoVertexBuffer = g->CreateVertexBuffer_Imp(sizeof(ScreenVertexLayout), 2 * 3, true);
-			m_ssaoIndexBuffer = g->CreateIndexBuffer_Imp(2 * 3, false, false);
+			m_ssaoIndexBuffer = g->CreateIndexBuffer_Imp(2 * 3, false, true);
 
 			m_ssaoIndexBuffer->Lock();
-			auto ib = m_ssaoIndexBuffer->GetBuffer<uint16_t>(2 * 3);
+			auto ib = m_ssaoIndexBuffer->GetBuffer<uint32_t>(2 * 3);
 
 			for (int32_t i = 0; i < 2; i++)
 			{

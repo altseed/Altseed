@@ -21,10 +21,10 @@ namespace asd
 		auto g = (Graphics_Imp*) graphics;
 
 		vertexBuffer = g->CreateVertexBuffer_Imp(sizeof(Vertex), 2 * 3, true);
-		indexBuffer = g->CreateIndexBuffer_Imp(2 * 3, false, false);
+		indexBuffer = g->CreateIndexBuffer_Imp(2 * 3, false, true);
 
 		indexBuffer->Lock();
-		auto ib = indexBuffer->GetBuffer<uint16_t>(2 * 3);
+		auto ib = indexBuffer->GetBuffer<uint32_t>(2 * 3);
 
 		for (int32_t i = 0; i < 2; i++)
 		{

@@ -89,6 +89,7 @@ namespace asd {
 			const char* pixelShaderText,
 			const char* pixelShaderFileName,
 			std::vector <VertexLayout>& layout,
+			bool is32Bit,
 			std::vector <Macro>& macro,
 			Log* log);
 

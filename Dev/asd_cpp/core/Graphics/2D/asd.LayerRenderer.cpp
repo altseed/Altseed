@@ -34,11 +34,11 @@ namespace asd {
 		SafeAddRef(graphics);
 
 		m_vertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(TriangleVertex), TriangleCount * 3, true);
-		m_indexBuffer = m_graphics->CreateIndexBuffer_Imp(TriangleCount * 3, false, false);
+		m_indexBuffer = m_graphics->CreateIndexBuffer_Imp(TriangleCount * 3, false, true);
 
 		{
 			m_indexBuffer->Lock();
-			auto ib = m_indexBuffer->GetBuffer<uint16_t>(TriangleCount * 3);
+			auto ib = m_indexBuffer->GetBuffer<uint32_t>(TriangleCount * 3);
 
 			for (int32_t i = 0; i < TriangleCount; i++)
 			{

@@ -101,6 +101,7 @@ namespace asd {
 			const char* pixelShaderText,
 			const char* pixelShaderFileName,
 			std::vector <VertexLayout>& layout,
+			bool is32Bit,
 			std::vector <Macro>& macro);
 
 		void UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr);

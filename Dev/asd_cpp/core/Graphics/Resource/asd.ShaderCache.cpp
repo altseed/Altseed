@@ -51,6 +51,7 @@ namespace asd
 				pixelShaderCode,
 				ToUtf8String(key).c_str(),
 				layout,
+				true,
 				macro);
 
 			if (shader != nullptr)

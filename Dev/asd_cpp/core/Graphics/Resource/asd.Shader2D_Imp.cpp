@@ -150,6 +150,7 @@ gl_FragColor = texture2D(g_texture, inUV.xy);
 				ToUtf8String(shaderText).c_str(),
 				ToUtf8String(shaderFileName).c_str(),
 				vl,
+				true,
 				macro);
 		}
 		else if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
@@ -160,6 +161,7 @@ gl_FragColor = texture2D(g_texture, inUV.xy);
 				ToUtf8String(shaderText).c_str(),
 				ToUtf8String(shaderFileName).c_str(),
 				vl,
+				true,
 				macro);
 		}
 		else
