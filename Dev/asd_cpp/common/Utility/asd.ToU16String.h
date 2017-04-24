@@ -1,7 +1,14 @@
-﻿#pragma once
-#include<locale>
-#include<codecvt>
-#include<string>
+﻿
+#pragma once
+
+#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+
+#else
+#include <locale>
+#include <codecvt>
+#endif
+
+#include <string>
 
 #ifdef _MSC_VER
 #include <uchar.h>

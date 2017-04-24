@@ -31,7 +31,10 @@
 #include "3D/Resource/asd.Deformer_Imp.h"
 #include "3D/Resource/asd.Model_Imp.h"
 #include "3D/Resource/asd.MassModel_Imp.h"
+
+#if !defined(_CONSOLE_GAME)
 #include "3D/Resource/asd.Terrain3D_Imp.h"
+#endif
 
 #include "3D/Resource/Animation/asd.AnimationClip.h"
 #include "3D/Resource/Animation/asd.AnimationSource.h"
@@ -171,6 +174,9 @@ namespace asd {
 
 	void ImageHelper::SaveImage(const achar* filepath, int32_t width, int32_t height, void* data, bool rev)
 	{
+#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+
+#else
 		auto ext_ = GetFileExt(filepath);
 		astring ext(ext_);
 		std::transform(ext_.begin(), ext_.end(), ext.begin(), tolower_);
@@ -184,6 +190,7 @@ namespace asd {
 		{
 			SaveJPGImage(filepath, width, height, data, rev);
 		}
+#endif
 	}
 
 	void ImageHelper::SaveJPGImage(const achar* filepath, int32_t width, int32_t height, void* data, bool rev)
@@ -1092,7 +1099,11 @@ MassModel* Graphics_Imp::CreateMassModel_(const achar* path)
 
 Terrain3D* Graphics_Imp::CreateTerrain3D_()
 {
+#if !defined(_CONSOLE_GAME)
 	return new Terrain3D_Imp(this);
+#endif
+
+	return nullptr;
 }
 
 //----------------------------------------------------------------------------------

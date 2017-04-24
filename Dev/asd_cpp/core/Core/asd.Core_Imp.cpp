@@ -442,12 +442,16 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Core_Imp::Terminate()
 	{
+#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+
+#else
 		for (auto& gifAnim : gifAnimations)
 		{
 			gifAnim->Helper->Finalize();
 			gifAnim->Helper = nullptr;
 		}
 		gifAnimations.clear();
+#endif
 
 		SafeRelease(m_currentScene);
 		SafeDelete(m_objectSystemFactory);
@@ -499,7 +503,11 @@ namespace asd
 		m_graphics->Present();
 		m_graphics->End();
 
-		// スクリーンショット撮影
+		// Take screenshot
+#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+
+#else
+
 		for (auto& ss : m_screenShots)
 		{
 			m_graphics->SaveScreenshot(ss.c_str());
@@ -533,6 +541,7 @@ namespace asd
 			gifAnimations.begin(), gifAnimations.end(), 
 			[](std::shared_ptr<GifAnimation> g)->bool { return g->Helper == nullptr; });
 		gifAnimations.erase(it, gifAnimations.end());
+#endif
 	}
 
 	//----------------------------------------------------------------------------------
@@ -637,7 +646,11 @@ namespace asd
 
 	Cursor* Core_Imp::CreateCursor(const achar* path, Vector2DI hot)
 	{
+#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+		return nullptr;
+#else
 		return Cursor_Imp::Create(GetFile(), path, hot);
+#endif
 	}
 
 	void Core_Imp::SetCursor(Cursor* cursor)
@@ -665,11 +678,18 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Core_Imp::TakeScreenshot(const achar* path)
 	{
+#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+
+#else
 		m_screenShots.push_back(path);
+#endif
 	}
 
 	void Core_Imp::CaptureScreenAsGifAnimation(const achar* path, int32_t frame, float frequency_rate, float scale)
 	{
+#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+		return;
+#else
 		frequency_rate = Clamp(frequency_rate, 1.0f, 1.0f / GetTargetFPS());
 
 		std::shared_ptr<GifAnimation> anim = std::make_shared<GifAnimation>();
@@ -683,6 +703,7 @@ namespace asd
 		anim->Helper->Initialize(path, m_windowSize.X, m_windowSize.Y, (int32_t)(GetTargetFPS() * frequency_rate), scale);
 
 		gifAnimations.push_back(anim);
+#endif
 	}
 
 	float Core_Imp::GetDeltaTime() const

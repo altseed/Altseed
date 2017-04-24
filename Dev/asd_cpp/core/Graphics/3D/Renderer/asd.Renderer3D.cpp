@@ -9,10 +9,8 @@
 
 #include "../../Command/asd.RenderingCommandExecutor.h"
 
-#if _WIN32
 #include "../../Platform/DX11/asd.Graphics_Imp_DX11.h"
-#endif
-#include "../../Platform/GL/asd.Graphics_Imp_GL.h"
+//#include "../../Platform/GL/asd.Graphics_Imp_GL.h"
 
 #include "asd.Renderer3DProxy.h"
 
@@ -93,7 +91,7 @@ namespace asd
 			}
 			else if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
-				m_effectRenderer = ::EffekseerRendererGL::Renderer::Create(instanceCount, EffekseerRendererGL::OpenGLDeviceType::OpenGL3);
+				//m_effectRenderer = ::EffekseerRendererGL::Renderer::Create(instanceCount, EffekseerRendererGL::OpenGLDeviceType::OpenGL3);
 			}
 
 			m_effectManager->SetSpriteRenderer(m_effectRenderer->CreateSpriteRenderer());
