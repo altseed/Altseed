@@ -12,7 +12,13 @@
 #include "ObjectSystem/asd.ObjectManager.h"
 #include "ObjectSystem/Registration/asd.EventToChangeScene.h"
 
+#define ALTSEED_DLL 1
+
 #if _WIN32
+
+#elif ( defined(__ANDROID__) || defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+
+#undef ALTSEED_DLL
 
 #else
 #include <dlfcn.h>
@@ -23,6 +29,8 @@
 //----------------------------------------------------------------------------------
 namespace asd
 {
+#if defined(ALTSEED_DLL)
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -281,7 +289,62 @@ namespace asd
 
 		return true;
 	}
+#else
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+typedef int32_t(ASD_STDCALL *GetIntFunc)();
 
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+
+static GetIntFunc g_GetGlobalRef = nullptr;
+ObjectSystemFactory* g_objectSystemFactory = nullptr;
+
+extern "C" {
+	extern ASD_DLLEXPORT Core* ASD_STDCALL CreateCore();
+
+	extern ASD_DLLEXPORT int32_t ASD_STDCALL GetGlobalReferenceCount__();
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+static void ReleaseDLL()
+{
+}
+
+static void ASD_STDCALL RemovedCore(Core* core)
+{
+	ReleaseDLL();
+}
+
+bool Engine::HasDLL(const char* path)
+{
+	return true;
+}
+
+bool Engine::CheckDLL()
+{
+	return true;
+}
+
+bool Engine::GenerateCore()
+{
+	// DLLからコアを生成する。
+	if (m_core == nullptr)
+	{
+		m_core = CreateCore();
+		m_core->SetRemovedFunctionPpointer(RemovedCore);
+
+		g_GetGlobalRef = GetGlobalReferenceCount__;
+	}
+
+	return true;
+}
+
+#endif
 
 	//----------------------------------------------------------------------------------
 	//
