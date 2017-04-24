@@ -38,12 +38,6 @@
     <ClInclude Include="..\common\Math\asd.Vector3DF.h">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\Thread\asd.CriticalSection.h">
-      <Filter>Thread</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\Thread\asd.Thread.h">
-      <Filter>Thread</Filter>
-    </ClInclude>
     <ClInclude Include="..\common\Utility\asd.CopyArray.h">
       <Filter>Utility</Filter>
     </ClInclude>
@@ -97,12 +91,6 @@
     <ClCompile Include="..\common\Math\asd.Vector3DF.cpp">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="..\common\Thread\asd.CriticalSection.cpp">
-      <Filter>Thread</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\Thread\asd.Thread.cpp">
-      <Filter>Thread</Filter>
-    </ClCompile>
     <ClCompile Include="..\common\Math\asd.Matrix33.cpp">
       <Filter>Math</Filter>
     </ClCompile>
@@ -135,9 +123,6 @@
     </Filter>
     <Filter Include="Graphics">
       <UniqueIdentifier>{cba420c8-5e81-4515-b48d-4d672d4061f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Thread">
-      <UniqueIdentifier>{eff8510c-2d9a-41e8-b20e-3bf4d6075014}</UniqueIdentifier>
     </Filter>
     <Filter Include="Graphics\Font">
       <UniqueIdentifier>{1fc74b1b-4fe6-434a-bd9b-bbe31460dbd3}</UniqueIdentifier>

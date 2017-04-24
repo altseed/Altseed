@@ -151,8 +151,6 @@
     <ClInclude Include="..\common\Math\asd.Vector2DI.h" />
     <ClInclude Include="..\common\Math\asd.Vector3DF.h" />
     <ClInclude Include="..\common\Math\asd.Vector4DF.h" />
-    <ClInclude Include="..\common\Thread\asd.CriticalSection.h" />
-    <ClInclude Include="..\common\Thread\asd.Thread.h" />
     <ClInclude Include="..\common\utility\asd.BinaryReader.h" />
     <ClInclude Include="..\common\utility\asd.BinaryWriter.h" />
     <ClInclude Include="..\common\Utility\asd.CopyArray.h" />
@@ -177,8 +175,6 @@
     <ClCompile Include="..\common\Math\asd.Vector3DF.cpp" />
     <ClCompile Include="..\common\Math\asd.RectI.cpp" />
     <ClCompile Include="..\common\Math\asd.Vector4DF.cpp" />
-    <ClCompile Include="..\common\Thread\asd.CriticalSection.cpp" />
-    <ClCompile Include="..\common\Thread\asd.Thread.cpp" />
     <ClCompile Include="..\common\utility\asd.PointerArray.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
