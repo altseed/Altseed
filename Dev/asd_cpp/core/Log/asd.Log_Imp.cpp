@@ -150,8 +150,12 @@ td, th
 	//
 	//-----------------------------------------------------------------------------------
 	Log_Imp::Log_Imp(const achar* path)
-		: m_file(ToUtf8String(path).c_str(), ios::out)
 	{
+#if ( defined(__ANDROID__) || defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+		// These platforms cannot export a log.
+#else
+		m_file = std::ofstream(ToUtf8String(path).c_str(), ios::out);
+#endif
 	}
 
 	//-----------------------------------------------------------------------------------
