@@ -1138,7 +1138,18 @@ void Graphics_Imp_DX11::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffe
 	}
 	SafeRelease(depthTarget);
 
-	isRenderTargetDirty = true;
+	if (texture == currentRenderTargets[0] &&
+		nullptr == currentRenderTargets[1] &&
+		nullptr == currentRenderTargets[2] &&
+		nullptr == currentRenderTargets[3] &&
+		depthBuffer == currentDepthTarget)
+	{
+		isRenderTargetDirty = false;
+	}
+	else
+	{
+		isRenderTargetDirty = true;
+	}
 
 	renderTargets[0] = texture;
 	depthTarget = depthBuffer;
