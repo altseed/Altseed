@@ -79,17 +79,7 @@ namespace asd {
 			Vector2DI size,
 			Log* log,
 			File* file,
-			GraphicsOption option,
-			ID3D11Device* device,
-			ID3D11DeviceContext* context,
-			IDXGIDevice1* dxgiDevice,
-			IDXGIAdapter1* adapter,
-			IDXGIFactory1* dxgiFactory,
-			IDXGISwapChain* swapChain,
-			ID3D11Texture2D* defaultBack,
-			ID3D11RenderTargetView*	defaultBackRenderTargetView,
-			ID3D11Texture2D* defaultDepthBuffer,
-			ID3D11DepthStencilView* defaultDepthStencilView);
+			GraphicsOption option);
 		virtual ~Graphics_Imp_DX11();
 
 		static void WriteAdapterInformation(Log* log, IDXGIAdapter1* adapter, int32_t index);
@@ -175,7 +165,7 @@ namespace asd {
 		ID3D11Device* GetDevice() { return (ID3D11Device*)GetRHI()->GetInternalObjects()[0]; }
 		ID3D11DeviceContext* GetContext() { return (ID3D11DeviceContext*)GetRHI()->GetInternalObjects()[1]; }
 
-		GraphicsDeviceType GetGraphicsDeviceType() const { return GraphicsDeviceType::DirectX11; }
+		GraphicsDeviceType GetGraphicsDeviceType() const { return (GraphicsDeviceType)GetRHI()->GetDeviceType(); }
 	};
 
 	//----------------------------------------------------------------------------------

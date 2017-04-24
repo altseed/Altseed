@@ -283,8 +283,16 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 	auto hashPS = CalcHash(pixelShaderText);
 
 	char cacheFile[256];
-	sprintf(cacheFile, "ShaderCache/dx_%d_%d_%d.ch", hashMacro, hashVS, hashPS);
 
+	if (g->GetRHI()->GetDeviceType() == ar::GraphicsDeviceType::DirectX11)
+	{
+		sprintf(cacheFile, "ShaderCache/dx_%d_%d_%d.ch", hashMacro, hashVS, hashPS);
+	}
+	else
+	{
+		sprintf(cacheFile, "ShaderCache/gl_%d_%d_%d.ch", hashMacro, hashVS, hashPS);
+	}
+	
 	HRESULT hr;
 
 	FILE* fp = nullptr;
@@ -297,13 +305,26 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 		compilerParam.PixelShaderTexts.push_back(pixelShaderText);
 
 		// DirectX
-		const char* device = "DIRECTX";
-		const char* one = "1";
+		if (g->GetRHI()->GetDeviceType() == ar::GraphicsDeviceType::DirectX11)
 		{
-			ar::ShaderMacro m(device, one);
-			compilerParam.Macros.push_back(m);
+			const char* device = "DIRECTX";
+			const char* one = "1";
+			{
+				ar::ShaderMacro m(device, one);
+				compilerParam.Macros.push_back(m);
+			}
 		}
-
+		else if (g->GetRHI()->GetDeviceType() == ar::GraphicsDeviceType::OpenGL)
+		{
+			compilerParam.OpenGLVersion = ar::OpenGLVersionType::OpenGL33;
+			const char* device = "OPENGL";
+			const char* one = "1";
+			{
+				ar::ShaderMacro m(device, one);
+				compilerParam.Macros.push_back(m);
+			}
+		}
+		
 		for (auto& macro_ : macro)
 		{
 			ar::ShaderMacro m(macro_.Name, macro_.Definition);
@@ -323,18 +344,21 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 		asd::SafeDelete(compiler);
 
 		// 書き込み
-		fopen_s(&fp, cacheFile, "wb");
-		if (fp != nullptr)
+		if (g->GetRHI()->GetDeviceType() == ar::GraphicsDeviceType::DirectX11)
 		{
-			auto vs_size = compilerResult.VertexShaderBuffer.size();
-			auto ps_size = compilerResult.PixelShaderBuffer.size();
+			fopen_s(&fp, cacheFile, "wb");
+			if (fp != nullptr)
+			{
+				auto vs_size = compilerResult.VertexShaderBuffer.size();
+				auto ps_size = compilerResult.PixelShaderBuffer.size();
 
-			fwrite(&vs_size, sizeof(int32_t), 1, fp);
-			fwrite(&ps_size, sizeof(int32_t), 1, fp);
-			fwrite(compilerResult.VertexShaderBuffer.data(), 1, vs_size, fp);
-			fwrite(compilerResult.PixelShaderBuffer.data(), 1, ps_size, fp);
+				fwrite(&vs_size, sizeof(int32_t), 1, fp);
+				fwrite(&ps_size, sizeof(int32_t), 1, fp);
+				fwrite(compilerResult.VertexShaderBuffer.data(), 1, vs_size, fp);
+				fwrite(compilerResult.PixelShaderBuffer.data(), 1, ps_size, fp);
 
-			fclose(fp);
+				fclose(fp);
+			}
 		}
 	}
 	else

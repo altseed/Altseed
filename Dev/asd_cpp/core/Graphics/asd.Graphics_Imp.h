@@ -189,6 +189,7 @@ namespace asd {
 		bool			IsReloadingEnabled;
 		bool			IsFullScreen;
 		ColorSpaceType	ColorSpace;
+		GraphicsDeviceType	GraphicsDevice;
 	};
 #endif
 

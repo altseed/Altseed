@@ -469,53 +469,29 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	Vector2DI size,
 	Log* log,
 	File* file,
-	GraphicsOption option,
-	ID3D11Device* device,
-	ID3D11DeviceContext* context,
-	IDXGIDevice1* dxgiDevice,
-	IDXGIAdapter1* adapter,
-	IDXGIFactory1* dxgiFactory,
-	IDXGISwapChain* swapChain,
-	ID3D11Texture2D* defaultBack,
-	ID3D11RenderTargetView*	defaultBackRenderTargetView,
-	ID3D11Texture2D* defaultDepthBuffer,
-	ID3D11DepthStencilView* defaultDepthStencilView)
+	GraphicsOption option)
 	: Graphics_Imp(manager, size, log,file, option)
 	, m_window(window)
-	//, m_device(device)
-	//, m_context(context)
-	//, m_dxgiDevice(dxgiDevice)
-	//, m_adapter(adapter)
-	//, m_dxgiFactory(dxgiFactory)
-	//, m_swapChain(swapChain)
-	//, m_defaultBack(defaultBack)
-	//, m_defaultBackRenderTargetView(defaultBackRenderTargetView)
-	//, m_defaultDepthBuffer(defaultDepthBuffer)
-	//, m_defaultDepthStencilView(defaultDepthStencilView)
-	//, m_currentDepthStencilView(nullptr)
 {
 	SafeAddRef(window);
 
-	//for (auto i = 0; i < MaxRenderTarget; i++)
-	//{
-	//	m_currentBackRenderTargetViews[i] = nullptr;
-	//}
-
-	//GenerateRenderStates();
-
 	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 	
-	GetEffectSetting()->SetTextureLoader(new EffectTextureLoader_DX11(this));
-	GetEffectSetting()->SetModelLoader(new EffectModelLoader_DX11(this));
-
-	auto flevel = GetDevice()->GetFeatureLevel();
-
-	if (flevel == D3D_FEATURE_LEVEL_9_3 ||
-		flevel == D3D_FEATURE_LEVEL_9_2 ||
-		flevel == D3D_FEATURE_LEVEL_9_1)
+	if (GetRHI()->GetDeviceType() == ar::GraphicsDeviceType::DirectX11)
 	{
-		isInitializedAsDX9 = true;
+		GetEffectSetting()->SetTextureLoader(new EffectTextureLoader_DX11(this));
+		GetEffectSetting()->SetModelLoader(new EffectModelLoader_DX11(this));
+
+		auto flevel = GetDevice()->GetFeatureLevel();
+
+		if (flevel == D3D_FEATURE_LEVEL_9_3 ||
+			flevel == D3D_FEATURE_LEVEL_9_2 ||
+			flevel == D3D_FEATURE_LEVEL_9_1)
+		{
+			isInitializedAsDX9 = true;
+		}
 	}
+	
 	rhiContext = ar::Context::Create(GetRHI());
 	rhiContext->Initialize(GetRHI());
 
@@ -918,9 +894,17 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 		log->WriteLine(s.c_str());
 	};
 
-	writeLogHeading(ToAString("描画(DirectX11)"));
+	if (option.GraphicsDevice == GraphicsDeviceType::DirectX11)
+	{
+		writeLogHeading(ToAString("描画(DirectX11)"));
+	}
+	else if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
+	{
+		writeLogHeading(ToAString("描画(OpenGL)"));
+	}
 
 	// ShowData
+	if(option.GraphicsDevice == GraphicsDeviceType::DirectX11)
 	{
 		IDXGIFactory1* dxgiFactory = NULL;
 		std::vector<IDXGIAdapter1*> adapters;
@@ -951,7 +935,10 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 		dxgiFactory->Release();
 	}
 
-	ar::Manager* manager = ar::Manager::Create(ar::GraphicsDeviceType::DirectX11);
+	auto window_ = (Window_Imp*)window;
+	window_->GetWindow()->MakeContextCurrent();
+
+	ar::Manager* manager = ar::Manager::Create((ar::GraphicsDeviceType)option.GraphicsDevice);
 	ar::ManagerInitializationParameter initParam;
 	initParam.WindowWidth = width;
 	initParam.WindowHeight = height;
@@ -995,6 +982,11 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 		writeLog(ToAString("バックバッファのレンダーターゲットの取得に失敗"));
 		goto End;
 	}
+	else if (errorCode == ar::ErrorCode::FailedToInitializeGlew)
+	{
+		writeLog(ToAString("Glewの初期化に失敗"));
+		goto End;
+	}
 
 return new Graphics_Imp_DX11(
 	manager,
@@ -1002,17 +994,7 @@ return new Graphics_Imp_DX11(
 	Vector2DI(width, height),
 	log,
 	file,
-	option,
-	nullptr,
-	nullptr,
-	nullptr,
-	nullptr,
-	nullptr,
-	nullptr,
-	nullptr,
-	nullptr,
-	nullptr,
-	nullptr);
+	option);
 End:
 
 	asd::SafeDelete(manager);
@@ -1279,6 +1261,12 @@ void Graphics_Imp_DX11::Clear(bool isColorTarget, bool isDepthTarget, const Colo
 void Graphics_Imp_DX11::Present()
 {
 	GetRHI()->Present();
+
+	if (m_window != nullptr)
+	{
+		auto window_ = (Window_Imp*)m_window;
+		window_->GetWindow()->Present();
+	}
 }
 
 void Graphics_Imp_DX11::SaveScreenshot(const achar* path)

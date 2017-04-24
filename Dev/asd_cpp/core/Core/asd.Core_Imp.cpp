@@ -190,6 +190,7 @@ namespace asd
 		go.IsFullScreen = option.IsFullScreen;
 		go.IsReloadingEnabled = option.IsReloadingEnabled;
 		go.ColorSpace = option.ColorSpace;
+		go.GraphicsDevice = option.GraphicsDevice;
 
 #if _WIN32
 #else
