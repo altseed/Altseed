@@ -388,7 +388,10 @@ namespace asd
 			assert(m_joystickContainer != nullptr);
 		}
 
+#if !(defined(_CONSOLE_GAME))
 		ControlFPS();
+#endif
+
 		ComputeFPS();
 
 		if (m_isInitializedByExternal)
