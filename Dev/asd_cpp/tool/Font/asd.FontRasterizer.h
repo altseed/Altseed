@@ -1,6 +1,10 @@
-﻿#pragma once
+﻿
+#pragma once
 
 #include <asd.common.Base.h>
+
+#if !(defined(_CONSOLE_GAME))
+
 #include <Graphics/asd.Color.h>
 #include <Graphics/asd.Graphics.Common.h>
 
@@ -152,3 +156,5 @@ namespace asd
 		std::map<achar, GlyphImage>& GetGlyphImages() { return glyphImages; };
 	};
 }
+
+#endif

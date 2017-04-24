@@ -1,4 +1,7 @@
-﻿#include "asd.InstalledFontList.h"
+﻿
+#include "asd.InstalledFontList.h"
+
+#if !(defined(_CONSOLE_GAME))
 
 #ifdef _WIN32
 #include <filesystem>
@@ -160,3 +163,5 @@ namespace asd
 		*/
 	}
 }
+
+#endif
