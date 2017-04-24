@@ -513,6 +513,19 @@ namespace asd {
 	@note
 	基本的にShaderCacheを経由してシェーダーを生成するため、この関数を直接使う機会は殆ど無い。
 	*/
+	virtual NativeShader_Imp* CreateShader_Imp_(
+		const uint8_t* vertexShader,
+		int32_t vertexShaderSize,
+		const uint8_t* pixelShader,
+		int32_t pixelShaderSize,
+		std::vector <VertexLayout>& layout,
+		bool is32Bit) { return nullptr; }
+
+	/**
+	@brief	シェーダーを生成する。
+	@note
+	基本的にShaderCacheを経由してシェーダーを生成するため、この関数を直接使う機会は殆ど無い。
+	*/
 	std::shared_ptr<NativeShader_Imp> CreateShader_Imp(
 		const char* vertexShaderText,
 		const char* vertexShaderFileName,

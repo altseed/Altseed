@@ -475,8 +475,10 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 {
 	SafeAddRef(window);
 
+#if !defined(_CONSOLE_GAME)
 	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
-	
+#endif
+
 	if (GetRHI()->GetDeviceType() == ar::GraphicsDeviceType::DirectX11)
 	{
 		GetEffectSetting()->SetTextureLoader(new EffectTextureLoader_DX11(this));
@@ -504,12 +506,14 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 //----------------------------------------------------------------------------------
 Graphics_Imp_DX11::~Graphics_Imp_DX11()
 {
+#if !defined(_CONSOLE_GAME)
 	m_renderingThread->AddEvent(nullptr);
 	while (m_renderingThread->IsRunning())
 	{
 		Sleep(1);
 	}
 	m_renderingThread.reset();
+#endif
 
 	for (auto& r : currentRenderTargets)
 	{
@@ -717,6 +721,23 @@ NativeShader_Imp* Graphics_Imp_DX11::CreateShader_Imp_(
 		m_log);
 }
 
+NativeShader_Imp* Graphics_Imp_DX11::CreateShader_Imp_(
+	const uint8_t* vertexShader,
+	int32_t vertexShaderSize,
+	const uint8_t* pixelShader,
+	int32_t pixelShaderSize,
+	std::vector <VertexLayout>& layout,
+	bool is32Bit)
+{
+	return NativeShader_Imp_DX11::Create(
+		this,
+		vertexShader,
+		vertexShaderSize,
+		pixelShader,
+		pixelShaderSize,
+		layout,
+		is32Bit);
+}
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -880,7 +901,7 @@ void Graphics_Imp_DX11::EndInternal()
 	GetRHI()->EndRendering();
 }
 
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option)
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -1011,14 +1032,14 @@ End:
 Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log, File* file, GraphicsOption option)
 {
 	auto size = window->GetSize();
-	auto handle = (HWND)((Window_Imp*)window)->GetWindowHandle();
+	auto handle = ((Window_Imp*)window)->GetWindowHandle();
 	return Create(window, handle, size.X, size.Y, log, file, option);
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(void* handle, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option)
 {
 	return Create(nullptr, handle, width, height, log,file, option);
 }

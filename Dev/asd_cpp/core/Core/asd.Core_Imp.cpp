@@ -678,7 +678,7 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Core_Imp::TakeScreenshot(const achar* path)
 	{
-#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+#if ( defined(_CONSOLE_GAME) )
 
 #else
 		m_screenShots.push_back(path);
@@ -687,7 +687,7 @@ namespace asd
 
 	void Core_Imp::CaptureScreenAsGifAnimation(const achar* path, int32_t frame, float frequency_rate, float scale)
 	{
-#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+#if ( defined(_CONSOLE_GAME) )
 		return;
 #else
 		frequency_rate = Clamp(frequency_rate, 1.0f, 1.0f / GetTargetFPS());

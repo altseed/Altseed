@@ -52,9 +52,6 @@ namespace asd {
 		NativeShader_Imp_DX11(
 			Graphics* graphics,
 			ar::Shader* rhi,
-			ID3D11VertexShader* vertexShader, 
-			ID3D11PixelShader* pixelShader, 
-			ID3D11InputLayout* layout,
 			std::vector<ConstantLayout> vs_uniformLayouts,
 			int32_t vs_uniformBufferSize,
 			std::vector<TextureLayout> vs_textures,
@@ -85,6 +82,15 @@ namespace asd {
 			bool is32Bit,
 			std::vector <Macro>& macro,
 			Log* log);
+
+		static NativeShader_Imp* Create(
+			Graphics* graphics,
+			const uint8_t* vertexShader,
+			int32_t vertexShaderSize,
+			const uint8_t* pixelShader,
+			int32_t pixelShaderSize,
+			std::vector <VertexLayout>& layout,
+			bool is32Bit);
 
 		ar::Shader* GetRHI() const { return rhi; }
 		ar::ConstantBuffer* GetRHIVertexConstantBuffer() const { return rhiConstantVB; }

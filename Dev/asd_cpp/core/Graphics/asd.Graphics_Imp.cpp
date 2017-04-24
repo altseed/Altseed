@@ -867,9 +867,9 @@ Graphics_Imp::Graphics_Imp(ar::Manager* manager, Vector2DI size, Log* log, File*
 	ModelContainer = std::make_shared<ResourceContainer<Model_Imp>>(file);
 	ImagePackageContainer = std::make_shared<ResourceContainer<ImagePackage_Imp>>(file);
 
-	//SafeAddRef(m_log);
-	//m_resourceContainer = new GraphicsResourceContainer(m_file);
+#if !defined(_CONSOLE_GAME)
 	m_renderingThread = std::make_shared<RenderingThread>();
+#endif
 
 	m_effectSetting = Effekseer::Setting::Create();
 	m_effectSetting->SetCoordinateSystem(Effekseer::CoordinateSystem::RH);

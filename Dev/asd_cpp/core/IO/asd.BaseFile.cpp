@@ -34,16 +34,19 @@ namespace asd
 
 	bool BaseFile::IsValid()
 	{
-#ifndef _WIN32
+#if defined(_WIN32)
+		return !m_file.fail();
+#elif defined(_CONSOLE_GAME)
+		return !m_file.fail();
+#else
 		{
 			struct stat sb;
 			if (stat(ToUtf8String(m_filePath.c_str()).c_str(), &sb) != 0)
 				return false;
 			if (S_ISDIR(sb.st_mode))
 				return false;
-		}
-#endif // _WIN32
-		return !m_file.fail();
+	}
+#endif
 	}
 
 	int64_t BaseFile::GetSize()

@@ -98,6 +98,14 @@ namespace asd {
 			bool is32Bit,
 			std::vector <Macro>& macro);
 
+		NativeShader_Imp* CreateShader_Imp_(
+			const uint8_t* vertexShader,
+			int32_t vertexShaderSize,
+			const uint8_t* pixelShader,
+			int32_t pixelShaderSize,
+			std::vector <VertexLayout>& layout,
+			bool is32Bit) override;
+
 		void UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr, int32_t& vertexBufferOffset);
 		void DrawPolygonInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr);
 		void DrawPolygonInternal(int32_t offset, int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr) override;
@@ -108,13 +116,13 @@ namespace asd {
 
 		void EndInternal();
 
-		static Graphics_Imp_DX11* Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, File *file, GraphicsOption option);
+		static Graphics_Imp_DX11* Create(Window* window, void* handle, int32_t width, int32_t height, Log* log, File *file, GraphicsOption option);
 
 	public:
 		
 		static Graphics_Imp_DX11* Create(Window* window, Log* log, File* file, GraphicsOption option);
 
-		static Graphics_Imp_DX11* Create(HWND handle, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option);
+		static Graphics_Imp_DX11* Create(void* handle, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option);
 
 		Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size);
 
