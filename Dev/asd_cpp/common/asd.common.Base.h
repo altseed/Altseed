@@ -19,11 +19,15 @@
 #include <functional>
 
 #include <memory>
+#include <chrono>
+#include <thread>
 
 #include <assert.h>
 
 #ifdef _WIN32
 #include <windows.h>
+#elif ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+
 #else
 #include <unistd.h>
 #endif
@@ -253,17 +257,10 @@ if (!(condition)) { \
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-#ifdef _WIN32
 inline void Sleep( int32_t ms )
 {
-	::Sleep( ms );
+	std::this_thread::sleep_for(std::chrono::microseconds(ms));
 }
-#else
-inline void Sleep( int32_t ms )
-{
-	usleep( 1000 * ms );
-}
-#endif
 
 //----------------------------------------------------------------------------------
 //

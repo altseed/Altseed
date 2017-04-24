@@ -1,9 +1,12 @@
 ﻿#pragma once
+
 #include<cstdint>
 
 #ifdef _WIN32
 /* win */
-#include<Windows.h>
+#include <Windows.h>
+#elif ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+#include <chrono>
 #else
 /* *nix */
 #include <sys/time.h>
@@ -34,6 +37,8 @@ inline int64_t GetTime()
 		}
 	}
 	return 0;
+#elif ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+	return std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
 #else
 	struct timeval tv;
     gettimeofday(&tv, NULL);

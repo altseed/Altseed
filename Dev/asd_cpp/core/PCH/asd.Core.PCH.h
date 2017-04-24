@@ -8,13 +8,21 @@
 #include <Math/asd.Vector4DF.h>
 #include <Graphics/asd.Color.h>
 
-// GLEW
+// OpenGL
+#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+
+#else
+
 #ifdef __APPLE__
 #include <OpenGL/gl3.h>
 #define GLFW_INCLUDE_GLCOREARB
 #else
 #define GLEW_STATIC
 #include <GL/glew.h>
+#endif
+
+#pragma comment(lib, "glu32.lib")
+
 #endif
 
 #if _WIN32
@@ -90,11 +98,11 @@
 
 #endif
 
-
-// GLU
-#pragma comment(lib, "glu32.lib")
-
 // GLFW
+#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+
+#else
+
 #if _WIN32
 #define GLFW_EXPOSE_NATIVE_WIN32
 #define GLFW_EXPOSE_NATIVE_WGL
@@ -133,7 +141,14 @@
 #include <GLFW/glfw3native.h>
 #endif
 
+#endif
+
+
 // DirectX
+#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+
+#else
+
 #if _WIN32
 
 #include <d3d11.h>
@@ -145,8 +160,20 @@
 
 #endif
 
+#endif
+
 // Effekseer
 #include <Effekseer.h>
+
+#if defined(_PSVITA)
+#include <EffekseerRendererPSVita.h>
+#elif defined(_PS4)
+#include <EffekseerRendererPS4.h>
+#elif defined(_SWITCH)
+#include <EffekseerRendererSwitch.h>
+#elif defined(_XBOXONE)
+#include <EffekseerRendererXBoxOne.h>
+#else
 
 #if _WIN32
 #include <EffekseerRendererDX11.h>
@@ -178,8 +205,10 @@
 #endif
 
 #endif
+
 #include <EffekseerRendererGL.h>
 
+#endif
 
 #if _WIN32
 

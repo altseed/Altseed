@@ -1,12 +1,13 @@
 ﻿
 #include "asd.Model_IO.h"
+
 #include <cmath>
 
 namespace asd
 {
 	static const double DEF_NaN = std::numeric_limits<double>::quiet_NaN();
 
-#if _WIN32
+#if ( defined(_WIN32) || defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
 	static const double M_PI = 3.14159265358979;
 #endif
 

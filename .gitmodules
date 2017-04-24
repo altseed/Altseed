@@ -22,6 +22,7 @@
 [submodule "Downloads/Effekseer"]
 	path = Downloads/Effekseer
 	url = https://github.com/effekseer/Effekseer
+	ignore = dirty
 [submodule "Downloads/OpenSoundMixer"]
 	path = Downloads/OpenSoundMixer
 	url = https://github.com/altseed/OpenSoundMixer
