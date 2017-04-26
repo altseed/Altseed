@@ -1,4 +1,4 @@
-
+﻿
 import aceutils
 import itertools
 
@@ -9,7 +9,6 @@ with aceutils.CurrentDir('../Downloads'):
 	aceutils.rmdir(r"osm_bin")
 	aceutils.rmdir(r"osm_bin_x64")
 
-	aceutils.editCmakeForACE(r'OpenSoundMixer/CMakeLists.txt','cp932')	
 	aceutils.mkdir(r"osm_bin")
 	aceutils.mkdir(r"osm_bin_x64")
 
@@ -39,16 +38,6 @@ with aceutils.CurrentDir('../Downloads'):
 		
 		aceutils.copy(r'osm_bin_x64/Debug/OpenSoundMixer.lib', r'../Dev/lib/x64/Debug/')
 		aceutils.copy(r'osm_bin_x64/Release/OpenSoundMixer.lib', r'../Dev/lib/x64/Release/')
-
-		# 3つのlibを8通りのターゲットに対してコピー
-		architectures = ('x86', 'x64')
-		configurations = ('Debug', 'Release')
-		ides = ('VS2013', 'VS2015')
-		files = ('libogg_static', 'libvorbis_static', 'libvorbisfile_static')
-		for a, c, i, f in itertools.product(architectures, configurations, ides, files):
-			src = r'OpenSoundMixer/lib/{0}/{1}/{2}/{3}.lib'.format(a, c, i, f)
-			dst = r'../Dev/lib/{0}/{1}/{2}/'.format(a, c, i)
-			aceutils.copy(src, dst)
 
 	else:
 		aceutils.copy(r'OpenSoundMixer/src/OpenSoundMixer.h', r'../Dev/include/')
