@@ -19,9 +19,18 @@ namespace asd
 		static Joystick_Imp* Create(int id, ap::Joystick* joystick);
 
 		const asd::achar* GetJoystickName() override;
+
+		JoystickType GetJoystickType() const override;
+
 		int GetButtonsCount() override;
 		int GetAxesCount() override;
+		
 		JoystickButtonState GetButtonState(int at) override;
+
+		JoystickButtonState GetButtonStateAt(JoystickButtonType type) override;
+
 		float GetAxisState(int at) override;
+
+		float GetAxisStateAt(JoystickAxisType type) override;
 	};
 };

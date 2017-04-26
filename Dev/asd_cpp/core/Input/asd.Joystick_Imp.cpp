@@ -27,6 +27,11 @@ namespace asd{
 		return m_joystickName.c_str();
 	}
 
+	JoystickType Joystick_Imp::GetJoystickType() const
+	{
+		return (JoystickType)joystick->GetJoystickType(m_connectId);
+	}
+
 	int Joystick_Imp::GetButtonsCount()
 	{
 		return joystick->GetButtonCount(m_connectId);
@@ -37,14 +42,23 @@ namespace asd{
 		return joystick->GetAxisCount(m_connectId);
 	}
 
-
 	JoystickButtonState Joystick_Imp::GetButtonState(int at)
 	{
 		return (JoystickButtonState)joystick->GetButtonState(m_connectId, at);
 	}
 
+	JoystickButtonState Joystick_Imp::GetButtonStateAt(JoystickButtonType type)
+	{
+		return (JoystickButtonState)joystick->GetButtonState(m_connectId, (ap::JoystickButtonType)type);
+	}
+
 	float Joystick_Imp::GetAxisState(int at)
 	{
 		return joystick->GetAxisState(m_connectId, at);
+	}
+
+	float Joystick_Imp::GetAxisStateAt(JoystickAxisType type)
+	{
+		return joystick->GetAxisState(m_connectId, (ap::JoystickAxisType)type);
 	}
 };
