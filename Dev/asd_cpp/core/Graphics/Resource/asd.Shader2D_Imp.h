@@ -38,6 +38,8 @@ namespace asd {
 			const achar* shaderFileName,
 			Log* log);
 
+		static Shader2D_Imp* Create(Graphics* graphics, const achar* path, Log* log);
+
 #if !SWIG
 		std::shared_ptr<NativeShader_Imp> GetNativeShader() { return m_shader; }
 #endif

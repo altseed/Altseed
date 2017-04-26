@@ -985,9 +985,13 @@ Shader2D* Graphics_Imp::CreateShader2D_(const achar* shaderText)
 	return shader;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+Shader2D* Graphics_Imp::CreateShader2DFromBinary_(const achar* path)
+{
+	auto shader = Shader2D_Imp::Create(this, path, m_log);
+
+	return shader;
+}
+
 Material2D* Graphics_Imp::CreateMaterial2D_(Shader2D* shader)
 {
 	auto material = Material2D_Imp::Create((Shader2D_Imp*) shader);

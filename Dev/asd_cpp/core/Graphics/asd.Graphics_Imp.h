@@ -423,6 +423,8 @@ namespace asd {
 		*/
 		Shader2D* CreateShader2D_(const achar* shaderText) override;
 
+		Shader2D* CreateShader2DFromBinary_(const achar* path) override;
+
 		/**
 			@brief	マテリアル(2D)を生成する。
 			@param	shader	シェーダー
