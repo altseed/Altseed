@@ -9,6 +9,7 @@ namespace asd{
 	{
 		Other,
 		PS4,
+		XBOX360,
 	};
 
 	/**
@@ -79,7 +80,7 @@ namespace asd{
 	};
 
 	/**
-	@brief	指定したコンポーネントをこのインスタンスに追加する。
+	@brief	ジョイステイックのクラス
 	*/
 	class Joystick
 	{
@@ -88,7 +89,8 @@ namespace asd{
 		virtual ~Joystick(){}
 
 		/**
-		@brief	(非推奨)ジョイスティックの名前を取得する
+		@brief	ジョイスティックの名称を取得する。
+		@return	名称
 		*/
 		virtual const asd::achar* GetJoystickName() = 0;
 
@@ -115,7 +117,7 @@ namespace asd{
 		virtual JoystickButtonState GetButtonState(int at) = 0;
 
 		/**
-			@brief	特定のジョイステイックの場合(PS4)に指定したボタンの押し状態を取得する
+			@brief	特定のジョイステイックの場合(PS4)に指定したボタンの押し状態を取得する。
 			@param	type	ボタンの種類
 			@return 押し状態
 		*/
@@ -129,7 +131,7 @@ namespace asd{
 		virtual float GetAxisState(int at) = 0;
 
 		/**
-		@brief	特定のジョイステイックの場合(PS4)に指定した指定した軸の倒し具合を取得する
+		@brief	特定のジョイステイックの場合(PS4)に指定した指定した軸の倒し具合を取得する。
 		@param	type	軸の種類
 		@return 倒し具合
 		*/

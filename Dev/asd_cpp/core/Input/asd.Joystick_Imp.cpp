@@ -22,9 +22,9 @@ namespace asd{
 
 	}
 
-	const asd::achar* Joystick_Imp::GetJoystickName()
+	const achar* Joystick_Imp::GetJoystickName()
 	{
-		return m_joystickName.c_str();
+		return joystick->GetName(m_connectId);
 	}
 
 	JoystickType Joystick_Imp::GetJoystickType() const
