@@ -15,7 +15,7 @@
 namespace asd
 {
 /**
-	@brief	パフォーマンスカウンタの現在の値をナノ秒単位で返す
+	@brief	パフォーマンスカウンタの現在の値をマイクロ秒単位で返す
 */
 inline int64_t GetTime()
 {
@@ -38,7 +38,7 @@ inline int64_t GetTime()
 	}
 	return 0;
 #elif ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
-	return std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
+	return std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
 #else
 	struct timeval tv;
     gettimeofday(&tv, NULL);
