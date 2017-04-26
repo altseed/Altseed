@@ -73,7 +73,7 @@
 #endif
 
 
-// AltseedPlatform
+// AltseedRHI
 #include <AltseedRHI.h>
 
 #if _WIN32
