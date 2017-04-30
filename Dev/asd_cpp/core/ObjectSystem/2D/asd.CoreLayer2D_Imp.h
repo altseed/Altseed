@@ -31,8 +31,8 @@ namespace asd
 			std::array<Vector2DF, 4> pos;
 			std::array<Color, 4> col;
 			std::array<Vector2DF, 4> uv;
-			std::shared_ptr<Texture2D> Texture_;
-			std::shared_ptr<Material2D> Material_;
+			Texture2D* Texture_;
+			Material2D* Material_;
 			AlphaBlendMode AlphaBlend_;
 			int32_t Priority;
 		};
@@ -122,19 +122,19 @@ namespace asd
 		virtual void AddPostEffect(CorePostEffect* postEffect) { CoreLayer_Imp::AddPostEffect(postEffect); }
 		virtual void ClearPostEffects() { CoreLayer_Imp::ClearPostEffects(); }
 
-		void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
-			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
-			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+		void DrawSpriteAdditionally(const Vector2DF& upperLeftPos, const Vector2DF& upperRightPos, const Vector2DF& lowerRightPos, const Vector2DF& lowerLeftPos,
+			const Color& upperLeftCol, const Color& upperRightCol, const Color& lowerRightCol, const Color& lowerLeftCol,
+			const Vector2DF& upperLeftUV, const Vector2DF& upperRightUV, const Vector2DF& lowerRightUV, const Vector2DF& lowerLeftUV,
 			Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority);
 
-		void DrawSpriteWithMaterialAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
-			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
-			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+		void DrawSpriteWithMaterialAdditionally(const Vector2DF& upperLeftPos, const Vector2DF& upperRightPos, const Vector2DF& lowerRightPos, const Vector2DF& lowerLeftPos,
+			const Color& upperLeftCol, const Color& upperRightCol, const Color& lowerRightCol, const Color& lowerLeftCol,
+			const Vector2DF& upperLeftUV, const Vector2DF& upperRightUV, const Vector2DF& lowerRightUV, const Vector2DF& lowerLeftUV,
 			Material2D* material, AlphaBlendMode alphaBlend, int32_t priority) override;
 
 		void DrawTextAdditionally(Vector2DF pos, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int32_t priority) override;
 
-		void DrawRectangleAdditionally(RectF drawingArea, Color color, RectF uv, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority) override;
+		void DrawRectangleAdditionally(const RectF& drawingArea, const Color& color, const RectF& uv, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority) override;
 		void DrawRotatedRectangleAdditionally(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority) override;
 		void DrawTriangleAdditionally(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority) override;
 		void DrawCircleAdditionally(Vector2DF center, float outerDiameter, float innerDiameter, Color color, int numberOfCorners, float angle, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority) override;

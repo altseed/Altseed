@@ -130,9 +130,10 @@ namespace asd
 			@note
 			OnDrawAdditionallyの中以外では実行してはいけない。
 		*/
-		void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
-			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
-			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+		void DrawSpriteAdditionally(
+			const Vector2DF& upperLeftPos, const Vector2DF& upperRightPos, const Vector2DF& lowerRightPos, const Vector2DF& lowerLeftPos,
+			const Color& upperLeftCol, const Color& upperRightCol, const Color& lowerRightCol, const Color& lowerLeftCol,
+			const Vector2DF& upperLeftUV, const Vector2DF& upperRightUV, const Vector2DF& lowerRightUV, const Vector2DF& lowerLeftUV,
 			std::shared_ptr<Texture2D>  texture, AlphaBlendMode alphaBlend, int32_t priority);
 
 		/**
@@ -156,9 +157,10 @@ namespace asd
 		専用のシェーダーを用いてスプライトを描画する。
 		OnDrawAdditionallyの中以外では実行してはいけない。
 		*/
-		void DrawSpriteWithMaterialAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
-			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
-			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+		void DrawSpriteWithMaterialAdditionally(
+			const Vector2DF& upperLeftPos, const Vector2DF& upperRightPos, const Vector2DF& lowerRightPos, const Vector2DF& lowerLeftPos,
+			const Color& upperLeftCol, const Color& upperRightCol, const Color& lowerRightCol, const Color& lowerLeftCol,
+			const Vector2DF& upperLeftUV, const Vector2DF& upperRightUV, const Vector2DF& lowerRightUV, const Vector2DF& lowerLeftUV,
 			std::shared_ptr<Material2D> material, AlphaBlendMode alphaBlend, int32_t priority);
 
 		/**
@@ -175,7 +177,7 @@ namespace asd
 		*/
 		void DrawTextAdditionally(Vector2DF pos, Color color, std::shared_ptr<Font> font, const achar* text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int32_t priority);
 
-		void DrawRectangleAdditionally(RectF drawingArea, Color color, RectF uv, std::shared_ptr<Texture2D> texture, AlphaBlendMode alphaBlend, int32_t priority);
+		void DrawRectangleAdditionally(const RectF& drawingArea, const Color& color, const RectF& uv, const std::shared_ptr<Texture2D>& texture, AlphaBlendMode alphaBlend, int32_t priority);
 
 		void DrawRotatedRectangleAdditionally(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, std::shared_ptr<Texture2D> texture, AlphaBlendMode alphaBlend, int32_t priority);
 
