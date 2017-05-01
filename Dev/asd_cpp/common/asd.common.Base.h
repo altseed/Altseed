@@ -351,5 +351,16 @@ static float RadianToDegree(float radian)
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+
+template<typename T> static  std::u16string ToU16String(T const &arg) {
+	std::string const src = std::to_string(arg);
+	auto tmp = std::vector<int16_t>(src.length());
+	Utf8ToUtf16(tmp, (int8_t const*)(src.c_str()));
+	tmp.pop_back(); // drop null char
+	return std::u16string(tmp.begin(), tmp.end());
+}
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
 }
 
