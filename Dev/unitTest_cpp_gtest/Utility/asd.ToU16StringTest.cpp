@@ -1,6 +1,8 @@
 ﻿#include<gtest/gtest.h>
-#include<Utility/asd.ToU16String.h>
+#include<asd.common.Base.h>
 #include<string>
+
+// TODO: asd.common.Base_test.hへ移行
 
 TEST(Utility, ToU16StringTest) {
 #if _WIN32
