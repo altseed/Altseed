@@ -161,7 +161,7 @@ void Graphics_RenderingThread(bool isOpenGLMode)
 
 	asd::Log* log = asd::Log_Imp::Create(u"graphics.html", u"描画");
 
-	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(u"SingleTexture").c_str());
+	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(u"SingleTexture").c_str(), log, asd::WindowPositionType::Default, isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11, asd::ColorSpaceType::LinearSpace, false);
 	ASSERT_TRUE(window != nullptr);
 
 	auto file = asd::File_Imp::Create();
@@ -190,6 +190,7 @@ void Graphics_RenderingThread(bool isOpenGLMode)
 	vl.push_back(asd::VertexLayout("Pos", asd::VertexLayoutFormat::R32G32B32_FLOAT));
 	vl.push_back(asd::VertexLayout("UV", asd::VertexLayoutFormat::R32G32_FLOAT));
 
+	bool is32bit = false;
 	std::vector<asd::Macro> macro;
 	if (isOpenGLMode)
 	{
@@ -199,6 +200,7 @@ void Graphics_RenderingThread(bool isOpenGLMode)
 			gl_ps,
 			"ps",
 			vl,
+			is32bit,
 			macro);
 	}
 	else
@@ -209,6 +211,7 @@ void Graphics_RenderingThread(bool isOpenGLMode)
 			dx_ps,
 			"ps",
 			vl,
+			is32bit,
 			macro);
 	}
 

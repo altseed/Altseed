@@ -182,7 +182,7 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 
 	asd::Log* log = asd::Log_Imp::Create(u"graphics.html", u"描画");
 
-	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(u"CubemapTexture").c_str());
+	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(u"CubemapTexture").c_str(), log, asd::WindowPositionType::Default, isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11, asd::ColorSpaceType::LinearSpace, false);
 	ASSERT_TRUE(window != nullptr);
 
 	auto file = asd::File_Imp::Create();
@@ -227,6 +227,8 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 	std::shared_ptr<asd::NativeShader_Imp> shader;
 	std::shared_ptr<asd::NativeShader_Imp> shaderMip;
 
+	bool const is32bit = false;
+
 	std::vector<asd::Macro> macro;
 	if (isOpenGLMode)
 	{
@@ -236,6 +238,7 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 			gl_ps,
 			"ps",
 			vl,
+			is32bit,
 			macro);
 		shaderMip = graphics->CreateShader_Imp(
 			gl_writemip_vs,
@@ -243,6 +246,7 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 			gl_writemip_ps,
 			"ps",
 			vl,
+			is32bit,
 			macro);
 	}
 	else
@@ -253,6 +257,7 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 			dx_ps,
 			"ps",
 			vl,
+			is32bit,
 			macro);
 		shaderMip = graphics->CreateShader_Imp(
 			dx_writemip_vs,
@@ -260,6 +265,7 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 			dx_writemip_ps,
 			"ps",
 			vl,
+			is32bit,
 			macro);
 	}
 

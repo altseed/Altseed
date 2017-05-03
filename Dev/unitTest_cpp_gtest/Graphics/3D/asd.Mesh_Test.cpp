@@ -162,7 +162,7 @@ void Graphics_Mesh(bool isOpenGLMode)
 
 	asd::Log* log = asd::Log_Imp::Create(u"graphics.html", u"メッシュ");
 
-	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(u"メッシュ").c_str());
+	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(u"メッシュ").c_str(), log, asd::WindowPositionType::Default, isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11, asd::ColorSpaceType::LinearSpace, false);
 	ASSERT_TRUE(window != nullptr);
 
 	auto file = asd::File_Imp::Create();

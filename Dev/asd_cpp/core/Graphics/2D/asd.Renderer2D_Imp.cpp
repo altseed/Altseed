@@ -187,7 +187,7 @@ namespace asd {
 		m_shader_nt.reset();
 		m_shader.reset();
 
-		m_effectRenderer->Destroy();
+		m_effectRenderer->Destory();
 		m_effectManager->Destroy();
 		m_effectRenderer = nullptr;
 		m_effectManager = nullptr;
