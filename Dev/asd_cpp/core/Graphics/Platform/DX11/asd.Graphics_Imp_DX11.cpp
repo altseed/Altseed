@@ -756,7 +756,9 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 	drawParam.ShaderPtr = s_impl->GetRHI();
 	drawParam.VertexConstantBufferPtr = s_impl->GetRHIVertexConstantBuffer();
 	drawParam.PixelConstantBufferPtr = s_impl->GetRHIPixelConstantBuffer();
-	
+	drawParam.VertexShaderTextures.fill(nullptr);
+	drawParam.PixelShaderTextures.fill(nullptr);
+
 	vertexBufferOffset = v_impl->GetRHI()->GetVertexOffset();
 
 	s_impl->AssignConstantBuffer();

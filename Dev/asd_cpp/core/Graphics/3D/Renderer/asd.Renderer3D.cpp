@@ -124,7 +124,7 @@ namespace asd
 		ReleaseObjects(newObjects);
 		ReleaseObjects(removingObjects);
 
-		m_effectRenderer->Destory();
+		m_effectRenderer->Destroy();
 		m_effectManager->Destroy();
 		m_effectRenderer = nullptr;
 		m_effectManager = nullptr;
