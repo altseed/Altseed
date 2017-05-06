@@ -264,7 +264,7 @@ if (!(condition)) { \
 inline void Sleep( int32_t ms )
 {
 	if (ms <= 0) return;
-	std::this_thread::sleep_for(std::chrono::microseconds(ms));
+	std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
 //----------------------------------------------------------------------------------
