@@ -104,6 +104,7 @@ void Graphics_RenderTarget(bool isOpenGLMode)
 	go.IsFullScreen = false;
 	go.IsReloadingEnabled = false;
 	go.ColorSpace = asd::ColorSpaceType::LinearSpace;
+	go.GraphicsDevice = isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11;
 	auto graphics = asd::Graphics_Imp::Create(window, isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11, log, file, go);
 	ASSERT_TRUE(graphics != nullptr);
 
