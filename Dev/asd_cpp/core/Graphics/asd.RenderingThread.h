@@ -9,7 +9,9 @@
 #include "../asd.ReferenceObject.h"
 #include "../asd.Core.Base.h"
 
-#if _WIN32
+#if defined(_CONSOLE_GAME)
+
+#elif _WIN32
 #include <process.h>
 #else
 #include <unistd.h>

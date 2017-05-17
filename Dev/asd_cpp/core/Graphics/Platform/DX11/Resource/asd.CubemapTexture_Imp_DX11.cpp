@@ -2,7 +2,7 @@
 #include "asd.CubemapTexture_Imp_DX11.h"
 #include "../asd.Graphics_Imp_DX11.h"
 
-#include "../../../../3rdParty/DirectXToolKit/DDSTextureLoader.h"
+//#include "../../../../3rdParty/DirectXToolKit/DDSTextureLoader.h"
 
 namespace asd
 {
@@ -10,9 +10,6 @@ namespace asd
 		Graphics* graphics,
 		ar::CubemapTexture* rhi,
 		TextureFormat format,
-		ID3D11Resource* texture,
-		ID3D11ShaderResourceView* textureSRV, 
-		std::array<std::vector<ID3D11RenderTargetView*>, 6>& textureRTVs, 
 		Vector2DI size,
 		int32_t mipmapCount)
 		: CubemapTexture_Imp(graphics, format, size, mipmapCount)
@@ -410,9 +407,6 @@ namespace asd
 				graphics,
 				rhi,
 				(asd::TextureFormat)rhi->GetFormat(),
-				nullptr,
-				nullptr,
-				std::array<std::vector<ID3D11RenderTargetView*>, 6>(),
 				Vector2DI(rhi->GetWidth(), rhi->GetHeight()),
 				rhi->GetMipmapCount());
 		}

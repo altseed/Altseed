@@ -17,7 +17,7 @@ namespace asd
 		//
 		//std::array<std::vector<ID3D11RenderTargetView*>,6>		m_textureRTVs;
 
-		CubemapTexture_Imp_DX11(Graphics* graphics, ar::CubemapTexture* rhi, TextureFormat format, ID3D11Resource* texture, ID3D11ShaderResourceView* textureSRV, std::array<std::vector<ID3D11RenderTargetView*>, 6>& textureRTVs, Vector2DI size, int32_t mipmapCount);
+		CubemapTexture_Imp_DX11(Graphics* graphics, ar::CubemapTexture* rhi, TextureFormat format, Vector2DI size, int32_t mipmapCount);
 		virtual ~CubemapTexture_Imp_DX11();
 
 	public:

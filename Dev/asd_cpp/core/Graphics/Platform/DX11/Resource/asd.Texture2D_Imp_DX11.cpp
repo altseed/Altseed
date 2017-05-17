@@ -7,9 +7,8 @@
 
 #include "../../../../Log/asd.Log_Imp.h"
 
-#include "../../../../3rdParty/DirectXToolKit/DDSTextureLoader.h"
-
-#include <sstream>
+//#include "../../../../3rdParty/DirectXToolKit/DDSTextureLoader.h"
+//#include <sstream>
 
 //----------------------------------------------------------------------------------
 //

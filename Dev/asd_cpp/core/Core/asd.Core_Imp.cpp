@@ -391,7 +391,7 @@ namespace asd
 #if !(defined(_CONSOLE_GAME))
 		ControlFPS();
 #endif
-
+		
 		ComputeFPS();
 
 		if (m_isInitializedByExternal)
@@ -445,7 +445,7 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Core_Imp::Terminate()
 	{
-#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+#if (defined(_CONSOLE_GAME))
 
 #else
 		for (auto& gifAnim : gifAnimations)
@@ -506,7 +506,7 @@ namespace asd
 		m_graphics->End();
 
 		// Take screenshot
-#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+#if (defined(_CONSOLE_GAME))
 
 #else
 
@@ -553,7 +553,7 @@ namespace asd
 	void Core_Imp::DrawSceneToWindow(CoreScene* scene)
 	{
 		m_graphics->SetRenderTarget(nullptr, nullptr);
-		m_graphics->Clear(true, false, Color(0, 0, 0, 255));
+		m_graphics->Clear(true, false, Color(0, 100, 0, 255));
 
 		layerRenderer->SetTexture(scene->GetBaseTarget());
 
@@ -621,7 +621,7 @@ namespace asd
 		auto t = (CoreTransition_Imp*) transition;
 
 		m_graphics->SetRenderTarget(nullptr, nullptr);
-		m_graphics->Clear(true, false, Color(0, 0, 0, 255));
+		m_graphics->Clear(true, false, Color(0, 100, 0, 255));
 
 		t->DrawCache(layerRenderer, nextScene, previousScene);
 		t->ClearCache();
@@ -650,7 +650,7 @@ namespace asd
 
 	Cursor* Core_Imp::CreateCursor(const achar* path, Vector2DI hot)
 	{
-#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+#if (defined(_CONSOLE_GAME))
 		return nullptr;
 #else
 		return Cursor_Imp::Create(GetFile(), path, hot);
@@ -682,7 +682,7 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Core_Imp::TakeScreenshot(const achar* path)
 	{
-#if ( defined(_CONSOLE_GAME) )
+#if (defined(_CONSOLE_GAME))
 
 #else
 		m_screenShots.push_back(path);
@@ -691,7 +691,7 @@ namespace asd
 
 	void Core_Imp::CaptureScreenAsGifAnimation(const achar* path, int32_t frame, float frequency_rate, float scale)
 	{
-#if ( defined(_CONSOLE_GAME) )
+#if (defined(_CONSOLE_GAME))
 		return;
 #else
 		frequency_rate = Clamp(frequency_rate, 1.0f, 1.0f / GetTargetFPS());

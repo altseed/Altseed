@@ -2,9 +2,14 @@
 #include "asd.BaseFile.h"
 #include "asd.Decryptor.h"
 #include <sstream>
-#ifndef _WIN32
+
+#if defined(_CONSOLE_GAME)
+
+#elif defined(_WIN32)
+
+#else
 #include <sys/stat.h>
-#endif // _WIN32
+#endif
 
 namespace asd
 {
@@ -45,7 +50,7 @@ namespace asd
 				return false;
 			if (S_ISDIR(sb.st_mode))
 				return false;
-	}
+		}
 #endif
 	}
 

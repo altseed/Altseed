@@ -3,7 +3,9 @@
 #include <Utility/asd.Timer.h>
 #include "asd.Profiler_Imp.h"
 
-#if !_WIN32
+#if defined(_CONSOLE_GAME)
+#elif defined(_WIN32)
+#else
 #include <sched.h>
 #include <thread>
 #endif
@@ -64,6 +66,9 @@ namespace asd
 		// sched_getcpuがないようなので代用。よりよいものがあれば差し替えてください。
 		profile->GetCurrent()->SetProcessorNumber(
 			std::hash<std::thread::id>()(std::this_thread::get_id()));
+
+#elif defined(_CONSOLE_GAME)
+
 #else
 		profile->GetCurrent()->SetProcessorNumber(sched_getcpu());
 #endif

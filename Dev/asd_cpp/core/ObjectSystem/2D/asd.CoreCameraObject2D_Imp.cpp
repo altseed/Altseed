@@ -99,7 +99,11 @@ namespace asd
 
 	void CoreCameraObject2D_Imp::Draw(Renderer2D* renderer)
 	{
+#if defined(_CONSOLE_GAME)
+		assert(0);
+#else
 		throw "CameraObject2D の Draw 関数は無効です。";
+#endif
 	}
 
 	void CoreCameraObject2D_Imp::FlushToBuffer(Renderer2D* renderer)
