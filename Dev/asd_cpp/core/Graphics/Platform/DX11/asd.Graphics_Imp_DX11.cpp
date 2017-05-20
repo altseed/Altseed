@@ -390,12 +390,12 @@ namespace asd {
 			}
 		}
 
-		void DistortingCallbackDX11::OnDistorting()
+		bool DistortingCallbackDX11::OnDistorting()
 		{
 			if (!IsEnabled)
 			{
 				renderer->SetBackground(nullptr);
-				return;
+				return false;
 			}
 
 			HRESULT hr = S_OK;
@@ -457,6 +457,8 @@ namespace asd {
 			ES_SAFE_RELEASE(renderTargetView);
 
 			renderer->SetBackground(backGroundTextureSRV);
+
+			return true;
 		}
 	
 

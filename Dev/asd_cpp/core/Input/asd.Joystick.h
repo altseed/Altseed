@@ -34,9 +34,11 @@ namespace asd{
 		R1,
 		L2,
 		R2,
+		L3,
+		R3,
 
-		LeftStart,	///< XBOX360 Start
-		RightStart,
+		LeftStart,	///< XBOX360 Start, PS4 Options
+		RightStart,	///< XBOX360 Select, PS4 TouchPad
 
 		Max,
 	};

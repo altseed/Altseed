@@ -46,7 +46,7 @@ namespace asd {
 		virtual ~DistortingCallbackGL();
 		void ReleaseTexture();
 		void PrepareTexture(uint32_t width, uint32_t height, GLint internalFormat);
-		virtual void OnDistorting() override;
+		bool OnDistorting() override;
 	};
 #endif
 

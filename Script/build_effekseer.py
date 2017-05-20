@@ -8,17 +8,6 @@ with aceutils.CurrentDir('../Downloads'):
 	aceutils.rmdir(r"effekseer_bin")
 	aceutils.rmdir(r"effekseer_bin_x64")
 
-	if aceutils.isWin():
-		aceutils.editCmakeForACE(r'Effekseer/Dev/Cpp/CMakeLists.txt','cp932')
-	elif aceutils.isMac():
-		aceutils.editCmakeForACE(r'Effekseer/Dev/Cpp/CMakeLists.txt','cp932')
-	# in Linux, using 'cp932' twice on the same file can cause an error "UnicodeDecodeError: 'cp932' codec can't decode byte 0x9a in position 23: illegal multibyte sequence".
-	else:
-		try: 
-			aceutils.editCmakeForACE(r'Effekseer/Dev/Cpp/CMakeLists.txt','cp932')
-		except:
-			aceutils.editCmakeForACE(r'Effekseer/Dev/Cpp/CMakeLists.txt')
-	
 	aceutils.mkdir(r"effekseer_bin")
 	aceutils.mkdir(r"effekseer_bin_x64")
 

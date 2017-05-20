@@ -176,12 +176,12 @@ namespace asd {
 			backGroundTextureInternalFormat = internalFormat;
 		}
 
-		void DistortingCallbackGL::OnDistorting()
+		bool DistortingCallbackGL::OnDistorting()
 		{
 			if (!IsEnabled)
 			{
 				renderer->SetBackground(0);
-				return;
+				return false;
 			}
 
 			GLint viewport[4];
@@ -231,6 +231,8 @@ namespace asd {
 #endif
 
 			renderer->SetBackground(backGroundTexture);
+
+			return true;
 		}
 
 
