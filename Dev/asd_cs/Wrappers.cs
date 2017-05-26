@@ -537,13 +537,13 @@ namespace asd {
 		/// </summary>
 		Release = asd.swig.MouseButtonState.Release,
 		/// <summary>
-		/// ボタンを離し続けている状態 
-		/// </summary>
-		Free = asd.swig.MouseButtonState.Free,
-		/// <summary>
 		/// ボタンを押し続けている状態 
 		/// </summary>
 		Hold = asd.swig.MouseButtonState.Hold,
+		/// <summary>
+		/// ボタンを離し続けている状態 
+		/// </summary>
+		Free = asd.swig.MouseButtonState.Free,
 	}
 
 	/// <summary>
@@ -1108,6 +1108,143 @@ namespace asd {
 	}
 
 	/// <summary>
+	/// ジョイステイックの種類 
+	///	</summary>
+	public enum JoystickType : int
+	{
+		/// <summary>
+		/// 
+		/// </summary>
+		Other = asd.swig.JoystickType.Other,
+		/// <summary>
+		/// 
+		/// </summary>
+		PS4 = asd.swig.JoystickType.PS4,
+		/// <summary>
+		/// 
+		/// </summary>
+		XBOX360 = asd.swig.JoystickType.XBOX360,
+	}
+
+	/// <summary>
+	/// ジョイステイックのボタンの種類 
+	///	</summary>
+	public enum JoystickButtonType : int
+	{
+		/// <summary>
+		/// 
+		/// </summary>
+		Start = asd.swig.JoystickButtonType.Start,
+		/// <summary>
+		/// 
+		/// </summary>
+		Select = asd.swig.JoystickButtonType.Select,
+		/// <summary>
+		/// 
+		/// </summary>
+		LeftUp = asd.swig.JoystickButtonType.LeftUp,
+		/// <summary>
+		/// 
+		/// </summary>
+		LeftDown = asd.swig.JoystickButtonType.LeftDown,
+		/// <summary>
+		/// 
+		/// </summary>
+		LeftLeft = asd.swig.JoystickButtonType.LeftLeft,
+		/// <summary>
+		/// 
+		/// </summary>
+		LeftRight = asd.swig.JoystickButtonType.LeftRight,
+		/// <summary>
+		/// PSx Triangle. 
+		/// </summary>
+		RightUp = asd.swig.JoystickButtonType.RightUp,
+		/// <summary>
+		/// PSx Circle. 
+		/// </summary>
+		RightRight = asd.swig.JoystickButtonType.RightRight,
+		/// <summary>
+		/// PSx Square. 
+		/// </summary>
+		RightLeft = asd.swig.JoystickButtonType.RightLeft,
+		/// <summary>
+		/// PSx Cross. 
+		/// </summary>
+		RightDown = asd.swig.JoystickButtonType.RightDown,
+		/// <summary>
+		/// 
+		/// </summary>
+		L1 = asd.swig.JoystickButtonType.L1,
+		/// <summary>
+		/// 
+		/// </summary>
+		R1 = asd.swig.JoystickButtonType.R1,
+		/// <summary>
+		/// 
+		/// </summary>
+		L2 = asd.swig.JoystickButtonType.L2,
+		/// <summary>
+		/// 
+		/// </summary>
+		R2 = asd.swig.JoystickButtonType.R2,
+		/// <summary>
+		/// 
+		/// </summary>
+		L3 = asd.swig.JoystickButtonType.L3,
+		/// <summary>
+		/// 
+		/// </summary>
+		R3 = asd.swig.JoystickButtonType.R3,
+		/// <summary>
+		/// XBOX360 Start, PS4 Options. 
+		/// </summary>
+		LeftStart = asd.swig.JoystickButtonType.LeftStart,
+		/// <summary>
+		/// XBOX360 Select, PS4 TouchPad. 
+		/// </summary>
+		RightStart = asd.swig.JoystickButtonType.RightStart,
+		/// <summary>
+		/// 
+		/// </summary>
+		Max = asd.swig.JoystickButtonType.Max,
+	}
+
+	/// <summary>
+	/// ジョイステイックの軸の種類 
+	///	</summary>
+	public enum JoystickAxisType : int
+	{
+		/// <summary>
+		/// 
+		/// </summary>
+		LeftH = asd.swig.JoystickAxisType.LeftH,
+		/// <summary>
+		/// 
+		/// </summary>
+		LeftV = asd.swig.JoystickAxisType.LeftV,
+		/// <summary>
+		/// 
+		/// </summary>
+		RightH = asd.swig.JoystickAxisType.RightH,
+		/// <summary>
+		/// 
+		/// </summary>
+		RightV = asd.swig.JoystickAxisType.RightV,
+		/// <summary>
+		/// 
+		/// </summary>
+		L2 = asd.swig.JoystickAxisType.L2,
+		/// <summary>
+		/// 
+		/// </summary>
+		R2 = asd.swig.JoystickAxisType.R2,
+		/// <summary>
+		/// 
+		/// </summary>
+		Max = asd.swig.JoystickAxisType.Max,
+	}
+
+	/// <summary>
 	/// ジョイスティックのボタンの押し状態を示す列挙型 
 	///	</summary>
 	public enum JoystickButtonState : int
@@ -1121,13 +1258,13 @@ namespace asd {
 		/// </summary>
 		Release = asd.swig.JoystickButtonState.Release,
 		/// <summary>
-		/// ボタンを離し続けている状態 
-		/// </summary>
-		Free = asd.swig.JoystickButtonState.Free,
-		/// <summary>
 		/// ボタンを押し続けている状態 
 		/// </summary>
 		Hold = asd.swig.JoystickButtonState.Hold,
+		/// <summary>
+		/// ボタンを離し続けている状態 
+		/// </summary>
+		Free = asd.swig.JoystickButtonState.Free,
 	}
 
 	/// <summary>
@@ -1395,18 +1532,26 @@ namespace asd {
 
 
 	/// <summary>
-	/// 指定したコンポーネントをこのインスタンスに追加する。 
+	/// ジョイステイックのクラス 
 	/// </summary>
 	public partial class Joystick
 	{
 		internal asd.swig.Joystick CoreInstance { get; set; }
 
 		/// <summary>
-		/// 
+		/// ジョイスティックの名称を取得する。
 		/// </summary>
 		public string JoystickName
 		{
 			get { return CoreInstance.GetJoystickName(); }
+		}
+
+		/// <summary>
+		/// ジョイスティックの種類を取得する。
+		/// </summary>
+		public JoystickType JoystickType
+		{
+			get { return (asd.JoystickType)CoreInstance.GetJoystickType(); }
 		}
 
 		/// <summary>
@@ -1437,6 +1582,16 @@ namespace asd {
 		}
 
 		/// <summary>
+		/// 特定のジョイステイックの場合(PS4)に指定したボタンの押し状態を取得する。 
+		/// </summary>
+		/// <param name="type">ボタンの種類 </param>
+		/// <returns>押し状態 </returns>
+		public JoystickButtonState GetButtonStateAt(JoystickButtonType type)
+		{
+			return (asd.JoystickButtonState)CoreInstance.GetButtonStateAt((asd.swig.JoystickButtonType)type);
+		}
+
+		/// <summary>
 		/// 指定した軸の倒し具合を返す 
 		/// </summary>
 		/// <param name="at">何番目の軸配列の倒し具合を取得するか </param>
@@ -1444,6 +1599,16 @@ namespace asd {
 		public float GetAxisState(int at)
 		{
 			return CoreInstance.GetAxisState(at);
+		}
+
+		/// <summary>
+		/// 特定のジョイステイックの場合(PS4)に指定した指定した軸の倒し具合を取得する。 
+		/// </summary>
+		/// <param name="type">軸の種類 </param>
+		/// <returns>倒し具合 </returns>
+		public float GetAxisStateAt(JoystickAxisType type)
+		{
+			return CoreInstance.GetAxisStateAt((asd.swig.JoystickAxisType)type);
 		}
 
 	}
@@ -2249,7 +2414,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// ホイールの回転度合いを取得する。
 		/// </summary>
 		public float Wheel
 		{
@@ -2258,7 +2423,7 @@ namespace asd {
 
 
 		/// <summary>
-		/// 指定したボタンの入力状態を取得 
+		/// 指定したボタンの入力状態を取得を取得する。 
 		/// </summary>
 		/// <param name="mouseButton"></param>
 		/// <returns></returns>

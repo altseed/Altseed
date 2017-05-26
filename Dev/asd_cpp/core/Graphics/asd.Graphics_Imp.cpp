@@ -807,7 +807,9 @@ Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDe
 #if _WIN32
 	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_GL::Create(window, log, file, option);
+		// DX11の中でGLと分岐している
+		return Graphics_Imp_DX11::Create(window, log, file, option);
+		//return Graphics_Imp_GL::Create(window, log, file, option);
 	}
 	else
 	{

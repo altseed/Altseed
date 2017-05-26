@@ -553,7 +553,7 @@ namespace asd
 	void Core_Imp::DrawSceneToWindow(CoreScene* scene)
 	{
 		m_graphics->SetRenderTarget(nullptr, nullptr);
-		m_graphics->Clear(true, false, Color(0, 100, 0, 255));
+		m_graphics->Clear(true, false, Color(0, 0, 0, 255));
 
 		layerRenderer->SetTexture(scene->GetBaseTarget());
 
@@ -621,7 +621,7 @@ namespace asd
 		auto t = (CoreTransition_Imp*) transition;
 
 		m_graphics->SetRenderTarget(nullptr, nullptr);
-		m_graphics->Clear(true, false, Color(0, 100, 0, 255));
+		m_graphics->Clear(true, false, Color(0, 0, 0, 255));
 
 		t->DrawCache(layerRenderer, nextScene, previousScene);
 		t->ClearCache();
