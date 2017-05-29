@@ -123,67 +123,6 @@ namespace asd {
 		static std::string GetFormatName(Graphics_Imp* graphics, TextureFormat format);
 	};
 
-	class EffectTextureLoader
-		: public ::Effekseer::TextureLoader
-	{
-	protected:
-		Graphics_Imp*	m_graphics = nullptr;
-
-		struct Cache
-		{
-			bool IsDDS;
-			int32_t Count;
-			void* Ptr;
-			int32_t Width;
-			int32_t Height;
-		};
-		std::map<astring, Cache>		m_caches;
-		std::map<void*, astring>		dataToKey;
-
-		virtual void* InternalLoad(Graphics_Imp* graphics, std::vector<uint8_t>& data, int32_t width, int32_t height ) = 0;
-		virtual void* InternalLoadDDS(Graphics_Imp* graphics, const std::vector<uint8_t>& data) = 0;
-
-		virtual void InternalUnload(void* data) = 0;
-		virtual bool IsReversed() = 0;
-	public:
-
-		EffectTextureLoader(Graphics_Imp* graphics);
-		virtual ~EffectTextureLoader();
-
-		void* Load(const EFK_CHAR* path, Effekseer::TextureType textureType) override;
-		void Unload(void* data) override;
-	};
-
-	class EffectModelLoader
-		: public ::Effekseer::ModelLoader
-	{
-		Graphics_Imp*	m_graphics = nullptr;
-		struct Cache
-		{
-			int32_t Count;
-			void* Ptr;
-		};
-		std::map<astring, Cache>		m_caches;
-		std::map<void*, astring>		dataToKey;
-
-		virtual void* InternalLoad(Graphics_Imp* graphics, const std::vector<uint8_t>& data) = 0;
-		virtual void InternalUnload(void* data) = 0;
-
-	public:
-		EffectModelLoader(Graphics_Imp* graphics);
-		virtual ~EffectModelLoader();
-
-		void* Load(const EFK_CHAR* path) override;
-		void Unload(void* data) override;
-	};
-
-	class EffectDistortingCallback 
-		: public ::EffekseerRenderer::DistortingCallback
-	{
-	public:
-		bool	IsEnabled = false;
-	};
-
 	struct GraphicsOption
 	{
 		bool			IsReloadingEnabled;
@@ -215,6 +154,7 @@ namespace asd {
 		IndexBuffer_Imp*	m_indexBufferPtr;
 		NativeShader_Imp*	m_shaderPtr;
 
+		Effekseer::FileInterface*	m_effectFileInterface = nullptr;
 		Effekseer::Setting*	m_effectSetting = nullptr;
 
 		ShaderCache*		m_shaderCache = nullptr;
@@ -665,6 +605,12 @@ namespace asd {
 		@return	スレッド
 	*/
 	std::shared_ptr<RenderingThread>& GetRenderingThread() { return m_renderingThread; }
+
+	/**
+		@brief	エフェクトのファイルインターフェースを取得する。
+		@return	ファイルインターフェース
+	*/
+	Effekseer::FileInterface* GetEffectFileInterface() { return m_effectFileInterface; }
 
 	/**
 		@brief	エフェクトの設定を取得する。

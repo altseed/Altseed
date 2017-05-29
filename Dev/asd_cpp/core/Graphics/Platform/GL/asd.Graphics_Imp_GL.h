@@ -29,25 +29,6 @@ namespace asd {
 	public:
 		static void LoadTexture(Graphics_Imp_GL* graphics, void* imgdata, int32_t width, int32_t height, GLuint& texture);
 	};
-
-	class DistortingCallbackGL
-		: public EffectDistortingCallback
-	{
-		GLuint framebufferForCopy = 0;
-		GLuint backGroundTexture = 0;
-		uint32_t backGroundTextureWidth = 0;
-		uint32_t backGroundTextureHeight = 0;
-		GLuint backGroundTextureInternalFormat = 0;
-
-		EffekseerRendererGL::Renderer*	renderer = nullptr;
-
-	public:
-		DistortingCallbackGL(EffekseerRendererGL::Renderer* renderer);
-		virtual ~DistortingCallbackGL();
-		void ReleaseTexture();
-		void PrepareTexture(uint32_t width, uint32_t height, GLint internalFormat);
-		bool OnDistorting() override;
-	};
 #endif
 
 	//----------------------------------------------------------------------------------

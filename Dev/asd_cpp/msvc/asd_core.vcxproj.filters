@@ -1023,6 +1023,9 @@
     <ClInclude Include="..\core\3rdParty\DirectXToolKit\PlatformHelpers.h">
       <Filter>3rdParty\DirectXToolKit</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Helper\asd.EffekseerHelper.h">
+      <Filter>Graphics\Helper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">
@@ -1440,6 +1443,9 @@
     </ClCompile>
     <ClCompile Include="..\core\3rdParty\DirectXToolKit\DDSTextureLoader.cpp">
       <Filter>3rdParty\DirectXToolKit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Helper\asd.EffekseerHelper.cpp">
+      <Filter>Graphics\Helper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

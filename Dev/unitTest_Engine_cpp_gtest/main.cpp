@@ -130,7 +130,7 @@ int main(int argc, char **argv)
 	::testing::InitGoogleTest(&argc, argv);
 	
 	
-	CALL_ENGINE_TEST(Graphics, TextObject2D, false);
+	CALL_ENGINE_TEST(Graphics, EffectObject3D, false);
 	getchar();
 	return 0;
 	

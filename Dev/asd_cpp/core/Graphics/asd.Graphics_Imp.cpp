@@ -32,6 +32,8 @@
 #include "3D/Resource/asd.Model_Imp.h"
 #include "3D/Resource/asd.MassModel_Imp.h"
 
+#include "Helper/asd.EffekseerHelper.h"
+
 #if !defined(_CONSOLE_GAME)
 #include "3D/Resource/asd.Terrain3D_Imp.h"
 #endif
@@ -588,170 +590,6 @@ std::string GraphicsHelper::GetFormatName(Graphics_Imp* graphics, TextureFormat 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-EffectTextureLoader::EffectTextureLoader(Graphics_Imp* graphics)
-	: m_graphics(graphics)
-{
-}
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-EffectTextureLoader::~EffectTextureLoader()
-{
-	assert(m_caches.size() == 0);
-}
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-void* EffectTextureLoader::Load(const EFK_CHAR* path, Effekseer::TextureType textureType)
-{
-	auto key = astring((const achar*) path);
-	auto cache = m_caches.find(key);
-	if (cache != m_caches.end())
-	{
-		cache->second.Count++;
-		return cache->second.Ptr;
-	}
-
-	auto nameWE = GetFileNameWithoutExtension((const achar*) path);
-
-	// DDS優先読み込み
-	while (true)
-	{
-		auto staticFile = m_graphics->GetFile()->CreateStaticFile((nameWE + ToAString(".dds")).c_str());
-		if (staticFile.get() == nullptr) break;
-
-		void* img = InternalLoadDDS(m_graphics, staticFile->GetBuffer());
-		if (img == nullptr) break;
-
-		Cache c;
-		c.IsDDS = true;
-		c.Ptr = img;
-		c.Count = 1;
-		c.Width = 0;
-		c.Height = 0;
-		m_caches[key] = c;
-		dataToKey[img] = key;
-
-		//m_graphics->IncVRAM(ImageHelper::GetVRAMSize(TextureFormat::R8G8B8A8_UNORM, imageWidth, imageHeight));
-
-		return img;
-	}
-
-	// PNG
-	{
-		auto staticFile = m_graphics->GetFile()->CreateStaticFile((const achar*) path);
-		if (staticFile.get() == nullptr) return nullptr;
-
-		int32_t imageWidth = 0;
-		int32_t imageHeight = 0;
-		std::vector<uint8_t> imageDst;
-		if (!ImageHelper::LoadPNGImage(staticFile->GetData(), staticFile->GetSize(), IsReversed(), imageWidth, imageHeight, imageDst, m_graphics->GetLog()))
-		{
-			return nullptr;
-		}
-
-		void* img = InternalLoad(m_graphics, imageDst, imageWidth, imageHeight);
-
-		Cache c;
-		c.IsDDS = false;
-		c.Ptr = img;
-		c.Count = 1;
-		c.Width = imageWidth;
-		c.Height = imageHeight;
-		m_caches[key] = c;
-		dataToKey[img] = key;
-
-		m_graphics->IncVRAM(ImageHelper::GetVRAMSize(TextureFormat::R8G8B8A8_UNORM, imageWidth, imageHeight));
-
-		return img;
-	}
-}
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-void EffectTextureLoader::Unload(void* data)
-{
-	if (data == nullptr) return;
-
-	auto key = dataToKey[data];
-	auto cache = m_caches.find(key);
-	cache->second.Count--;
-
-	if (cache->second.Count == 0)
-	{
-		InternalUnload(data);
-
-		if (cache->second.Width != 0 && !cache->second.IsDDS)
-		{
-			m_graphics->DecVRAM(ImageHelper::GetVRAMSize(TextureFormat::R8G8B8A8_UNORM, cache->second.Width, cache->second.Height));
-		}
-		
-		m_caches.erase(key);
-		dataToKey.erase(data);
-	}
-}
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-EffectModelLoader::EffectModelLoader(Graphics_Imp* graphics)
-	: m_graphics(graphics)
-{
-
-}
-
-EffectModelLoader::~EffectModelLoader()
-{
-	assert(m_caches.size() == 0);
-}
-
-void* EffectModelLoader::Load(const EFK_CHAR* path)
-{
-	auto key = astring((const achar*) path);
-	auto cache = m_caches.find(key);
-	if (cache != m_caches.end())
-	{
-		cache->second.Count++;
-		return cache->second.Ptr;
-	}
-
-	auto staticFile = m_graphics->GetFile()->CreateStaticFile((const achar*) path);
-	if (staticFile.get() == nullptr) return nullptr;
-
-	void* img = InternalLoad(m_graphics, staticFile->GetBuffer());
-
-	Cache c;
-	c.Ptr = img;
-	c.Count = 1;
-	m_caches[key] = c;
-	dataToKey[img] = key;
-
-	return img;
-}
-
-void EffectModelLoader::Unload(void* data)
-{
-	if (data == nullptr) return;
-
-	auto key = dataToKey[data];
-	auto cache = m_caches.find(key);
-	cache->second.Count--;
-
-	if (cache->second.Count == 0)
-	{
-		InternalUnload(data);
-
-		m_caches.erase(key);
-		dataToKey.erase(data);
-	}
-}
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
 void Graphics_Imp::AddDeviceObject(DeviceObject* o)
 {
 	assert(m_deviceObjects.count(o) == 0);
@@ -877,6 +715,8 @@ Graphics_Imp::Graphics_Imp(ar::Manager* manager, Vector2DI size, Log* log, File*
 	m_effectSetting->SetCoordinateSystem(Effekseer::CoordinateSystem::RH);
 	m_effectSetting->SetEffectLoader(new EffectLoader(file));
 
+	m_effectFileInterface = new EffekseerFile(this);
+
 	m_shaderCache = new ShaderCache(this);
 
 	for (auto i = 0; i < MaxTextureCount; i++)
@@ -907,6 +747,7 @@ Graphics_Imp::~Graphics_Imp()
 	//SafeDelete(m_resourceContainer);
 
 	SafeRelease(m_effectSetting);
+	SafeDelete(m_effectFileInterface);
 	//SafeRelease(m_log);
 
 	asd::SafeDelete(rhi);
