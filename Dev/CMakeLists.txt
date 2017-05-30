@@ -50,7 +50,6 @@ if (WIN32)
 	list(APPEND core_src ${dx11_src})
 	list(APPEND core_src ${gl_src})
 else()
-	list(APPEND core_src ${x11_src})
 	list(APPEND core_src ${gl_src})
 endif()
 
@@ -61,6 +60,8 @@ include_directories(
 	asd_cpp/common/
 	asd_cpp/tool/
 	asd_cpp/core/
+	../Downloads/AltseedPlatform/include/
+	../Downloads/AltseedRHI/include/
 	)
 
 #ƒ‰ƒCƒuƒ‰ƒŠ‚Ìİ’è
