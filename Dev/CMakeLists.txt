@@ -60,8 +60,6 @@ include_directories(
 	asd_cpp/common/
 	asd_cpp/tool/
 	asd_cpp/core/
-	../Downloads/AltseedPlatform/include/
-	../Downloads/AltseedRHI/include/
 	)
 
 #ƒ‰ƒCƒuƒ‰ƒŠ‚Ìİ’è
