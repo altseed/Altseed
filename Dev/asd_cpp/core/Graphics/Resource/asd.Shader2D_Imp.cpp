@@ -191,11 +191,11 @@ gl_FragColor = texture2D(g_texture, inUV.xy);
 
 		if (g->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
 		{
-			return false;
+			return nullptr;
 		}
 		else if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 		{
-			return false;
+			return nullptr;
 		}
 		else
 		{
