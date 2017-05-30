@@ -59,4 +59,4 @@ with aceutils.CurrentDir('../Downloads'):
 		aceutils.copy(r'AltseedPlatform_bin_x64/src/Release/AltseedPlatform.lib', dstLibPath + r'x64/Release/')
 
 	else:
-		aceutils.copy(r'AltseedPlatform_bin/bin/libAltseedPlatform.a', dstLibPath)
+		aceutils.copy(r'AltseedPlatform_bin/src/libAltseedPlatform.a', dstLibPath)

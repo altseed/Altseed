@@ -59,4 +59,4 @@ with aceutils.CurrentDir('../Downloads'):
 		aceutils.copy(r'AltseedRHI_bin_x64/src/Release/AltseedRHI.lib', dstLibPath + r'x64/Release/')
 
 	else:
-		aceutils.copy(r'AltseedRHI_bin/bin/libAltseedRHI.a', dstLibPath)
+		aceutils.copy(r'AltseedRHI_bin/src/libAltseedRHI.a', dstLibPath)
