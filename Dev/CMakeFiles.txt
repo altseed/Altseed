@@ -69,6 +69,7 @@ set(core_src
 	asd_cpp/core/Graphics/Command/asd.RenderingCommandFactory.cpp
 	asd_cpp/core/Graphics/Command/asd.RenderingCommandHelper.cpp
 	asd_cpp/core/Graphics/Helper/asd.GifAnimationHelper.cpp
+	asd_cpp/core/Graphics/Helper/asd.EffekseerHelper.cpp
 	asd_cpp/core/Graphics/Resource/asd.CubemapTexture_Imp.cpp
 	asd_cpp/core/Graphics/Resource/asd.DepthBuffer_Imp.cpp
 	asd_cpp/core/Graphics/Resource/asd.Effect_Imp.cpp
