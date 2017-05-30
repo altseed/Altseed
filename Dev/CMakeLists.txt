@@ -87,6 +87,9 @@ else()
 	list(APPEND common_lib Effekseer )
 	list(APPEND common_lib EffekseerRendererGL )
 
+	list(APPEND common_lib AltseedPlatform)
+	list(APPEND common_lib AltseedRHI)
+
 	# OpenSoundMixerの後に内部で使用しているライブラリを追加する必要あり
 	list(APPEND common_lib OpenSoundMixer )
 	list(APPEND common_lib ogg )
