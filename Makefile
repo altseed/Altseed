@@ -136,9 +136,31 @@ $(CULLING3D_LIB):
 	$(PYTHON) Script/build_culling3d.py
 
 
-plugins-all: box2d bullet culling2d culling3d effekseer freetype glfw googletest libgd libpng opensoundmixer
+ALTSEEDPLATFORM_LIB=Downloads/AltseedPlatform_bin/libAltseedPlatform.a
+altseedplatform: submodule $(ALTSEEDPLATFORM_LIB)
 
-clean-all-plugins: box2d-clean bullet-clean culling2d-clean culling3d-clean effekseer-clean freetype-clean glfw-clean googletest-clean libgd-clean libpng-clean opensoundmixer-clean
+altseedplatform-clean:
+	cd Downloads/AltseedPlatform_bin; $(MAKE) clean
+	cd Downloads/AltseedPlatform; $(GIT) reset --hard HEAD
+
+$(ALTSEEDPLATFORM_LIB):
+	$(PYTHON) Script/build_ap.py
+
+
+ALTSEEDRHI_LIB=Downloads/AltseedRHI_bin/libAltseedRHI.a
+altseedrhi: submodule $(ALTSEEDRHI_LIB)
+
+altseedrhi-clean:
+	cd Downloads/AltseedRHI_bin; $(MAKE) clean
+	cd Downloads/AltseedRHI; $(GIT) reset --hard HEAD
+
+$(ALTSEEDRHI_LIB):
+	$(PYTHON) Script/build_ar.py
+
+
+plugins-all: box2d bullet culling2d culling3d effekseer freetype glfw googletest libgd libpng opensoundmixer altseedplatform altseedrhi
+
+clean-all-plugins: box2d-clean bullet-clean culling2d-clean culling3d-clean effekseer-clean freetype-clean glfw-clean googletest-clean libgd-clean libpng-clean opensoundmixer-clean altseedplatform-clean altseedrhi-clean
 
 
 cpp-prepare: plugins-all ENVVAR_JAVA_HOME Dev/cmake/Makefile 
