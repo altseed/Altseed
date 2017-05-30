@@ -8,7 +8,8 @@ aceutils.mkdir('../Downloads')
 with aceutils.CurrentDir('../Downloads'):
 
 	# Build dependencies
-	aceutils.call(sys.executable + ' AltseedRHI/Script/build_glew.py')
+	if not aceutils.isMac():
+		aceutils.call(sys.executable + ' AltseedRHI/Script/build_glew.py')
 
 	# Comple
 	aceutils.rmdir(r"AltseedRHI_bin")
@@ -41,7 +42,8 @@ with aceutils.CurrentDir('../Downloads'):
 	aceutils.mkdir(dstIncPath)
 	aceutils.mkdir(dstLibPath)
 	aceutils.copytreeWithExt(r'AltseedRHI/include/', dstIncPath,['.h'])
-	aceutils.copytreeWithExt(r'AltseedRHI/lib/', dstLibPath,['.lib','.a'])
+	if not aceutils.isMac():
+		aceutils.copytreeWithExt(r'AltseedRHI/lib/', dstLibPath,['.lib','.a'])
 
 
 	if aceutils.isWin():
