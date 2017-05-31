@@ -136,7 +136,7 @@ $(CULLING3D_LIB):
 	$(PYTHON) Script/build_culling3d.py
 
 
-ALTSEEDPLATFORM_LIB=Downloads/AltseedPlatform_bin/libAltseedPlatform.a
+ALTSEEDPLATFORM_LIB=Downloads/AltseedPlatform_bin/src/libAltseedPlatform.a
 altseedplatform: submodule $(ALTSEEDPLATFORM_LIB)
 
 altseedplatform-clean:
@@ -147,7 +147,7 @@ $(ALTSEEDPLATFORM_LIB):
 	$(PYTHON) Script/build_ap.py
 
 
-ALTSEEDRHI_LIB=Downloads/AltseedRHI_bin/libAltseedRHI.a
+ALTSEEDRHI_LIB=Downloads/AltseedRHI_bin/src/libAltseedRHI.a
 altseedrhi: submodule $(ALTSEEDRHI_LIB)
 
 altseedrhi-clean:
