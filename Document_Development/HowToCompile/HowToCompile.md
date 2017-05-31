@@ -21,7 +21,7 @@ Windowsでは実行ファイルへパスを通す必要があります。
 Windowsではパッケージ管理ツール Chocolatey を使用することで容易に導入できます。
 Chocolateyは管理者として実行する必要があります。
 
-Ubuntuでは、```Script/install_swig_ubuntu.sh```　を実行することでswigを容易にインストールすることができます。
+また、Altseedと外部ライブラリのソースコードを取得するために、Gitクライアントツール(GitHub for Windows, TortoiseGit等)が必要です。
 
 ### Windows
 
@@ -39,11 +39,45 @@ Ubuntuでは、```Script/install_swig_ubuntu.sh```　を実行することでswi
 
 * gcc(4.7以上)
 
-* 各種ライブラリ
-  - Ubuntu
+* X11 / OpenGL 関連
+  - Ubuntu/Debian
 ```
 libx11-dev libgl1-mesa-dev libxrandr-dev libxi-dev x11proto-xf86vidmode-dev xorg-dev libglu1-mesa-dev libpulse-dev libvorbis-dev libogg-dev
 ```
+
+#### Linux用ツール類
+
+##### 共通
+
+OpenGL サポートのために glew が必要です。
+
+[その他のライブラリの導入手順](#その他のライブラリの導入手順) の項をご覧ください。
+
+cmake が ``` find_package(JNI) ``` を解決するために、有効な Java(OpenJDK) 環境と、環境変数 JAVA_HOME が必要です。
+
+JAVA_HOME を簡易的に設定するには、
+
+```bash
+$ export JAVA_HOME=$(readlink -f /usr/bin/javac | sed "s:/bin/javac::")
+```
+
+を実行するか、 .bashrc などに追記してください。
+
+GNU Make を使う場合、 JAVA_HOME が定義されていない場合は自動的に上記のコマンドを実行します。
+
+##### C# 関連
+
+Linux で .NET を動かすために Mono 3.0 以上が必要です。
+
+できるだけ新しいバージョンの Mono をインストールしてください。
+
+また、ドキュメントの生成に ``` doxygen ``` が必要です。
+
+##### Java 関連
+
+Java版 Altseed をコンパイルするために Ant が必要です。
+
+[Java版への対応](#java版への対応) の項をご覧ください。
 
 ### Mac
 
@@ -51,6 +85,7 @@ libx11-dev libgl1-mesa-dev libxrandr-dev libxi-dev x11proto-xf86vidmode-dev xorg
 
 * 各種ライブラリ
 MacPorts等を用いてインストールします。
+
 ```
 libogg libvorbis libvorbisfiles libSM libICE libX11 libXext libXrandr libXi libXxf86vm
 ```
@@ -61,24 +96,51 @@ libogg libvorbis libvorbisfiles libSM libICE libX11 libXext libXrandr libXi libX
 
 Core側のコンパイルやEngineのテストなど、様々な部分で使われるライブラリの導入手順です。
 
-### スクリプトで導入できるライブラリ
+### Git Submodule
 
-スクリプトを実行することで導入できるライブラリを説明します。スクリプトは`Script`ディレクトリに置いてあります。
+初めに、外部ライブラリのソースコードを取得するために、Altseedの Git サブモジュールを初期化し、再帰的にアップデートしてください。
+
+[使用しているサブモジュール一覧](../submodules.md)
+
+#### Windowsの場合
+
+[参考:Git のサブモジュールってどんなもの？](http://qiita.com/go_astrayer/items/8667140aef8875742a36)
+
+TortoiseGitを使用している場合、 <kbd>右クリック</kbd> > <kbd>TortoiseGit</kbd> > <kbd>サブモジュールのアップデート</kbd> と選択し、「サブモジュールを初期化する」と「再帰的」にチェックを入れて実行します。
+
+#### Linux/Macの場合、またはWindowsで git コマンドを使える場合
+
+Altseedのディレクトリで、コマンド
+
+``` git submodule update --init --recursive ```
+
+を実行します。
+
+GitHub for Windows を使用している場合、レポジトリ一覧からAltseedを右クリックし、 <kbd>open a shell here</kbd> をクリックするとPowerShellが起動するので、上記のコマンドを実行してください。
+
+
+### スクリプトの実行
+
+サブモジュールをアップデートした後、実行するスクリプトについて説明します。スクリプトは`Script`ディレクトリに置いてあります。
+
+これらのスクリプトを実行することで、ライブラリがコンパイルされます。
+
+GNU Make を使う場合は自動的に実行されるので、 [4. コンパイル](#4-コンパイル) の項まで飛ばしてください。
 
 |ライブラリ|スクリプト|説明|
 |---|---|---|
-|glfw for Altseed|`download_glfw.py`||
-|zlib/libpng|`download_libpng.py`|Windowsでは実行する必要はありません。|
-|glew|`download_glew.py`|Windows以外ではスクリプトによる導入はできませんので、次節を参照してください。|
-|Box2D|`download_Box2D.py`||
-|bullet|`download_bullet.py`||
-|GoogleTest|`download_gtest.py`||
-|Effekseer|`download_effekseer.py`||
-|OpenSoundMixer|`download_OpenSoundMixer.py`|スクリプト実行中にエラーが起きても問題ない場合があります。Altseedチームによるライブラリ。|
-|FreeType|`download_freetype.py`||
-|GD Library|`download_libgd.py`||
-|2Dカリング|`download_culling2d.py`|Altseedチームによるライブラリ|
-|3Dカリング|`download_culling3d.py`|Altseedチームによるライブラリ|
+|glfw for Altseed|`build_glfw.py`||
+|zlib/libpng|`build_libpng.py`|Windowsでは実行する必要はありません。|
+|glew|`build_glew.py`|Windows以外ではスクリプトによる導入はできませんので、次節を参照してください。|
+|Box2D|`build_Box2D.py`||
+|bullet|`build_bullet.py`||
+|GoogleTest|`build_gtest.py`||
+|Effekseer|`build_effekseer.py`||
+|OpenSoundMixer|`build_OpenSoundMixer.py`|スクリプト実行中にエラーが起きても問題ない場合があります。Altseedチームによるライブラリ。|
+|FreeType|`build_freetype.py`||
+|GD Library|`build_libgd.py`||
+|2Dカリング|`build_culling2d.py`|Altseedチームによるライブラリ|
+|3Dカリング|`build_culling3d.py`|Altseedチームによるライブラリ|
 
 ### その他のライブラリの導入手順
 
@@ -92,6 +154,8 @@ Core側のコンパイルやEngineのテストなど、様々な部分で使わ�
 ## 3. コードの自動生成
 
 Altseedのコードをコンパイルするには、いくつかのスクリプトによってコードを生成する必要があります。
+
+GNU Make を使う場合は自動的に実行されるので、 [4. コンパイル](#4-コンパイル) まで飛ばしてください。
 
 C++版Altseedをコンパイルするための準備の手順は以下のとおりです。
 
@@ -133,6 +197,30 @@ Dev/unitTest_Engine_cs.sln
 Windows10上でテストのDebugビルド版を実行するには、スタート > 設定 > オプション機能を追加する から「Graphics Tools」をインストールする必要があります。
 
 ### 他
+
+#### GNU Make を使う場合
+
+C++版のみコンパイルする場合は ```make cpp```
+
+C#版をコンパイルする場合は ```make csharp```
+
+Java版をコンパイルする場合は ```make java```
+
+を実行します。
+
+##### 高度な使い方
+
+```make csharp-clean``` で C# 版の Altseed をコンパイル前の状態に戻すことができます。C++ 版と Java 版も同様です。
+
+```make all``` で全ての言語版の Altseed をコンパイルでき、 ```make clean``` で全ての言語版の Altseed を clean できます。
+
+```make [ライブラリ名]``` で指定したライブラリを明示的にコンパイルでき、 ```make [ライブラリ名]-clean``` で指定したライブラリをコンパイル前の状態に戻すことができます。
+
+```make plugins-all``` で外部ライブラリを全てコンパイル、```make clean-all-plugins``` で全てcleanすることができます。
+
+```make clean-absolute``` で clone した直後の状態に戻すことができます。コンパイルされたバイナリなどは、外部ライブラリも含めて全て削除されます。
+
+#### GNU Make を使わない場合
 
 ```Script/compile.py``` を実行します。
 

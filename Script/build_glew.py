@@ -1,18 +1,26 @@
 import aceutils
 
-pathname = 'glew-1.13.0'
+pathname = 'glew'
+
+if aceutils.isWin():
+	pathname = 'glew-1.13.0'
 
 aceutils.cdToScript()
 aceutils.mkdir('../Downloads')
 
 with aceutils.CurrentDir('../Downloads'):
-	aceutils.rm(r'glew-1.13.0.zip')
-	aceutils.rmdir(pathname)
+
+	if aceutils.isWin():
+		aceutils.rm(r'glew-1.13.0.zip')
+		aceutils.rmdir(pathname)
+
 	aceutils.rmdir(r"glew_bin")
 	aceutils.rmdir(r"glew_bin_x64")
 
-	aceutils.wget(r'https://sourceforge.net/projects/glew/files/glew/1.13.0/glew-1.13.0.zip')
-	aceutils.unzip(r'glew-1.13.0.zip')
+	if aceutils.isWin():
+		aceutils.wget(r'https://sourceforge.net/projects/glew/files/glew/1.13.0/glew-1.13.0.zip')
+		aceutils.unzip(r'glew-1.13.0.zip')
+
 	aceutils.editCmakeForACE(pathname + r'/build/cmake/CMakeLists.txt')
 	aceutils.mkdir(r"glew_bin")
 	aceutils.mkdir(r"glew_bin_x64")

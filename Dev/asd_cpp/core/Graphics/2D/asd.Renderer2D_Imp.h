@@ -163,6 +163,11 @@ namespace asd {
 
 		Effekseer::Manager*	GetEffectManager() { return m_effectManager; }
 
+		/**
+			@brief	エフェクトのひずみが有効かどうか
+		*/
+		bool	IsDistortionEnabled = false;
+
 	private:
 		void AddEvent(int32_t priority, Event& e);
 

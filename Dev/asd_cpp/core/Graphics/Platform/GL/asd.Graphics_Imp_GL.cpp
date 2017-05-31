@@ -181,6 +181,12 @@ namespace asd {
 
 		void DistortingCallbackGL::OnDistorting()
 		{
+			if (!IsEnabled)
+			{
+				renderer->SetBackground(0);
+				return;
+			}
+
 			GLint viewport[4];
 			glGetIntegerv(GL_VIEWPORT, viewport);
 			uint32_t width = viewport[2];
@@ -894,7 +900,7 @@ End:;
 #if _WIN32
 #elif __APPLE__
 #else
-Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen )
+Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option)
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -943,7 +949,7 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_
 	writeLog(ToAString("OpenGL初期化成功"));
 	writeLog(ToAString(""));
 
-	return new Graphics_Imp_GL( asd::Vector2DI(width,height), display, window, context_, log, file, isReloadingEnabled, isFullScreen);
+	return new Graphics_Imp_GL( asd::Vector2DI(width,height), display, window, context, log, file, option);
 
 End:;
 	writeLog(ToAString("OpenGL初期化失敗"));

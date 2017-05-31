@@ -257,6 +257,28 @@ namespace asd {
 		LinearSpace = 1, ///< リニアスペース
 	};
 
+	/**
+	@brief	イメージパッケージ内の要素の種類
+	*/
+	enum class ImagePackageElementType : int32_t
+	{
+		Image = 0,	///< 画像
+		Button, ///< ボタン
+	};
+
+	/**
+		@brief	イメージパッケージ内の要素の種類(追加情報)
+	*/
+	enum class ImagePackageAdditionalElementType : int32_t
+	{
+		None,		///< なし
+		Normal,		///< ボタンの時、通常状態で表示される
+		Pressed,	///< ボタンの時、押されている状態で表示される
+		Hovered,	///< ボタンの時、マウスが重なっている状態で表示される
+	};
+
+
+
 	enum class Object2DType : int32_t
 	{
 		Unknown,

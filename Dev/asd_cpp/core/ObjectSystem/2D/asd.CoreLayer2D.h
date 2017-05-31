@@ -33,6 +33,9 @@ namespace asd
 		virtual void RemoveObject(ObjectPtr object2D) = 0;
 		virtual void Clear() = 0;
 
+		virtual bool GetIsDistortionEnabled() const = 0;
+		virtual void SetIsDistortionEnabled(bool value) = 0;
+
 		virtual void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,

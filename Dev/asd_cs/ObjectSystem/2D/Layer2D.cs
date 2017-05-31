@@ -72,6 +72,21 @@ namespace asd
 		}
 
 		/// <summary>
+		/// エフェクトの歪みが有効かどうか、取得、もしくは設定する。
+		/// </summary>
+		public bool IsDistortionEnabled
+		{
+			get
+			{
+				return coreLayer2D.GetIsDistortionEnabled();
+			}
+			set
+			{
+				coreLayer2D.SetIsDistortionEnabled(value);
+			}
+		}
+
+		/// <summary>
 		/// このレイヤーが管理している2Dオブジェクトのコレクションを取得する。
 		/// </summary>
 		public IEnumerable<Object2D> Objects

@@ -670,6 +670,7 @@ namespace asd
 		if (m_cameras.empty())
 		{
 			m_renderer->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y), 0.0f);
+			m_renderer->IsDistortionEnabled = isDistortionEnabled;
 			m_renderer->DrawCache();
 			m_renderer->ClearCache();
 		}
@@ -677,6 +678,7 @@ namespace asd
 		{
 
 			m_rendererForCamera->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y), 0.0f);
+			m_rendererForCamera->IsDistortionEnabled = isDistortionEnabled;
 			m_rendererForCamera->DrawCache();
 			m_rendererForCamera->ClearCache();
 		}
@@ -684,6 +686,16 @@ namespace asd
 		m_renderer->ClearCache();
 		m_rendererForCamera->ClearCache();
 
+	}
+
+	bool CoreLayer2D_Imp::GetIsDistortionEnabled() const
+	{
+		return isDistortionEnabled;
+	}
+
+	void CoreLayer2D_Imp::SetIsDistortionEnabled(bool value)
+	{
+		isDistortionEnabled = value;
 	}
 
 	//----------------------------------------------------------------------------------

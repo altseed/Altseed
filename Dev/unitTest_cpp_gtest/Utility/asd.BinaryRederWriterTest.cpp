@@ -178,9 +178,30 @@ TEST_F(BinaryReaderWriterTest, astringTest)
 	for (auto const e : orig)
 	{
 		ASSERT_FALSE(reader.IsEmpty());
-		EXPECT_TRUE(e == reader.Get<asd::astring>());
+		auto s = reader.Get<asd::astring>();
+		EXPECT_FALSE(s.empty());
+		EXPECT_TRUE(e == s);
 	}
 }
+
+
+TEST_F(BinaryReaderWriterTest, boolTest)
+{
+	std::vector<bool> orig = { true, false, true, false, true};
+	for (auto const e : orig)
+	{
+		writer.Push(e);
+	}
+	WriteOut();
+	ReadIn();
+
+	for (auto const e : orig)
+	{
+		ASSERT_FALSE(reader.IsEmpty());
+		EXPECT_TRUE(e == reader.Get<bool>());
+	}
+}
+
 
 TEST_F(BinaryReaderWriterTest, mixedTypeTest)
 {

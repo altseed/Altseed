@@ -15,15 +15,14 @@ namespace asd
 		std::vector<astring>	names;
 		std::vector<RectI>		areas;
 
+		std::vector<ImagePackageElementType>	elementTypes;
+		std::vector<ImagePackageAdditionalElementType>	additionalElementTypes;
+
 	public:
 
 		static ImagePackage_Imp* Create(Graphics* graphics, const std::vector<uint8_t>& data);
 
-		ImagePackage_Imp(
-			Graphics* graphics,
-			const std::vector<Texture2D*>&	textures,
-			const std::vector<astring>&		names,
-			const std::vector<RectI>&		areas);
+		ImagePackage_Imp(Graphics* graphics);
 
 		virtual ~ImagePackage_Imp();
 
@@ -34,6 +33,10 @@ namespace asd
 		const achar* GetImageName(int32_t index) override;
 
 		RectI GetImageArea(int32_t index) override;
+
+		ImagePackageElementType GetElementType(int32_t index);
+
+		ImagePackageAdditionalElementType GetAdditionalElementType(int32_t index);
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

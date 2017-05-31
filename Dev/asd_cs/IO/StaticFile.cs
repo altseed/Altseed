@@ -68,6 +68,11 @@ namespace asd
                 if (buffer == null)
                 {
 					buffer = asd.Particular.Helper.CreateArrayFromStaticFile(CoreInstance);
+
+					if(buffer == null)
+					{
+						buffer = new byte[0];
+					}
                 }
 
                 return buffer;

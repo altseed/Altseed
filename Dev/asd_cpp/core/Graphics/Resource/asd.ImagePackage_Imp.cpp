@@ -21,7 +21,8 @@ namespace asd
 			p[2] != 'p' ||
 			p[3] != 0) return nullptr;
 
-		
+		ImagePackage_Imp* ret = new ImagePackage_Imp(graphics);
+
 		BinaryReader reader;
 		reader.ReadIn(data.begin(), data.end());
 
@@ -29,14 +30,25 @@ namespace asd
 		auto version = reader.Get<int32_t>();
 		auto layerCount = reader.Get<int32_t>();
 
-		std::vector<Texture2D*>	textures;
-		std::vector<astring>	names;
-		std::vector<RectI>		areas;
-
+		ret->names.resize(layerCount);
+		ret->areas.resize(layerCount);
+		ret->textures.resize(layerCount);
+		ret->elementTypes.resize(layerCount);
+		ret->additionalElementTypes.resize(layerCount);
+		
 		for (int32_t i = 0; i < layerCount; i++)
 		{
 			auto name = reader.Get<astring>();
 			auto area = reader.Get<RectI>();
+
+			if (version >= 1)
+			{
+				auto src = reader.Get<RectI>();
+				ret->elementTypes[i] = (ImagePackageElementType)reader.Get<int32_t>();
+				ret->additionalElementTypes[i] = (ImagePackageAdditionalElementType)reader.Get<int32_t>();
+				
+			}
+
 			auto data = reader.Get(area.Width * area.Height * 4);
 
 			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
@@ -48,25 +60,16 @@ namespace asd
 				}
 			}
 
-			auto texture = g->CreateTexture2DWithRawData(area.Width, area.Height, TextureFormat::R8G8B8A8_UNORM_SRGB, data.data());
-
-			textures.push_back(texture);
-			areas.push_back(area);
-			names.push_back(name);
+			ret->textures[i] = g->CreateTexture2DWithRawData(area.Width, area.Height, TextureFormat::R8G8B8A8_UNORM_SRGB, data.data());
+			ret->areas[i] = area;
+			ret->names[i] = name;
 		}
 
-		return new ImagePackage_Imp(graphics, textures, names, areas);
+		return ret;
 	}
 
-	ImagePackage_Imp::ImagePackage_Imp(
-		Graphics* graphics,
-		const std::vector<Texture2D*>&	textures,
-		const std::vector<astring>&		names,
-		const std::vector<RectI>&		areas)
+	ImagePackage_Imp::ImagePackage_Imp(Graphics* graphics)
 		: graphics(graphics)
-		, textures(textures)
-		, names(names)
-		, areas(areas)
 	{
 		SafeAddRef(graphics);
 	}
@@ -106,5 +109,30 @@ namespace asd
 	{
 		if (index < 0 || textures.size() <= index) return RectI();
 		return areas[index];
+	}
+
+	ImagePackageElementType ImagePackage_Imp::GetElementType(int32_t index)
+	{
+		if (index < 0 || textures.size() <= index) return ImagePackageElementType::Image;
+		return elementTypes[index];
+	}
+
+	ImagePackageAdditionalElementType ImagePackage_Imp::GetAdditionalElementType(int32_t index)
+	{
+
+#if _WIN32
+		if (index < 0 || textures.size() <= index) return ImagePackageAdditionalElementType::None;
+
+#elif __APPLE__
+		if (index < 0 || textures.size() <= index) return ImagePackageAdditionalElementType::None;
+
+#else
+
+#undef None
+		if (index < 0 || textures.size() <= index) return ImagePackageAdditionalElementType::None;
+#define None 0L
+
+#endif
+		return additionalElementTypes[index];
 	}
 }

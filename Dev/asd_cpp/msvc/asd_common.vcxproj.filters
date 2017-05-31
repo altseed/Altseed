@@ -71,6 +71,9 @@
     <ClInclude Include="..\common\Graphics\Font\asd.GlyphData.h">
       <Filter>Graphics\Font</Filter>
     </ClInclude>
+    <ClInclude Include="..\common\Utility\asd.ToU16String.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\common\Math\asd.Matrix44.cpp">

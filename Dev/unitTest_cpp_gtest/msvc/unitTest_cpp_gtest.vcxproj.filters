@@ -117,6 +117,9 @@
     <ClCompile Include="..\Graphics\LowLayer\asd.Graphics_TextureFormat_Test.cpp">
       <Filter>Graphics\LowLayer</Filter>
     </ClCompile>
+    <ClCompile Include="..\Utility\asd.ToU16StringTest.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Graphics\asd.Graphics_Test_Utls.h">

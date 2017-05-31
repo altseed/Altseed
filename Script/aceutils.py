@@ -75,7 +75,7 @@ def unzip(zip_filename):
 	for f in zip_file.namelist():
 
 		if f.endswith('/'):
-		        os.makedirs(f)
+			os.makedirs(f)
 		else:
 			version = sys.version_info
 			if version[0] == 2:
@@ -115,6 +115,7 @@ def copy(src,dst):
 
 	
 def copytree(src,dst,change=False,ignoreList = None):
+	print("copying tree from {0} to {1}".format(src, dst))
 	if change and os.path.exists(dst):
 		rmdir(dst)
 

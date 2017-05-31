@@ -46,6 +46,6 @@ C++のEngine側(asd_engineプロジェクト)を編集した人は以下の手�
 #### 手順
 
 1. C++ Engine側のヘッダ(Altseed.h)を生成します。Dev/generateEngineHeader.pyを実行してください。
-2. Doxygenのxmlドキュメントを生成します。Script/export_cpp_xml.pyを実行してください。
+2. Doxygenのxmlドキュメントを生成します。Script/export_doxygen_core.pyを実行してください。
 3. swigによるC++/C#の接続コードを生成します。Dev/generate_swig.pyを実行してください。
 4. ラッパーを生成します。Script/generateSwigWrapper.pyを実行してください。

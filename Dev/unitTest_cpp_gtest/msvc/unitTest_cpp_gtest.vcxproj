@@ -52,6 +52,7 @@
     <ClCompile Include="..\Utility\asd.GetTypeNameTest.cpp" />
     <ClCompile Include="..\Utility\asd.PointerArray_test.cpp" />
     <ClCompile Include="..\Utility\asd.Timer_test.cpp" />
+    <ClCompile Include="..\Utility\asd.ToU16StringTest.cpp" />
     <ClCompile Include="..\Utility\asd.TypeErasureCopy_test.cpp" />
     <ClCompile Include="..\Window\asd.Window_Empty_Test.cpp" />
   </ItemGroup>

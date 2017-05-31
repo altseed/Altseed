@@ -47,6 +47,20 @@ namespace asd
 		*/
 		virtual RectI GetImageArea(int32_t index) = 0;
 
+		/**
+		@brief	格納されている画像の種類を取得する。
+		@param	index	インデックス
+		@return	画像の種類
+		*/
+		virtual ImagePackageElementType GetElementType(int32_t index) = 0;
+
+		/**
+		@brief	格納されている画像の追加情報の種類を取得する。
+		@param	index	インデックス
+		@return	追加情報の種類
+		*/
+		virtual ImagePackageAdditionalElementType GetAdditionalElementType(int32_t index) = 0;
+
 #if !SWIG
 		/**
 			@brief	画像を取得する。

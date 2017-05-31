@@ -79,10 +79,14 @@ namespace asd{
 
 
 		/**
-		@brief マウスポインタの位置を取得
+		@brief マウスポインタの位置を取得する。
 		*/
 		virtual Vector2DF GetPosition() const = 0;
 
+		/**
+			@brief マウスポインタの位置を設定する。
+		*/
+		virtual void SetPosition(Vector2DF pos) = 0;
 
 		/**
 		@brief 指定したボタンの入力状態を取得
