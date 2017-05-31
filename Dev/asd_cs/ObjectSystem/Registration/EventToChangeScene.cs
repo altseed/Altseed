@@ -29,7 +29,10 @@ namespace asd
 			{
 				NextScene.RaiseOnRegistered();
 			}
-			Engine.transitionState.ForceToComplete();
+			if (Engine.transitionState != null)
+			{
+				Engine.transitionState.ForceToComplete();
+			}
 
 			if (Transition != null)
 			{

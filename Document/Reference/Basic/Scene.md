@@ -32,8 +32,13 @@
 | OnStartUpdating | このシーンのUpdateが実行され始めるときに一度だけ実行されるイベント |
 | OnTransitionFinished | トランジション終了時にDoEvents関数内で呼び出されるイベント |
 | OnTransitionBegin | このシーンから別のシーンに切り替わり始める際に一度だけ呼び出されるイベント |
+| OnStopUpdating | このシーンのUpdateが呼ばれなくなるときに一度だけ実行されるイベント |
 | OnUnregistered | このシーンのUpdateが停止するときに一度だけ実行されるイベント |
 | OnDispose | このシーンが破棄される際に一度だけ呼び出されるイベント |
+
+`OnRegisterd`などのシーン遷移にかかわるイベントは、以下の図のようなタイミングで呼び出されます。詳しくは[イベント機能](EventSystem.md)をご覧ください。
+
+![シーンのイベント](img/SceneEvents.png)
 
 ### 使用方法
 
