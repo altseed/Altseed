@@ -118,7 +118,7 @@ namespace asd
 		virtual ~EffectModelLoader_GL()
 		{}
 
-		void* EffectModelLoader_GL::Load(const EFK_CHAR* path)
+		void* Load(const EFK_CHAR* path)
 		{
 			std::unique_ptr<Effekseer::FileReader>
 				reader(fileInterface->OpenRead(path));
@@ -137,7 +137,7 @@ namespace asd
 			}
 		}
 
-		void EffectModelLoader_GL::Unload(void* data)
+		void Unload(void* data)
 		{
 			if (data != NULL)
 			{
