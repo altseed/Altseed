@@ -267,7 +267,7 @@ namespace asd
 			}
 		}
 
-		commands.clear()
+		commands.clear();
 	}
 
 	void RenderedEffectObject3D::OnRemoving(Renderer3D* renderer)
