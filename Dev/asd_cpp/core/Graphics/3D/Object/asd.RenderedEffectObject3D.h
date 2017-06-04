@@ -19,20 +19,37 @@ namespace asd
 		: public RenderedObject3D
 	{
 	private:
+
+		enum class CommandType : uint8_t
+		{
+			Play,
+			Stop,
+			StopRoot,
+			Show,
+			Hide,
+		};
+
+		struct Command
+		{
+			CommandType Type;
+			int32_t ID;
+		};
+
 		static const int32_t GCThreshold = 32;
 
+		std::map<int32_t, int32_t>		internalHandleToEffekseerHandle;
+		int32_t							nextInternalHandle = 0;
+
 		std::vector<Effekseer::Handle>	m_handles;
-		Effect*							m_effect;
+		std::vector<Command>			commands;
+
+		Effect*							m_effect = nullptr;
 		Renderer3D*						m_renderer = nullptr;
-#if _WIN32
-		bool							m_syncEffects = nullptr;
-#elif __APPLE__
-		bool							m_syncEffects = nullptr;
-#else
 		bool							m_syncEffects = false;
-#endif
 
 		RenderedEffectObject3DProxy*				proxy = nullptr;
+
+		int32_t PlayInternal(int32_t id);
 
 	public:
 		RenderedEffectObject3D(Graphics* graphics);
