@@ -190,18 +190,9 @@ namespace asd
 		go.IsFullScreen = option.IsFullScreen;
 		go.IsReloadingEnabled = option.IsReloadingEnabled;
 		go.ColorSpace = option.ColorSpace;
+		go.GraphicsDevice = option.GraphicsDevice;
 
 #if _WIN32
-		if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
-		{
-			glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
-			//glfwMakeOpenGLEnabled();
-		}
-		else
-		{
-			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-			//glfwMakeOpenGLDisabled();
-		}
 #else
 		if (option.GraphicsDevice != GraphicsDeviceType::OpenGL)
 		{
@@ -211,33 +202,35 @@ namespace asd
 
 		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), title);
 
-		// フルスクリーン切り替えを実現するためのハック
+		// Hack to realize changing fullscreen
 		if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
 		{
-			m_window = Window_Imp::Create(width, height, title, m_logger, option.ColorSpace, option.IsFullScreen);
+			m_window = Window_Imp::Create(
+				width, 
+				height, 
+				title, 
+				m_logger,
+				option.WindowPosition,
+				option.GraphicsDevice,
+				option.ColorSpace, 
+				option.IsFullScreen);
 		}
 		else
 		{
-			m_window = Window_Imp::Create(width, height, title, m_logger, option.ColorSpace, false);
+			m_window = Window_Imp::Create(
+				width, 
+				height, 
+				title, 
+				m_logger, 
+				option.WindowPosition,
+				option.GraphicsDevice,
+				option.ColorSpace, 
+				false);
 		}
 
 		if (m_window == nullptr) return false;
 
-		if (!option.IsFullScreen && option.WindowPosition == WindowPositionType::Centering)
-		{
-			auto monitorSize = m_window->GetPrimaryMonitorSize();
-			
-			if (monitorSize.X > 0)
-			{
-				auto offset = (monitorSize - Vector2DI(width, height)) / 2;
-				offset += m_window->GetPrimaryMonitorPosition();
-
-				m_window->SetWindowPosition(offset);
-			}
-		}
-		m_window->ShowWindow();
-
-		// アイコン設定
+		// Set icon
 #if _WIN32
 		{
 			auto hwnd = (HWND) m_window->GetWindowHandle();
@@ -252,7 +245,7 @@ namespace asd
 
 		m_keyboard = Keyboard_Imp::Create(m_window);
 		m_mouse = Mouse_Imp::Create(m_window);
-		m_joystickContainer = JoystickContainer_Imp::Create();
+		m_joystickContainer = JoystickContainer_Imp::Create(m_window);
 
 		m_file = File_Imp::Create();
 		m_graphics = Graphics_Imp::Create(m_window, option.GraphicsDevice, m_logger, m_file, go);
@@ -322,16 +315,6 @@ namespace asd
 		m_isInitializedByExternal = true;
 
 #if _WIN32
-		if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
-		{
-			glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
-			//glfwMakeOpenGLEnabled();
-		}
-		else
-		{
-			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-			//glfwMakeOpenGLDisabled();
-		}
 #else
 		if (option.GraphicsDevice != GraphicsDeviceType::OpenGL)
 		{
@@ -405,7 +388,10 @@ namespace asd
 			assert(m_joystickContainer != nullptr);
 		}
 
+#if !(defined(_CONSOLE_GAME))
 		ControlFPS();
+#endif
+		
 		ComputeFPS();
 
 		if (m_isInitializedByExternal)
@@ -459,12 +445,16 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Core_Imp::Terminate()
 	{
+#if (defined(_CONSOLE_GAME))
+
+#else
 		for (auto& gifAnim : gifAnimations)
 		{
 			gifAnim->Helper->Finalize();
 			gifAnim->Helper = nullptr;
 		}
 		gifAnimations.clear();
+#endif
 
 		SafeRelease(m_currentScene);
 		SafeDelete(m_objectSystemFactory);
@@ -505,7 +495,6 @@ namespace asd
 	void Core_Imp::BeginDrawing()
 	{
 		m_graphics->Begin();
-		m_graphics->Clear(true, false, Color(0, 0, 0, 255));
 	}
 
 	//----------------------------------------------------------------------------------
@@ -516,7 +505,11 @@ namespace asd
 		m_graphics->Present();
 		m_graphics->End();
 
-		// スクリーンショット撮影
+		// Take screenshot
+#if (defined(_CONSOLE_GAME))
+
+#else
+
 		for (auto& ss : m_screenShots)
 		{
 			m_graphics->SaveScreenshot(ss.c_str());
@@ -550,6 +543,7 @@ namespace asd
 			gifAnimations.begin(), gifAnimations.end(), 
 			[](std::shared_ptr<GifAnimation> g)->bool { return g->Helper == nullptr; });
 		gifAnimations.erase(it, gifAnimations.end());
+#endif
 	}
 
 	//----------------------------------------------------------------------------------
@@ -559,6 +553,7 @@ namespace asd
 	void Core_Imp::DrawSceneToWindow(CoreScene* scene)
 	{
 		m_graphics->SetRenderTarget(nullptr, nullptr);
+		m_graphics->Clear(true, false, Color(0, 0, 0, 255));
 
 		layerRenderer->SetTexture(scene->GetBaseTarget());
 
@@ -626,6 +621,7 @@ namespace asd
 		auto t = (CoreTransition_Imp*) transition;
 
 		m_graphics->SetRenderTarget(nullptr, nullptr);
+		m_graphics->Clear(true, false, Color(0, 0, 0, 255));
 
 		t->DrawCache(layerRenderer, nextScene, previousScene);
 		t->ClearCache();
@@ -654,7 +650,11 @@ namespace asd
 
 	Cursor* Core_Imp::CreateCursor(const achar* path, Vector2DI hot)
 	{
+#if (defined(_CONSOLE_GAME))
+		return nullptr;
+#else
 		return Cursor_Imp::Create(GetFile(), path, hot);
+#endif
 	}
 
 	void Core_Imp::SetCursor(Cursor* cursor)
@@ -682,11 +682,18 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Core_Imp::TakeScreenshot(const achar* path)
 	{
+#if (defined(_CONSOLE_GAME))
+
+#else
 		m_screenShots.push_back(path);
+#endif
 	}
 
 	void Core_Imp::CaptureScreenAsGifAnimation(const achar* path, int32_t frame, float frequency_rate, float scale)
 	{
+#if (defined(_CONSOLE_GAME))
+		return;
+#else
 		frequency_rate = Clamp(frequency_rate, 1.0f, 1.0f / GetTargetFPS());
 
 		std::shared_ptr<GifAnimation> anim = std::make_shared<GifAnimation>();
@@ -700,6 +707,7 @@ namespace asd
 		anim->Helper->Initialize(path, m_windowSize.X, m_windowSize.Y, (int32_t)(GetTargetFPS() * frequency_rate), scale);
 
 		gifAnimations.push_back(anim);
+#endif
 	}
 
 	float Core_Imp::GetDeltaTime() const

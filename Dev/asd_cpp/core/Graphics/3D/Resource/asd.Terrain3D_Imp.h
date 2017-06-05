@@ -5,6 +5,8 @@
 
 #include <btBulletCollisionCommon.h>
 
+#if defined(_WIN32)
+
 #ifdef _WIN64
 
 #ifdef _DEBUG
@@ -23,6 +25,8 @@
 #else
 #pragma comment(lib,"x86/Release/BulletCollision.lib")
 #pragma comment(lib,"x86/Release/LinearMath.lib")
+#endif
+
 #endif
 
 #endif

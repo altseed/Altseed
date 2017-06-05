@@ -10,7 +10,11 @@
 #include <time.h>
 #include <functional>
 
-#if !_WIN32
+#if defined(_WIN32)
+
+#elif ( defined(_CONSOLE_GAME) )
+
+#else
 #include <sys/stat.h>
 #endif
 
@@ -255,6 +259,9 @@ namespace asd
 			LONGLONG ll;
 			ll = ((LONGLONG) time.dwHighDateTime << 32) + time.dwLowDateTime;
 			return (time_t) ((ll - 116444736000000000) / 10000000);
+
+#elif ( defined(_CONSOLE_GAME) )
+			return 0;
 #else
 			auto p = ToUtf8String(path);
 			struct stat stat_buf;

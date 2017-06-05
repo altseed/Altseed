@@ -50,7 +50,6 @@ if (WIN32)
 	list(APPEND core_src ${dx11_src})
 	list(APPEND core_src ${gl_src})
 else()
-	list(APPEND core_src ${x11_src})
 	list(APPEND core_src ${gl_src})
 endif()
 
@@ -85,6 +84,9 @@ else()
 
 	list(APPEND common_lib Effekseer )
 	list(APPEND common_lib EffekseerRendererGL )
+
+	list(APPEND common_lib AltseedPlatform)
+	list(APPEND common_lib AltseedRHI)
 
 	# OpenSoundMixerの後に内部で使用しているライブラリを追加する必要あり
 	list(APPEND common_lib OpenSoundMixer )

@@ -6,6 +6,9 @@
 
 #include "../../Log/asd.Log.h"
 #include "../asd.Graphics_Imp.h"
+
+#include "../Helper/asd.EffekseerHelper.h"
+
 #include "../Resource/asd.VertexBuffer_Imp.h"
 #include "../Resource/asd.IndexBuffer_Imp.h"
 #include "../Resource/asd.NativeShader_Imp.h"
@@ -70,11 +73,11 @@ namespace asd {
 		SafeAddRef(graphics);
 
 		m_vertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(SpriteVertex), SpriteCount * 4, true);
-		m_indexBuffer = m_graphics->CreateIndexBuffer_Imp(SpriteCount * 6, false, false);
+		m_indexBuffer = m_graphics->CreateIndexBuffer_Imp(SpriteCount * 6, false,true);
 
 		{
 			m_indexBuffer->Lock();
-			auto ib = m_indexBuffer->GetBuffer<uint16_t>(SpriteCount * 6);
+			auto ib = m_indexBuffer->GetBuffer<uint32_t>(SpriteCount * 6);
 
 			for (int32_t i = 0; i < SpriteCount; i++)
 			{
@@ -140,30 +143,7 @@ namespace asd {
 		// エフェクト
 		{
 			m_effectManager = ::Effekseer::Manager::Create(6000, false);
-			if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
-			{
-#if _WIN32
-				auto g = (Graphics_Imp_DX11*) m_graphics;
-				m_effectRenderer = ::EffekseerRendererDX11::Renderer::Create(g->GetDevice(), g->GetContext(), 6000);
-
-				auto distortion = new DistortingCallbackDX11(
-					(::EffekseerRendererDX11::Renderer*)m_effectRenderer,
-					g->GetDevice(),
-					g->GetContext());
-
-				m_effectRenderer->SetDistortingCallback(distortion);
-				
-#endif
-			}
-			else if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
-			{
-				m_effectRenderer = ::EffekseerRendererGL::Renderer::Create(6000, EffekseerRendererGL::OpenGLDeviceType::OpenGL3);
-
-				auto distortion = new DistortingCallbackGL(
-					(::EffekseerRendererGL::Renderer*)m_effectRenderer);
-
-				m_effectRenderer->SetDistortingCallback(distortion);
-			}
+			m_effectRenderer = EffekseerHelper::CreateRenderer(m_graphics, 6000);
 
 			m_effectManager->SetSpriteRenderer(m_effectRenderer->CreateSpriteRenderer());
 			m_effectManager->SetRibbonRenderer(m_effectRenderer->CreateRibbonRenderer());
@@ -187,7 +167,7 @@ namespace asd {
 		m_shader_nt.reset();
 		m_shader.reset();
 
-		m_effectRenderer->Destory();
+		m_effectRenderer->Destroy();
 		m_effectManager->Destroy();
 		m_effectRenderer = nullptr;
 		m_effectManager = nullptr;

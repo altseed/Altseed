@@ -5,6 +5,7 @@
 
 namespace asd
 {
+#if !defined(_CONSOLE_GAME)
 	class RenderedTerrainObject3DProxy
 		: public RenderedObject3DProxy
 	{
@@ -45,6 +46,7 @@ namespace asd
 
 		RenderedObject3DType GetObjectType() const override { return RenderedObject3DType::Terrain; }
 	};
+#endif
 
 	/**
 	@brief	地形のクラス
@@ -55,7 +57,11 @@ namespace asd
 		friend class RenderedTerrainObject3DProxy;
 
 	private:
+#if defined(_CONSOLE_GAME)
+
+#else
 		RenderedTerrainObject3DProxy* proxy = nullptr;
+#endif
 
 		Terrain3D*	terrain = nullptr;
 
@@ -73,7 +79,11 @@ namespace asd
 
 		void Flip(float deltaTime) override;
 
+#if defined(_CONSOLE_GAME)
+		RenderedObject3DProxy* GetProxy() const override { return nullptr; }
+#else
 		RenderedObject3DProxy* GetProxy() const override { return proxy; }
+#endif
 
 		RenderedObject3DType GetObjectType() const override { return RenderedObject3DType::Terrain; }
 	};

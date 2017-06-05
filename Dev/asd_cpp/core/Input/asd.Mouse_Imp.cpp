@@ -1,67 +1,57 @@
 ﻿#include "asd.Mouse.h"
 #include "asd.Mouse_Imp.h"
 
-static double yWheel = 0;
-static bool wheelCalled = false;
-static void GetWheelInternal(GLFWwindow* wHandle,double x,double y){
-	yWheel = y;
-	wheelCalled = true;
-}
+namespace asd
+{
 
-namespace asd{
-
-	Mouse_Imp* Mouse_Imp::Create(Window_Imp* window_Imp)
+	Mouse_Imp* Mouse_Imp::Create(Window_Imp* window)
 	{
-		return new Mouse_Imp(window_Imp);
+		return new Mouse_Imp(window);
 	}
 
-	Mouse_Imp::Mouse_Imp(Window_Imp* window_Imp)
+	Mouse_Imp::Mouse_Imp(Window_Imp* window)
 	{
-		preHits.fill(false);
 		buttonInputStates.fill(asd::MouseButtonState::Free);
 
-		m_leftButton = NULL;
-		m_rightButton = NULL;
-		m_middleButton = NULL;
+		m_leftButton = new SideButton(buttonInputStates[0], false);
+		m_rightButton = new SideButton(buttonInputStates[1], false);
+		m_middleButton = new MiddleButton(buttonInputStates[2], 0);
 
-		GLFWwindow *window = window_Imp->GetWindow();
-		glfwSetScrollCallback(window, GetWheelInternal);
-
-		m_window = window;
+		this->mouse = ap::Mouse::Create(window->GetWindow());
+		this->window = window;
+		SafeAddRef(this->window);
 	}
 
-	void Mouse_Imp::RefreshInputState()
+	Mouse_Imp::~Mouse_Imp()
 	{
-		double mx, my;
-		glfwGetCursorPos(m_window, &mx, &my);
-		m_position = Vector2DF((float) mx, (float) my);
-
 		SafeDelete(m_leftButton);
 		SafeDelete(m_rightButton);
 		SafeDelete(m_middleButton);
 
+		SafeDelete(mouse);
+		SafeRelease(this->window);
+	}
+
+	void Mouse_Imp::RefreshInputState()
+	{
+		assert(mouse != nullptr);
+		mouse->RefreshInputState();
+
+		float mx, my;
+		mouse->GetPosition(mx, my);
+		m_position = Vector2DF((float) mx, (float) my);
+
 		for (int buttonIndex = 0; buttonIndex < 8; ++buttonIndex)
 		{
-			int state = glfwGetMouseButton(m_window, buttonIndex);
-			if (state == GLFW_PRESS)
-			{
-				buttonInputStates[buttonIndex] = preHits[buttonIndex] ? MouseButtonState::Hold : MouseButtonState::Push;
-				preHits[buttonIndex] = true;
-			}
-			else
-			{
-				buttonInputStates[buttonIndex] = preHits[buttonIndex] ? MouseButtonState::Release : MouseButtonState::Free;
-				preHits[buttonIndex] = false;
-			}
+			buttonInputStates[buttonIndex] = (MouseButtonState)mouse->GetMouseButtonState((ap::MouseButtons)buttonIndex);
 		}
 
-		yWheel = (wheelCalled) ? yWheel : 0;
-
+		SafeDelete(m_leftButton);
+		SafeDelete(m_rightButton);
+		SafeDelete(m_middleButton);
 		m_leftButton = new SideButton(buttonInputStates[0], false);
 		m_rightButton = new SideButton(buttonInputStates[1], false);
-		m_middleButton = new MiddleButton(buttonInputStates[2], yWheel);
-
-		wheelCalled = false;
+		m_middleButton = new MiddleButton(buttonInputStates[2], GetWheel());
 	}
 
 	SideButton* Mouse_Imp::GetLeftButton() const
@@ -90,7 +80,7 @@ namespace asd{
 		double y = pos.Y;
 		m_position = pos;
 
-		glfwSetCursorPos(m_window, x, y);
+		mouse->SetPosition(x, y);
 	}
 
 	MouseButtonState Mouse_Imp::GetButtonInputState(MouseButtons mouseButton) const
@@ -100,6 +90,6 @@ namespace asd{
 
 	float Mouse_Imp::GetWheel() const
 	{
-		return yWheel;
+		return mouse->GetWheel();
 	}
 }

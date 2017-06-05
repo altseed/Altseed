@@ -23,6 +23,14 @@ namespace asd
 			std::vector <VertexLayout>& layout,
 			std::vector <Macro>& macro);
 
+		std::shared_ptr<NativeShader_Imp> CreateFromBinary(
+			const achar* key,
+			const uint8_t* vertexShader,
+			int32_t vertexShaderSize,
+			const uint8_t* pixelShader,
+			int32_t pixelShaderSize,
+			std::vector <VertexLayout>& layout);
+
 		/**
 			@brief	シェーダーをキャッシュから取り除く
 			@param	shader	シェーダー

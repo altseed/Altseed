@@ -1,6 +1,9 @@
-﻿#pragma once
+﻿
+#pragma once
 
 #include <asd.common.Base.h>
+
+#if !(defined(_CONSOLE_GAME))
 
 namespace asd
 {
@@ -24,3 +27,5 @@ namespace asd
 		static std::vector<Font> Fonts;
 	};
 }
+
+#endif

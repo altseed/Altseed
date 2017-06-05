@@ -6,9 +6,16 @@
 
 #include <array>
 #include <algorithm>
-#include <sys/stat.h>
 #include <unordered_set>
 #include <new>
+
+#if defined(_CONSOLE_GAME)
+
+#elif defined(_WIN32)
+
+#else
+#include <sys/stat.h>
+#endif
 
 namespace asd
 {

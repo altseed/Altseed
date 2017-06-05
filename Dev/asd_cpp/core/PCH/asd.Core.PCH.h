@@ -8,13 +8,21 @@
 #include <Math/asd.Vector4DF.h>
 #include <Graphics/asd.Color.h>
 
-// GLEW
+// OpenGL
+#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+
+#else
+
 #ifdef __APPLE__
 #include <OpenGL/gl3.h>
 #define GLFW_INCLUDE_GLCOREARB
 #else
 #define GLEW_STATIC
 #include <GL/glew.h>
+#endif
+
+#pragma comment(lib, "glu32.lib")
+
 #endif
 
 #if _WIN32
@@ -39,11 +47,62 @@
 
 #endif
 
+// AltseedPlatform
+#include <AltseedPlatform.h>
 
-// GLU
-#pragma comment(lib, "glu32.lib")
+#if _WIN32
+
+#ifdef _WIN64
+
+#if _DEBUG
+#pragma comment(lib,"x64/Debug/AltseedPlatform.lib")
+#else
+#pragma comment(lib,"x64/Release/AltseedPlatform.lib")
+#endif
+
+#else
+
+#if _DEBUG
+#pragma comment(lib,"x86/Debug/AltseedPlatform.lib")
+#else
+#pragma comment(lib,"x86/Release/AltseedPlatform.lib")
+#endif
+
+#endif
+
+#endif
+
+
+// AltseedRHI
+#include <AltseedRHI.h>
+
+#if _WIN32
+
+#ifdef _WIN64
+
+#if _DEBUG
+#pragma comment(lib,"x64/Debug/AltseedRHI.lib")
+#else
+#pragma comment(lib,"x64/Release/AltseedRHI.lib")
+#endif
+
+#else
+
+#if _DEBUG
+#pragma comment(lib,"x86/Debug/AltseedRHI.lib")
+#else
+#pragma comment(lib,"x86/Release/AltseedRHI.lib")
+#endif
+
+#endif
+
+#endif
 
 // GLFW
+#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+
+#else
+
 #if _WIN32
 #define GLFW_EXPOSE_NATIVE_WIN32
 #define GLFW_EXPOSE_NATIVE_WGL
@@ -56,13 +115,40 @@
 #include <X11/extensions/Xrandr.h>
 #endif
 
+#if _WIN32
+#ifdef _WIN64
+
+#ifdef _DEBUG
+#pragma comment(lib,"x64/Debug/glfw3.lib")
+#else
+#pragma comment(lib,"x64/Release/glfw3.lib")
+#endif
+
+#else
+
+#ifdef _DEBUG
+#pragma comment(lib,"x86/Debug/glfw3.lib")
+#else
+#pragma comment(lib,"x86/Release/glfw3.lib")
+#endif
+
+#endif
+#endif
+
 #include <GLFW/glfw3.h>
 
 #if _WIN32
 #include <GLFW/glfw3native.h>
 #endif
 
+#endif
+
+
 // DirectX
+#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+
+#else
+
 #if _WIN32
 
 #include <d3d11.h>
@@ -74,8 +160,20 @@
 
 #endif
 
+#endif
+
 // Effekseer
 #include <Effekseer.h>
+
+#if defined(_PSVITA)
+#include <EffekseerRendererPSVita.h>
+#elif defined(_PS4)
+#include <EffekseerRendererPS4.h>
+#elif defined(_SWITCH)
+#include <EffekseerRendererSwitch.h>
+#elif defined(_XBOXONE)
+#include <EffekseerRendererXBoxOne.h>
+#else
 
 #if _WIN32
 #include <EffekseerRendererDX11.h>
@@ -107,8 +205,10 @@
 #endif
 
 #endif
+
 #include <EffekseerRendererGL.h>
 
+#endif
 
 #if _WIN32
 

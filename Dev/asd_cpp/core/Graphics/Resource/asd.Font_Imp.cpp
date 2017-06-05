@@ -20,6 +20,9 @@ namespace asd {
 
 	Font_Imp* Font_Imp::Create(Graphics* graphics, const achar* font, int32_t fontSize, Color color, int32_t outlineSize, Color outlineColor)
 	{
+#if (defined(_CONSOLE_GAME))
+		return nullptr;
+#else
 		auto g = (Graphics_Imp*) graphics;
 		auto file = g->GetFile();
 	
@@ -86,16 +89,18 @@ namespace asd {
 		}
 
 		return new Font_Imp(graphics, rasterizer);
+#endif
 	}
 
+#if !(defined(_CONSOLE_GAME))
 	Font_Imp::Font_Imp(Graphics* graphics, std::shared_ptr<FontRasterizer> rasterizer)
 		: DeviceObject(graphics)
 		, m_graphics(graphics)
 		, isDynamic(true)
 		, rasterizer(rasterizer)
 	{
-
 	}
+#endif
 
 	Font_Imp::Font_Imp(Graphics* graphics, const achar* affFilePathChar, std::vector<uint8_t> data)
 		: DeviceObject(graphics)
@@ -236,12 +241,14 @@ namespace asd {
 		if (!isDynamic) return;
 		if (m_glyphs.find(c) != m_glyphs.end()) return;
 		
+#if !(defined(_CONSOLE_GAME))
 		auto ig = rasterizer->AddGlyph(c);
 	
 		GlyphData gd = GlyphData(c, ig.Index, ig.Src);
 		m_glyphs[c] = gd;
 
 		updatingTexture.insert(ig.Index);
+#endif
 	}
 
 	void Font_Imp::AddCharactorsDynamically(const achar* text)
@@ -271,6 +278,7 @@ namespace asd {
 
 		for (auto index : updatingTexture)
 		{
+#if !(defined(_CONSOLE_GAME))
 			while (index >= m_textures.size())
 			{
 				m_textures.push_back(
@@ -287,6 +295,7 @@ namespace asd {
 				memcpy(p, buf->Buffer.data(), rasterizer->GetImageSize() * rasterizer->GetImageSize() * 4);
 				tex->Unlock();
 			}
+#endif
 		}
 
 		updatingTexture.clear();

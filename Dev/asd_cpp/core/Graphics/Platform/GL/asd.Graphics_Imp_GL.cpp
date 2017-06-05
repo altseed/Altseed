@@ -18,9 +18,6 @@
 
 #include "../../../Log/asd.Log.h"
 
-// Windows以外でGoogleTestとGLFWNativeのヘッダが干渉する(2013/12)
-#include <GLFW/glfw3native.h>
-
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -71,6 +68,7 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	/*
 	class EffectTextureLoader_GL
 		: public EffectTextureLoader
 	{
@@ -145,103 +143,15 @@ namespace asd {
 			}
 		}
 	};
+	*/
 
-		DistortingCallbackGL::DistortingCallbackGL(EffekseerRendererGL::Renderer* renderer)
-		{
-			this->renderer = renderer;
-			glGenTextures(1, &backGroundTexture);
-#ifndef _WIN32
-			glGenFramebuffers(1, &framebufferForCopy);
-#endif
-		}
-
-		DistortingCallbackGL::~DistortingCallbackGL()
-		{
-			ReleaseTexture();
-		}
-
-		void DistortingCallbackGL::ReleaseTexture()
-		{
-#ifndef _WIN32
-			glDeleteFramebuffers(1, &framebufferForCopy);
-#endif
-			glDeleteTextures(1, &backGroundTexture);
-		}
-
-		// コピー先のテクスチャを準備
-		void DistortingCallbackGL::PrepareTexture(uint32_t width, uint32_t height, GLint internalFormat)
-		{
-			glBindTexture(GL_TEXTURE_2D, backGroundTexture);
-			glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-
-			backGroundTextureWidth = width;
-			backGroundTextureHeight = height;
-			backGroundTextureInternalFormat = internalFormat;
-		}
-
-		void DistortingCallbackGL::OnDistorting()
-		{
-			if (!IsEnabled)
-			{
-				renderer->SetBackground(0);
-				return;
-			}
-
-			GLint viewport[4];
-			glGetIntegerv(GL_VIEWPORT, viewport);
-			uint32_t width = viewport[2];
-			uint32_t height = viewport[3];
-
-			if (backGroundTextureWidth != width ||
-				backGroundTextureHeight != height)
-			{
-				PrepareTexture(width, height, GL_RGBA);
-			}
-
-#ifndef _WIN32
-			GLint backupFramebuffer;
-			glGetIntegerv(GL_FRAMEBUFFER_BINDING, &backupFramebuffer);
-
-			GLint rbtype;
-			glGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-				GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &rbtype);
-
-			if (rbtype == GL_RENDERBUFFER) {
-				GLint renderbuffer;
-				glGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-					GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &renderbuffer);
-
-				glBindFramebuffer(GL_FRAMEBUFFER, framebufferForCopy);
-				glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, renderbuffer);
-			}
-			else if (rbtype == GL_TEXTURE_2D) {
-				GLint renderTexture;
-				glGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-					GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &renderTexture);
-
-				glBindFramebuffer(GL_FRAMEBUFFER, framebufferForCopy);
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderTexture, 0);
-			}
-#endif
-
-			glBindTexture(GL_TEXTURE_2D, backGroundTexture);
-			//glCopyTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0, 0, 0, width, height );
-			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, viewport[0], viewport[1], width, height);
-			glBindTexture(GL_TEXTURE_2D, 0);
-
-#ifndef _WIN32
-			glBindFramebuffer(GL_FRAMEBUFFER, backupFramebuffer);
-#endif
-
-			renderer->SetBackground(backGroundTexture);
-		}
 
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
 	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::asd::Window* window, Log* log, File *file, GraphicsOption option)
-		: Graphics_Imp(size, log,file, option)
+		: Graphics_Imp(nullptr, size, log,file, option)
 	, m_window(window)
 	, m_endStarting(false)
 {
@@ -251,7 +161,7 @@ namespace asd {
 
 	auto window_ = ((Window_Imp*)window)->GetWindow();
 
-	glfwMakeContextCurrent(window_);
+	window_->MakeContextCurrent();
 	GLCheckError();
 	
 	if (option.ColorSpace == ColorSpaceType::LinearSpace)
@@ -259,10 +169,6 @@ namespace asd {
 		glEnable(GL_FRAMEBUFFER_SRGB);
 	}
 	
-	// 同期しない
-	glfwSwapInterval(0);
-	GLCheckError();
-
 #pragma region RenderState
 	glGenSamplers(MaxTextureCount, m_samplers);
 	GLCheckError();
@@ -290,7 +196,7 @@ namespace asd {
 	GLCheckError();
 #endif
 
-	CreateContextBeforeThreading(window_);
+	CreateContextBeforeThreading(window);
 
 #ifdef __APPLE__
 	GLCheckError();
@@ -301,7 +207,7 @@ namespace asd {
 	{
 		Sleep(1);
 	}
-	CreateContextAfterThreading(window_);
+	CreateContextAfterThreading(window);
 
 #ifdef __APPLE__
 	GLCheckError();
@@ -311,15 +217,15 @@ namespace asd {
 	WriteInitializedLog(m_log);
 	GLCheckError();
 
-	GetEffectSetting()->SetTextureLoader(new EffectTextureLoader_GL(this));
-	GetEffectSetting()->SetModelLoader(new EffectModelLoader_GL(this));
+	//GetEffectSetting()->SetTextureLoader(new EffectTextureLoader_GL(this));
+	//GetEffectSetting()->SetModelLoader(new EffectModelLoader_GL(this));
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
 	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log, File* file, GraphicsOption option)
-		: Graphics_Imp(size, log,file, option)
+		: Graphics_Imp(nullptr, size, log,file, option)
 	, m_window(nullptr)
 	, m_endStarting(false)
 {
@@ -387,8 +293,8 @@ namespace asd {
 	WriteInitializedLog(m_log);
 	GLCheckError();
 
-	GetEffectSetting()->SetTextureLoader(new EffectTextureLoader_GL(this));
-	GetEffectSetting()->SetModelLoader(new EffectModelLoader_GL(this));
+	//GetEffectSetting()->SetTextureLoader(new EffectTextureLoader_GL(this));
+	//GetEffectSetting()->SetModelLoader(new EffectModelLoader_GL(this));
 
 }
 
@@ -481,8 +387,7 @@ void Graphics_Imp_GL::StartRenderingThread()
 {
 	if (m_window != nullptr)
 	{
-		auto window_ = ((Window_Imp*) m_window)->GetWindow();
-		CreateContextOnThread(window_);
+		CreateContextOnThread(m_window);
 	}
 	else
 	{
@@ -529,6 +434,7 @@ NativeShader_Imp* Graphics_Imp_GL::CreateShader_Imp_(
 	const char* pixelShaderText,
 	const char* pixelShaderFileName,
 	std::vector <VertexLayout>& layout,
+	bool is32Bit,
 	std::vector <Macro>& macro)
 {
 	return NativeShader_Imp_GL::Create(
@@ -538,6 +444,7 @@ NativeShader_Imp* Graphics_Imp_GL::CreateShader_Imp_(
 		pixelShaderText,
 		pixelShaderFileName,
 		layout,
+		is32Bit,
 		macro,
 		m_log);
 }
@@ -859,7 +766,7 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create(::asd::Window* window, Log* log, File *
 	writeLogHeading(ToAString("描画(OpenGL)"));
 
 	auto window_ = ((Window_Imp*) window)->GetWindow();
-	glfwMakeContextCurrent(window_);
+	window_->MakeContextCurrent();
 	GLCheckError();
 
 #ifndef __APPLE__
@@ -882,10 +789,10 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create(::asd::Window* window, Log* log, File *
 	writeLog(ToAString(""));
 
 	// Retinaなどへの対応
-	auto glfwWindow = reinterpret_cast<Window_Imp*>(window)->GetWindow();
+	auto internalWindow = reinterpret_cast<Window_Imp*>(window)->GetWindow();
 	int bufferX, bufferY;
-	glfwGetFramebufferSize(glfwWindow, &bufferX, &bufferY);
-
+	internalWindow->GetFrameBufferSize(bufferX, bufferY);
+	
 	return new Graphics_Imp_GL(Vector2DI(bufferX, bufferY), window, log, file, option);
 
 End:;
@@ -1401,7 +1308,7 @@ void Graphics_Imp_GL::Present()
 	if (m_window != nullptr)
 	{
 		auto window_ = ((Window_Imp*) m_window)->GetWindow();
-		glfwSwapBuffers(window_);
+		window_->Present();
 	}
 	else
 	{
@@ -1493,7 +1400,7 @@ void Graphics_Imp_GL::MakeContextCurrent()
 	if (m_window != nullptr)
 	{
 		auto window_ = ((Window_Imp*) m_window)->GetWindow();
-		glfwMakeContextCurrent(window_);
+		window_->MakeContextCurrent();
 	}
 	else
 	{
@@ -1507,7 +1414,8 @@ void Graphics_Imp_GL::MakeContextNone()
 {
 	if (m_window != nullptr)
 	{
-		glfwMakeContextCurrent(nullptr);
+		auto window_ = ((Window_Imp*)m_window)->GetWindow();
+		window_->MakeContextNone();
 	}
 	else
 	{
@@ -1531,11 +1439,11 @@ void Graphics_Imp_GL::SetWindowSize(Vector2DI size)
 	m_size = size;
 }
 
-void Graphics_Imp_GL::CreateContextBeforeThreading(GLFWwindow* window)
+void Graphics_Imp_GL::CreateContextBeforeThreading(Window* window)
 {
 }
 
-void Graphics_Imp_GL::CreateContextOnThread(GLFWwindow* window)
+void Graphics_Imp_GL::CreateContextOnThread(Window* window)
 {
 	if (window == nullptr) return;
 
@@ -1547,7 +1455,7 @@ void Graphics_Imp_GL::CreateContextOnThread(GLFWwindow* window)
 	m_endStarting = true;
 }
 
-void Graphics_Imp_GL::CreateContextAfterThreading(GLFWwindow* window)
+void Graphics_Imp_GL::CreateContextAfterThreading(Window* window)
 {
 }
 

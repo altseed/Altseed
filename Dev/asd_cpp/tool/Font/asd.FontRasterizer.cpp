@@ -1,6 +1,8 @@
 ﻿
 #include "asd.FontRasterizer.h"
 
+#if !(defined(_CONSOLE_GAME))
+
 namespace asd
 {
 	FontRasterizer::Span::Span()
@@ -339,3 +341,5 @@ namespace asd
 		return gi;
 	}
 }
+
+#endif

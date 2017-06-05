@@ -61,6 +61,8 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	CoreLayer2D_Imp::~CoreLayer2D_Imp()
 	{
+		ClearAdditionalObjects();
+
 		SafeDelete(m_renderer);
 		SafeDelete(m_rendererForCamera);
 
@@ -461,7 +463,13 @@ namespace asd
 
 	void CoreLayer2D_Imp::ClearAdditionalObjects()
 	{
+		for (auto& s : sprites)
+		{
+			SafeRelease(s.Texture_);
+			SafeRelease(s.Material_);
+		}
 		sprites.clear();
+
 		texts.clear();
 	}
 
@@ -489,7 +497,7 @@ namespace asd
 					sprite.pos.data(),
 					sprite.col.data(),
 					sprite.uv.data(),
-					sprite.Material_.get(),
+					sprite.Material_,
 					sprite.AlphaBlend_,
 					sprite.Priority);
 			}
@@ -499,7 +507,7 @@ namespace asd
 					sprite.pos.data(),
 					sprite.col.data(),
 					sprite.uv.data(),
-					sprite.Texture_.get(),
+					sprite.Texture_,
 					sprite.AlphaBlend_,
 					sprite.Priority);
 			}
@@ -529,9 +537,10 @@ namespace asd
 		}
 	}
 
-	void CoreLayer2D_Imp::DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
-		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
-		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+	void CoreLayer2D_Imp::DrawSpriteAdditionally(
+		const Vector2DF& upperLeftPos, const Vector2DF& upperRightPos, const Vector2DF& lowerRightPos, const Vector2DF& lowerLeftPos,
+		const Color& upperLeftCol, const Color& upperRightCol, const Color& lowerRightCol, const Color& lowerLeftCol,
+		const Vector2DF& upperLeftUV, const Vector2DF& upperRightUV, const Vector2DF& lowerRightUV, const Vector2DF& lowerLeftUV,
 		Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
 		Sprite sprite;
@@ -544,16 +553,18 @@ namespace asd
 		sprite.pos = pos;
 		sprite.col = col;
 		sprite.uv = uv;
-		sprite.Texture_ = CreateSharedPtrWithReleaseDLL(texture);
+		sprite.Texture_ = texture;
+		sprite.Material_ = nullptr;
 		sprite.AlphaBlend_ = alphaBlend;
 		sprite.Priority = priority;
 
 		sprites.push_back(sprite);
 	}
 
-	void CoreLayer2D_Imp::DrawSpriteWithMaterialAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
-		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
-		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+	void CoreLayer2D_Imp::DrawSpriteWithMaterialAdditionally(
+		const Vector2DF& upperLeftPos, const Vector2DF& upperRightPos, const Vector2DF& lowerRightPos, const Vector2DF& lowerLeftPos,
+		const Color& upperLeftCol, const Color& upperRightCol, const Color& lowerRightCol, const Color& lowerLeftCol,
+		const Vector2DF& upperLeftUV, const Vector2DF& upperRightUV, const Vector2DF& lowerRightUV, const Vector2DF& lowerLeftUV,
 		Material2D* material, AlphaBlendMode alphaBlend, int32_t priority)
 	{
 		Sprite sprite;
@@ -566,7 +577,8 @@ namespace asd
 		sprite.pos = pos;
 		sprite.col = col;
 		sprite.uv = uv;
-		sprite.Material_ = CreateSharedPtrWithReleaseDLL(material);
+		sprite.Texture_ = nullptr;
+		sprite.Material_ = material;
 		sprite.AlphaBlend_ = alphaBlend;
 		sprite.Priority = priority;
 
@@ -765,7 +777,7 @@ namespace asd
 		m_cameras.clear();
 	}
 
-	void CoreLayer2D_Imp::DrawRectangleAdditionally(RectF drawingArea, Color color, RectF uv, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority)
+	void CoreLayer2D_Imp::DrawRectangleAdditionally(const RectF& drawingArea, const Color& color, const RectF& uv, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
 		Sprite sprite;
 
@@ -776,7 +788,8 @@ namespace asd
 		sprite.pos = drawingArea.GetVertexes();
 		sprite.col = col;
 		sprite.uv = uv.GetVertexes();
-		sprite.Texture_ = CreateSharedPtrWithReleaseDLL(texture);
+		sprite.Texture_ = texture;
+		sprite.Material_ = nullptr;
 		sprite.AlphaBlend_ = alphaBlend;
 		sprite.Priority = priority;
 
@@ -808,7 +821,8 @@ namespace asd
 		sprite.pos = vertexes;
 		sprite.col = col;
 		sprite.uv = uv.GetVertexes();
-		sprite.Texture_ = CreateSharedPtrWithReleaseDLL(texture);
+		sprite.Texture_ = texture;
+		sprite.Material_ = nullptr;
 		sprite.AlphaBlend_ = alphaBlend;
 		sprite.Priority = priority;
 
@@ -829,7 +843,8 @@ namespace asd
 		sprite.pos = vertexes;
 		sprite.col = col;
 		sprite.uv = uvs;
-		sprite.Texture_ = CreateSharedPtrWithReleaseDLL(texture);
+		sprite.Texture_ = texture;
+		sprite.Material_ = nullptr;
 		sprite.AlphaBlend_ = alphaBlend;
 		sprite.Priority = priority;
 
@@ -884,7 +899,8 @@ namespace asd
 				sprite.pos = vertexes;
 				sprite.col = colors;
 				sprite.uv = uvs;
-				sprite.Texture_ = CreateSharedPtrWithReleaseDLL(texture);
+				sprite.Texture_ = texture;
+				sprite.Material_ = nullptr;
 				sprite.AlphaBlend_ = alphaBlend;
 				sprite.Priority = priority;
 
@@ -947,7 +963,8 @@ namespace asd
 				sprite.pos = vertexes;
 				sprite.col = colors;
 				sprite.uv = uvs;
-				sprite.Texture_ = CreateSharedPtrWithReleaseDLL(texture);
+				sprite.Texture_ = texture;
+				sprite.Material_ = nullptr;
 				sprite.AlphaBlend_ = alphaBlend;
 				sprite.Priority = priority;
 
@@ -1016,7 +1033,18 @@ namespace asd
 			sprite.pos = pos;
 			sprite.col = col;
 			sprite.uv = uvs;
-			sprite.Texture_ = (shape->GetShapeType() == ShapeType::LineShape) ? nullptr : CreateSharedPtrWithReleaseDLL(texture);
+			if (shape->GetShapeType() == ShapeType::LineShape)
+			{
+				sprite.Texture_ = nullptr;
+			}
+			else
+			{
+				sprite.Texture_ =  texture;
+				SafeAddRef(texture);
+			}
+
+			sprite.Material_ = nullptr;
+			
 			sprite.AlphaBlend_ = alphaBlend;
 			sprite.Priority = priority;
 

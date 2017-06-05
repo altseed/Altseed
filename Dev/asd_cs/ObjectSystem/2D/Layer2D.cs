@@ -262,7 +262,22 @@ namespace asd
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
 			Texture2D texture, AlphaBlendMode alphaBlend, int priority)
 		{
-			coreLayer2D.DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, IG.GetTexture2D(texture), (swig.AlphaBlendMode)alphaBlend, priority);
+			coreLayer2D.DrawSpriteAdditionally(
+				ref upperLeftPos, 
+				ref upperRightPos, 
+				ref lowerRightPos, 
+				ref lowerLeftPos, 
+				ref upperLeftCol, 
+				ref upperRightCol, 
+				ref lowerRightCol, 
+				ref lowerLeftCol, 
+				ref upperLeftUV, 
+				ref upperRightUV, 
+				ref lowerRightUV, 
+				ref lowerLeftUV, 
+				IG.GetTexture2D(texture), 
+				(swig.AlphaBlendMode)alphaBlend, 
+				priority);
 		}
 
 		/// <summary>
@@ -292,7 +307,21 @@ namespace asd
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
 			Material2D material, AlphaBlendMode alphaBlend, int priority)
 		{
-			coreLayer2D.DrawSpriteWithMaterialAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, IG.GetMaterial2D(material), (swig.AlphaBlendMode)alphaBlend, priority);
+			coreLayer2D.DrawSpriteWithMaterialAdditionally(
+				ref upperLeftPos, 
+				ref upperRightPos, 
+				ref lowerRightPos, 
+				ref lowerLeftPos, 
+				ref upperLeftCol, 
+				ref upperRightCol, 
+				ref lowerRightCol, 
+				ref lowerLeftCol, 
+				ref upperLeftUV,
+				ref upperRightUV, 
+				ref lowerRightUV, 
+				ref lowerLeftUV, 
+				IG.GetMaterial2D(material), 
+				(swig.AlphaBlendMode)alphaBlend, priority);
 		}
 
 		/// <summary>
@@ -315,7 +344,7 @@ namespace asd
 
 		public void DrawRectangleAdditionally(RectF drawingArea, Color color, RectF uv, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
 		{
-			coreLayer2D.DrawRectangleAdditionally(drawingArea, color, uv, IG.GetTexture2D(texture), (swig.AlphaBlendMode)alphaBlend, priority);
+			coreLayer2D.DrawRectangleAdditionally(ref drawingArea, ref color, ref uv, IG.GetTexture2D(texture), (swig.AlphaBlendMode)alphaBlend, priority);
 		}
 
 		public void DrawRotatedRectangleAdditionally(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, Texture2D texture, AlphaBlendMode alphaBlend, int priority)

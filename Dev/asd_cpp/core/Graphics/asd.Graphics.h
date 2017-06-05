@@ -31,6 +31,7 @@ protected:
 	virtual CubemapTexture* CreateCubemapTextureFromSingleImageFile_(const achar* path) = 0;
 
 	virtual Shader2D* CreateShader2D_( const achar* shaderText) = 0;
+	virtual Shader2D* CreateShader2DFromBinary_(const achar* path) = 0;
 	virtual Material2D* CreateMaterial2D_(Shader2D* shader) = 0;
 
 	virtual Shader3D* CreateShader3D_(const achar* shaderText) = 0;
@@ -156,6 +157,16 @@ public:
 	std::shared_ptr<Shader2D> CreateShader2D(const achar* shaderText)
 	{
 		return CreateSharedPtrWithReleaseDLL(CreateShader2D_(shaderText));
+	}
+
+	/**
+	@brief	シェーダー(2D)を生成する。(未実装)
+	@param	path	ピクセルシェーダーのバイナリ
+	@return	シェーダー(2D)
+	*/
+	std::shared_ptr<Shader2D> CreateShader2DFromBinary(const achar* path)
+	{
+		return CreateSharedPtrWithReleaseDLL(CreateShader2DFromBinary_(path));
 	}
 
 	/**

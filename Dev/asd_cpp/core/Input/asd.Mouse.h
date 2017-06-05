@@ -61,19 +61,21 @@ namespace asd{
 	{
 	public:
 		/**
-		@brief マウスの左ボタンの入力状態を取得
+		@brief 非推奨である。(GetButtonInputStateを代わりに使用する)
+		@note
 		*/
 		virtual SideButton* GetLeftButton() const = 0;
 
 
 		/**
-		@brief マウスの右ボタンの入力状態を取得
+		@brief 非推奨である。(GetButtonInputStateを代わりに使用する)
+		@note
 		*/
 		virtual SideButton* GetRightButton() const = 0;
 
 
 		/**
-		@brief マウスの中央ボタンの入力状態を取得
+		@brief 非推奨である。(GetButtonInputStateを代わりに使用する)
 		*/
 		virtual MiddleButton* GetMiddleButton() const = 0;
 
@@ -89,13 +91,13 @@ namespace asd{
 		virtual void SetPosition(Vector2DF pos) = 0;
 
 		/**
-		@brief 指定したボタンの入力状態を取得
+		@brief 指定したボタンの入力状態を取得を取得する。
 		*/
 		virtual MouseButtonState GetButtonInputState(MouseButtons mouseButton) const = 0;
 
 
 		/**
-		@brief ホイールの回転度合いを取得
+		@brief ホイールの回転度合いを取得する。
 		*/
 		virtual float GetWheel() const = 0;
 

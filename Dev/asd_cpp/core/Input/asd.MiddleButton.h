@@ -9,6 +9,8 @@ namespace asd{
 	*/
 	class MiddleButton
 	{
+		friend class Mouse;
+
 	private:
 		MouseButtonState m_mouseButtonState;
 		double m_rotation;

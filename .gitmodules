@@ -22,6 +22,7 @@
 [submodule "Downloads/Effekseer"]
 	path = Downloads/Effekseer
 	url = https://github.com/effekseer/Effekseer
+	ignore = dirty
 [submodule "Downloads/OpenSoundMixer"]
 	path = Downloads/OpenSoundMixer
 	url = https://github.com/altseed/OpenSoundMixer
@@ -40,3 +41,11 @@
 [submodule "Downloads/glew"]
 	path = Downloads/glew
 	url = https://github.com/nigels-com/glew
+[submodule "Downloads/AltseedPlatform"]
+	path = Downloads/AltseedPlatform
+	url = https://github.com/altseed/AltseedWindowExp.git
+	ignore = dirty
+[submodule "Downloads/AltseedRHI"]
+	path = Downloads/AltseedRHI
+	url = https://github.com/altseed/AltseedRHI.git
+	ignore = dirty

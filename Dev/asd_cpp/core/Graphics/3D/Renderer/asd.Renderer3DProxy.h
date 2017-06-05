@@ -18,6 +18,8 @@
 
 #include <Culling3D.h>
 
+#if defined(_WIN32)
+
 #ifdef _WIN64
 
 #if _DEBUG
@@ -32,6 +34,8 @@
 #pragma comment(lib,"x86/Debug/Culling3D.lib")
 #else
 #pragma comment(lib,"x86/Release/Culling3D.lib")
+#endif
+
 #endif
 
 #endif

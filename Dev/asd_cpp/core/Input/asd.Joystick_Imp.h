@@ -2,35 +2,36 @@
 
 #include "asd.Joystick.h"
 
-namespace asd{
-	class Joystick_Imp:public Joystick
+namespace asd
+{
+	class Joystick_Imp
+		: public Joystick
 	{
+	private:
+		ap::Joystick*	joystick = nullptr;
+
 		int m_connectId;
-
-		int m_buttonsCount;
-		int m_axesCount;
-
-		static const int MAX_AXES_NUM = 10;
-		static const int MAX_BUTTONS_NUM = 30;
-
-		float m_currentAxes[MAX_AXES_NUM];
-
-		bool m_currentButtonHit[MAX_BUTTONS_NUM];
-		bool m_preButtonHit[MAX_BUTTONS_NUM];
-
 		asd::astring m_joystickName;
 
-		Joystick_Imp(int id);
+		Joystick_Imp(int id, ap::Joystick* joystick);
 	public:
 		virtual ~Joystick_Imp();
-		static Joystick_Imp* Create(int id);
+		static Joystick_Imp* Create(int id, ap::Joystick* joystick);
 
-		void RefreshInputState();
+		const achar* GetJoystickName() override;
 
-		const asd::achar* GetJoystickName() override;
+		JoystickType GetJoystickType() const override;
+
 		int GetButtonsCount() override;
+
 		int GetAxesCount() override;
+		
 		JoystickButtonState GetButtonState(int at) override;
+
+		JoystickButtonState GetButtonStateAt(JoystickButtonType type) override;
+
 		float GetAxisState(int at) override;
+
+		float GetAxisStateAt(JoystickAxisType type) override;
 	};
 };

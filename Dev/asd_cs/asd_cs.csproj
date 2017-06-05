@@ -227,8 +227,11 @@
     <Compile Include="swig\InterpolationType.cs" />
     <Compile Include="swig\IReference.cs" />
     <Compile Include="swig\Joystick.cs" />
+    <Compile Include="swig\JoystickAxisType.cs" />
     <Compile Include="swig\JoystickButtonState.cs" />
+    <Compile Include="swig\JoystickButtonType.cs" />
     <Compile Include="swig\JoystickContainer.cs" />
+    <Compile Include="swig\JoystickType.cs" />
     <Compile Include="swig\Keyboard.cs" />
     <Compile Include="swig\KeyframeAnimation.cs" />
     <Compile Include="swig\Keys.cs" />

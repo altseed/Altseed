@@ -19,13 +19,21 @@
 #include <functional>
 
 #include <memory>
+#include <chrono>
+#include <thread>
 
 #include <assert.h>
 
 #ifdef _WIN32
 #include <windows.h>
+#elif ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+
 #else
 #include <unistd.h>
+#endif
+
+#if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+#define _CONSOLE_GAME 1
 #endif
 
 //----------------------------------------------------------------------------------
@@ -253,17 +261,11 @@ if (!(condition)) { \
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-#ifdef _WIN32
 inline void Sleep( int32_t ms )
 {
-	::Sleep( ms );
+	if (ms <= 0) return;
+	std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
-#else
-inline void Sleep( int32_t ms )
-{
-	usleep( 1000 * ms );
-}
-#endif
 
 //----------------------------------------------------------------------------------
 //
@@ -346,6 +348,17 @@ static float RadianToDegree(float radian)
 	return radian / PI * 180.0f;
 }
 
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+
+template<typename T> static  std::u16string ToU16String(T const &arg) {
+	std::string const src = std::to_string(arg);
+	auto tmp = std::vector<int16_t>(src.length());
+	Utf8ToUtf16(tmp, (int8_t const*)(src.c_str()));
+	tmp.pop_back(); // drop null char
+	return std::u16string(tmp.begin(), tmp.end());
+}
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------

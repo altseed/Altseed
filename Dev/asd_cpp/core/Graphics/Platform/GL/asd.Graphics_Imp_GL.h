@@ -29,25 +29,6 @@ namespace asd {
 	public:
 		static void LoadTexture(Graphics_Imp_GL* graphics, void* imgdata, int32_t width, int32_t height, GLuint& texture);
 	};
-
-	class DistortingCallbackGL
-		: public EffectDistortingCallback
-	{
-		GLuint framebufferForCopy = 0;
-		GLuint backGroundTexture = 0;
-		uint32_t backGroundTextureWidth = 0;
-		uint32_t backGroundTextureHeight = 0;
-		GLuint backGroundTextureInternalFormat = 0;
-
-		EffekseerRendererGL::Renderer*	renderer = nullptr;
-
-	public:
-		DistortingCallbackGL(EffekseerRendererGL::Renderer* renderer);
-		virtual ~DistortingCallbackGL();
-		void ReleaseTexture();
-		void PrepareTexture(uint32_t width, uint32_t height, GLint internalFormat);
-		virtual void OnDistorting() override;
-	};
 #endif
 
 	//----------------------------------------------------------------------------------
@@ -101,6 +82,7 @@ namespace asd {
 			const char* pixelShaderText,
 			const char* pixelShaderFileName,
 			std::vector <VertexLayout>& layout,
+			bool is32Bit,
 			std::vector <Macro>& macro);
 
 		void UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr);
@@ -185,19 +167,19 @@ namespace asd {
 		@brief	描画スレッド用にコンテキストを生成する。(描画スレッド生成前)
 		@param	window	ウインドウ
 		*/
-		void CreateContextBeforeThreading(GLFWwindow* window);
+		void CreateContextBeforeThreading(Window* window);
 
 		/**
 			@brief	描画スレッド用にコンテキストを生成する。(描画スレッド上)
 			@param	window	ウインドウ
 		*/
-		void CreateContextOnThread(GLFWwindow* window);
+		void CreateContextOnThread(Window* window);
 
 		/**
 		@brief	描画スレッド用にコンテキストを生成する。(描画スレッド生成後)
 		@param	window	ウインドウ
 		*/
-		void CreateContextAfterThreading(GLFWwindow* window);
+		void CreateContextAfterThreading(Window* window);
 
 		/**
 			@brief	フレームバッファをバインドする。

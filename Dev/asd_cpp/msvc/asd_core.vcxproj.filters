@@ -168,9 +168,6 @@
     <ClInclude Include="..\core\Window\asd.Window_Imp.h">
       <Filter>Window</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Window\asd.Window_Imp_Win.h">
-      <Filter>Window</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Log\asd.Log_Imp.h">
       <Filter>Log</Filter>
     </ClInclude>
@@ -1026,13 +1023,13 @@
     <ClInclude Include="..\core\3rdParty\DirectXToolKit\PlatformHelpers.h">
       <Filter>3rdParty\DirectXToolKit</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Helper\asd.EffekseerHelper.h">
+      <Filter>Graphics\Helper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">
       <Filter>Log</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Window\asd.Window_Imp_Win.cpp">
-      <Filter>Window</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Window\asd.Window_Imp.cpp">
       <Filter>Window</Filter>
@@ -1447,14 +1444,11 @@
     <ClCompile Include="..\core\3rdParty\DirectXToolKit\DDSTextureLoader.cpp">
       <Filter>3rdParty\DirectXToolKit</Filter>
     </ClCompile>
+    <ClCompile Include="..\core\Graphics\Helper\asd.EffekseerHelper.cpp">
+      <Filter>Graphics\Helper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\core\Window\asd.Window_Imp_X11.cpp">
-      <Filter>Window</Filter>
-    </None>
-    <None Include="..\core\Window\asd.Window_Imp_X11.h">
-      <Filter>Window</Filter>
-    </None>
     <None Include="..\core\Input\asd.JoystickContainer.h">
       <Filter>Input</Filter>
     </None>

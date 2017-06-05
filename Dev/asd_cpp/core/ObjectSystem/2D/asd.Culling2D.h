@@ -5,6 +5,8 @@
 #include "asd.CoreObject2D.h"
 #include "asd.CoreChip2D.h"
 
+#if defined(_WIN32)
+
 #ifdef _WIN64
 
 #if _DEBUG
@@ -19,6 +21,8 @@
 #pragma comment(lib,"x86/Debug/Culling2D.lib")
 #else
 #pragma comment(lib,"x86/Release/Culling2D.lib")
+#endif
+
 #endif
 
 #endif

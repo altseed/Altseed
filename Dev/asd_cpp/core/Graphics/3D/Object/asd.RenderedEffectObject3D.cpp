@@ -8,6 +8,46 @@
 
 namespace asd
 {
+	int32_t RenderedEffectObject3D::PlayInternal(int32_t id)
+	{
+		if (m_effect == nullptr) return -1;
+		if (m_renderer == nullptr) return -1;
+
+		auto internalHandle = -1;
+		if (id >= 0)
+		{
+			internalHandle = id;
+		}
+		else
+		{
+			internalHandle = nextInternalHandle;
+			nextInternalHandle++;
+		}
+
+		auto e = (Effect_Imp*)m_effect;
+		auto ne = e->GetEffect();
+
+		auto pos = GetPosition();
+		auto mat = GetLocalMatrix();
+		Effekseer::Matrix43 efMat;
+
+		// 転置して代入
+		for (auto c = 0; c < 3; c++)
+		{
+			for (auto r = 0; r < 4; r++)
+			{
+				efMat.Value[r][c] = mat.Values[c][r];
+			}
+		}
+		auto handle = m_renderer->GetEffectManager()->Play(ne, pos.X, pos.Y, pos.Z);
+		m_renderer->GetEffectManager()->SetMatrix(handle, efMat);
+		m_handles.push_back(handle);
+
+		internalHandleToEffekseerHandle[internalHandle] = handle;
+
+		return internalHandle;
+	}
+
 	RenderedEffectObject3D::RenderedEffectObject3D(Graphics* graphics)
 		: RenderedObject3D(graphics)
 		, m_effect(nullptr)
@@ -36,11 +76,15 @@ namespace asd
 				}
 				else
 				{
+					auto value = m_handles[i];
+
 					for (size_t j = i; j < m_handles.size() - 1; j++)
 					{
 						m_handles[j] = m_handles[j + 1];
 					}
 					m_handles.resize(m_handles.size() - 1);
+
+					internalHandleToEffekseerHandle.erase(value);
 				}
 			}
 		}
@@ -86,28 +130,22 @@ namespace asd
 	int32_t RenderedEffectObject3D::Play()
 	{
 		if (m_effect == nullptr) return -1;
-		if (m_renderer == nullptr) return -1;
-
-		auto e = (Effect_Imp*) m_effect;
-		auto ne = e->GetEffect();
-
-		auto pos = GetPosition();
-		auto mat = GetLocalMatrix();
-		Effekseer::Matrix43 efMat;
-
-		// 転置して代入
-		for (auto c = 0; c < 3; c++)
+		if (m_renderer == nullptr)
 		{
-			for (auto r = 0; r < 4; r++)
-			{
-				efMat.Value[r][c] = mat.Values[c][r];
-			}
-		}
-		auto handle = m_renderer->GetEffectManager()->Play(ne, pos.X, pos.Y, pos.Z);
-		m_renderer->GetEffectManager()->SetMatrix(handle, efMat);
-		m_handles.push_back(handle);
+			auto internalHandle = nextInternalHandle;
+			nextInternalHandle++;
 
-		return handle;
+			Command cmd;
+			cmd.Type = CommandType::Play;
+			cmd.ID = internalHandle;
+			commands.push_back(cmd);
+
+			return internalHandle;
+		}
+		else
+		{
+			return PlayInternal(-1);
+		}
 	}
 
 	void RenderedEffectObject3D::Stop()
@@ -117,6 +155,14 @@ namespace asd
 			m_renderer->GetEffectManager()->StopEffect(h);
 		}
 		m_handles.clear();
+		internalHandleToEffekseerHandle.clear();
+
+		if (m_renderer == nullptr)
+		{
+			Command cmd;
+			cmd.Type = CommandType::Stop;
+			commands.push_back(cmd);
+		}
 	}
 
 	void RenderedEffectObject3D::StopRoot()
@@ -124,6 +170,13 @@ namespace asd
 		for (auto& h : m_handles)
 		{
 			m_renderer->GetEffectManager()->StopRoot(h);
+		}
+
+		if (m_renderer == nullptr)
+		{
+			Command cmd;
+			cmd.Type = CommandType::StopRoot;
+			commands.push_back(cmd);
 		}
 	}
 
@@ -133,6 +186,13 @@ namespace asd
 		{
 			m_renderer->GetEffectManager()->SetShown(h, true);
 		}
+
+		if (m_renderer == nullptr)
+		{
+			Command cmd;
+			cmd.Type = CommandType::Show;
+			commands.push_back(cmd);
+		}
 	}
 
 	void RenderedEffectObject3D::Hide()
@@ -140,6 +200,13 @@ namespace asd
 		for (auto& h : m_handles)
 		{
 			m_renderer->GetEffectManager()->SetShown(h, false);
+		}
+
+		if (m_renderer == nullptr)
+		{
+			Command cmd;
+			cmd.Type = CommandType::Hide;
+			commands.push_back(cmd);
 		}
 	}
 
@@ -161,6 +228,46 @@ namespace asd
 		assert(m_renderer == nullptr);
 
 		m_renderer = renderer;
+		
+		for (auto& c : commands)
+		{
+			if (c.Type == CommandType::Play)
+			{
+				PlayInternal(c.ID);
+			}
+			else if (c.Type == CommandType::Stop)
+			{
+				for (auto& h : m_handles)
+				{
+					m_renderer->GetEffectManager()->StopEffect(h);
+				}
+				m_handles.clear();
+				internalHandleToEffekseerHandle.clear();
+			}
+			else if (c.Type == CommandType::StopRoot)
+			{
+				for (auto& h : m_handles)
+				{
+					m_renderer->GetEffectManager()->StopRoot(h);
+				}
+			}
+			else if (c.Type == CommandType::Show)
+			{
+				for (auto& h : m_handles)
+				{
+					m_renderer->GetEffectManager()->SetShown(h, true);
+				}
+			}
+			else if (c.Type == CommandType::Hide)
+			{
+				for (auto& h : m_handles)
+				{
+					m_renderer->GetEffectManager()->SetShown(h, false);
+				}
+			}
+		}
+
+		commands.clear();
 	}
 
 	void RenderedEffectObject3D::OnRemoving(Renderer3D* renderer)

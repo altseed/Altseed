@@ -10,6 +10,8 @@
 #include "asd.CoreShapeConverter.h"
 #include "../ObjectSystem/2D/asd.CoreGeometryObject2D_Imp.h"
 
+#if defined(_WIN32)
+
 #ifdef _WIN64
 
 #if _DEBUG
@@ -24,6 +26,8 @@
 #pragma comment(lib,"x86/Debug/Box2D.lib")
 #else
 #pragma comment(lib,"x86/Release/Box2D.lib")
+#endif
+
 #endif
 
 #endif

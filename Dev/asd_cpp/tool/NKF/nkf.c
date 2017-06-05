@@ -22,6 +22,7 @@
  */
 
 // Altseed
+#if !( defined(__ANDROID__) || defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
 #define _CRT_SECURE_NO_WARNINGS 1
 #define _CRT_NONSTDC_NO_DEPRECATE 1
 #define WIN32DLL 1
@@ -7364,3 +7365,6 @@ reinitdll(void)
 
 }
 //
+
+// Altseed
+#endif

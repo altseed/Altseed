@@ -30,7 +30,10 @@ namespace asd {
 
 		Graphics*	m_graphics;
 
+#if !(defined(_CONSOLE_GAME))
 		std::shared_ptr<FontRasterizer> rasterizer;
+#endif
+
 		std::set<int32_t>				updatingTexture;
 		bool		isDynamic = false;
 
@@ -42,7 +45,9 @@ namespace asd {
 
 		static Font_Imp* Create(Graphics* graphics, const achar* font, int32_t fontSize, Color color, int32_t outlineSize, Color outlineColor);
 
+#if !(defined(_CONSOLE_GAME))
 		Font_Imp(Graphics* graphics, std::shared_ptr<FontRasterizer> rasterizer);
+#endif
 
 		Font_Imp(Graphics* graphics, const achar* affFilePathChar, std::vector<uint8_t> data);
 

@@ -33,12 +33,17 @@
 #define UTILS_H
 
 // Otherwise #defines like M_PI are undeclared under Visual Studio
-#define _USE_MATH_DEFINES
+// #define _USE_MATH_DEFINES
 
 #include <exception>
 #include <math.h>
 
 namespace p2t {
+
+// Altseed
+#if ( defined(_WIN32) || defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
+	static const double M_PI = 3.14159265358979;
+#endif
 
 const double PI_3div4 = 3 * M_PI / 4;
 const double PI_div2 = 1.57079632679489661923;

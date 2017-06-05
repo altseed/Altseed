@@ -8,64 +8,20 @@
 
 #include <OpenSoundMixer.h>
 
-#ifdef _v120
+#ifdef _WIN32
 #ifdef _WIN64
 
 #if _DEBUG
-#pragma comment(lib,"x64/Debug/VS2013/libogg_static.lib")
-#pragma comment(lib,"x64/Debug/VS2013/libvorbis_static.lib")
-#pragma comment(lib,"x64/Debug/VS2013/libvorbisfile_static.lib")
 #pragma comment(lib,"x64/Debug/OpenSoundMixer.lib")
 #else
-#pragma comment(lib,"x64/Release/VS2013/libogg_static.lib")
-#pragma comment(lib,"x64/Release/VS2013/libvorbis_static.lib")
-#pragma comment(lib,"x64/Release/VS2013/libvorbisfile_static.lib")
 #pragma comment(lib,"x64/Release/OpenSoundMixer.lib")
 #endif
 
 #else
 
 #if _DEBUG
-#pragma comment(lib,"x86/Debug/VS2013/libogg_static.lib")
-#pragma comment(lib,"x86/Debug/VS2013/libvorbis_static.lib")
-#pragma comment(lib,"x86/Debug/VS2013/libvorbisfile_static.lib")
 #pragma comment(lib,"x86/Debug/OpenSoundMixer.lib")
 #else
-#pragma comment(lib,"x86/Release/VS2013/libogg_static.lib")
-#pragma comment(lib,"x86/Release/VS2013/libvorbis_static.lib")
-#pragma comment(lib,"x86/Release/VS2013/libvorbisfile_static.lib")
-#pragma comment(lib,"x86/Release/OpenSoundMixer.lib")
-#endif
-
-#endif
-#endif
-
-#ifdef _v140
-#ifdef _WIN64
-
-#if _DEBUG
-#pragma comment(lib,"x64/Debug/VS2015/libogg_static.lib")
-#pragma comment(lib,"x64/Debug/VS2015/libvorbis_static.lib")
-#pragma comment(lib,"x64/Debug/VS2015/libvorbisfile_static.lib")
-#pragma comment(lib,"x64/Debug/OpenSoundMixer.lib")
-#else
-#pragma comment(lib,"x64/Release/VS2015/libogg_static.lib")
-#pragma comment(lib,"x64/Release/VS2015/libvorbis_static.lib")
-#pragma comment(lib,"x64/Release/VS2015/libvorbisfile_static.lib")
-#pragma comment(lib,"x64/Release/OpenSoundMixer.lib")
-#endif
-
-#else
-
-#if _DEBUG
-#pragma comment(lib,"x86/Debug/VS2015/libogg_static.lib")
-#pragma comment(lib,"x86/Debug/VS2015/libvorbis_static.lib")
-#pragma comment(lib,"x86/Debug/VS2015/libvorbisfile_static.lib")
-#pragma comment(lib,"x86/Debug/OpenSoundMixer.lib")
-#else
-#pragma comment(lib,"x86/Release/VS2015/libogg_static.lib")
-#pragma comment(lib,"x86/Release/VS2015/libvorbis_static.lib")
-#pragma comment(lib,"x86/Release/VS2015/libvorbisfile_static.lib")
 #pragma comment(lib,"x86/Release/OpenSoundMixer.lib")
 #endif
 

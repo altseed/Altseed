@@ -53,7 +53,7 @@ namespace asd {
 		auto g = (Graphics_Imp*) graphics;
 
 		vertexBuffer = g->CreateVertexBuffer_Imp(sizeof(Vertex), 4, false);
-		indexBuffer = g->CreateIndexBuffer_Imp(6, false, false);
+		indexBuffer = g->CreateIndexBuffer_Imp(6, false, true);
 	
 		if (vertexBuffer == nullptr ||
 			indexBuffer == nullptr)
@@ -73,7 +73,7 @@ namespace asd {
 
 		{
 			indexBuffer->Lock();
-			auto ib = indexBuffer->GetBuffer<uint16_t>(6);
+			auto ib = indexBuffer->GetBuffer<uint32_t>(6);
 			ib[0] = 0;
 			ib[1] = 1;
 			ib[2] = 2;
