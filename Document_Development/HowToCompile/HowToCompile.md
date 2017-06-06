@@ -144,6 +144,33 @@ GNU Make を使う場合は自動的に実行されるので、 [4. コンパイ
 |2Dカリング|`build_culling2d.py`|Altseedチームによるライブラリ|
 |3Dカリング|`build_culling3d.py`|Altseedチームによるライブラリ|
 
+#### スクリプトに対するVisual Studioバージョンの指定
+
+Windows上で上記のスクリプトを実行するためには、特定のバージョンのVisual Studioがインストールされていることが必要です。
+必要なバージョンのVisual Studioがインストールされていないことが原因と思われるエラーが発生した場合、スクリプトの実行時にオプションでVisual Studioのバージョンなどを指定する必要があります。
+
+pythonコマンドでスクリプトを実行するとき、オプションは以下のように指定します。
+
+```
+python <スクリプト> <CMakeの構成名(x86)> <CMakeの構成名(x64)> <msbuildへのパス>
+```
+
+たとえば、Visual Studio 2017をデフォルトの場所にインストールしているなら次のように指定します。
+
+```
+python build_ap.py "Visual Studio 15" "Visual Studio 15 Win64" "C:\Program Files(x86)\Microsoft Visual Studio\VS2017\Community\MSBuild\15.0\Bin\msbuild"
+```
+
+Visual StudioバージョンとCMakeの構成名の対応は次の通りです。
+msbuildへのパスはインストール場所にもよるので各自で調べてください。
+
+|Visual Studio|構成名(x86)|構成名(x64)|
+|---|---|---|
+|VS2012|Visual Studio 11|Visual Studio 11 Win64|
+|VS2013|Visual Studio 12|Visual Studio 12 Win64|
+|VS2015|Visual Studio 14|Visual Studio 14 Win64|
+|VS2017|Visual Studio 15|Visual Studio 15 Win64|
+
 ### その他のライブラリの導入手順
 
 #### glew
