@@ -129,6 +129,8 @@ GNU Make を使う場合は自動的に実行されるので、 [4. コンパイ
 
 |ライブラリ|スクリプト|説明|
 |---|---|---|
+|AltseedPlatform|`build_ap.py`||
+|AltseedRHI|`build_ar.py`||
 |glfw for Altseed|`build_glfw.py`||
 |zlib/libpng|`build_libpng.py`|Windowsでは実行する必要はありません。|
 |glew|`build_glew.py`|Windows以外ではスクリプトによる導入はできませんので、次節を参照してください。|

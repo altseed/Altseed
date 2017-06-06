@@ -24,7 +24,7 @@ namespace unitTest_Engine_cs
 		//[STAThread]
 		static void Main(string[] args)
 		{
-			TestOnTheDevice(typeof (BugFix.RepeatedlyAddAndRemoveObject), GraphicsDeviceType.DirectX11);
+			TestOnTheDevice(typeof (Window.EmptyExternal), GraphicsDeviceType.DirectX11);
 			Console.ReadKey();
 			return;
 
