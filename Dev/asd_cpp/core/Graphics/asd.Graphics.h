@@ -26,9 +26,11 @@ protected:
 	virtual Texture2D* CreateEditableTexture2D_(const achar* path) = 0;
 
 	virtual RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, TextureFormat format) = 0;
-	virtual CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) = 0;
-	virtual CubemapTexture* CreateCubemapTextureFromMipmapImageFiles_(const achar* path, int32_t mipmapCount) = 0;
-	virtual CubemapTexture* CreateCubemapTextureFromSingleImageFile_(const achar* path) = 0;
+	
+	//virtual CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) = 0;
+	//virtual CubemapTexture* CreateCubemapTextureFromMipmapImageFiles_(const achar* path, int32_t mipmapCount) = 0;
+	//virtual CubemapTexture* CreateCubemapTextureFromSingleImageFile_(const achar* path) = 0;
+	virtual CubemapTexture* CreateCubemapTexture_(const achar* path) = 0;
 
 	virtual Shader2D* CreateShader2D_( const achar* shaderText) = 0;
 	virtual Shader2D* CreateShader2DFromBinary_(const achar* path) = 0;
@@ -115,12 +117,12 @@ public:
 	@warning	読み込める画像形式はPNGまたはDDSのみ。
 	@return	キューブマップ
 	*/
-	std::shared_ptr<CubemapTexture> CreateCubemapTextureFrom6ImageFiles(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom)
-	{
-		return CreateSharedPtrWithReleaseDLL(
-			CreateCubemapTextureFrom6ImageFiles_(
-			front, left, back, right, top, bottom));
-	}
+	//std::shared_ptr<CubemapTexture> CreateCubemapTextureFrom6ImageFiles(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom)
+	//{
+	//	return CreateSharedPtrWithReleaseDLL(
+	//		CreateCubemapTextureFrom6ImageFiles_(
+	//		front, left, back, right, top, bottom));
+	//}
 
 	/**
 	@brief	複数の画像ファイルからミップマップ付のキューブマップテクスチャを生成する。
@@ -129,12 +131,12 @@ public:
 	@warning	読み込める画像形式はPNGまたはDDSのみ。
 	@return	キューブマップ
 	*/
-	std::shared_ptr<CubemapTexture> CreateCubemapTextureFromMipmapImageFiles(const achar* path, int32_t mipmapCount)
-	{
-		return CreateSharedPtrWithReleaseDLL(
-			CreateCubemapTextureFromMipmapImageFiles_(
-			path, mipmapCount));
-	}
+	//std::shared_ptr<CubemapTexture> CreateCubemapTextureFromMipmapImageFiles(const achar* path, int32_t mipmapCount)
+	//{
+	//	return CreateSharedPtrWithReleaseDLL(
+	//		CreateCubemapTextureFromMipmapImageFiles_(
+	//		path, mipmapCount));
+	//}
 
 	/**
 	@brief	1つのファイルからミップマップ付のキューブマップテクスチャを生成する。
@@ -142,10 +144,23 @@ public:
 	@return	キューブマップ
 	@warning	読み込める画像形式はDDSのみ。
 	*/
-	std::shared_ptr<CubemapTexture> CreateCubemapTextureFromSingleImageFile(const achar* path)
+	//std::shared_ptr<CubemapTexture> CreateCubemapTextureFromSingleImageFile(const achar* path)
+	//{
+	//	return CreateSharedPtrWithReleaseDLL(
+	//		CreateCubemapTextureFromSingleImageFile_(
+	//		path));
+	//}
+
+	/**
+	@brief	1つのファイルからミップマップ付のキューブマップテクスチャを生成する。
+	@param	path		画像ファイルへの相対パス
+	@return	キューブマップ
+	@warning	読み込める画像形式はDDSのみ。
+	*/
+	std::shared_ptr<CubemapTexture> CreateCubemapTexture(const achar* path)
 	{
 		return CreateSharedPtrWithReleaseDLL(
-			CreateCubemapTextureFromSingleImageFile_(
+			CreateCubemapTexture_(
 			path));
 	}
 

@@ -895,6 +895,7 @@ Texture2D_Imp* Graphics_Imp_GL::CreateEditableTexture2D_Imp_Internal(Graphics* g
 	return ret;
 }
 
+/*
 CubemapTexture* Graphics_Imp_GL::CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom)
 {
 	return CubemapTexture_Imp_GL::Create(this, front, left, back, right, top, bottom);
@@ -906,6 +907,12 @@ CubemapTexture* Graphics_Imp_GL::CreateCubemapTextureFromMipmapImageFiles_(const
 }
 
 CubemapTexture* Graphics_Imp_GL::CreateCubemapTextureFromSingleImageFile_(const achar* path)
+{
+	return CubemapTexture_Imp_GL::Create(this, path);
+}
+*/
+
+CubemapTexture* Graphics_Imp_GL::CreateCubemapTexture_(const achar* path)
 {
 	return CubemapTexture_Imp_GL::Create(this, path);
 }

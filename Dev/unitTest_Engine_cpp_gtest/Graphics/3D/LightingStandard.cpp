@@ -31,16 +31,10 @@ protected:
 		luTexs[3] = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Model/Texture/DarkGray.png").c_str());
 		luTexs[4] = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Model/Texture/Black.png").c_str());
 
-		auto cubemap = asd::Engine::GetGraphics()->CreateCubemapTextureFrom6ImageFiles(
-			asd::ToAString("Data/Cubemap/Sky1/Diffuse/Front.png").c_str(),
-			asd::ToAString("Data/Cubemap/Sky1/Diffuse/Left.png").c_str(),
-			asd::ToAString("Data/Cubemap/Sky1/Diffuse/Back.png").c_str(),
-			asd::ToAString("Data/Cubemap/Sky1/Diffuse/Right.png").c_str(),
-			asd::ToAString("Data/Cubemap/Sky1/Diffuse/Top.png").c_str(),
-			asd::ToAString("Data/Cubemap/Sky1/Diffuse/Bottom.png").c_str()
-			);
-
-		auto specCubemap = asd::Engine::GetGraphics()->CreateCubemapTextureFromMipmapImageFiles(asd::ToAString("Data/Cubemap/Sky1/Spec/sky").c_str(), 8);
+		// Environment (Because file is hevey, if you require Cubemap, you need to put a file manually.)
+		auto cubemap = asd::Engine::GetGraphics()->CreateCubemapTexture(u"env.dds");
+		auto specCubemap = asd::Engine::GetGraphics()->CreateCubemapTexture(u"spec.dds");
+		GetLayer3D()->SetEnvironmentColor(cubemap, specCubemap);
 
 		auto plainObj = std::make_shared<asd::ModelObject3D>();
 		auto sphereObj = std::make_shared<asd::ModelObject3D>();

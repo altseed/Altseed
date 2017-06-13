@@ -48,9 +48,9 @@ namespace asd
 	}
 	*/
 
+	/*
 	CubemapTexture_Imp* CubemapTexture_Imp_DX11::Create(Graphics_Imp* graphics, const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom)
 	{
-		/*
 		auto loadFile = [graphics](const achar* path, std::vector<uint8_t>& dst)-> bool
 		{
 			auto staticFile = graphics->GetFile()->CreateStaticFile(path);
@@ -220,14 +220,15 @@ namespace asd
 				v_->Release();
 			}
 		}
-		*/
+
 		return nullptr;
 	}
+	*/
 
-
+	/*
 	CubemapTexture_Imp* CubemapTexture_Imp_DX11::Create(Graphics_Imp* graphics, const achar* path, int32_t mipmapCount)
 	{
-		/*
+
 		auto loadFile = [graphics](const achar* path, std::vector<uint8_t>& dst)-> bool
 		{
 			auto staticFile = graphics->GetFile()->CreateStaticFile(path);
@@ -387,11 +388,11 @@ namespace asd
 				v_->Release();
 			}
 		}
-		*/
+
 
 		return nullptr;
 	}
-
+	*/
 
 	CubemapTexture_Imp* CubemapTexture_Imp_DX11::Create(Graphics_Imp* graphics, const achar* path)
 	{

@@ -66,25 +66,16 @@ protected:
 		tObj->SetTerrain(t);
 		GetLayer3D()->AddObject(tObj);
 
-		// 環境
-		auto cubemap = asd::Engine::GetGraphics()->CreateCubemapTextureFrom6ImageFiles(
-			asd::ToAString("Data/Cubemap/Sky1/Diffuse/Front.png").c_str(),
-			asd::ToAString("Data/Cubemap/Sky1/Diffuse/Left.png").c_str(),
-			asd::ToAString("Data/Cubemap/Sky1/Diffuse/Back.png").c_str(),
-			asd::ToAString("Data/Cubemap/Sky1/Diffuse/Right.png").c_str(),
-			asd::ToAString("Data/Cubemap/Sky1/Diffuse/Top.png").c_str(),
-			asd::ToAString("Data/Cubemap/Sky1/Diffuse/Bottom.png").c_str()
-			);
-
-		auto specCubemap = asd::Engine::GetGraphics()->CreateCubemapTextureFromMipmapImageFiles(asd::ToAString("Data/Cubemap/Sky1/Spec/sky").c_str(), 8);
-
 		auto lightObj = std::make_shared<asd::DirectionalLightObject3D>();
 		lightObj->SetRotation(asd::Vector3DF(30, 160, 0));
 		lightObj->SetColor(asd::Color(255, 255, 255, 200));
 		GetLayer3D()->AddObject(lightObj);
 
-		// 環境
+		// Environment (Because file is hevey, if you require Cubemap, you need to put a file manually.)
+		auto cubemap = asd::Engine::GetGraphics()->CreateCubemapTexture(u"env.dds");
+		auto specCubemap = asd::Engine::GetGraphics()->CreateCubemapTexture(u"spec.dds");
 		GetLayer3D()->SetEnvironmentColor(cubemap, specCubemap);
+
 		// 環境光
 #if 0
 		GetLayer3D()->SetSkyAmbientColor(asd::Color(10, 10, 20, 255));

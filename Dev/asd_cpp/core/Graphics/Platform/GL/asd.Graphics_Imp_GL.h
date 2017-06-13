@@ -114,11 +114,14 @@ namespace asd {
 
 		RenderTexture2D_Imp* CreateRenderTexture2D_Imp(int32_t width, int32_t height, TextureFormat format);
 
+		/*
 		CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) override;
 
 		CubemapTexture* CreateCubemapTextureFromMipmapImageFiles_(const achar* path, int32_t mipmapCount) override;
 
 		CubemapTexture* CreateCubemapTextureFromSingleImageFile_(const achar* path) override;
+		*/
+		CubemapTexture* CreateCubemapTexture_(const achar* path) override;
 
 		DepthBuffer_Imp* CreateDepthBuffer_Imp(int32_t width, int32_t height);
 

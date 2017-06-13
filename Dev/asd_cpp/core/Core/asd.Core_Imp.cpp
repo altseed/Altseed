@@ -329,6 +329,7 @@ namespace asd
 		go.IsFullScreen = option.IsFullScreen;
 		go.IsReloadingEnabled = option.IsReloadingEnabled;
 		go.ColorSpace = option.ColorSpace;
+		go.GraphicsDevice = option.GraphicsDevice;
 
 		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, option.GraphicsDevice, m_logger,m_file, go);
 		if (m_graphics == nullptr) return false;
