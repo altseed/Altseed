@@ -6,6 +6,14 @@
 #include "../../asd.Graphics_Imp.h"
 #include "asd.DX11.Base.h"
 
+#if _WIN32
+#elif __APPLE__
+#else
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <GL/glx.h>
+#endif
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -18,6 +26,7 @@ namespace asd {
 	class GraphicsHelper_DX11
 	{
 	public:
+		/*
 		static void LoadTexture(Graphics_Imp_DX11* graphics, void* imgdata, int32_t width, int32_t height, ID3D11Texture2D*& texture, ID3D11ShaderResourceView*& textureSRV);
 
 		static astring GetErrorMessage(Graphics_Imp_DX11* graphics, HRESULT hr);
@@ -25,9 +34,70 @@ namespace asd {
 		static std::string GetFormatName(Graphics_Imp_DX11* graphics, DXGI_FORMAT format);
 
 		static TextureFormat GetTextureFormat(DXGI_FORMAT format);
+		*/
 	};
 #endif
 
+#if !SWIG
+	class WindowOpenGLX11
+	{
+	public:
+#if _WIN32
+		void SwapBuffers() {}
+#elif __APPLE__
+		void SwapBuffers() {}
+#else
+		GLXContext			glx;
+		Display*			x11Display;
+		::Window			x11Window;
+
+		WindowOpenGLX11()
+		{
+
+		}
+
+		virtual  ~WindowOpenGLX11()
+		{
+			glXMakeCurrent(x11Display, 0, NULL);
+			glXDestroyContext(x11Display, glx);
+		}
+
+		bool Initialize(void* display, void* window)
+		{
+			Display* display_ = (Display*)display;
+			::Window window_ = *((::Window*)window);
+
+			GLint attribute[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
+			XVisualInfo* vi = glXChooseVisual(display_, DefaultScreen(display_), attribute);
+
+			if (vi == nullptr)
+			{
+				return false;
+			}
+
+			GLXContext context = glXCreateContext(display_, vi, 0, GL_TRUE);
+			
+			XFree(vi);
+
+			glXMakeCurrent(display_, window_, context);
+			
+			glx = context;
+			x11Display = display_;
+			x11Window = window_;
+		}
+
+		void MakeCurrent()
+		{
+			glXMakeCurrent(x11Display, x11Window, glx);
+		}
+
+		void SwapBuffers()
+		{
+			glXSwapBuffers(x11Display, x11Window);
+		}
+#endif
+	};
+#endif
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -36,6 +106,7 @@ namespace asd {
 	{
 	private:
 		Window*					m_window;
+		WindowOpenGLX11*		windowHelper = nullptr;
 		ar::Context*			rhiContext = nullptr;
 		ar::DrawParameter		drawParam;
 
@@ -50,16 +121,17 @@ namespace asd {
 
 		bool					isInitializedAsDX9 = false;
 
+
+
 		Graphics_Imp_DX11(
 			ar::Manager* manager,
 			Window* window,
+			WindowOpenGLX11* windowHelper,
 			Vector2DI size,
 			Log* log,
 			File* file,
 			GraphicsOption option);
 		virtual ~Graphics_Imp_DX11();
-
-		static void WriteAdapterInformation(Log* log, IDXGIAdapter1* adapter, int32_t index);
 
 		void ApplyRenderTargets();
 
@@ -93,13 +165,13 @@ namespace asd {
 
 		void EndInternal();
 
-		static Graphics_Imp_DX11* Create(Window* window, void* handle, int32_t width, int32_t height, Log* log, File *file, GraphicsOption option);
+		static Graphics_Imp_DX11* Create(Window* window, void* handle1, void* handle2, int32_t width, int32_t height, Log* log, File *file, GraphicsOption option);
 
 	public:
 		
 		static Graphics_Imp_DX11* Create(Window* window, Log* log, File* file, GraphicsOption option);
 
-		static Graphics_Imp_DX11* Create(void* handle, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option);
+		static Graphics_Imp_DX11* Create(void* handle1, void* handle2, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option);
 
 		Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size);
 
@@ -150,8 +222,11 @@ namespace asd {
 	public:
 
 		bool GetIsInitializedAsDX9() { return isInitializedAsDX9; }
+
+#ifdef _WIN32
 		ID3D11Device* GetDevice() { return (ID3D11Device*)GetRHI()->GetInternalObjects()[0]; }
 		ID3D11DeviceContext* GetContext() { return (ID3D11DeviceContext*)GetRHI()->GetInternalObjects()[1]; }
+#endif
 
 		GraphicsDeviceType GetGraphicsDeviceType() const { return (GraphicsDeviceType)GetRHI()->GetDeviceType(); }
 	};

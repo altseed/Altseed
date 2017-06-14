@@ -29,6 +29,7 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	/*
 	void GraphicsHelper_DX11::LoadTexture(Graphics_Imp_DX11* graphics, void* imgdata, int32_t width, int32_t height, ID3D11Texture2D*& texture, ID3D11ShaderResourceView*& textureSRV)
 	{
 		ID3D11ShaderResourceView* srv = nullptr;
@@ -80,7 +81,9 @@ namespace asd {
 		texture = texture;
 		textureSRV = srv;
 	}
+	*/
 
+	/*
 	astring GraphicsHelper_DX11::GetErrorMessage(Graphics_Imp_DX11* graphics, HRESULT hr)
 	{
 		if (hr == D3D11_ERROR_FILE_NOT_FOUND) return ToAString("ファイルが見つかりませんでした。");
@@ -127,8 +130,129 @@ namespace asd {
 
 		assert(0);
 	}
+	*/
 
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+#if _WIN32
+	void WriteAdapterInformation(Log* log, IDXGIAdapter1* adapter, int32_t index)
+	{
+		if (log == nullptr) return;
 
+		auto write = [log](std::ostringstream& os) -> void
+		{
+			log->Write(ToAString(os.str().c_str()).c_str());
+		};
+
+		auto writeTable = [log, write](const char* title, std::ostringstream& text, bool isLast) -> void
+		{
+			log->Write(ToAString(title).c_str());
+			log->ChangeColumn();
+			write(text);
+			if (!isLast)
+			{
+				log->ChangeRow();
+			}
+		};
+
+		{
+			DXGI_ADAPTER_DESC1 adapterDesc;
+
+			auto hr = adapter->GetDesc1(&adapterDesc);
+
+			std::ostringstream title, card, vendor, device, subSys, revision, videoMemory, systemMemory, sharedSystemMemory;
+
+			title << "デバイス情報 (" << (index + 1) << ")";
+
+			if (SUCCEEDED(hr))
+			{
+				card << ToUtf8String((const achar*)adapterDesc.Description);
+				vendor << adapterDesc.VendorId;
+				device << adapterDesc.DeviceId;
+				subSys << adapterDesc.SubSysId;
+				revision << adapterDesc.Revision;
+				videoMemory << (adapterDesc.DedicatedVideoMemory / 1024 / 1024) << "MB";
+				systemMemory << (adapterDesc.DedicatedSystemMemory / 1024 / 1024) << "MB";
+				sharedSystemMemory << (adapterDesc.SharedSystemMemory / 1024 / 1024) << "MB";
+			}
+
+			log->WriteLineStrongly(ToAString(title.str().c_str()).c_str());
+
+			log->BeginTable();
+
+			writeTable("GraphicCard", card, false);
+			writeTable("VendorID", vendor, false);
+			writeTable("DeviceID", device, false);
+			writeTable("SubSysID", subSys, false);
+			writeTable("Revision", revision, false);
+			writeTable("VideoMemory", videoMemory, false);
+			writeTable("SystemMemory", systemMemory, false);
+			writeTable("SharedSystemMemory", sharedSystemMemory, true);
+
+			log->EndTable();
+		}
+
+		for (int32_t i = 0;; i++)
+		{
+			IDXGIOutput* temp = nullptr;
+			if (adapter->EnumOutputs(i, &temp) != DXGI_ERROR_NOT_FOUND)
+			{
+				DXGI_OUTPUT_DESC outputDesc;
+
+				if (SUCCEEDED(temp->GetDesc(&outputDesc)))
+				{
+					std::ostringstream title, name, attach, pos;
+
+					title << "アウトプット情報 (" << (i + 1) << ")";
+
+					name << ToUtf8String((const achar*)outputDesc.DeviceName);
+					attach << (outputDesc.AttachedToDesktop == TRUE ? "True" : "False");
+					pos << "(" << outputDesc.DesktopCoordinates.left << ","
+						<< outputDesc.DesktopCoordinates.top << ","
+						<< (outputDesc.DesktopCoordinates.right - outputDesc.DesktopCoordinates.left) << ","
+						<< (outputDesc.DesktopCoordinates.bottom - outputDesc.DesktopCoordinates.top) << ")";
+
+					log->WriteLineStrongly(ToAString(title.str().c_str()).c_str());
+					log->BeginTable();
+					writeTable("Name", name, false);
+					writeTable("AttachedToDesktop", attach, false);
+					writeTable("Coordinate", pos, true);
+					log->EndTable();
+				}
+
+				SafeRelease(temp);
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+#endif
+
+	void WriteDeviceInformation(ar::Manager* manager, Log* log)
+	{
+		if (log == nullptr) return;
+
+		log->WriteLineStrongly(ToAString("ビデオカード情報").c_str());
+
+		log->BeginTable();
+
+		log->Write(ToAString("バージョン").c_str());
+		log->ChangeColumn();
+
+#ifndef __APPLE__
+		if (GLEW_VERSION_4_0) { log->Write(ToAString("4.0").c_str()); }
+		else if (GLEW_VERSION_3_3) { log->Write(ToAString("3.3").c_str()); }
+		else if (GLEW_VERSION_3_2) { log->Write(ToAString("3.2").c_str()); }
+		else if (GLEW_VERSION_3_1) { log->Write(ToAString("3.1").c_str()); }
+		else if (GLEW_VERSION_3_0) { log->Write(ToAString("3.0").c_str()); }
+		else if (GLEW_VERSION_2_1) { log->Write(ToAString("2.1").c_str()); }
+		else { log->Write(ToAString("Unknown").c_str()); }
+#endif
+		log->EndTable();
+	}
 
 //----------------------------------------------------------------------------------
 //
@@ -136,12 +260,14 @@ namespace asd {
 Graphics_Imp_DX11::Graphics_Imp_DX11(
 	ar::Manager* manager,
 	Window* window,
+	WindowOpenGLX11* windowHelper,
 	Vector2DI size,
 	Log* log,
 	File* file,
 	GraphicsOption option)
 	: Graphics_Imp(manager, size, log,file, option)
 	, m_window(window)
+	, windowHelper(windowHelper)
 {
 	SafeAddRef(window);
 
@@ -169,6 +295,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 
 	if (GetRHI()->GetDeviceType() == ar::GraphicsDeviceType::OpenGL)
 	{
+		WriteDeviceInformation(manager, log);
 	}
 	
 	rhiContext = ar::Context::Create(GetRHI());
@@ -204,106 +331,10 @@ Graphics_Imp_DX11::~Graphics_Imp_DX11()
 	}
 	SafeRelease(depthTarget);
 
+	asd::SafeDelete(windowHelper);
 	asd::SafeDelete(rhiContext);
 	SafeRelease(m_window);
 
-}
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-void Graphics_Imp_DX11::WriteAdapterInformation(Log* log, IDXGIAdapter1* adapter, int32_t index)
-{
-	if (log == nullptr) return;
-
-	auto write = [log](std::ostringstream& os) -> void
-	{
-		log->Write(ToAString(os.str().c_str()).c_str());
-	};
-
-	auto writeTable = [log, write](const char* title, std::ostringstream& text, bool isLast) -> void
-	{
-		log->Write(ToAString(title).c_str());
-		log->ChangeColumn();
-		write(text);
-		if (!isLast)
-		{
-			log->ChangeRow();
-		}
-	};
-
-	{
-		DXGI_ADAPTER_DESC1 adapterDesc;
-
-		auto hr = adapter->GetDesc1(&adapterDesc);
-
-		std::ostringstream title, card, vendor, device, subSys, revision, videoMemory, systemMemory, sharedSystemMemory;
-
-		title << "デバイス情報 (" << (index + 1) << ")";
-
-		if (SUCCEEDED(hr))
-		{
-			card << ToUtf8String((const achar*)adapterDesc.Description);
-			vendor << adapterDesc.VendorId;
-			device << adapterDesc.DeviceId;
-			subSys << adapterDesc.SubSysId;
-			revision << adapterDesc.Revision;
-			videoMemory << (adapterDesc.DedicatedVideoMemory / 1024 / 1024) << "MB";
-			systemMemory << (adapterDesc.DedicatedSystemMemory / 1024 / 1024) << "MB";
-			sharedSystemMemory << (adapterDesc.SharedSystemMemory / 1024 / 1024) << "MB";
-		}
-
-		log->WriteLineStrongly(ToAString(title.str().c_str()).c_str());
-
-		log->BeginTable();
-
-		writeTable("GraphicCard", card, false);
-		writeTable("VendorID", vendor, false);
-		writeTable("DeviceID", device, false);
-		writeTable("SubSysID", subSys, false);
-		writeTable("Revision", revision, false);
-		writeTable("VideoMemory", videoMemory, false);
-		writeTable("SystemMemory", systemMemory, false);
-		writeTable("SharedSystemMemory", sharedSystemMemory, true);
-
-		log->EndTable();
-	}
-
-	for (int32_t i = 0;; i++)
-	{
-		IDXGIOutput* temp = nullptr;
-		if (adapter->EnumOutputs(i, &temp) != DXGI_ERROR_NOT_FOUND)
-		{
-			DXGI_OUTPUT_DESC outputDesc;
-
-			if (SUCCEEDED(temp->GetDesc(&outputDesc)))
-			{
-				std::ostringstream title, name, attach, pos;
-
-				title << "アウトプット情報 (" << (i + 1) << ")";
-
-				name << ToUtf8String((const achar*)outputDesc.DeviceName);
-				attach << (outputDesc.AttachedToDesktop == TRUE ? "True" : "False");
-				pos << "(" << outputDesc.DesktopCoordinates.left << ","
-					<< outputDesc.DesktopCoordinates.top << ","
-					<< (outputDesc.DesktopCoordinates.right - outputDesc.DesktopCoordinates.left) << ","
-					<< (outputDesc.DesktopCoordinates.bottom - outputDesc.DesktopCoordinates.top) << ")";
-					
-				log->WriteLineStrongly(ToAString(title.str().c_str()).c_str());
-				log->BeginTable();
-				writeTable("Name", name, false);
-				writeTable("AttachedToDesktop", attach, false);
-				writeTable("Coordinate", pos, true);
-				log->EndTable();
-			}
-
-			SafeRelease(temp);
-		}
-		else
-		{
-			break;
-		}
-	}
 }
 
 void Graphics_Imp_DX11::ApplyRenderTargets()
@@ -580,7 +611,7 @@ void Graphics_Imp_DX11::EndInternal()
 	GetRHI()->EndRendering();
 }
 
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle1, void* handle2, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option)
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -594,6 +625,8 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle, int32
 		log->WriteLine(s.c_str());
 	};
 
+	WindowOpenGLX11* windowHelper = nullptr;
+
 	if (option.GraphicsDevice == GraphicsDeviceType::DirectX11)
 	{
 		writeLogHeading(ToAString("描画(DirectX11)"));
@@ -606,6 +639,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle, int32
 	// ShowData
 	if(option.GraphicsDevice == GraphicsDeviceType::DirectX11)
 	{
+#if _WIN32
 		IDXGIFactory1* dxgiFactory = NULL;
 		std::vector<IDXGIAdapter1*> adapters;
 
@@ -633,6 +667,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle, int32
 		}
 
 		dxgiFactory->Release();
+#endif
 	}
 
 	auto window_ = (Window_Imp*)window;
@@ -642,7 +677,27 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle, int32
 	}
 	else
 	{
-		// Todo OpenGLExternal
+#if _WIN32
+		if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
+		{
+			writeLog(ToAString("外部ウインドウに対応していません。"));
+			goto End;
+		}
+#elif __APPLE__
+		writeLog(ToAString("外部ウインドウに対応していません。"));
+		goto End;
+#else
+		windowHelper = new WindowOpenGLX11();
+		if (windowHelper->Initialize(handle1, handle2))
+		{
+			windowHelper->MakeContext();
+		}
+		else
+		{
+			writeLog(ToAString("外部ウインドウの初期化に失敗しました。"));
+			goto End;
+		}
+#endif
 	}
 	
 	ar::Manager* manager = ar::Manager::Create((ar::GraphicsDeviceType)option.GraphicsDevice);
@@ -651,7 +706,8 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle, int32
 	initParam.WindowHeight = height;
 	initParam.IsFullscreenMode = option.IsFullScreen;
 	initParam.ColorSpace = (ar::ColorSpaceType)option.ColorSpace;
-	initParam.Handles[0] = handle;
+	initParam.Handles[0] = handle1;
+	initParam.Handles[1] = handle2;
 
 	auto errorCode = manager->Initialize(initParam);
 
@@ -695,18 +751,54 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle, int32
 		goto End;
 	}
 
+	if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
+	{
+		if (manager->GetVersion() < 33)
+		{
+			writeLog(ToAString("OpenGLのバージョンが3.3未満です。"));
+			goto End;
+		}
+	}
+
+	if (option.GraphicsDevice == GraphicsDeviceType::DirectX11)
+	{
+		writeLogHeading(ToAString("初期化成功(DirectX11)"));
+	}
+	else if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
+	{
+		writeLogHeading(ToAString("初期化成功(OpenGL)"));
+	}
+
+
+	if (window != nullptr)
+	{
+		// For retina
+		auto w = (Window_Imp*)window;
+		w->GetWindow()->GetFrameBufferSize(width, height);
+	}
+
 return new Graphics_Imp_DX11(
 	manager,
 	window,
+	windowHelper,
 	Vector2DI(width, height),
 	log,
 	file,
 	option);
 End:
 
+	asd::SafeDelete(windowHelper);
 	asd::SafeDelete(manager);
 
-	writeLog(ToAString("DirectX11初期化失敗"));
+	if (option.GraphicsDevice == GraphicsDeviceType::DirectX11)
+	{
+		writeLogHeading(ToAString("初期化失敗(DirectX11)"));
+	}
+	else if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
+	{
+		writeLogHeading(ToAString("初期化失敗(OpenGL)"));
+	}
+
 	writeLog(ToAString(""));
 
 	return nullptr;
@@ -719,15 +811,15 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log, File* fil
 {
 	auto size = window->GetSize();
 	auto handle = ((Window_Imp*)window)->GetWindowHandle();
-	return Create(window, handle, size.X, size.Y, log, file, option);
+	return Create(window, handle, nullptr, size.X, size.Y, log, file, option);
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(void* handle, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(void* handle1, void* handle2, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option)
 {
-	return Create(nullptr, handle, width, height, log,file, option);
+	return Create(nullptr, handle1, handle2, width, height, log,file, option);
 }
 
 //----------------------------------------------------------------------------------
@@ -991,6 +1083,11 @@ void Graphics_Imp_DX11::Present()
 	{
 		auto window_ = (Window_Imp*)m_window;
 		window_->GetWindow()->Present();
+	}
+
+	if (windowHelper != nullptr)
+	{
+		windowHelper->SwapBuffers();
 	}
 }
 

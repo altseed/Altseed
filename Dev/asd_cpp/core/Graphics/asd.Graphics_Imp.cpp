@@ -656,7 +656,7 @@ Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDe
 #else
 	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_GL::Create(window, log, file, option);
+		return Graphics_Imp_DX11::Create(window, log, file, option);
 	}
 	else
 	{
@@ -673,16 +673,16 @@ Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, 
 #if _WIN32
 	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, file, option);
+		return Graphics_Imp_DX11::Create((HWND) handle1, handle2, width, height, log, file, option);
 	}
 	else
 	{
-		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, file, option);
+		return Graphics_Imp_DX11::Create((HWND) handle1, handle2, width, height, log, file, option);
 	}
 #elif __APPLE__
 	return nullptr; // not supported
 #else
-	return Graphics_Imp_GL::Create_X11(handle1, handle2, width, height, log, file, option);
+	return Graphics_Imp_DX11::Create(handle1, handle2, width, height, log, file, option);
 #endif
 }
 
