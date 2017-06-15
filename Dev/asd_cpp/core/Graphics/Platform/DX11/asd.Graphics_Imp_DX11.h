@@ -41,61 +41,24 @@ namespace asd {
 #if !SWIG
 	class WindowOpenGLX11
 	{
-	public:
 #if _WIN32
-		void SwapBuffers() {}
 #elif __APPLE__
-		void SwapBuffers() {}
 #else
 		GLXContext			glx;
 		Display*			x11Display;
 		::Window			x11Window;
-
-		WindowOpenGLX11()
-		{
-
-		}
-
-		virtual  ~WindowOpenGLX11()
-		{
-			glXMakeCurrent(x11Display, 0, NULL);
-			glXDestroyContext(x11Display, glx);
-		}
-
-		bool Initialize(void* display, void* window)
-		{
-			Display* display_ = (Display*)display;
-			::Window window_ = *((::Window*)window);
-
-			GLint attribute[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
-			XVisualInfo* vi = glXChooseVisual(display_, DefaultScreen(display_), attribute);
-
-			if (vi == nullptr)
-			{
-				return false;
-			}
-
-			GLXContext context = glXCreateContext(display_, vi, 0, GL_TRUE);
-			
-			XFree(vi);
-
-			glXMakeCurrent(display_, window_, context);
-			
-			glx = context;
-			x11Display = display_;
-			x11Window = window_;
-		}
-
-		void MakeCurrent()
-		{
-			glXMakeCurrent(x11Display, x11Window, glx);
-		}
-
-		void SwapBuffers()
-		{
-			glXSwapBuffers(x11Display, x11Window);
-		}
 #endif
+	public:
+
+		WindowOpenGLX11();
+
+		virtual  ~WindowOpenGLX11();
+
+		bool Initialize(void* display, void* window);
+
+		void MakeContextCurrent();
+
+		void SwapBuffers();
 	};
 #endif
 	//----------------------------------------------------------------------------------

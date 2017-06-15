@@ -132,6 +132,70 @@ namespace asd {
 	}
 	*/
 
+WindowOpenGLX11::WindowOpenGLX11()
+{
+
+}
+
+WindowOpenGLX11::~WindowOpenGLX11()
+{
+#if _WIN32
+#elif __APPLE__
+#else
+	glXMakeContextCurrent(x11Display, 0, NULL);
+	glXDestroyContext(x11Display, glx);
+#endif
+}
+
+bool WindowOpenGLX11::Initialize(void* display, void* window)
+{
+#if _WIN32
+	return false;
+#elif __APPLE__
+	return false;
+#else
+	Display* display_ = (Display*)display;
+	::Window window_ = *((::Window*)window);
+
+	GLint attribute[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
+	XVisualInfo* vi = glXChooseVisual(display_, DefaultScreen(display_), attribute);
+
+	if (vi == nullptr)
+	{
+		return false;
+	}
+
+	GLXContext context = glXCreateContext(display_, vi, 0, GL_TRUE);
+
+	XFree(vi);
+
+	glXMakeContextCurrent(display_, window_, context);
+
+	glx = context;
+	x11Display = display_;
+	x11Window = window_;
+	return true;
+#endif
+}
+
+void WindowOpenGLX11::MakeContextCurrent()
+{
+#if _WIN32
+#elif __APPLE__
+#else
+	glXMakeContextCurrent(x11Display, x11Window, glx);
+#endif
+}
+
+void WindowOpenGLX11::SwapBuffers()
+{
+#if _WIN32
+#elif __APPLE__
+#else
+	glXSwapBuffers(x11Display, x11Window);
+#endif
+}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -1037,6 +1101,10 @@ void Graphics_Imp_DX11::SetRenderTarget(CubemapTexture_Imp* texture, int32_t dir
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::MakeContextCurrent()
 {
+	if (windowHelper != nullptr)
+	{
+		windowHelper->MakeContextCurrent();
+	}
 }
 
 //----------------------------------------------------------------------------------
