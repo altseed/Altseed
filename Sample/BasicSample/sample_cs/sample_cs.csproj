@@ -73,6 +73,7 @@
     <Compile Include="ISample.cs" />
     <Compile Include="Joystick\Joystick_Axis.cs" />
     <Compile Include="Joystick\Joystick_Basic.cs" />
+    <Compile Include="Joystick\Joystick_GamePad.cs" />
     <Compile Include="Keyboard\Keyboard_Basic.cs" />
     <Compile Include="Keyboard\Keyboard_PuralKeys.cs" />
     <Compile Include="Log\Log_Basic.cs" />

@@ -64,3 +64,6 @@ Joystickクラスのサンプルです。
 
 * include_basic_sample Joystick
 
+一部のゲームパッドを使用する場合のサンプルです。
+
+* include_basic_sample Joystick_GamePad

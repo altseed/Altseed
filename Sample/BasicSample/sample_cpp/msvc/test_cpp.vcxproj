@@ -38,6 +38,7 @@
     <ClCompile Include="..\GeometryObject2D\GeometryObject2D_RectangleShape.cpp" />
     <ClCompile Include="..\Joystick\Joystick_Axis.cpp" />
     <ClCompile Include="..\Joystick\Joystick_Basic.cpp" />
+    <ClCompile Include="..\Joystick\Joystick_GamePad.cpp" />
     <ClCompile Include="..\Keyboard\Keyboard_Basic.cpp" />
     <ClCompile Include="..\Keyboard\Keyboard_PuralKeys.cpp" />
     <ClCompile Include="..\Keyboard\Keyboard_SingularKey.cpp" />

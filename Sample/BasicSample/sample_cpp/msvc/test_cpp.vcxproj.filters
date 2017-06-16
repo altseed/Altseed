@@ -183,6 +183,9 @@
     <ClCompile Include="..\Basic\Basic_FullScreen.cpp">
       <Filter>Basic</Filter>
     </ClCompile>
+    <ClCompile Include="..\Joystick\Joystick_GamePad.cpp">
+      <Filter>Joystick</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />
