@@ -9,9 +9,9 @@ with aceutils.CurrentDir('../Downloads'):
     aceutils.rmdir(r"box2d_bin")
     aceutils.rmdir(r"box2d_bin_x64")
 
-    aceutils.editCmakeForACE(r'Box2D/Box2D/CMakeLists.txt','cp932')
+    #aceutils.editCmakeForACE(r'Box2D/Box2D/CMakeLists.txt','cp932')
     aceutils.editCmakeForACE(r'Box2D-Linux/Box2D/CMakeLists.txt','cp932')
-    aceutils.editCmakeForACE(r'Box2D/Box2D/Box2D/CMakeLists.txt','cp932')
+    #aceutils.editCmakeForACE(r'Box2D/Box2D/Box2D/CMakeLists.txt','cp932')
     aceutils.editCmakeForACE(r'Box2D-Linux/Box2D/Box2D/CMakeLists.txt','cp932')
     aceutils.mkdir(r"box2d_bin")
     aceutils.mkdir(r"box2d_bin_x64")
@@ -29,8 +29,11 @@ with aceutils.CurrentDir('../Downloads'):
             aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Debug')
             aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Release')
         elif aceutils.isMac():
-            aceutils.call(r'cmake -G "Unix Makefiles" "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../' + pathname + r'/Box2D/')
-            aceutils.call(r'make')
+            aceutils.cdToScript()
+            with aceutils.CurrentDir(r'../Downloads/Box2D/Box2D'):
+                aceutils.call(aceutils.cmd_premake5 + r'xcode4')
+                with aceutils.CurrentDir(r'Build/xcode4'):
+                    aceutils.call(r'xcodebuild -project Box2D.xcodeproj ONLY_ACTIVE_ARCH=NO ARCHS="i386 x86_64" -configuration Release')
         else:
             aceutils.call(r'cmake -G "Unix Makefiles" ../' + pathname + r'/Box2D/')
             aceutils.call(r'make')
@@ -50,6 +53,9 @@ with aceutils.CurrentDir('../Downloads'):
         aceutils.copy(r'box2d_bin/Box2D/Release/Box2D.lib', r'../Dev/lib/x86/Release/')
         aceutils.copy(r'box2d_bin_x64/Box2D/Debug/Box2D.lib', r'../Dev/lib/x64/Debug/')
         aceutils.copy(r'box2d_bin_x64/Box2D/Release/Box2D.lib', r'../Dev/lib/x64/Release/')
+    elif aceutils.isMac():
+        aceutils.copytree(pathname + r'/Box2D/Box2D', r'../Dev/include/Box2D/', True)
+        aceutils.copy(r'Box2D/Box2D/Build/xcode4/bin/Release/libBox2D.a', r'../Dev/lib/')
     else:
         aceutils.copytree(pathname + r'/Box2D/Box2D', r'../Dev/include/Box2D/', True)
         aceutils.copy(r'box2d_bin/Box2D/libBox2D.a', r'../Dev/lib/')
