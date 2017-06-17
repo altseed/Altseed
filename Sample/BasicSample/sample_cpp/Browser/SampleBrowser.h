@@ -8,8 +8,9 @@ class SampleBrowser
 {
 private:
 	std::vector<SampleInfo> m_samples;
-	std::shared_ptr<SampleBrowserLayer> browserLayer;
-	std::shared_ptr<SampleInfoLayer> infoLayer;
+	std::weak_ptr<SampleBrowserLayer> browserLayer_weak;
+	std::weak_ptr<SampleInfoLayer> infoLayer_weak;
+
 public:
 	static const int Margin = 16;
 
