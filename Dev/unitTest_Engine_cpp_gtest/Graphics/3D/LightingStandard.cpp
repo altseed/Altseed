@@ -31,11 +31,6 @@ protected:
 		luTexs[3] = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Model/Texture/DarkGray.png").c_str());
 		luTexs[4] = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Model/Texture/Black.png").c_str());
 
-		// Environment (Because file is hevey, if you require Cubemap, you need to put a file manually.)
-		auto cubemap = asd::Engine::GetGraphics()->CreateCubemapTexture(u"env.dds");
-		auto specCubemap = asd::Engine::GetGraphics()->CreateCubemapTexture(u"spec.dds");
-		GetLayer3D()->SetEnvironmentColor(cubemap, specCubemap);
-
 		auto plainObj = std::make_shared<asd::ModelObject3D>();
 		auto sphereObj = std::make_shared<asd::ModelObject3D>();
 
@@ -68,9 +63,12 @@ protected:
 		lightObj->SetColor(asd::Color(255, 255, 255, 200));
 		lightObj->SetIntensity(1);
 
-		// 環境
+		// Environment (Because file is hevey, if you require Cubemap, you need to put a file manually.)
+		auto cubemap = asd::Engine::GetGraphics()->CreateCubemapTexture(u"env.dds");
+		auto specCubemap = asd::Engine::GetGraphics()->CreateCubemapTexture(u"spec.dds");
 		GetLayer3D()->SetEnvironmentColor(cubemap, specCubemap);
-		// 環境光
+		GetLayer3D()->SetEnvironmentColorIntensity(0.5, 0.5);
+
 #if 0
 		GetLayer3D()->SetSkyAmbientColor(asd::Color(10, 10, 20, 255));
 		GetLayer3D()->SetGroundAmbientColor(asd::Color(20, 10, 10, 255));
