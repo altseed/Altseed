@@ -59,7 +59,7 @@ $(BULLET_LIB):
 	$(PYTHON) Script/build_bullet.py
 
 
-GOOGLETEST_LIB=Downloads/gtest_bin/libgtest.a
+GOOGLETEST_LIB=Downloads/gtest_bin/googletest/libgtest.a
 googletest: submodule $(GOOGLETEST_LIB)
 
 googletest-clean:
