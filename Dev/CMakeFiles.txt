@@ -151,7 +151,6 @@ set(core_src
 
 set(dx11_src
 
-	asd_cpp/core/3rdParty/DirectXToolKit/DDSTextureLoader.cpp
 	asd_cpp/core/Graphics/Platform/DX11/asd.Graphics_Imp_DX11.cpp
 	asd_cpp/core/Graphics/Platform/DX11/Resource/asd.CubemapTexture_Imp_DX11.cpp
 	asd_cpp/core/Graphics/Platform/DX11/Resource/asd.DepthBuffer_Imp_DX11.cpp

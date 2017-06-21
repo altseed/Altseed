@@ -50,6 +50,7 @@ if (WIN32)
 	list(APPEND core_src ${dx11_src})
 	list(APPEND core_src ${gl_src})
 else()
+	list(APPEND core_src ${dx11_src})
 	list(APPEND core_src ${gl_src})
 endif()
 
@@ -90,9 +91,6 @@ else()
 
 	# OpenSoundMixerの後に内部で使用しているライブラリを追加する必要あり
 	list(APPEND common_lib OpenSoundMixer )
-	list(APPEND common_lib ogg )
-	list(APPEND common_lib vorbisfile )
-	list(APPEND common_lib vorbis )
 
 	list(APPEND common_lib Culling2D )
 	list(APPEND common_lib Culling3D )
