@@ -44,9 +44,9 @@
 #include <Graphics/3D/asd.Model_IO.h>
 #include <Graphics/3D/asd.MassModel_IO.h>
 
-#if _WIN32
+//#if _WIN32
 #include "Platform/DX11/asd.Graphics_Imp_DX11.h"
-#endif
+//#endif
 
 #include "Platform/GL/asd.Graphics_Imp_GL.h"
 
