@@ -291,7 +291,11 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 	}
 
 	FILE* fp = nullptr;
+#ifdef _WIN32
 	fopen_s(&fp, cacheFile, "rb");
+#else
+	fp = fopen(cacheFile, "rb");
+#endif
 	if (fp == nullptr)
 	{
 		auto compiler = ar::Compiler::Create(g->GetRHI());
@@ -341,7 +345,11 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 		// 書き込み
 		if (g->GetRHI()->GetDeviceType() == ar::GraphicsDeviceType::DirectX11)
 		{
+#ifdef _WIN32
 			fopen_s(&fp, cacheFile, "wb");
+#else
+			fp = fopen(cacheFile, "wb");
+#endif
 			if (fp != nullptr)
 			{
 				auto vs_size = compilerResult.VertexShaderBuffer.size();
