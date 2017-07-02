@@ -8,12 +8,17 @@ aceutils.mkdir('../Downloads')
 with aceutils.CurrentDir('../Downloads'):
 
 	# Build dependencies
-	if not aceutils.isMac():
-		if(len(sys.argv) == 4):
-			glfw_args = ' "{0}" "{1}" "{2}" '.format(sys.argv[1], sys.argv[2], sys.argv[3])
+	if(len(sys.argv) == 4):
+		glfw_args = ' "{0}" "{1}" "{2}" '.format(sys.argv[1], sys.argv[2], sys.argv[3])
+        
+		if not aceutils.isMac():
 			aceutils.call(sys.executable + ' AltseedRHI/Script/build_glew.py' + glfw_args)
-		else:
+		aceutils.call(sys.executable + ' AltseedRHI/Script/build_libpng.py' + glfw_args)
+        
+	else:
+		if not aceutils.isMac():
 			aceutils.call(sys.executable + ' AltseedRHI/Script/build_glew.py')
+		aceutils.call(sys.executable + ' AltseedRHI/Script/build_libpng.py')
 
 	# Comple
 	aceutils.rmdir(r"AltseedRHI_bin")
@@ -66,3 +71,5 @@ with aceutils.CurrentDir('../Downloads'):
 
 	else:
 		aceutils.copy(r'AltseedRHI_bin/src/libAltseedRHI.a', dstLibPath)
+		aceutils.copy(r'AltseedRHI/Downloads/libpng_bin/libpng16.a', dstLibPath)
+		aceutils.copy(r'AltseedRHI/Downloads/zlib_bin/libz.a', dstLibPath)
