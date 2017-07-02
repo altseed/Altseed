@@ -51,7 +51,9 @@ namespace asd
 			if (S_ISDIR(sb.st_mode))
 				return false;
 		}
+        return true;
 #endif
+        
 	}
 
 	int64_t BaseFile::GetSize()
