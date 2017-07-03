@@ -1,4 +1,4 @@
-﻿
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -66,7 +66,7 @@
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-#if _WIN32
+#ifdef _WIN32
 #include <shlwapi.h>
 #pragma comment(lib, "shlwapi.lib")
 #else
@@ -647,7 +647,7 @@ Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDe
 	{
 		// DX11の中でGLと分岐している
 		return Graphics_Imp_DX11::Create(window, log, file, option);
-		//return Graphics_Imp_GL::Create(window, log, file, option);
+		return Graphics_Imp_GL::Create(window, log, file, option);
 	}
 	else
 	{
@@ -656,6 +656,7 @@ Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDe
 #else
 	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
+        //return Graphics_Imp_GL::Create(window, log, file, option);
 		return Graphics_Imp_DX11::Create(window, log, file, option);
 	}
 	else
