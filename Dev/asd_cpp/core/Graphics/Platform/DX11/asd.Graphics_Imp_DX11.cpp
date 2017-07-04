@@ -743,15 +743,15 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle1, void
 	}
 	else
 	{
+        bool succeed = true;
+        auto msg = ToAString("外部ウインドウに対応していません。");
 #if _WIN32
 		if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
 		{
-			writeLog(ToAString("外部ウインドウに対応していません。"));
-			goto End;
+            succeed = false;
 		}
 #elif __APPLE__
-		writeLog(ToAString("外部ウインドウに対応していません。"));
-		goto End;
+        succeed = false;
 #else
 		windowHelper = new WindowOpenGLX11();
 		if (windowHelper->Initialize(handle1, handle2))
@@ -760,10 +760,14 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle1, void
 		}
 		else
 		{
-			writeLog(ToAString("外部ウインドウの初期化に失敗しました。"));
-			goto End;
+            succeed = false;
 		}
 #endif
+        if(!succeed)
+        {
+            writeLog(msg);
+            return nullptr;
+        }
 	}
 	
 	manager = ar::Manager::Create((ar::GraphicsDeviceType)option.GraphicsDevice);
