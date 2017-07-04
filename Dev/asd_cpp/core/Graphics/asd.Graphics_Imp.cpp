@@ -363,7 +363,7 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 
 		if (log != nullptr)
 		{
-			log->WriteLineStrongly("pngファイルのヘッダの読み込みに失敗しました。");
+			log->WriteLineStrongly(u"pngファイルのヘッダの読み込みに失敗しました", LogLevel::All);
 		}
 		
 		return false;

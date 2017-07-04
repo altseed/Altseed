@@ -735,7 +735,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle1, void
 	}
 
 	ar::Manager* manager = nullptr;
-	do { // エラー処理のbreak用
+
 	auto window_ = (Window_Imp*)window;
 	if (window_ != nullptr)
 	{
@@ -747,11 +747,11 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle1, void
 		if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
 		{
 			writeLog(ToAString("外部ウインドウに対応していません。"));
-			break; //goto End;
+			goto End;
 		}
 #elif __APPLE__
 		writeLog(ToAString("外部ウインドウに対応していません。"));
-		break; //goto End;
+		goto End;
 #else
 		windowHelper = new WindowOpenGLX11();
 		if (windowHelper->Initialize(handle1, handle2))
@@ -761,7 +761,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle1, void
 		else
 		{
 			writeLog(ToAString("外部ウインドウの初期化に失敗しました。"));
-			break; //goto End;
+			goto End;
 		}
 #endif
 	}
@@ -784,37 +784,37 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle1, void
 	else if (errorCode == ar::ErrorCode::FailedToCreateFactory)
 	{
 		writeLog(ToAString("ファクトリの作成に失敗"));
-		break; //goto End;
+		goto End;
 	}
 	else if (errorCode == ar::ErrorCode::FailedToGetAdapter)
 	{
 		writeLog(ToAString("アダプタの取得に失敗"));
-		break; //goto End;
+		goto End;
 	}
 	else if (errorCode == ar::ErrorCode::FailedToCreateDevice)
 	{
 		writeLog(ToAString("デバイスの作成に失敗"));
-		break; //goto End;
+		goto End;
 	}
 	else if (errorCode == ar::ErrorCode::FailedToCreateSwapChain)
 	{
 		writeLog(ToAString("スワップチェーンの作成に失敗"));
-		break; //goto End;
+		goto End;
 	}
 	else if (errorCode == ar::ErrorCode::FailedToGetBackBuffer)
 	{
 		writeLog(ToAString("バックバッファの取得に失敗"));
-		break; //goto End;
+		goto End;
 	}
 	else if (errorCode == ar::ErrorCode::FailedToCreateBackBufferTarget)
 	{
 		writeLog(ToAString("バックバッファのレンダーターゲットの取得に失敗"));
-		break; //goto End;
+		goto End;
 	}
 	else if (errorCode == ar::ErrorCode::FailedToInitializeGlew)
 	{
 		writeLog(ToAString("Glewの初期化に失敗"));
-		break; //goto End;
+		goto End;
 	}
 
 	if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
@@ -822,7 +822,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle1, void
 		if (manager->GetVersion() < 33)
 		{
 			writeLog(ToAString("OpenGLのバージョンが3.3未満です。"));
-			break; //goto End;
+			goto End;
 		}
 	}
 
@@ -836,14 +836,13 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle1, void
 	}
 
 
-	if (window != nullptr)
+	if (window_ != nullptr)
 	{
 		// For retina
-		auto w = (Window_Imp*)window;
-		w->GetWindow()->GetFrameBufferSize(width, height);
+		window_->GetWindow()->GetFrameBufferSize(width, height);
 	}
 
-return new Graphics_Imp_DX11(
+	return new Graphics_Imp_DX11(
 	manager,
 	window,
 	windowHelper,
@@ -851,8 +850,8 @@ return new Graphics_Imp_DX11(
 	log,
 	file,
 	option);
-	} while (0); // エラー処理のbreak用
-//End:
+
+	End:
 
 	asd::SafeDelete(windowHelper);
 	asd::SafeDelete(manager);
