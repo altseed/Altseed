@@ -24,7 +24,7 @@ protected:
 
 		auto g = asd::Engine::GetGraphics();
 #ifdef __APPLE__
-		auto font = g->CreateDynamicFont(asd::ToAString("Helvetica").c_str(), 32, Color(255, 0, 0, 255), 0, Color(0, 0, 0, 0));
+		auto font = g->CreateDynamicFont(asd::ToAString("").c_str(), 32, Color(255, 0, 0, 255), 0, Color(0, 0, 0, 0));
 #else
 		auto font = g->CreateDynamicFont(asd::ToAString("").c_str(), 32, Color(255, 0, 0, 255), 0, Color(0, 0, 0, 0));
 #endif
