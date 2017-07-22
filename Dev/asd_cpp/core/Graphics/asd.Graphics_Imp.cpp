@@ -44,9 +44,9 @@
 #include <Graphics/3D/asd.Model_IO.h>
 #include <Graphics/3D/asd.MassModel_IO.h>
 
-#if _WIN32
+//#if _WIN32
 #include "Platform/DX11/asd.Graphics_Imp_DX11.h"
-#endif
+//#endif
 
 #include "Platform/GL/asd.Graphics_Imp_GL.h"
 
@@ -66,7 +66,7 @@
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-#if _WIN32
+#ifdef _WIN32
 #include <shlwapi.h>
 #pragma comment(lib, "shlwapi.lib")
 #else
@@ -363,7 +363,7 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 
 		if (log != nullptr)
 		{
-			log->WriteLineStrongly("pngファイルのヘッダの読み込みに失敗しました。");
+			log->WriteLineStrongly(u"pngファイルのヘッダの読み込みに失敗しました", LogLevel::All);
 		}
 		
 		return false;
@@ -647,7 +647,7 @@ Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDe
 	{
 		// DX11の中でGLと分岐している
 		return Graphics_Imp_DX11::Create(window, log, file, option);
-		//return Graphics_Imp_GL::Create(window, log, file, option);
+		return Graphics_Imp_GL::Create(window, log, file, option);
 	}
 	else
 	{
@@ -656,6 +656,7 @@ Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDe
 #else
 	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
+        //return Graphics_Imp_GL::Create(window, log, file, option);
 		return Graphics_Imp_DX11::Create(window, log, file, option);
 	}
 	else

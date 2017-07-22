@@ -39,6 +39,7 @@ extern void Mouse_Wheel();
 
 extern void Joystick_Basic();
 extern void Joystick_Axis();
+extern void Joystick_GamePad();
 
 extern void Sound_SE();
 extern void Sound_BGM();
@@ -123,6 +124,7 @@ int main(int argc, char** argv)
 
 		INFO(Joystick_Basic, "ジョイスティックのボタン入力", "ジョイスティックのボタンの入力状態を調べ、表示するサンプルです。"),
 		INFO(Joystick_Axis, "アナログスティック入力", "ジョイスティックのアナログスティックの入力状態を調べ、表示するサンプルです。"),
+		INFO(Joystick_GamePad, "ゲームパッド入力", "一部のゲームパッドの入力状態を調べ、表示するサンプルです。"),
 
 		INFO(Sound_SE, "効果音の再生", "効果音(Sound Effect)を再生するサンプルです。"),
 		INFO(Sound_BGM, "BGMの再生", "BGMを再生するサンプルです。"),

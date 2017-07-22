@@ -47,7 +47,7 @@ public:
 	}
 
 	template<typename T> inline T Get(){ assert(!"The type cannot be serializable."); return T();};
-	bool IsEmpty()const{ return data.empty(); }
+	bool IsEmpty()const{ return idx >= data.size(); }
 
 	inline std::vector<uint8_t> Get(int32_t size)
 	{

@@ -17,7 +17,7 @@ with aceutils.CurrentDir('../Downloads'):
 			aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Debug')
 			aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Release')
 		elif aceutils.isMac():
-			aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../googletest/')
+			aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev -DBUILD_GTEST=ON -DBUILD_GMOCK=OFF "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../googletest/')
 			aceutils.call(r'make')
 		else:
 			aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev ../googletest/')
@@ -41,10 +41,10 @@ with aceutils.CurrentDir('../Downloads'):
 		aceutils.copy(r'gtest_bin_x64/Release/gtest_main.lib', r'../Dev/lib/x64/Release/gtest_main.lib')
 
 	else:
-		aceutils.copy(r'gtest_bin/libgtest.a', r'../Dev/lib/libgtest.a')
-		aceutils.copy(r'gtest_bin/libgtest_main.a', r'../Dev/lib/libgtest_main.a')
+		aceutils.copy(r'gtest_bin/googletest/libgtest.a', r'../Dev/lib/libgtest.a')
+		aceutils.copy(r'gtest_bin/googletest/libgtest_main.a', r'../Dev/lib/libgtest_main.a')
 
-	aceutils.copytree(r'googletest/include/gtest', r'../Dev/include/gtest', True)
+	aceutils.copytree(r'googletest/googletest/include/gtest', r'../Dev/include/gtest', True)
 
 
 

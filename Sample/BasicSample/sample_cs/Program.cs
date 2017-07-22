@@ -24,6 +24,7 @@ class Program
 
                 new Joystick_Basic(),
                 new Joystick_Axis(),
+                new Joystick_GamePad(),
 
                 new Sound_SE(),
 				new Sound_BGM(),

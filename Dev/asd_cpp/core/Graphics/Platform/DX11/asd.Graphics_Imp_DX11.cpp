@@ -18,7 +18,7 @@
 
 #include "../../Helper/asd.EffekseerHelper.h"
 
-#include "../../../3rdParty/DirectXToolKit/DDSTextureLoader.h"
+//#include "../../../3rdParty/DirectXToolKit/DDSTextureLoader.h"
 
 #include <sstream>
 
@@ -131,6 +131,70 @@ namespace asd {
 		assert(0);
 	}
 	*/
+
+WindowOpenGLX11::WindowOpenGLX11()
+{
+
+}
+
+WindowOpenGLX11::~WindowOpenGLX11()
+{
+#if _WIN32
+#elif __APPLE__
+#else
+	glXMakeContextCurrent(x11Display, 0, NULL);
+	glXDestroyContext(x11Display, glx);
+#endif
+}
+
+bool WindowOpenGLX11::Initialize(void* display, void* window)
+{
+#if _WIN32
+	return false;
+#elif __APPLE__
+	return false;
+#else
+	Display* display_ = (Display*)display;
+	::Window window_ = *((::Window*)window);
+
+	GLint attribute[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
+	XVisualInfo* vi = glXChooseVisual(display_, DefaultScreen(display_), attribute);
+
+	if (vi == nullptr)
+	{
+		return false;
+	}
+
+	GLXContext context = glXCreateContext(display_, vi, 0, GL_TRUE);
+
+	XFree(vi);
+
+	glXMakeContextCurrent(display_, window_, context);
+
+	glx = context;
+	x11Display = display_;
+	x11Window = window_;
+	return true;
+#endif
+}
+
+void WindowOpenGLX11::MakeContextCurrent()
+{
+#if _WIN32
+#elif __APPLE__
+#else
+	glXMakeContextCurrent(x11Display, x11Window, glx);
+#endif
+}
+
+void WindowOpenGLX11::SwapBuffers()
+{
+#if _WIN32
+#elif __APPLE__
+#else
+	glXSwapBuffers(x11Display, x11Window);
+#endif
+}
 
 	//----------------------------------------------------------------------------------
 	//
@@ -670,6 +734,8 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle1, void
 #endif
 	}
 
+	ar::Manager* manager = nullptr;
+
 	auto window_ = (Window_Imp*)window;
 	if (window_ != nullptr)
 	{
@@ -677,15 +743,15 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle1, void
 	}
 	else
 	{
+        bool succeed = true;
+        auto msg = ToAString("外部ウインドウに対応していません。");
 #if _WIN32
 		if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
 		{
-			writeLog(ToAString("外部ウインドウに対応していません。"));
-			goto End;
+            succeed = false;
 		}
 #elif __APPLE__
-		writeLog(ToAString("外部ウインドウに対応していません。"));
-		goto End;
+        succeed = false;
 #else
 		windowHelper = new WindowOpenGLX11();
 		if (windowHelper->Initialize(handle1, handle2))
@@ -694,13 +760,17 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle1, void
 		}
 		else
 		{
-			writeLog(ToAString("外部ウインドウの初期化に失敗しました。"));
-			goto End;
+            succeed = false;
 		}
 #endif
+        if(!succeed)
+        {
+            writeLog(msg);
+            return nullptr;
+        }
 	}
 	
-	ar::Manager* manager = ar::Manager::Create((ar::GraphicsDeviceType)option.GraphicsDevice);
+	manager = ar::Manager::Create((ar::GraphicsDeviceType)option.GraphicsDevice);
 	ar::ManagerInitializationParameter initParam;
 	initParam.WindowWidth = width;
 	initParam.WindowHeight = height;
@@ -770,14 +840,13 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle1, void
 	}
 
 
-	if (window != nullptr)
+	if (window_ != nullptr)
 	{
 		// For retina
-		auto w = (Window_Imp*)window;
-		w->GetWindow()->GetFrameBufferSize(width, height);
+		window_->GetWindow()->GetFrameBufferSize(width, height);
 	}
 
-return new Graphics_Imp_DX11(
+	return new Graphics_Imp_DX11(
 	manager,
 	window,
 	windowHelper,
@@ -785,7 +854,8 @@ return new Graphics_Imp_DX11(
 	log,
 	file,
 	option);
-End:
+
+	End:
 
 	asd::SafeDelete(windowHelper);
 	asd::SafeDelete(manager);
@@ -1037,6 +1107,10 @@ void Graphics_Imp_DX11::SetRenderTarget(CubemapTexture_Imp* texture, int32_t dir
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::MakeContextCurrent()
 {
+	if (windowHelper != nullptr)
+	{
+		windowHelper->MakeContextCurrent();
+	}
 }
 
 //----------------------------------------------------------------------------------

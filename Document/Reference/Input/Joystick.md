@@ -25,6 +25,15 @@
 
 ![アナログスティック](img/AnalogStick.png)
 
+## 一部のゲームパッドについて
+
+一部のゲームパッドでは、ボタンの状態を取得するのに、ボタンの番号でなくボタン名で取得できます。
+一部のゲームパッドはPS4、XBOX360、XBOX ONEのゲームパッドです。
+```JoystickButtonType```を```GetButtonStateAt```メソッドの引数に指定することで押し状態を取得できます。
+もしくは、```JoystickAxisType```を```GetAxisStateAt```メソッドの引数に指定することで倒し具合を取得できます。
+
+サンプルの追加
+
 ### 主なメソッド
 
 | 名称 | 説明 |
@@ -34,6 +43,8 @@
 | GetAxesCount | ジョイスティックの持つアナログスティックの数 |
 | GetButtonState | 指定した番号のボタンの押し状態 |
 | GetAxisState | 指定した番号のアナログスティックの倒し具合 |
+| GetButtonStateAt | 指定した名称のボタンの押し状態 |
+| GetAxisStateAt | 指定した名称のアナログスティックの倒し具合 |
 
 ### 主なプロパティ
 
@@ -53,3 +64,6 @@ Joystickクラスのサンプルです。
 
 * include_basic_sample Joystick
 
+一部のゲームパッドを使用する場合のサンプルです。
+
+* include_basic_sample Joystick_GamePad

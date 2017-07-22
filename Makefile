@@ -59,7 +59,7 @@ $(BULLET_LIB):
 	$(PYTHON) Script/build_bullet.py
 
 
-GOOGLETEST_LIB=Downloads/gtest_bin/libgtest.a
+GOOGLETEST_LIB=Downloads/gtest_bin/googletest/libgtest.a
 googletest: submodule $(GOOGLETEST_LIB)
 
 googletest-clean:
@@ -168,6 +168,10 @@ cpp-prepare: plugins-all ENVVAR_JAVA_HOME Dev/cmake/Makefile
 	$(PYTHON) Dev/generateEngineHeader.py
 	$(PYTHON) Dev/generate_swig.py
 
+SWIG_CXX=Dev/asd_cpp/core/dll.cxx
+$(SWIG_CXX):
+	$(PYTHON) Dev/generate_swig.py
+
 Dev/cmake/Makefile: 
 	mkdir -p Dev/cmake/bin/Data
 	cd Dev/cmake ; \
@@ -198,7 +202,7 @@ ifndef JAVA_HOME
 endif
 
 
-cpp: cpp-prepare Dev/lib/libAltseed.a
+cpp: cpp-prepare $(SWIG_CXX) Dev/lib/libAltseed.a
 
 Dev/lib/libAltseed.a: 
 	cd Dev/cmake ; $(MAKE) install

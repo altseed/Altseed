@@ -210,6 +210,10 @@ if isWin():
 		cmd_cmake_x64 = r'cmake -G "Visual Studio 12 Win64" '
 		cmd_compile = r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" '
 
+cmd_premake5 = r'premake5 '
+if isMac():
+	cmd_premake5 = os.path.dirname(os.path.abspath(__file__)) + r'/premake5/macosx/premake5 '
+
 # with式を使ってカレントディレクトリの状態を見やすくするクラス
 # withブロックに与えるとブロック内の処理は指定したディレクトリで処理されます
 class CurrentDir:

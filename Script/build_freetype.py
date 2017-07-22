@@ -19,7 +19,7 @@ with aceutils.CurrentDir('../Downloads'):
 			aceutils.call(aceutils.cmd_compile + r'freetype.sln /p:configuration=Debug')
 			aceutils.call(aceutils.cmd_compile + r'freetype.sln /p:configuration=Release')
 		elif aceutils.isMac():
-			aceutils.call(r'cmake -G "Unix Makefiles" "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../freetype/')
+			aceutils.call(r'cmake -G "Unix Makefiles" "-DWITH_BZip2=OFF" "-DWITH_HarfBuzz=OFF" "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../freetype/')
 			aceutils.call(r'make')
 		else:
 			aceutils.call(r'cmake -G "Unix Makefiles" ../freetype/')
