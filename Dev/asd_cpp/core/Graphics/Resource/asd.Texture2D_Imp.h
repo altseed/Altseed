@@ -46,6 +46,10 @@ namespace asd {
 
 	public:
 
+		AsyncLoadingStateType GetAsyncLoadingState() const override;
+
+		void Sync() override;
+
 		Vector2DI GetSize() const { return m_size; }
 		TextureFormat GetFormat() const override { return m_format; }
 

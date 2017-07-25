@@ -20,7 +20,7 @@ namespace asd
 
 	protected:
 		virtual StaticFile* CreateStaticFile_(const achar* path) = 0;
-		virtual StreamFile* CreateStreamFile_(const achar* path) = 0;
+		virtual StreamFile* CreateStreamFile_(const achar* path, bool isAsync) = 0;
 
 	public:
 		virtual ~File() { }
@@ -64,7 +64,7 @@ namespace asd
 
 		std::shared_ptr<StreamFile> CreateStreamFile(const achar* path)
 		{
-			return CreateSharedPtrWithReleaseDLL(CreateStreamFile_(path));
+			return CreateSharedPtrWithReleaseDLL(CreateStreamFile_(path, false));
 		}
 #endif
 	};

@@ -185,7 +185,7 @@ namespace asd
 		return nullptr;
 	}
 
-	StreamFile* File_Imp::CreateStreamFile_(const achar* path)
+	StreamFile* File_Imp::CreateStreamFile_(const achar* path, bool isAsync)
 	{
 		std::lock_guard<std::recursive_mutex> lock(mtx_);
 
@@ -217,27 +217,36 @@ namespace asd
 			{
 				if (root->IsPackFile())
 				{
-					auto cacheKey = packedPath;
-					auto it = streamFiles.find(cacheKey);
-					if (it != streamFiles.end())
+					if (isAsync)
 					{
-						auto ret = it->second;
-						SafeAddRef(ret);
-						return ret;
+
+
 					}
-
-					auto packFile = root->GetPackFile();
-
-					if (packFile->HaveFile(packedPath))
+					else
 					{
-						const auto& internalHeader = packFile->GetInternalHeader(packedPath);
 
-						StreamFile_Imp* streamFile = nullptr;
-
+						auto cacheKey = packedPath;
+						auto it = streamFiles.find(cacheKey);
+						if (it != streamFiles.end())
 						{
-							streamFile = new StreamFile_Imp(this, astring(packedPath), packFile->RawFile(), *internalHeader, root->decryptor);
-							streamFiles[cacheKey] = streamFile;
-							return streamFile;
+							auto ret = it->second;
+							SafeAddRef(ret);
+							return ret;
+						}
+
+						auto packFile = root->GetPackFile();
+
+						if (packFile->HaveFile(packedPath))
+						{
+							const auto& internalHeader = packFile->GetInternalHeader(packedPath);
+
+							StreamFile_Imp* streamFile = nullptr;
+
+							{
+								streamFile = new StreamFile_Imp(this, astring(packedPath), packFile->RawFile(), *internalHeader, root->decryptor);
+								streamFiles[cacheKey] = streamFile;
+								return streamFile;
+							}
 						}
 					}
 				}
@@ -245,23 +254,31 @@ namespace asd
 				{
 					auto combinedPath = FileHelper::CombineRootPath(root->m_path, path);
 
-					auto cacheKey = combinedPath;
-					auto it = streamFiles.find(cacheKey);
-					if (it != streamFiles.end())
+					if (isAsync)
 					{
-						auto ret = it->second;
-						SafeAddRef(ret);
-						return ret;
+
+
 					}
-
-					StreamFile_Imp* streamFile = nullptr;
-
-					auto file = CreateSharedPtr(new BaseFile(combinedPath));
-					if (file->IsValid())
+					else
 					{
-						auto streamFile = new StreamFile_Imp(this, cacheKey, file);
-						streamFiles[cacheKey] = streamFile;
-						return streamFile;
+						auto cacheKey = combinedPath;
+						auto it = streamFiles.find(cacheKey);
+						if (it != streamFiles.end())
+						{
+							auto ret = it->second;
+							SafeAddRef(ret);
+							return ret;
+						}
+
+						StreamFile_Imp* streamFile = nullptr;
+
+						auto file = CreateSharedPtr(new BaseFile(combinedPath));
+						if (file->IsValid())
+						{
+							auto streamFile = new StreamFile_Imp(this, cacheKey, file);
+							streamFiles[cacheKey] = streamFile;
+							return streamFile;
+						}
 					}
 				}
 			}

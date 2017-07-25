@@ -57,7 +57,7 @@ namespace asd
 
 #ifndef SWIG
 		virtual StaticFile* CreateStaticFile_(const achar* path);
-		virtual StreamFile* CreateStreamFile_(const achar* path);
+		virtual StreamFile* CreateStreamFile_(const achar* path, bool isAsync);
 
 		void UnregisterStaticFile(const astring& key);
 		void UnregisterStreamFile(const astring& key);

@@ -109,6 +109,17 @@ namespace asd {
 		g->Texture2DContainer->Unregister(this);
 	}
 
+	AsyncLoadingStateType Texture2D_Imp::GetAsyncLoadingState() const
+	{
+		return AsyncLoadingStateType::Failed;
+	}
+
+	void Texture2D_Imp::Sync()
+	{
+
+	}
+
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------

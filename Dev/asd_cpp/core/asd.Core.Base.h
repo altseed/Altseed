@@ -277,7 +277,16 @@ namespace asd {
 		Hovered,	///< ボタンの時、マウスが重なっている状態で表示される
 	};
 
-
+	/**
+		@brief	非同期読み込みの状態
+	*/
+	enum class AsyncLoadingStateType : int32_t
+	{
+		Finished,
+		Failed,
+		WaitSync,
+		Loading,
+	};
 
 	enum class Object2DType : int32_t
 	{

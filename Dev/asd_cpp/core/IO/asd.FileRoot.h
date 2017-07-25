@@ -16,6 +16,8 @@ namespace asd
 
 	public:
 		astring m_path;
+		astring originalPath;
+
 		std::shared_ptr<Decryptor> decryptor;
 
 		std::shared_ptr<PackFile>	packFile;
@@ -36,7 +38,7 @@ namespace asd
 				}
 			}
 
-			decryptor.reset();
+			originalPath = path;
 			m_path = FileHelper::ToRootDirectoryPath(path);
 		}
 
@@ -44,6 +46,8 @@ namespace asd
 		{
 			return packFile != nullptr;
 		}
+
+		const achar* GetOriginalPath() const { return originalPath.c_str(); }
 
 		std::shared_ptr<PackFile> GetPackFile() { return packFile; }
 

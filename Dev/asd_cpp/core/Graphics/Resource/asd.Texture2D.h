@@ -88,6 +88,20 @@ namespace asd {
 		virtual void Unlock() = 0;
 
 		/**
+			@brief	非同期ロードの状態を取得する。
+			@note
+			非同期ロード中はこのメソッドとSync以外にアクセスしてはいけない。
+		*/
+		virtual AsyncLoadingStateType GetAsyncLoadingState() const = 0;
+
+		/**
+		@brief	非同期ロードをした時に同期処理を行う。
+		@note
+		GetAsyncLoadingStateがWaitSyncを返した時に実行する。
+		*/
+		virtual void Sync() = 0;
+
+		/**
 		@brief	テクスチャのクラスの種類を取得する。
 		@return	種類
 		*/
