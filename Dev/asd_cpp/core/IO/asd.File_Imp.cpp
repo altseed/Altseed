@@ -219,8 +219,18 @@ namespace asd
 				{
 					if (isAsync)
 					{
+						auto packFile = root->GetPackFile();
 
+						if (packFile->HaveFile(packedPath))
+						{
+							// Read file as new file.
+							const auto& internalHeader = packFile->GetInternalHeader(packedPath);
+							StreamFile_Imp* streamFile = nullptr;
 
+							auto file = CreateSharedPtr(new BaseFile(root->GetOriginalPath()));
+							streamFile = new StreamFile_Imp(this, astring(), file, *internalHeader, root->decryptor);
+							return streamFile;
+						}		
 					}
 					else
 					{
@@ -256,8 +266,12 @@ namespace asd
 
 					if (isAsync)
 					{
+						// Read file as new file.
+						StreamFile_Imp* streamFile = nullptr;
 
-
+						auto file = CreateSharedPtr(new BaseFile(combinedPath));
+						streamFile = new StreamFile_Imp(this, astring(), file);
+						return streamFile;
 					}
 					else
 					{

@@ -109,7 +109,7 @@ namespace asd
 
 	StreamFile* Accessor::File_CreateStreamFile(File* file, const achar* path)
 	{
-		return file->CreateStreamFile_(path);
+		return file->CreateStreamFile_(path, false);
 	}
 
 	int32_t Accessor::StreamFile_Read_(StreamFile* o, int32_t size)
