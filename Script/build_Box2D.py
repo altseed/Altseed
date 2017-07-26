@@ -1,6 +1,7 @@
 
 import aceutils
 import shutil
+import os
 
 aceutils.cdToScript()
 aceutils.mkdir('../Downloads')
@@ -25,9 +26,12 @@ with aceutils.CurrentDir('../Downloads'):
 
     with aceutils.CurrentDir("box2d_bin"):
         if aceutils.isWin():
-            aceutils.call(aceutils.cmd_cmake+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D BOX2D_BUILD_EXAMPLES:BOOL=OFF ../' + pathname + r'/Box2D/')
-            aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Debug')
-            aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Release')
+            aceutils.cdToScript()
+            with aceutils.CurrentDir(r'../Downloads/Box2D/Box2D'):
+                aceutils.call(aceutils.cmd_premake5 + r'vs2015 --file=' + '../../../Script/premake5/windows/premake5.lua.box2d')
+                with aceutils.CurrentDir(r'Build/vs2015'):
+                    aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Debug /p:outdir=Debug_x86 /p:platform=Win32')
+                    aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Release /p:outdir=Release_x86 /p:platform=Win32')
         elif aceutils.isMac():
             aceutils.cdToScript()
             with aceutils.CurrentDir(r'../Downloads/Box2D/Box2D'):
@@ -40,19 +44,22 @@ with aceutils.CurrentDir('../Downloads'):
 
     with aceutils.CurrentDir("box2d_bin_x64"):
         if aceutils.isWin():
-            aceutils.call(aceutils.cmd_cmake_x64+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D BOX2D_BUILD_EXAMPLES:BOOL=OFF ../' + pathname + r'/Box2D/')
-            aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Debug')
-            aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Release')
+            aceutils.cdToScript()
+            with aceutils.CurrentDir(r'../Downloads/Box2D/Box2D'):
+                aceutils.call(aceutils.cmd_premake5 + r'vs2015 --file=' + '../../../Script/premake5/windows/premake5.lua.box2d')
+                with aceutils.CurrentDir(r'Build/vs2015'):
+                    aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Debug /p:outdir=Debug_x64 /p:platform=x64')
+                    aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Release /p:outdir=Release_x64 /p:platform=x64')
 
     if aceutils.isWin():
         aceutils.mkdir(r'../Dev/lib/Debug')
         aceutils.mkdir(r'../Dev/lib/Release')
         aceutils.copytree(pathname + r'/Box2D/Box2D', r'../Dev/include/Box2D/', True, ignoreList=shutil.ignore_patterns(r'*.txt',r'*.cpp',r'*.cmake'))
         
-        aceutils.copy(r'box2d_bin/Box2D/Debug/Box2D.lib', r'../Dev/lib/x86/Debug/')
-        aceutils.copy(r'box2d_bin/Box2D/Release/Box2D.lib', r'../Dev/lib/x86/Release/')
-        aceutils.copy(r'box2d_bin_x64/Box2D/Debug/Box2D.lib', r'../Dev/lib/x64/Debug/')
-        aceutils.copy(r'box2d_bin_x64/Box2D/Release/Box2D.lib', r'../Dev/lib/x64/Release/')
+        aceutils.copy(r'Box2D/Box2D/Build/vs2015/Debug_x86/Box2D.lib', r'../Dev/lib/x86/Debug/')
+        aceutils.copy(r'Box2D/Box2D/Build/vs2015/Release_x86/Box2D.lib', r'../Dev/lib/x86/Release/')
+        aceutils.copy(r'Box2D/Box2D/Build/vs2015/Debug_x64/Box2D.lib', r'../Dev/lib/x64/Debug/')
+        aceutils.copy(r'Box2D/Box2D/Build/vs2015/Release_x64/Box2D.lib', r'../Dev/lib/x64/Release/')
     elif aceutils.isMac():
         aceutils.copytree(pathname + r'/Box2D/Box2D', r'../Dev/include/Box2D/', True)
         aceutils.copy(r'Box2D/Box2D/Build/xcode4/bin/Release/libBox2D.a', r'../Dev/lib/')
