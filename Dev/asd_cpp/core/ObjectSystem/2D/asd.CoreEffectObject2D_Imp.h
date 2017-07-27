@@ -1,4 +1,4 @@
-﻿
+﻿#pragma once
 #include "asd.CoreEffectObject2D.h"
 #include "asd.CoreObject2D_Imp.h"
 
@@ -9,6 +9,17 @@ namespace asd
 		, public CoreObject2D_Imp
 		, public ReferenceObject
 	{
+		enum class CommandType : uint8_t
+		{
+			Play, Stop, StopRoot, Show, Hide
+		};
+
+		struct Command
+		{
+			CommandType Type;
+			int32_t Id;
+		};
+
 	private:
 		static const int32_t GCThreshold = 0;
 
@@ -33,6 +44,10 @@ namespace asd
 		@brief	Y軸(3D)回転(度)
 		*/
 		float							m_rotationY = 0.0f;
+
+		std::map<int, int>				internalHandleToEffekseerHandle;
+		std::list<Command>				commands;
+		int								nextInternalHandle = 0;
 
 		Effekseer::Matrix43 CalcEffectMatrix();
 
@@ -107,6 +122,12 @@ namespace asd
 
 		CORE_OBJECT2D_IMP_CHILD
 		*/
+
+		int PlayInternal(int internalHandle);
+		void StopInternal();
+		void StopRootInternal();
+		void ShowInternal();
+		void HideInternal();
 
 #include "asd.CoreObject2D_Imp_Methods.h"
 	};

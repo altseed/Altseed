@@ -64,8 +64,9 @@ namespace asd
 		, m_effect(nullptr)
 		, m_renderer(nullptr)
 		, m_drawingPtiority(0)
+		, commands()
+		, internalHandleToEffekseerHandle()
 	{
-
 	}
 
 	CoreEffectObject2D_Imp::~CoreEffectObject2D_Imp()
@@ -81,51 +82,76 @@ namespace asd
 	int32_t CoreEffectObject2D_Imp::Play()
 	{
 		if (m_effect == nullptr) return -1;
-		if (m_renderer == nullptr) return -1;
-		ASSERT_STATIC_CAST(Effect_Imp*, m_effect);
+		if (m_renderer == nullptr)
+		{
+			auto internalHandle = nextInternalHandle;
+			++nextInternalHandle;
 
-		auto e = (Effect_Imp*) m_effect;
-		auto ne = e->GetEffect();
-
-		Effekseer::Matrix43 efMat = CalcEffectMatrix();
-		
-		auto handle = m_renderer->GetEffectManager()->Play(ne, 0.0f, 0.0f, 0.0f);
-		m_renderer->GetEffectManager()->SetMatrix(handle, efMat);
-		m_handles.push_back(handle);
-
-		return handle;
+			Command cmd;
+			cmd.Type = CommandType::Play;
+			cmd.Id = internalHandle;
+			commands.push_back(cmd);
+			return internalHandle;
+		}
+		else
+		{
+			return PlayInternal(-1);
+		}
 	}
 
 	void CoreEffectObject2D_Imp::Stop()
 	{
-		for (auto& h : m_handles)
+		if (m_renderer == nullptr)
 		{
-			m_renderer->GetEffectManager()->StopEffect(h);
+			Command cmd;
+			cmd.Type = CommandType::Stop;
+			commands.push_back(cmd);
 		}
-		m_handles.clear();
+		else
+		{
+			StopInternal();
+		}
 	}
 
 	void CoreEffectObject2D_Imp::StopRoot()
 	{
-		for (auto& h : m_handles)
+		if (m_renderer == nullptr)
 		{
-			m_renderer->GetEffectManager()->StopRoot(h);
+			Command cmd;
+			cmd.Type = CommandType::StopRoot;
+			commands.push_back(cmd);
+		}
+		else
+		{
+			StopRootInternal();
 		}
 	}
 
 	void CoreEffectObject2D_Imp::Show()
 	{
-		for (auto& h : m_handles)
+		if (m_renderer == nullptr)
 		{
-			m_renderer->GetEffectManager()->SetShown(h, true);
+			Command cmd;
+			cmd.Type = CommandType::Show;
+			commands.push_back(cmd);
+		}
+		else
+		{
+			ShowInternal();
 		}
 	}
 
 	void CoreEffectObject2D_Imp::Hide()
 	{
-		for (auto& h : m_handles)
+		if (m_renderer == nullptr)
 		{
-			m_renderer->GetEffectManager()->SetShown(h, false);
+			Command cmd;
+			cmd.Type = CommandType::Hide;
+			commands.push_back(cmd);
+		}
+		else
+		{
+			HideInternal();
 		}
 	}
 
@@ -178,6 +204,30 @@ namespace asd
 		ASSERT_STATIC_CAST(Renderer2D_Imp*, renderer);
 
 		m_renderer = (Renderer2D_Imp*)renderer;
+
+		for (auto cmd : commands)
+		{
+			if (cmd.Type == CommandType::Play)
+			{
+				PlayInternal(cmd.Id);
+			}
+			else if(cmd.Type == CommandType::Stop)
+			{
+				StopInternal();
+			}
+			else if (cmd.Type == CommandType::StopRoot)
+			{
+				StopRootInternal();
+			}
+			else if (cmd.Type == CommandType::Show)
+			{
+				ShowInternal();
+			}
+			else if (cmd.Type == CommandType::Hide)
+			{
+				HideInternal();
+			}
+		}
 	}
 
 	void CoreEffectObject2D_Imp::OnRemoving(Renderer2D* renderer)
@@ -254,5 +304,68 @@ namespace asd
 	void CoreEffectObject2D_Imp::SetDrawingPriority(int priority)
 	{
 		m_drawingPtiority = priority;
+	}
+
+	int CoreEffectObject2D_Imp::PlayInternal(int internalHandle)
+	{
+		int id = -1;
+		if (internalHandle == -1)
+		{
+			id = nextInternalHandle;
+			++nextInternalHandle;
+		}
+		else
+		{
+			id = internalHandle;
+		}
+
+		ASSERT_STATIC_CAST(Effect_Imp*, m_effect);
+
+		auto e = (Effect_Imp*)m_effect;
+		auto ne = e->GetEffect();
+
+		Effekseer::Matrix43 efMat = CalcEffectMatrix();
+
+		auto handle = m_renderer->GetEffectManager()->Play(ne, 0.0f, 0.0f, 0.0f);
+		m_renderer->GetEffectManager()->SetMatrix(handle, efMat);
+		m_handles.push_back(handle);
+
+		internalHandleToEffekseerHandle[internalHandle] = id;
+
+		return handle;
+	}
+
+	void CoreEffectObject2D_Imp::StopInternal()
+	{
+		for (auto& h : m_handles)
+		{
+			m_renderer->GetEffectManager()->StopEffect(h);
+		}
+		m_handles.clear();
+		internalHandleToEffekseerHandle.clear();
+	}
+
+	void CoreEffectObject2D_Imp::StopRootInternal()
+	{
+		for (auto& h : m_handles)
+		{
+			m_renderer->GetEffectManager()->StopRoot(h);
+		}
+	}
+
+	void CoreEffectObject2D_Imp::ShowInternal()
+	{
+		for (auto& h : m_handles)
+		{
+			m_renderer->GetEffectManager()->SetShown(h, true);
+		}
+	}
+
+	void CoreEffectObject2D_Imp::HideInternal()
+	{
+		for (auto& h : m_handles)
+		{
+			m_renderer->GetEffectManager()->SetShown(h, false);
+		}
 	}
 }

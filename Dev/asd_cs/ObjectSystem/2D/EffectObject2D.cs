@@ -53,10 +53,6 @@ namespace asd
 		public int Play()
 		{
 			ThrowIfReleased();
-			if(Layer == null)
-			{
-				Engine.Logger.WriteLine("エフェクトをレイヤーに追加する前に再生しました。正しく表示されない場合があります。", LogLevel.Warning);
-			}
 
 			return coreEffectObject.Play();
 		}

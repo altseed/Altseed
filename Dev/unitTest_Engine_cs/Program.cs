@@ -24,7 +24,8 @@ namespace unitTest_Engine_cs
 		//[STAThread]
 		static void Main(string[] args)
 		{
-			TestOnTheDevice(typeof (Window.EmptyExternal), GraphicsDeviceType.DirectX11);
+			TestOnTheDevice(typeof (Graphics._2D.PlayEffectImmediately), GraphicsDeviceType.DirectX11);
+			TestOnTheDevice(typeof(Graphics._2D.PlayEffectImmediately), GraphicsDeviceType.OpenGL);
 			Console.ReadKey();
 			return;
 

@@ -60,6 +60,7 @@ EXTERN_ENGINE_TEST(Graphics, TerrainObject3D)
 EXTERN_ENGINE_TEST(Graphics, GeometryObject2D)
 
 EXTERN_ENGINE_TEST(Graphics, EffectObject2D)
+EXTERN_ENGINE_TEST(Graphics, PlayEffectImmediately)
 
 EXTERN_ENGINE_TEST(Graphics, TextureObject2D)
 EXTERN_ENGINE_TEST(Graphics, TextObject2D)
@@ -130,7 +131,7 @@ int main(int argc, char **argv)
 	::testing::InitGoogleTest(&argc, argv);
 	
 	
-	CALL_ENGINE_TEST(Graphics, EffectObject3D, false);
+	CALL_ENGINE_TEST(Graphics, PlayEffectImmediately, true);
 	getchar();
 	return 0;
 	

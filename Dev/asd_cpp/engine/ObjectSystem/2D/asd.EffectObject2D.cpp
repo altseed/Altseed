@@ -33,7 +33,6 @@ namespace asd
 
 	int32_t EffectObject2D::Play()
 	{
-		ACE_ASSERT(m_coreObject->GetLayer() != nullptr, "レイヤーに追加されていません。");
 		return m_coreObject->Play();
 	}
 

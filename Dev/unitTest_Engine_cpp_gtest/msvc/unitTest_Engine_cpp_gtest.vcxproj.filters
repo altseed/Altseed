@@ -222,6 +222,9 @@
     <ClCompile Include="..\BugFix\RepeatedlyAddAndRemoveObject.cpp">
       <Filter>BugFix</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\2D\PlayEffectImmediately.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
