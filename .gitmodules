@@ -49,3 +49,7 @@
 	path = Downloads/AltseedRHI
 	url = https://github.com/altseed/AltseedRHI.git
 	ignore = dirty
+[submodule "Downloads/Chipmunk2D"]
+	path = Downloads/Chipmunk2D
+	url = https://github.com/slembcke/Chipmunk2D.git
+	ignore = dirty
