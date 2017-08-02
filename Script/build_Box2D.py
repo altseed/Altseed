@@ -30,8 +30,8 @@ with aceutils.CurrentDir('../Downloads'):
             with aceutils.CurrentDir(r'../Downloads/Box2D/Box2D'):
                 aceutils.call(aceutils.cmd_premake5 + r'vs2015 --file=' + '../../../Script/premake5/windows/premake5.lua.box2d')
                 with aceutils.CurrentDir(r'Build/vs2015'):
-                    aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Debug /p:outdir=Debug_x86 /p:platform=Win32')
-                    aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Release /p:outdir=Release_x86 /p:platform=Win32')
+                    aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Debug /p:outdir=Debug_x86 /p:platform=Win32 /p:RuntimeLibrary=MTd_StaticDebug')
+                    aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Release /p:outdir=Release_x86 /p:platform=Win32 /p:RuntimeLibrary=MT_StaticRelease')
         elif aceutils.isMac():
             aceutils.cdToScript()
             with aceutils.CurrentDir(r'../Downloads/Box2D/Box2D'):
@@ -48,8 +48,8 @@ with aceutils.CurrentDir('../Downloads'):
             with aceutils.CurrentDir(r'../Downloads/Box2D/Box2D'):
                 aceutils.call(aceutils.cmd_premake5 + r'vs2015 --file=' + '../../../Script/premake5/windows/premake5.lua.box2d')
                 with aceutils.CurrentDir(r'Build/vs2015'):
-                    aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Debug /p:outdir=Debug_x64 /p:platform=x64')
-                    aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Release /p:outdir=Release_x64 /p:platform=x64')
+                    aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Debug /p:outdir=Debug_x64 /p:platform=x64 /p:RuntimeLibrary=MTd_StaticDebug')
+                    aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Release /p:outdir=Release_x64 /p:platform=x64 /p:RuntimeLibrary=MT_StaticRelease')
 
     if aceutils.isWin():
         aceutils.mkdir(r'../Dev/lib/Debug')
