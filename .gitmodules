@@ -51,5 +51,5 @@
 	ignore = dirty
 [submodule "Downloads/Chipmunk2D"]
 	path = Downloads/Chipmunk2D
-	url = https://github.com/slembcke/Chipmunk2D.git
+	url = https://github.com/c-plus-c/Chipmunk2D.git
 	ignore = dirty
