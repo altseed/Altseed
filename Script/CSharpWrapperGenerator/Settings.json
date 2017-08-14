@@ -40,6 +40,7 @@
 
 		"ChildManagementMode",
 		"ChildDrawingMode",
+		
 		"CoreShape",
 		"CoreTriangleShape",
 		"CoreArcShape",
@@ -48,6 +49,15 @@
 		"CoreCircleShape",
 		"CorePolygonShape",
 		"CoreChip2D",
+		
+		"Collider2DType",
+		"CoreCollision2D",
+		"CoreCollision2DEvent",
+		"CoreCollider2D",
+		"CoreCircleCollider",
+		"CoreLineCollider",
+		"CoreRectangleCollider",
+		"CorePolygonCollider",
 
 		"CoreDrawnObject2D",
 		"CoreTextureObject2D",

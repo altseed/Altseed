@@ -25,7 +25,7 @@ namespace asd {
 		b2Transform identity = b2Transform();
 		identity.SetIdentity();
 
-		currentFrameContact = b2TestOverlap(collider1B2Shape, 1, collider2B2Shape, 1, identity, identity);
+		currentFrameContact = b2TestOverlap(collider1B2Shape, 0, collider2B2Shape, 0, identity, identity);
 
 		auto ownerA = colliderA_Imp->GetOwnerObject2D();
 		auto ownerB = colliderB_Imp->GetOwnerObject2D();
