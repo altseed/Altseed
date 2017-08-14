@@ -78,7 +78,7 @@ namespace asd {
 	}
 
 	void CoreCollider2D_Imp::OnRemovedFromObject(CoreObject2D_Imp* ownerObject) {
-
+		SetOwnerObject2D(nullptr);
 	}
 
 	void CoreCollider2D_Imp::OnOwnerObjectTransformChanged(CoreObject2D_Imp*) {

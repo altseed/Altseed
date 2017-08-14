@@ -184,12 +184,15 @@ namespace asd
 	}
 
 	void CoreObject2D_Imp::RemoveCollider(CoreCollider2D *collider) {
+		if (colliders.find(collider) == colliders.end()) {
+			//TODO: 例外はいたほうがいい？
+			return;
+		}
+
 		SafeRelease(collider);
 		colliders.erase(collider);
 
 		auto collider_imp = CoreCollider2D_Imp::CoreCollider2DToImp(collider);
-
-		collider_imp->SetOwnerObject2D(nullptr);
 
 		if (GetLayer() != nullptr) {
 			auto layerImp = (CoreLayer2D_Imp*)GetLayer();

@@ -40,10 +40,10 @@ namespace asd {
 		}
 
 		for (auto registeredCollider : registeredColliders) {
-			SafeRelease(registeredCollider);
 			auto colliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(registeredCollider);
 			colliderImp->SetOwnerObject2D(nullptr);
 			colliderImp->SetCollisionManager(nullptr);
+			SafeRelease(registeredCollider);
 		}
 
 	}
@@ -67,6 +67,10 @@ namespace asd {
 
 	void CoreCollision2DManager::UnregisterCollider(CoreCollider2D* collider) {
 		auto colliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(collider);
+
+		if (registeredCollidersImp.find(colliderImp) == registeredCollidersImp.end()) {
+			return;
+		}
 
 		registeredColliders.erase(collider);
 		registeredCollidersImp.erase(colliderImp);
