@@ -3,6 +3,9 @@
 
 namespace asd {
 
+	/**
+	ポリゴンのコライダクラス
+	*/
 	class PolygonCollider : public Collider2D
 	{
 	private:

@@ -21,6 +21,9 @@ namespace asd
 		*/
 		virtual Collider2DShapeType GetShapeType() const = 0;
 
+		/**
+		@brief	このコライダを保持しているObject2Dを取得する
+		*/
 		std::weak_ptr<Object2D> GetOwnerObject() const;
 
 		/**
@@ -36,14 +39,14 @@ namespace asd
 		void SetTag(const achar* tag);
 
 		/**
-		@brief	コライダを可視化する成否を設定する（デバッグ用）
-		@param	isVisible コライダを可視化するか否か
+		@brief	このコライダを可視化する成否を設定する（デバッグ用）
+		@param	isVisible コライダの可視化の成否
 		*/
 		void SetVisible(bool isVisible);
 
 		/**
-		@brief	コライダを可視化する成否を取得する（デバッグ用）
-		@param	isVisible コライダを可視化するか否か
+		@brief	このコライダを可視化する成否を取得する（デバッグ用）
+		@return コライダの可視化の成否
 		*/
 		bool GetVisible();
 	};

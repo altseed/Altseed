@@ -3,6 +3,9 @@
 
 namespace asd {
 
+	/**
+	矩形のコライダクラス
+	*/
 	class RectangleCollider : public Collider2D{
 	private:
 		std::shared_ptr<CoreRectangleCollider> coreObject;
