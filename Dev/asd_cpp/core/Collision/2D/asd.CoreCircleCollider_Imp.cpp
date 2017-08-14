@@ -86,7 +86,7 @@ namespace asd {
 	void CoreCircleCollider_Imp::DrawVisibleCollisionsAdditionally(CoreLayer2D* layer) {
 		layer->DrawCircleAdditionally(
 			Vector2DF(b2circleShape.m_p.x, b2circleShape.m_p.y), 
-			b2circleShape.m_radius, 
+			b2circleShape.m_radius * 2, 
 			0, 
 			asd::Color(255, 0, 0, 100), 
 			100, 
