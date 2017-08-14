@@ -28,7 +28,7 @@ namespace asd {
 		coreObject->SetRadius(radius);
 	}
 
-	Collider2DShapeType CircleCollider::GetType() const {
+	Collider2DShapeType CircleCollider::GetShapeType() const {
 		return Collider2DShapeType::Circle;
 	}
 

@@ -125,15 +125,18 @@ namespace asd
 		virtual void OnDrawAdditionally();
 
 		/**
-		@brief	オーバーライドして、この2Dオブジェクトが別のコライダと衝突開始する際の処理を記述できる。
+		@brief	オーバーライドして、この2Dオブジェクトが別の2Dオブジェクトのコライダと衝突開始する際の処理を記述できる。
+		@param	collisionInfo	衝突に関する情報
 		*/
 		virtual void OnCollisionEnter(std::shared_ptr<Collision2DInfo> collisionInfo) {}
 		/**
-		@brief	オーバーライドして、この2Dオブジェクトが別のコライダと衝突中の処理を記述できる。
+		@brief	オーバーライドして、この2Dオブジェクトが別の2Dオブジェクトのコライダと衝突が継続している際の処理を記述できる。
+		@param	collisionInfo	衝突に関する情報
 		*/
 		virtual void OnCollisionStay(std::shared_ptr<Collision2DInfo> collisionInfo) {}
 		/**
-		@brief	オーバーライドして、この2Dオブジェクトが別のコライダと衝突終了する際の処理を記述できる。
+		@brief	オーバーライドして、この2Dオブジェクトが別の2Dオブジェクトのコライダと衝突終了した際の処理を記述できる。
+		@param	collisionInfo	衝突に関する情報
 		*/
 		virtual void OnCollisionExit(std::shared_ptr<Collision2DInfo> collisionInfo) {}
 
@@ -383,6 +386,10 @@ namespace asd
 		*/
 		void RemoveCollider(std::shared_ptr<Collider2D> collider);
 
+		/**
+		@brief	現時点での衝突一覧の情報を取得する
+		@return	現時点での衝突一覧の情報
+		*/
 		std::list<std::shared_ptr<Collision2DInfo>> &GetCollisionsInfo();
 	};
 }

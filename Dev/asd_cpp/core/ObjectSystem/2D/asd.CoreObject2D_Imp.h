@@ -221,7 +221,7 @@ namespace asd
 
 		CoreCollision2DEvent* GetCollisionEvent(int n);
 
-		int GetCollisionEventNum();
+		int GetCollisionEventsNum();
 
 		void DrawVisibleCollisionsAdditionally();
 	};

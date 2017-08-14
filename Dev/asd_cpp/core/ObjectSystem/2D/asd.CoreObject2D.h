@@ -52,7 +52,7 @@ namespace asd
 		virtual void AddCollider(CoreCollider2D *collider) = 0;
 		virtual void RemoveCollider(CoreCollider2D *collider) = 0;
 		virtual CoreCollision2DEvent* GetCollisionEvent(int n) = 0;
-		virtual int GetCollisionEventNum() = 0;
+		virtual int GetCollisionEventsNum() = 0;
 
 		virtual void DrawVisibleCollisionsAdditionally() = 0;
 

@@ -66,8 +66,8 @@ CoreCollision2DEvent* GetCollisionEvent(int n) override {
 	return CoreObject2D_Imp::GetCollisionEvent(n);
 }
 
-int GetCollisionEventNum() override {
-	return CoreObject2D_Imp::GetCollisionEventNum();
+int GetCollisionEventsNum() override {
+	return CoreObject2D_Imp::GetCollisionEventsNum();
 }
 
 void DrawVisibleCollisionsAdditionally() override {

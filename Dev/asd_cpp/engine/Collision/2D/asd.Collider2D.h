@@ -5,7 +5,7 @@
 namespace asd
 {
 	/**
-	@brief	当たり判定や図形描画に用いられる図形を扱うクラス。
+	@brief	2Dのコライダクラス
 	*/
 	class Collider2D
 	{
@@ -16,10 +16,10 @@ namespace asd
 	public:
 
 		/**
-		@brief	衝突判定図形のタイプを取得する。
-		@return	衝突判定図形のタイプ
+		@brief	コライダの形状を取得する。
+		@return	コライダの形状
 		*/
-		virtual Collider2DShapeType GetType() const = 0;
+		virtual Collider2DShapeType GetShapeType() const = 0;
 
 		std::weak_ptr<Object2D> GetOwnerObject() const;
 

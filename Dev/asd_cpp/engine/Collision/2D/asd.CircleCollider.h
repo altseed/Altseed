@@ -4,6 +4,9 @@
 
 namespace asd {
 
+	/**
+	@brief	円形のコライダクラス
+	*/
 	class CircleCollider : public Collider2D {
 	private:
 		std::shared_ptr<CoreCircleCollider> coreObject;
@@ -38,6 +41,6 @@ namespace asd {
 		*/
 		void SetRadius(float radius);
 
-		Collider2DShapeType GetType() const;
+		Collider2DShapeType GetShapeType() const override;
 	};
 }

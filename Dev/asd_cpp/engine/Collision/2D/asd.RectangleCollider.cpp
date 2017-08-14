@@ -22,7 +22,7 @@ namespace asd {
 		return coreObject;
 	}
 
-	Collider2DShapeType RectangleCollider::GetType() const {
+	Collider2DShapeType RectangleCollider::GetShapeType() const {
 		return Collider2DShapeType::Rectangle;
 	}
 }

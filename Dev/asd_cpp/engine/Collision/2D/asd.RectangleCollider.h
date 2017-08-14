@@ -11,9 +11,18 @@ namespace asd {
 		RectangleCollider();
 		virtual ~RectangleCollider();
 
+		/**
+		@brief	この矩形の範囲を取得する
+		@return	矩形の範囲
+		*/
 		RectF GetArea() const;
+
+		/**
+		@brief	この矩形の範囲を設定する
+		@param	area	矩形の範囲
+		*/
 		void SetArea(RectF area);
 
-		Collider2DShapeType GetType() const override;
+		Collider2DShapeType GetShapeType() const override;
 	};
 }

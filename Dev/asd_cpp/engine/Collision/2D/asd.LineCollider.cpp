@@ -36,7 +36,7 @@ namespace asd {
 		coreObject->SetThickness(thickness);
 	}
 
-	Collider2DShapeType LineCollider::GetType() const {
+	Collider2DShapeType LineCollider::GetShapeType() const {
 		return Collider2DShapeType::Line;
 	}
 

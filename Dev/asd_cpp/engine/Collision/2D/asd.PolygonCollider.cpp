@@ -40,7 +40,7 @@ namespace asd {
 		return coreObject;
 	}
 
-	Collider2DShapeType PolygonCollider::GetType() const {
+	Collider2DShapeType PolygonCollider::GetShapeType() const {
 		return Collider2DShapeType::Polygon;
 	}
 }

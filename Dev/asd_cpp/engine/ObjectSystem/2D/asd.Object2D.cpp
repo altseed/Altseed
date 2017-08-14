@@ -63,7 +63,7 @@ namespace asd
 	}
 
 	void Object2D::RaiseOnCollisionCallbacks() {
-		auto collisionEventsNum = GetCoreObject()->GetCollisionEventNum();
+		auto collisionEventsNum = GetCoreObject()->GetCollisionEventsNum();
 		collisions2DInfo.clear();
 
 		for (int index = 0; index < collisionEventsNum; index++) {

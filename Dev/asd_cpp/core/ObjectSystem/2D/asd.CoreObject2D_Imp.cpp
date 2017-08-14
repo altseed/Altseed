@@ -204,14 +204,14 @@ namespace asd
 	}
 
 	CoreCollision2DEvent* CoreObject2D_Imp::GetCollisionEvent(int n) {
-		if (n >= GetCollisionEventNum()) {
+		if (n >= GetCollisionEventsNum()) {
 			return nullptr;
 		}
 
 		return &currentFrameCollisionEvents[n];
 	}
 
-	int CoreObject2D_Imp::GetCollisionEventNum() {
+	int CoreObject2D_Imp::GetCollisionEventsNum() {
 		return currentFrameCollisionEvents.size();
 	}
 
