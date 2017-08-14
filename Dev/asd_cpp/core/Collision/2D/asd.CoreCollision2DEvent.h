@@ -1,7 +1,5 @@
 ﻿#pragma once
 
-#include "asd.CoreCollision2D.h"
-
 namespace asd {
 
 	enum class CollisionType {
@@ -9,6 +7,8 @@ namespace asd {
 		Stay,
 		Exit
 	};
+
+	class CoreCollision2D;
 
 	class CoreCollision2DEvent {
 		CollisionType collisionType;

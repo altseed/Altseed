@@ -170,6 +170,7 @@ engineHeader.readLines("asd_cpp/engine/Shape/asd.LineShape.h")
 engineHeader.readLines("asd_cpp/engine/Shape/asd.PolygonShape.h")
 
 engineHeader.readLines("asd_cpp/core/Collision/2D/asd.Collider2DType.h")
+engineHeader.readLines("asd_cpp/core/Collision/2D/asd.CoreCollision2DEvent.h")
 engineHeader.readLines("asd_cpp/engine/Collision/2D/asd.Collider2D.h")
 engineHeader.readLines("asd_cpp/engine/Collision/2D/asd.Collision2DInfo.h")
 engineHeader.readLines("asd_cpp/engine/Collision/2D/asd.CircleCollider.h")

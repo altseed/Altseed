@@ -45,6 +45,7 @@ CPP_OBJECT( asd::CoreTriangleShape )
 CPP_OBJECT( asd::CoreRectangleShape )
 
 CPP_OBJECT( asd::CoreCollision2D )
+CPP_OBJECT( asd::CoreCollider2D )
 CPP_OBJECT( asd::CoreCircleCollider )
 CPP_OBJECT( asd::CoreLineCollider )
 CPP_OBJECT( asd::CoreRectangleCollider )

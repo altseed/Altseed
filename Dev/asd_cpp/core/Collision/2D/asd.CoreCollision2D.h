@@ -14,8 +14,6 @@ namespace asd {
 
 		CoreCollider2D* colliderA;
 		CoreCollider2D* colliderB;
-		CoreCollider2D_Imp* colliderA_Imp;
-		CoreCollider2D_Imp* colliderB_Imp;
 
 		bool isShouldDestroy;
 
@@ -26,9 +24,12 @@ namespace asd {
 		{}
 		virtual ~CoreCollision2D() {}
 
-	public:
 
 #if !SWIG
+	private:
+		CoreCollider2D_Imp* colliderA_Imp;
+		CoreCollider2D_Imp* colliderB_Imp;
+	public:
 		bool GetIsShouldDestroy();
 
 		static CoreCollision2D* Create(CoreCollider2D_Imp* colliderA, CoreCollider2D_Imp* colliderB);
@@ -45,8 +46,16 @@ namespace asd {
 		{
 			size_t operator ()(const CoreCollision2D* v) const { return v->GetHashCode(); }
 		};
-#endif
 
+		CoreCollider2D_Imp* GetColliderA_Imp() {
+			return colliderA_Imp;
+		}
+
+		CoreCollider2D_Imp* GetColliderB_Imp() {
+			return colliderB_Imp;
+		}
+#endif
+	public:
 		void Update();
 
 		CoreCollider2D* GetColliderA() {
@@ -55,14 +64,6 @@ namespace asd {
 
 		CoreCollider2D* GetColliderB() {
 			return colliderB;
-		}
-
-		CoreCollider2D_Imp* GetColliderA_Imp(){
-			return colliderA_Imp;
-		}
-
-		CoreCollider2D_Imp* GetColliderB_Imp() {
-			return colliderB_Imp;
 		}
 	};
 }

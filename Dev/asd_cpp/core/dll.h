@@ -72,6 +72,17 @@
 #include "Shape/asd.CoreRectangleShape.h"
 #include "Shape/asd.CorePolygonShape.h"
 
+
+#include "Collision/2D/asd.Collider2DType.h"
+#include "Collision/2D/asd.CoreCollision2D.h"
+#include "Collision/2D/asd.CoreCollision2DEvent.h"
+#include "Collision/2D/asd.CoreCollider2D.h"
+#include "Collision/2D/asd.CoreCollider2D_Imp.h"
+#include "Collision/2D/asd.CoreCircleCollider.h"
+#include "Collision/2D/asd.CoreLineCollider.h"
+#include "Collision/2D/asd.CoreRectangleCollider.h"
+#include "Collision/2D/asd.CorePolygonCollider.h"
+
 #include "ObjectSystem/asd.ChildManagementMode.h"
 #include "ObjectSystem/asd.ChildTransformingMode.h"
 #include "ObjectSystem/asd.ChildDrawingMode.h"
