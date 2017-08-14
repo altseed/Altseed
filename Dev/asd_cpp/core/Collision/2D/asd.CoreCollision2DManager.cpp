@@ -35,27 +35,27 @@ namespace asd {
 	CoreCollision2DManager::~CoreCollision2DManager() {
 		culling2d::SafeDelete(cullingWorld);
 
-		for (auto registeredCollision : registeredCollisions) {
-			CoreCollision2D::Destroy(registeredCollision);
+		for (auto addedCollision : addedCollisions) {
+			CoreCollision2D::Destroy(addedCollision);
 		}
 
-		for (auto registeredCollider : registeredColliders) {
-			auto colliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(registeredCollider);
+		for (auto addedCollider : addedColliders) {
+			auto colliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(addedCollider);
 			colliderImp->SetOwnerObject2D(nullptr);
 			colliderImp->SetCollisionManager(nullptr);
-			SafeRelease(registeredCollider);
+			SafeRelease(addedCollider);
 		}
 
 	}
 
-	void CoreCollision2DManager::RegisterCollider(CoreCollider2D* collider) {
+	void CoreCollision2DManager::AddCollider(CoreCollider2D* collider) {
 		auto colliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(collider);
-		if (registeredCollidersImp.find(colliderImp) != registeredCollidersImp.end()) {
+		if (addedCollidersImp.find(colliderImp) != addedCollidersImp.end()) {
 			return;
 		}
 
-		registeredColliders.insert(collider);
-		registeredCollidersImp.insert(colliderImp);
+		addedColliders.insert(collider);
+		addedCollidersImp.insert(colliderImp);
 
 		SafeAddRef(collider);
 
@@ -65,15 +65,15 @@ namespace asd {
 		cullingWorld->AddObject(object);
 	}
 
-	void CoreCollision2DManager::UnregisterCollider(CoreCollider2D* collider) {
+	void CoreCollision2DManager::RemoveCollider(CoreCollider2D* collider) {
 		auto colliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(collider);
 
-		if (registeredCollidersImp.find(colliderImp) == registeredCollidersImp.end()) {
+		if (addedCollidersImp.find(colliderImp) == addedCollidersImp.end()) {
 			return;
 		}
 
-		registeredColliders.erase(collider);
-		registeredCollidersImp.erase(colliderImp);
+		addedColliders.erase(collider);
+		addedCollidersImp.erase(colliderImp);
 
 		SafeRelease(collider);
 
@@ -106,10 +106,10 @@ namespace asd {
 
 				CoreCollision2D* targetCollision = nullptr;
 
-				for (auto registeredCollision : registeredCollisions) {
+				for (auto addedCollision : addedCollisions) {
 
-					auto colliderAImp = registeredCollision->GetColliderA_Imp();
-					auto colliderBImp = registeredCollision->GetColliderB_Imp();
+					auto colliderAImp = addedCollision->GetColliderA_Imp();
+					auto colliderBImp = addedCollision->GetColliderB_Imp();
 
 					if (
 						colliderAImp->GetOwnerObject2D() != colliderBImp->GetOwnerObject2D() &&
@@ -118,16 +118,16 @@ namespace asd {
 						colliderBImp == transformedCollider &&
 						colliderAImp == elseColliderImp)
 						) {
-						targetCollision = registeredCollision;
+						targetCollision = addedCollision;
 						break;
 					}
 				}
 				if (targetCollision == nullptr && transformedCollider->GetAABB().GetCollision(elseColliderImp->GetAABB())) {
 					auto contact = CoreCollision2D::Create(transformedCollider, elseColliderImp);
-					registeredCollisions.insert(contact);
+					addedCollisions.insert(contact);
 				}
 				else if(targetCollision != nullptr && targetCollision->GetIsShouldDestroy()){
-					registeredCollisions.erase(targetCollision);
+					addedCollisions.erase(targetCollision);
 					CoreCollision2D::Destroy(targetCollision);
 				}
 
@@ -135,13 +135,13 @@ namespace asd {
 		}
 
 		// イベント一覧の初期化
-		for (auto collider : registeredCollidersImp) {
+		for (auto collider : addedCollidersImp) {
 			auto ownerObject2D = collider->GetOwnerObject2D();
 			ownerObject2D->currentFrameCollisionEvents.clear();
 		}
 
 		// 当たり判定の更新とイベントの積み上げ
-		for (auto collision : registeredCollisions) {
+		for (auto collision : addedCollisions) {
 			collision->Update();
 		}
 

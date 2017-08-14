@@ -177,7 +177,7 @@ namespace asd
 			auto layerImp = (CoreLayer2D_Imp*)GetLayer();
 			auto manager = layerImp->collisionManager;
 			collider_imp->SetCollisionManager(manager.get());
-			manager->RegisterCollider(collider);
+			manager->AddCollider(collider);
 		}
 
 		collider_imp->OnAddedToObject(this);
@@ -198,20 +198,20 @@ namespace asd
 			auto layerImp = (CoreLayer2D_Imp*)GetLayer();
 			auto manager = layerImp->collisionManager;
 			collider_imp->SetCollisionManager(nullptr);
-			manager->UnregisterCollider(collider);
+			manager->RemoveCollider(collider);
 		}
 		collider_imp->OnRemovedFromObject(this);
 	}
 
-	CoreCollision2DEvent* CoreObject2D_Imp::GetCollision2DEvent(int n) {
-		if (n >= GetCollision2DEventNum()) {
+	CoreCollision2DEvent* CoreObject2D_Imp::GetCollisionEvent(int n) {
+		if (n >= GetCollisionEventNum()) {
 			return nullptr;
 		}
 
 		return &currentFrameCollisionEvents[n];
 	}
 
-	int CoreObject2D_Imp::GetCollision2DEventNum() {
+	int CoreObject2D_Imp::GetCollisionEventNum() {
 		return currentFrameCollisionEvents.size();
 	}
 

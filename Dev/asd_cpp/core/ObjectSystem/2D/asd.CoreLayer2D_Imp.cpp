@@ -270,7 +270,7 @@ namespace asd
 		for (auto& collider : object_Imp->colliders) {
 			auto colliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(collider);
 			colliderImp->SetCollisionManager(collisionManager.get());
-			collisionManager->RegisterCollider(collider);
+			collisionManager->AddCollider(collider);
 		}
 
 	}
@@ -324,7 +324,7 @@ namespace asd
 		// 登録されたコライダを登録解除する
 		auto object_Imp = CoreObject2DToImp(object);
 		for (auto& collider : object_Imp->colliders) {
-			collisionManager->UnregisterCollider(collider);
+			collisionManager->RemoveCollider(collider);
 		}
 
 		if (object->GetObjectType() == Object2DType::Camera)

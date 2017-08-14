@@ -20,7 +20,7 @@ class ObjectSystem_Colliding : public EngineTest
 			rectCollider->SetArea(RectF(0, 0, 100, 100));
 			rectCollider->SetVisible(true);
 			rectCollider->SetTag(asd::ToAString("A").c_str());
-			AddCollider2D(rectCollider);
+			AddCollider(rectCollider);
 
 			auto lineCollider = std::make_shared<LineCollider>();
 			lineCollider->SetStartingPosition(Vector2DF(110, 110));
@@ -28,7 +28,15 @@ class ObjectSystem_Colliding : public EngineTest
 			lineCollider->SetThickness(10);
 			lineCollider->SetTag(asd::ToAString("B").c_str());
 			lineCollider->SetVisible(true);
-			AddCollider2D(lineCollider);
+			AddCollider(lineCollider);
+
+			auto circleCollider = std::make_shared<CircleCollider>();
+			circleCollider->SetCenter(Vector2DF(300, 300));
+			circleCollider->SetRadius(90);
+			circleCollider->SetTag(asd::ToAString("D").c_str());
+			circleCollider->SetVisible(true);
+			AddCollider(circleCollider);
+
 			SetScale(asd::Vector2DF(0.5, 0.5));
 			velocity = Vector2DF(4, 0);
 		}
@@ -53,7 +61,7 @@ class ObjectSystem_Colliding : public EngineTest
 			*/
 		}
 		void OnCollisionStay(std::shared_ptr<Collision2DInfo> collisionInfo) {
-			printf("Stay:%s\n", asd::ToAString(collisionInfo->GetSelfCollider()->GetTag()).c_str());
+			//printf("Stay:%s\n", asd::ToAString(collisionInfo->GetSelfCollider()->GetTag()).c_str());
 			/*
 			Engine::GetLogger()->Write(
 				(asd::ToAString("Stay:") + asd::ToAString(collisionInfo->GetSelfCollider()->GetTag())).c_str()
@@ -80,7 +88,7 @@ class ObjectSystem_Colliding : public EngineTest
 			rectCollider->SetArea(asd::RectF(0, 0, 100, 100));
 			rectCollider->SetTag(asd::ToAString("C").c_str());
 			rectCollider->SetVisible(true);
-			AddCollider2D(rectCollider);
+			AddCollider(rectCollider);
 			SetScale(asd::Vector2DF(0.5, 0.5));
 		}
 

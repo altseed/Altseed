@@ -219,9 +219,9 @@ namespace asd
 
 		void RemoveCollider(CoreCollider2D *collider);
 
-		CoreCollision2DEvent* GetCollision2DEvent(int n);
+		CoreCollision2DEvent* GetCollisionEvent(int n);
 
-		int GetCollision2DEventNum();
+		int GetCollisionEventNum();
 
 		void DrawVisibleCollisionsAdditionally();
 	};

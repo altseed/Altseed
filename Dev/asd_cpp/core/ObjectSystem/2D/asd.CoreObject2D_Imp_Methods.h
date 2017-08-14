@@ -62,12 +62,12 @@ void RemoveCollider(CoreCollider2D *collider) override {
 	CoreObject2D_Imp::RemoveCollider(collider);
 }
 
-CoreCollision2DEvent* GetCollision2DEvent(int n) override {
-	return CoreObject2D_Imp::GetCollision2DEvent(n);
+CoreCollision2DEvent* GetCollisionEvent(int n) override {
+	return CoreObject2D_Imp::GetCollisionEvent(n);
 }
 
-int GetCollision2DEventNum() override {
-	return CoreObject2D_Imp::GetCollision2DEventNum();
+int GetCollisionEventNum() override {
+	return CoreObject2D_Imp::GetCollisionEventNum();
 }
 
 void DrawVisibleCollisionsAdditionally() override {

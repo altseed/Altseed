@@ -374,14 +374,14 @@ namespace asd
 			@brief	衝突判定用のコライダを追加する
 			@param	collider	コライダ
 		*/
-		void AddCollider2D(std::shared_ptr<Collider2D> collider);
+		void AddCollider(std::shared_ptr<Collider2D> collider);
 
 
 		/**
 			@brief	衝突判定用のコライダを削除する
 			@param	collider	コライダ
 		*/
-		void RemoveCollider2D(std::shared_ptr<Collider2D> collider);
+		void RemoveCollider(std::shared_ptr<Collider2D> collider);
 
 		std::list<std::shared_ptr<Collision2DInfo>> &GetCollisionsInfo();
 	};

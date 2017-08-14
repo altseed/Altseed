@@ -17,9 +17,9 @@ namespace asd {
 
 		class CoreCollider2DManagerListener;
 
-		unordered_set<CoreCollider2D*> registeredColliders;
-		unordered_set<CoreCollider2D_Imp*> registeredCollidersImp;
-		unordered_set<CoreCollision2D*, CoreCollision2D::HashFunctor> registeredCollisions;
+		unordered_set<CoreCollider2D*> addedColliders;
+		unordered_set<CoreCollider2D_Imp*> addedCollidersImp;
+		unordered_set<CoreCollision2D*, CoreCollision2D::HashFunctor> addedCollisions;
 		unordered_set<CoreCollider2D_Imp*> lastTransformedColliders;
 		culling2d_aabb::World *cullingWorld;
 	public:
@@ -27,8 +27,8 @@ namespace asd {
 		CoreCollision2DManager();
 		virtual ~CoreCollision2DManager();
 
-		void RegisterCollider(CoreCollider2D* collider);
-		void UnregisterCollider(CoreCollider2D* collider);
+		void AddCollider(CoreCollider2D* collider);
+		void RemoveCollider(CoreCollider2D* collider);
 
 		void NotifyLastTransformed(CoreCollider2D_Imp* collider);
 

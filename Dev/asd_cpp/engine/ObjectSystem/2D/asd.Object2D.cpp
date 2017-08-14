@@ -63,11 +63,11 @@ namespace asd
 	}
 
 	void Object2D::RaiseOnCollisionCallbacks() {
-		auto collision2DEventsNum = GetCoreObject()->GetCollision2DEventNum();
+		auto collisionEventsNum = GetCoreObject()->GetCollisionEventNum();
 		collisions2DInfo.clear();
 
-		for (int index = 0; index < collision2DEventsNum; index++) {
-			auto collisionEvent = GetCoreObject()->GetCollision2DEvent(index);
+		for (int index = 0; index < collisionEventsNum; index++) {
+			auto collisionEvent = GetCoreObject()->GetCollisionEvent(index);
 			auto collision = collisionEvent->GetCollision();
 
 			auto colliderA = colliderMap[collision->GetColliderA()];
@@ -458,7 +458,7 @@ namespace asd
 	}
 #pragma endregion
 
-	void Object2D::AddCollider2D(std::shared_ptr<Collider2D> collider) {
+	void Object2D::AddCollider(std::shared_ptr<Collider2D> collider) {
 
 		collider->ownerObject2D = shared_from_this();
 		myColliders.insert(collider);
@@ -466,7 +466,7 @@ namespace asd
 		GetCoreObject()->AddCollider(collider->GetCoreCollider().get());
 	}
 
-	void Object2D::RemoveCollider2D(std::shared_ptr<Collider2D> collider) {
+	void Object2D::RemoveCollider(std::shared_ptr<Collider2D> collider) {
 		myColliders.erase(collider);
 		colliderMap.erase(collider->GetCoreCollider().get());
 		GetCoreObject()->RemoveCollider(collider->GetCoreCollider().get());
