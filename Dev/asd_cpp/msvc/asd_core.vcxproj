@@ -37,6 +37,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FBA17564-7E7C-4BE0-881E-6223CB6740D6}</ProjectGuid>
     <RootNamespace>ace_core</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -335,6 +336,20 @@
     <ClInclude Include="..\core\asd.Accessor.h" />
     <ClInclude Include="..\core\asd.ReferenceObject.h" />
     <ClInclude Include="..\core\asd.StructTranslator.h" />
+    <ClInclude Include="..\core\Collision\2D\asd.CoreCircleCollider.h" />
+    <ClInclude Include="..\core\Collision\2D\asd.CoreCircleCollider_Imp.h" />
+    <ClInclude Include="..\core\Collision\2D\asd.Collider2DType.h" />
+    <ClInclude Include="..\core\Collision\2D\asd.CoreCollider2D.h" />
+    <ClInclude Include="..\core\Collision\2D\asd.CoreCollider2D_Imp.h" />
+    <ClInclude Include="..\core\Collision\2D\asd.CoreCollision2D.h" />
+    <ClInclude Include="..\core\Collision\2D\asd.CoreLineCollider.h" />
+    <ClInclude Include="..\core\Collision\2D\asd.CoreLineCollider_Imp.h" />
+    <ClInclude Include="..\core\Collision\2D\asd.CorePolygonCollider.h" />
+    <ClInclude Include="..\core\Collision\2D\asd.CorePolygonCollider_Imp.h" />
+    <ClInclude Include="..\core\Collision\2D\asd.CoreRectangleCollider.h" />
+    <ClInclude Include="..\core\Collision\2D\asd.CoreRectangleCollider_Imp.h" />
+    <ClInclude Include="..\core\Collision\2D\asd.CoreCollision2DManager.h" />
+    <ClInclude Include="..\core\Collision\2D\asd.CoreCollision2DEvent.h" />
     <ClInclude Include="..\core\Core\asd.Core.h" />
     <ClInclude Include="..\core\Core\asd.Core_Imp.h" />
     <ClInclude Include="..\core\Core\asd.CreateCore.h" />
@@ -630,6 +645,13 @@
     <ClCompile Include="..\core\asd.Core.Base_Imp.cpp" />
     <ClCompile Include="..\core\asd.ReferenceObject.cpp" />
     <ClCompile Include="..\core\asd.StructTranslator.cpp" />
+    <ClCompile Include="..\core\Collision\2D\asd.CoreCircleCollider_Imp.cpp" />
+    <ClCompile Include="..\core\Collision\2D\asd.CoreCollider2D_Imp.cpp" />
+    <ClCompile Include="..\core\Collision\2D\asd.CoreCollision2D.cpp" />
+    <ClCompile Include="..\core\Collision\2D\asd.CoreLineCollider_Imp.cpp" />
+    <ClCompile Include="..\core\Collision\2D\asd.CorePolygonCollider_Imp.cpp" />
+    <ClCompile Include="..\core\Collision\2D\asd.CoreRectangleCollider_Imp.cpp" />
+    <ClCompile Include="..\core\Collision\2D\asd.CoreCollision2DManager.cpp" />
     <ClCompile Include="..\core\Core\asd.Core_Imp.cpp" />
     <ClCompile Include="..\core\Core\asd.CreateCore.cpp" />
     <ClCompile Include="..\core\dll.cxx" />

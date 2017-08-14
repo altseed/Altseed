@@ -51,3 +51,25 @@ Vector2DF GetAbsolutePosition() override { return CoreObject2D_Imp::GetAbsoluteP
 Matrix33 GetAbsoluteMatrixToTranslate() override { return CoreObject2D_Imp::GetAbsoluteMatrixToTranslate(); }
 Matrix33 GetAbsoluteMatrixToTransform() override { return CoreObject2D_Imp::GetAbsoluteMatrixToTransform(); }
 bool GetAbsoluteBeingDrawn() const override { return CoreObject2D_Imp::GetAbsoluteBeingDrawn(); }
+
+
+
+void AddCollider(CoreCollider2D *collider) override {
+	CoreObject2D_Imp::AddCollider(collider);
+}
+
+void RemoveCollider(CoreCollider2D *collider) override {
+	CoreObject2D_Imp::RemoveCollider(collider);
+}
+
+CoreCollision2DEvent* GetCollision2DEvent(int n) override {
+	return CoreObject2D_Imp::GetCollision2DEvent(n);
+}
+
+int GetCollision2DEventNum() override {
+	return CoreObject2D_Imp::GetCollision2DEventNum();
+}
+
+void DrawVisibleCollisionsAdditionally() override {
+	CoreObject2D_Imp::DrawVisibleCollisionsAdditionally();
+}

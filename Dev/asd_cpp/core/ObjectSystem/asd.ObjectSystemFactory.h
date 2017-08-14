@@ -19,6 +19,11 @@
 #include "../Shape/asd.CoreTriangleShape.h"
 #include "../Shape/asd.CorePolygonShape.h"
 
+#include "Collision/2D/asd.CoreCircleCollider.h"
+#include "Collision/2D/asd.CoreLineCollider.h"
+#include "Collision/2D/asd.CoreRectangleCollider.h"
+#include "Collision/2D/asd.CorePolygonCollider.h"
+
 namespace asd
 {
 	class ObjectSystemFactory
@@ -57,5 +62,10 @@ namespace asd
 		virtual CoreRectangleShape* CreateRectangleShape() = 0;
 		virtual CoreTriangleShape* CreateTriangleShape() = 0;
 		virtual CorePolygonShape* CreatePolygonShape() = 0;
+
+		virtual CoreCircleCollider* CreateCircleCollider() = 0;
+		virtual CoreLineCollider* CreateLineCollider() = 0;
+		virtual CoreRectangleCollider* CreateRectangleCollider() = 0;
+		virtual CorePolygonCollider* CreatePolygonCollider() = 0;
 	};
 }

@@ -116,6 +116,21 @@
     <ClCompile Include="..\engine\ObjectSystem\2D\asd.DrawnObject2D.cpp">
       <Filter>ObjectSystem\2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\engine\Collision\2D\asd.CircleCollider.cpp">
+      <Filter>Collision\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\Collision\2D\asd.Collider2D.cpp">
+      <Filter>Collision\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\Collision\2D\asd.LineCollider.cpp">
+      <Filter>Collision\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\Collision\2D\asd.PolygonCollider.cpp">
+      <Filter>Collision\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\Collision\2D\asd.RectangleCollider.cpp">
+      <Filter>Collision\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\engine\asd.Engine.Base.h" />
@@ -282,6 +297,24 @@
     <ClInclude Include="..\engine\ObjectSystem\Registration\asd.EventToManageDrawnFamilyship2D.h">
       <Filter>ObjectSystem\Registration</Filter>
     </ClInclude>
+    <ClInclude Include="..\engine\Collision\2D\asd.CircleCollider.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\Collision\2D\asd.Collider2D.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\Collision\2D\asd.Collision2DInfo.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\Collision\2D\asd.LineCollider.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\Collision\2D\asd.PolygonCollider.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\Collision\2D\asd.RectangleCollider.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -310,6 +343,12 @@
     </Filter>
     <Filter Include="ObjectSystem\Registration">
       <UniqueIdentifier>{8abb1252-0532-450e-af8f-ba10dd941045}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{b2182a9a-745b-4e21-9795-80bc14224220}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision\2D">
+      <UniqueIdentifier>{f01cbce8-c6e8-49ad-9295-f40d68337d17}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

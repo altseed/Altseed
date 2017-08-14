@@ -225,6 +225,9 @@
     <ClCompile Include="..\Graphics\2D\PlayEffectImmediately.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
+    <ClCompile Include="Colliding.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -271,6 +274,12 @@
     </Filter>
     <Filter Include="Input">
       <UniqueIdentifier>{19462a7b-4de5-4286-a685-b5acb7250208}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{dc6c8e5f-2a7d-4140-a73b-b50e7d7ad2dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision\2D">
+      <UniqueIdentifier>{7ac4b9aa-632a-46a1-ac94-e1bb9dc9f196}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

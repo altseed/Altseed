@@ -154,6 +154,12 @@
     <Filter Include="3rdParty\DirectXToolKit">
       <UniqueIdentifier>{eeefc298-8e73-4ea2-b074-16bf6a34d585}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{b5a0b8a9-e092-4921-bca1-0549c1b096dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision\2D">
+      <UniqueIdentifier>{114e34c7-a230-4333-8291-4050ad2f1cfc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\asd.Log_Imp.h">
@@ -1026,6 +1032,48 @@
     <ClInclude Include="..\core\Graphics\Helper\asd.EffekseerHelper.h">
       <Filter>Graphics\Helper</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Collision\2D\asd.Collider2DType.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Collision\2D\asd.CoreCollider2D.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Collision\2D\asd.CoreCollider2D_Imp.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Collision\2D\asd.CoreCircleCollider.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Collision\2D\asd.CoreLineCollider.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Collision\2D\asd.CoreLineCollider_Imp.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Collision\2D\asd.CorePolygonCollider.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Collision\2D\asd.CorePolygonCollider_Imp.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Collision\2D\asd.CoreRectangleCollider.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Collision\2D\asd.CoreRectangleCollider_Imp.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Collision\2D\asd.CoreCircleCollider_Imp.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Collision\2D\asd.CoreCollision2DManager.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Collision\2D\asd.CoreCollision2D.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Collision\2D\asd.CoreCollision2DEvent.h">
+      <Filter>Collision\2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">
@@ -1446,6 +1494,27 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Helper\asd.EffekseerHelper.cpp">
       <Filter>Graphics\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Collision\2D\asd.CoreCollider2D_Imp.cpp">
+      <Filter>Collision\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Collision\2D\asd.CoreCircleCollider_Imp.cpp">
+      <Filter>Collision\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Collision\2D\asd.CoreLineCollider_Imp.cpp">
+      <Filter>Collision\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Collision\2D\asd.CorePolygonCollider_Imp.cpp">
+      <Filter>Collision\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Collision\2D\asd.CoreRectangleCollider_Imp.cpp">
+      <Filter>Collision\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Collision\2D\asd.CoreCollision2DManager.cpp">
+      <Filter>Collision\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Collision\2D\asd.CoreCollision2D.cpp">
+      <Filter>Collision\2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

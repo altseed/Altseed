@@ -44,6 +44,12 @@ CPP_OBJECT( asd::CoreLineShape )
 CPP_OBJECT( asd::CoreTriangleShape )
 CPP_OBJECT( asd::CoreRectangleShape )
 
+CPP_OBJECT( asd::CoreCollision2D )
+CPP_OBJECT( asd::CoreCircleCollider )
+CPP_OBJECT( asd::CoreLineCollider )
+CPP_OBJECT( asd::CoreRectangleCollider )
+CPP_OBJECT( asd::CorePolygonCollider )
+
 CPP_OBJECT( asd::CoreObject3D )
 CPP_OBJECT( asd::CoreModelObject3D )
 CPP_OBJECT( asd::CoreDirectionalLightObject3D )
@@ -129,6 +135,11 @@ CPP_OBJECT( asd::StreamFile )
 %newobject asd::ObjectSystemFactory::CreateRectangleShape;
 %newobject asd::ObjectSystemFactory::CreateTriangleShape;
 %newobject asd::ObjectSystemFactory::CreatePolygonShape;
+
+%newobject asd::ObjectSystemFactory::CreateCircleCollider;
+%newobject asd::ObjectSystemFactory::CreateLineCollider;
+%newobject asd::ObjectSystemFactory::CreateRectangleCollider;
+%newobject asd::ObjectSystemFactory::CreatePolygonCollider;
 
 %newobject asd::ObjectSystemFactory::CreateModelObject3D;
 %newobject asd::ObjectSystemFactory::CreateCameraObject3D;
@@ -218,6 +229,16 @@ CPP_OBJECT( asd::StreamFile )
 %include "asd_cpp/core/Shape/asd.CoreLineShape.h"
 %include "asd_cpp/core/Shape/asd.CoreRectangleShape.h"
 %include "asd_cpp/core/Shape/asd.CorePolygonShape.h"
+
+
+%include "asd_cpp/core/Collision/2D/asd.Collider2DType.h"
+%include "asd_cpp/core/Collision/2D/asd.CoreCollision2D.h"
+%include "asd_cpp/core/Collision/2D/asd.CoreCollision2DEvent.h"
+%include "asd_cpp/core/Collision/2D/asd.CoreCollider2D.h"
+%include "asd_cpp/core/Collision/2D/asd.CoreCircleCollider.h"
+%include "asd_cpp/core/Collision/2D/asd.CoreLineCollider.h"
+%include "asd_cpp/core/Collision/2D/asd.CoreRectangleCollider.h"
+%include "asd_cpp/core/Collision/2D/asd.CorePolygonCollider.h"
 
 %include "asd_cpp/core/ObjectSystem/asd.ChildManagementMode.h"
 %include "asd_cpp/core/ObjectSystem/asd.ChildTransformingMode.h"

@@ -2,12 +2,16 @@
 #include <memory>
 #include <list>
 #include <functional>
+#include <unordered_set>
+#include <unordered_map>
 #include "../../asd.CoreToEngine.h"
 #include "../Component/asd.Object2DComponent.h"
 #include "../Component/asd.ComponentManager.h"
 #include "../../Shape/asd.Shape.h"
 #include "../Registration/asd.IComponentRegisterable.h"
 #include "../Registration/asd.IImmediatelyDisposable.h"
+#include "../../Collision/2D/asd.Collider2D.h"
+#include "../../Collision/2D/asd.Collision2DInfo.h"
 
 namespace asd
 {
@@ -64,7 +68,11 @@ namespace asd
 		Layer2D* m_owner;
 		ParentInfo2D::Ptr m_parentInfo;
 		std::list<Object2D::Ptr> m_children;
+		std::unordered_set<std::shared_ptr<Collider2D>> myColliders;
+		static std::unordered_map<CoreCollider2D*,std::shared_ptr<Collider2D>> colliderMap;
 		std::shared_ptr<ComponentManager<Object2DComponent>> m_componentManager;
+		std::list<std::shared_ptr<Collision2DInfo>> collisions2DInfo;
+
 		bool m_isUpdated;
 		bool m_isDrawn;
 		int m_updatePriority;
@@ -72,6 +80,9 @@ namespace asd
 
 		void RaiseOnAdded();
 		void RaiseOnRemoved();
+
+		void RaiseOnCollisionCallbacks();
+
 		void Update();
 		void DrawAdditionally();
 		void SetLayer(Layer2D* layer);
@@ -112,6 +123,21 @@ namespace asd
 			@brief	オーバーライドして、このオブジェクトに対する追加の描画処理を記述できる。
 		*/
 		virtual void OnDrawAdditionally();
+
+		/**
+		@brief	オーバーライドして、この2Dオブジェクトが別のコライダと衝突開始する際の処理を記述できる。
+		*/
+		virtual void OnCollisionEnter(std::shared_ptr<Collision2DInfo> collisionInfo) {}
+		/**
+		@brief	オーバーライドして、この2Dオブジェクトが別のコライダと衝突中の処理を記述できる。
+		*/
+		virtual void OnCollisionStay(std::shared_ptr<Collision2DInfo> collisionInfo) {}
+		/**
+		@brief	オーバーライドして、この2Dオブジェクトが別のコライダと衝突終了する際の処理を記述できる。
+		*/
+		virtual void OnCollisionExit(std::shared_ptr<Collision2DInfo> collisionInfo) {}
+
+
 
 
 		/**
@@ -343,5 +369,20 @@ namespace asd
 			@brief	このオブジェクトが親子関係を考慮して最終的に描画されるかどうかの真偽値を取得します。
 		*/
 		bool GetAbsoluteBeingDrawn() const;
+
+		/**
+			@brief	衝突判定用のコライダを追加する
+			@param	collider	コライダ
+		*/
+		void AddCollider2D(std::shared_ptr<Collider2D> collider);
+
+
+		/**
+			@brief	衝突判定用のコライダを削除する
+			@param	collider	コライダ
+		*/
+		void RemoveCollider2D(std::shared_ptr<Collider2D> collider);
+
+		std::list<std::shared_ptr<Collision2DInfo>> &GetCollisionsInfo();
 	};
 }

@@ -80,6 +80,12 @@ namespace asd {
 	class CoreArcShape;
 	class CorePolygonShape;
 
+	class CoreCollider2D;
+	class CoreCircleCollider;
+	class CoreLineCollider;
+	class CorePolygonCollider;
+	class CoreRectangleCollider;
+
 	class CoreLayer2D;
 	class CoreObject2D;
 	class CoreDrawnObject2D;

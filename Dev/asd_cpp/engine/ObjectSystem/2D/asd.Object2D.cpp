@@ -1,13 +1,18 @@
 ﻿#include <list>
+#include <memory>
 #include "asd.Object2D.h"
 #include "asd.Layer2D.h"
 #include "../Registration/asd.EventToDisposeContent.h"
 #include "../Registration/asd.EventToManageFamilyship2D.h"
+#include "../../asd.CoreToEngine.h"
+
 #define IS_INHERITED(obj, flag) (obj->m_parentInfo != nullptr && (obj->m_parentInfo->GetManagementMode() & ChildManagementMode::flag) != 0)
 using namespace std;
 
 namespace asd
 {
+	std::unordered_map<CoreCollider2D*, std::shared_ptr<Collider2D>> Object2D::colliderMap;
+
 	Object2D::Object2D()
 		: m_owner(nullptr)
 		, m_children(list<Object2D::Ptr>())
@@ -21,6 +26,9 @@ namespace asd
 
 	Object2D::~Object2D()
 	{
+		for (auto collider : myColliders) {
+			colliderMap.erase(collider->GetCoreCollider().get());
+		}
 	}
 
 
@@ -54,6 +62,48 @@ namespace asd
 		OnRemoved();
 	}
 
+	void Object2D::RaiseOnCollisionCallbacks() {
+		auto collision2DEventsNum = GetCoreObject()->GetCollision2DEventNum();
+		collisions2DInfo.clear();
+
+		for (int index = 0; index < collision2DEventsNum; index++) {
+			auto collisionEvent = GetCoreObject()->GetCollision2DEvent(index);
+			auto collision = collisionEvent->GetCollision();
+
+			auto colliderA = colliderMap[collision->GetColliderA()];
+			auto colliderB = colliderMap[collision->GetColliderB()];
+
+			std::shared_ptr<Collider2D> myCollider;
+			std::shared_ptr<Collider2D> theirCollider;
+
+			if (myColliders.find(colliderA) != myColliders.end()) {
+				myCollider = colliderA;
+				theirCollider = colliderB;
+			}
+			else {
+				myCollider = colliderB;
+				theirCollider = colliderA;
+			}
+
+			auto collisionInfo = std::make_shared<Collision2DInfo>(myCollider, theirCollider);
+
+			switch (collisionEvent->GetCollisionType()) {
+			case CollisionType::Enter: 
+				OnCollisionEnter(collisionInfo);
+				break;
+			case CollisionType::Stay:
+				OnCollisionStay(collisionInfo);
+				break;
+			case CollisionType::Exit:
+				OnCollisionExit(collisionInfo);
+				break;
+
+			}
+
+			collisions2DInfo.push_back(collisionInfo);
+		}
+	}
+
 	void Object2D::Update()
 	{
 		if (!GetIsAlive() || !GetAbsoluteBeingUpdated())
@@ -67,6 +117,8 @@ namespace asd
 		{
 			component.second->Update();
 		}
+
+		RaiseOnCollisionCallbacks();
 	}
 
 	void Object2D::DrawAdditionally()
@@ -405,4 +457,23 @@ namespace asd
 		return GetCoreObject()->GetAbsoluteBeingDrawn();
 	}
 #pragma endregion
+
+	void Object2D::AddCollider2D(std::shared_ptr<Collider2D> collider) {
+
+		collider->ownerObject2D = shared_from_this();
+		myColliders.insert(collider);
+		colliderMap[collider->GetCoreCollider().get()] = collider;
+		GetCoreObject()->AddCollider(collider->GetCoreCollider().get());
+	}
+
+	void Object2D::RemoveCollider2D(std::shared_ptr<Collider2D> collider) {
+		myColliders.erase(collider);
+		colliderMap.erase(collider->GetCoreCollider().get());
+		GetCoreObject()->RemoveCollider(collider->GetCoreCollider().get());
+
+	}
+
+	std::list<std::shared_ptr<Collision2DInfo>> &Object2D::GetCollisionsInfo() {
+		return collisions2DInfo;
+	}
 }

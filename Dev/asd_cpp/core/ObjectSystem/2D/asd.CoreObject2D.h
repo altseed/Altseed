@@ -5,10 +5,12 @@
 #include "../asd.ChildTransformingMode.h"
 #include "../../Graphics/2D/asd.Renderer2D.h"
 #include "asd.CoreLayer2D.h"
+#include "Collision/2D/asd.CoreCollision2DEvent.h"
 
 namespace asd
 {
 	class ParentInfo2D;
+	class CoreCollider2D;
 
 	class CoreObject2D 
 		: public IReference
@@ -46,6 +48,13 @@ namespace asd
 		virtual Matrix33 GetAbsoluteMatrixToTranslate() = 0;
 		virtual Matrix33 GetAbsoluteMatrixToTransform() = 0;
 		virtual bool GetAbsoluteBeingDrawn() const = 0;
+
+		virtual void AddCollider(CoreCollider2D *collider) = 0;
+		virtual void RemoveCollider(CoreCollider2D *collider) = 0;
+		virtual CoreCollision2DEvent* GetCollision2DEvent(int n) = 0;
+		virtual int GetCollision2DEventNum() = 0;
+
+		virtual void DrawVisibleCollisionsAdditionally() = 0;
 
 #if !SWIG
 		virtual void Draw(Renderer2D* renderer) = 0;

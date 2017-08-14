@@ -38,6 +38,11 @@
 #include "../Shape/asd.CoreTriangleShape_Imp.h"
 #include "../Shape/asd.CorePolygonShape_Imp.h"
 
+#include "../Collision/2D/asd.CoreCircleCollider_Imp.h"
+#include "../Collision/2D/asd.CoreLineCollider_Imp.h"
+#include "../Collision/2D/asd.CoreRectangleCollider_Imp.h"
+#include "../Collision/2D/asd.CorePolygonCollider_Imp.h"
+
 namespace asd
 {
 	//----------------------------------------------------------------------------------
@@ -191,5 +196,25 @@ namespace asd
 	CorePolygonShape* ObjectSystemFactory_Imp::CreatePolygonShape()
 	{
 		return new CorePolygonShape_Imp();
+	}
+
+	CoreCircleCollider* ObjectSystemFactory_Imp::CreateCircleCollider()
+	{
+		return new CoreCircleCollider_Imp();
+	}
+
+	CoreLineCollider* ObjectSystemFactory_Imp::CreateLineCollider()
+	{
+		return new CoreLineCollider_Imp();
+	}
+
+	CoreRectangleCollider* ObjectSystemFactory_Imp::CreateRectangleCollider()
+	{
+		return new CoreRectangleCollider_Imp();
+	}
+
+	CorePolygonCollider* ObjectSystemFactory_Imp::CreatePolygonCollider()
+	{
+		return new CorePolygonCollider_Imp();
 	}
 }

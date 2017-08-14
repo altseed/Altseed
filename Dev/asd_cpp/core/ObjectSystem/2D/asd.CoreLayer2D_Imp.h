@@ -11,6 +11,7 @@
 #include "../../Graphics/asd.Graphics_Imp.h"
 #include "asd.Culling2D.h"
 #include <queue>
+#include "../../Collision/2D/asd.CoreCollision2DManager.h"
 
 namespace asd
 {
@@ -23,8 +24,15 @@ namespace asd
 		, public CoreLayer_Imp
 		, public ReferenceObject
 	{
-	friend class ObjectSystemFactory_Imp;
-
+		friend class ObjectSystemFactory_Imp;
+		friend class CoreObject2D_Imp;
+		friend class CoreCameraObject2D_Imp;
+		friend class CoreDrawnObject2D_Imp;
+		friend class CoreEffectObject2D_Imp;
+		friend class CoreGeometryObject2D_Imp;
+		friend class CoreMapObject2D_Imp;
+		friend class CoreTextureObject2D_Imp;
+		friend class CoreTextObject2D_Imp;
 	private:
 		struct Sprite
 		{
@@ -61,6 +69,8 @@ namespace asd
 		int32_t				indexInLayer = 0;
 
 		bool				isDistortionEnabled = true;
+
+		std::shared_ptr<CoreCollision2DManager> collisionManager;
 
 		CoreLayer2D_Imp(Core* core, Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~CoreLayer2D_Imp();

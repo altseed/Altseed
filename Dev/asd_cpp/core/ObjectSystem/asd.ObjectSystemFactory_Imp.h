@@ -46,5 +46,10 @@ namespace asd
 		CoreRectangleShape* CreateRectangleShape() override;
 		CoreTriangleShape* CreateTriangleShape() override;
 		CorePolygonShape* CreatePolygonShape() override;
+
+		CoreCircleCollider* CreateCircleCollider() override;
+		CoreLineCollider* CreateLineCollider() override;
+		CoreRectangleCollider* CreateRectangleCollider() override;
+		CorePolygonCollider* CreatePolygonCollider() override;
 	};
 }

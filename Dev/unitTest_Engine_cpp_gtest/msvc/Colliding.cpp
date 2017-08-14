@@ -1,0 +1,115 @@
+﻿#include <gtest/gtest.h>
+#include <Altseed.h>
+#include <memory>
+#include "../EngineTest.h"
+
+using namespace std;
+using namespace asd;
+
+class ObjectSystem_Colliding : public EngineTest
+{
+
+	class CollidingObject1 : public TextureObject2D
+	{
+		Vector2DF velocity;
+	protected:
+		void OnAdded()
+		{
+
+			auto rectCollider = std::make_shared<RectangleCollider>();
+			rectCollider->SetArea(RectF(0, 0, 100, 100));
+			rectCollider->SetVisible(true);
+			rectCollider->SetTag(asd::ToAString("A").c_str());
+			AddCollider2D(rectCollider);
+
+			auto lineCollider = std::make_shared<LineCollider>();
+			lineCollider->SetStartingPosition(Vector2DF(110, 110));
+			lineCollider->SetEndingPosition(Vector2DF(200, 200));
+			lineCollider->SetThickness(10);
+			lineCollider->SetTag(asd::ToAString("B").c_str());
+			lineCollider->SetVisible(true);
+			AddCollider2D(lineCollider);
+			SetScale(asd::Vector2DF(0.5, 0.5));
+			velocity = Vector2DF(4, 0);
+		}
+
+		void OnUpdate()
+		{
+			if (GetPosition().X < 0) {
+				velocity = Vector2DF(4, 0);
+			}
+			else if(GetPosition().X > 600) {
+				velocity = Vector2DF(-4, 0);
+			}
+			SetAngle(GetAngle() + 1);
+		}
+
+		void OnCollisionEnter(std::shared_ptr<Collision2DInfo> collisionInfo) {
+			printf("Enter:%s\n", asd::ToAString(collisionInfo->GetSelfCollider()->GetTag()).c_str());
+			/*
+			Engine::GetLogger()->Write(
+				(asd::ToAString("Enter:")+asd::ToAString(collisionInfo->GetSelfCollider()->GetTag())).c_str()
+			);
+			*/
+		}
+		void OnCollisionStay(std::shared_ptr<Collision2DInfo> collisionInfo) {
+			printf("Stay:%s\n", asd::ToAString(collisionInfo->GetSelfCollider()->GetTag()).c_str());
+			/*
+			Engine::GetLogger()->Write(
+				(asd::ToAString("Stay:") + asd::ToAString(collisionInfo->GetSelfCollider()->GetTag())).c_str()
+			);
+			*/
+		}
+		void OnCollisionExit(std::shared_ptr<Collision2DInfo> collisionInfo) {
+			printf("Exit:%s\n", asd::ToAString(collisionInfo->GetSelfCollider()->GetTag()).c_str());
+			/*
+			Engine::GetLogger()->Write(
+				(asd::ToAString("Exit:") + asd::ToAString(collisionInfo->GetSelfCollider()->GetTag())).c_str()
+			);
+			*/
+		}
+	};
+
+	class CollidingObject2 : public TextureObject2D
+	{
+		Vector2DF velocity;
+	protected:
+		void OnAdded()
+		{
+			auto rectCollider = std::make_shared<RectangleCollider>();
+			rectCollider->SetArea(asd::RectF(0, 0, 100, 100));
+			rectCollider->SetTag(asd::ToAString("C").c_str());
+			rectCollider->SetVisible(true);
+			AddCollider2D(rectCollider);
+			SetScale(asd::Vector2DF(0.5, 0.5));
+		}
+
+		void OnUpdate()
+		{
+			SetPosition(Engine::GetMouse()->GetPosition());
+		}
+	};
+public:
+	ObjectSystem_Colliding(bool isOpenGLMode)
+		: EngineTest(asd::ToAString("Colliding"), isOpenGLMode, 600)
+	{
+	}
+
+protected:
+	void OnStart()
+	{
+		auto obj1 = make_shared<CollidingObject1>();
+		obj1->SetPosition(asd::Vector2DF(320, 240));
+		auto obj2 = make_shared<CollidingObject2>();
+		obj2->SetPosition(asd::Vector2DF(600, 20));
+
+		auto scene = make_shared<Scene>();
+		auto layer = make_shared<Layer2D>();
+		asd::Engine::ChangeScene(scene);
+		scene->AddLayer(layer);
+		layer->AddObject(obj1);
+		layer->AddObject(obj2);
+	}
+};
+
+ENGINE_TEST(ObjectSystem, Colliding)

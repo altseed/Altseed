@@ -9,16 +9,32 @@
 
 #include "../../asd.ReferenceObject.h"
 
+#include <unordered_set>
 #include <Math/asd.Vector3DF.h>
+#include <Box2D/Box2D.h>
+
+#include "Collision/2D/asd.CoreCollision2DEvent.h"
+#include "Collision/2D/asd.CoreCollision2DManager.h"
+#include "Collision/2D/asd.CoreCollision2D.h"
+
 
 namespace asd
 {
+	class CoreCollider2D_Imp;
+
 	class CoreObject2D_Imp
 		// : public CoreObject2D 菱形継承防止の為
 	{
+		friend class CoreCollision2D;
+		friend class CoreCollision2DManager;
+		friend class CoreLayer2D_Imp;
 	private:
 		CoreObject2D_Imp* CoreObject2DToImp(CoreObject2D* obj);
+		void NotifyTransformToColliders();
+
 	protected:
+		std::unordered_set<CoreCollider2D*> colliders;
+		std::vector<CoreCollision2DEvent> currentFrameCollisionEvents;
 
 		int32_t			cameraGroup = INT_MAX;
 
@@ -109,6 +125,7 @@ namespace asd
 		{
 			m_objectInfo.SetLayer(layer);
 		}
+	public:
 
 		CoreLayer2D* GetLayer()
 		{
@@ -143,6 +160,7 @@ namespace asd
 		{
 			m_transform.SetPosition(value);
 			SetCullingUpdate(this);
+			NotifyTransformToColliders();
 		}
 		Vector2DF GetGlobalPosition()
 		{
@@ -157,6 +175,7 @@ namespace asd
 		{
 			m_transform.SetAngle(value);
 			SetCullingUpdate(this);
+			NotifyTransformToColliders();
 		}
 
 		Vector2DF GetScale() const
@@ -167,6 +186,7 @@ namespace asd
 		{
 			m_transform.SetScale(value);
 			SetCullingUpdate(this);
+			NotifyTransformToColliders();
 		}
 
 		Matrix33 GetMatrixToTranslate()
@@ -194,5 +214,15 @@ namespace asd
 		Matrix33 GetAbsoluteMatrixToTranslate();
 		Matrix33 GetAbsoluteMatrixToTransform();
 		bool GetAbsoluteBeingDrawn() const;
+
+		void AddCollider(CoreCollider2D *collider);
+
+		void RemoveCollider(CoreCollider2D *collider);
+
+		CoreCollision2DEvent* GetCollision2DEvent(int n);
+
+		int GetCollision2DEventNum();
+
+		void DrawVisibleCollisionsAdditionally();
 	};
 }

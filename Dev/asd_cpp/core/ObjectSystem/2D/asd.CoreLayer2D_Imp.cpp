@@ -21,6 +21,7 @@
 #include "../../ObjectSystem/2D/asd.CoreChip2D_Imp.h"
 #include "../../Shape/asd.CoreTriangleShape_Imp.h"
 #include "../../Shape/asd.CoreShapeConverter.h"
+#include "../../Collision/2D/asd.CoreCollider2D_Imp.h"
 
 using namespace std;
 
@@ -54,6 +55,8 @@ namespace asd
 		world = new culling2d::World(6, culling2d::RectF(-50000, -50000, 100000, 100000));
 #endif
 		WriteLog("End initializing world");
+
+		collisionManager = std::make_shared<CoreCollision2DManager>();
 	}
 
 	//----------------------------------------------------------------------------------
@@ -262,6 +265,13 @@ namespace asd
 #endif
 		}
 
+		// コライダを登録する
+		auto object_Imp = CoreObject2DToImp(object);
+		for (auto& collider : object_Imp->colliders) {
+			auto colliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(collider);
+			colliderImp->SetCollisionManager(collisionManager.get());
+			collisionManager->RegisterCollider(collider);
+		}
 
 	}
 
@@ -311,6 +321,12 @@ namespace asd
 
 		object->SetLayer(nullptr);
 
+		// 登録されたコライダを登録解除する
+		auto object_Imp = CoreObject2DToImp(object);
+		for (auto& collider : object_Imp->colliders) {
+			collisionManager->UnregisterCollider(collider);
+		}
+
 		if (object->GetObjectType() == Object2DType::Camera)
 		{
 			auto camera = (CoreCameraObject2D*)object;
@@ -322,6 +338,7 @@ namespace asd
 			m_objects.remove(object);
 			SafeRelease(object);
 		}
+
 	}
 
 	//----------------------------------------------------------------------------------
@@ -400,6 +417,7 @@ namespace asd
 			transformedObjects.clear();
 		}
 #endif
+		collisionManager->UpdateCollisionState();
 	}
 
 	//----------------------------------------------------------------------------------

@@ -60,7 +60,8 @@ namespace asd
 
 		for (auto& object : m_objects->GetContents())
 		{
-			object->OnDrawAdditionally();
+			object->DrawAdditionally();
+			object->GetCoreObject()->DrawVisibleCollisionsAdditionally();
 		}
 		OnDrawAdditionally();
 	}

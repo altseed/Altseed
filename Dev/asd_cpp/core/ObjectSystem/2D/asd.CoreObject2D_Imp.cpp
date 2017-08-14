@@ -7,6 +7,7 @@
 #include "asd.CoreMapObject2D_Imp.h"
 #include "asd.CoreEffectObject2D_Imp.h"
 #include "asd.CoreGeometryObject2D_Imp.h"
+#include "../../Collision/2D/asd.CoreCollider2D_Imp.h"
 #include <list>
 
 namespace asd
@@ -26,6 +27,14 @@ namespace asd
 	CoreObject2D_Imp::~CoreObject2D_Imp()
 	{
 		SafeRelease(m_graphics);
+
+		for (auto collider : colliders) {
+			SafeRelease(collider);
+		}
+		colliders.clear();
+
+		//auto b2world = b2body->GetWorld();
+		//b2world->DestroyBody(b2body);
 	}
 
 	void CoreObject2D_Imp::SetCullingUpdate(CoreObject2D_Imp* obj)
@@ -133,5 +142,89 @@ namespace asd
 			return m_objectInfo.GetIsDrawn() && m_parentInfo->GetInheritedBeingDrawn();
 		}
 		return m_objectInfo.GetIsDrawn();
+	}
+
+	void CoreObject2D_Imp::NotifyTransformToColliders() {
+
+		auto position = m_transform.GetPosition();
+		//b2body->SetTransform(b2Vec2(position.X, position.Y), m_transform.GetAngle());
+
+		for (auto collider : colliders) {
+			auto collider_Imp = CoreCollider2D_Imp::CoreCollider2DToImp(collider);
+			collider_Imp->OnOwnerObjectTransformChanged(this);
+		}
+
+		for (auto child : children) {
+			auto child_imp = CoreObject2DToImp(child);
+			child_imp->NotifyTransformToColliders();
+		}
+	}
+
+
+	void CoreObject2D_Imp::AddCollider(CoreCollider2D *collider) {
+
+		if (colliders.find(collider) != colliders.end()) {
+			//TODO: 例外はいたほうがいい？
+			return;
+		}
+
+		SafeAddRef(collider);
+		colliders.insert(collider);
+
+		auto collider_imp = CoreCollider2D_Imp::CoreCollider2DToImp(collider);
+
+		if (GetLayer() != nullptr) {
+			auto layerImp = (CoreLayer2D_Imp*)GetLayer();
+			auto manager = layerImp->collisionManager;
+			collider_imp->SetCollisionManager(manager.get());
+			manager->RegisterCollider(collider);
+		}
+
+		collider_imp->OnAddedToObject(this);
+	}
+
+	void CoreObject2D_Imp::RemoveCollider(CoreCollider2D *collider) {
+		SafeRelease(collider);
+		colliders.erase(collider);
+
+		auto collider_imp = CoreCollider2D_Imp::CoreCollider2DToImp(collider);
+
+		if (GetLayer() != nullptr) {
+			auto layerImp = (CoreLayer2D_Imp*)GetLayer();
+			auto manager = layerImp->collisionManager;
+			collider_imp->SetCollisionManager(nullptr);
+			manager->UnregisterCollider(collider);
+		}
+		collider_imp->OnRemovedFromObject(this);
+	}
+
+	CoreCollision2DEvent* CoreObject2D_Imp::GetCollision2DEvent(int n) {
+		if (n >= GetCollision2DEventNum()) {
+			return nullptr;
+		}
+
+		return &currentFrameCollisionEvents[n];
+	}
+
+	int CoreObject2D_Imp::GetCollision2DEventNum() {
+		return currentFrameCollisionEvents.size();
+	}
+
+	void CoreObject2D_Imp::DrawVisibleCollisionsAdditionally() {
+
+		if (GetLayer() == nullptr) {
+			return;
+		}
+
+		auto layer = GetLayer();
+
+		for (auto collider : colliders) {
+			if(!collider->GetIsVisible()){
+				continue;
+			}
+			auto colliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(collider);
+			auto b2shape = colliderImp->GetB2Shape();
+			colliderImp->DrawVisibleCollisionsAdditionally(layer);
+		}
 	}
 }

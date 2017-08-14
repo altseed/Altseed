@@ -102,6 +102,7 @@
     <ClCompile Include="..\Profiler.cpp" />
     <ClCompile Include="..\Shape\Collision2D.cpp" />
     <ClCompile Include="..\Sound\Sound.cpp" />
+    <ClCompile Include="Colliding.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\EngineGraphics3DTest.h" />
