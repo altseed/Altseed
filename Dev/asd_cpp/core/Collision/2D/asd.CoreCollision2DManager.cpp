@@ -41,6 +41,9 @@ namespace asd {
 
 		for (auto registeredCollider : registeredColliders) {
 			SafeRelease(registeredCollider);
+			auto colliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(registeredCollider);
+			colliderImp->SetOwnerObject2D(nullptr);
+			colliderImp->SetCollisionManager(nullptr);
 		}
 
 	}

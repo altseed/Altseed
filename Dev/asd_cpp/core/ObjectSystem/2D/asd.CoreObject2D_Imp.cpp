@@ -189,6 +189,8 @@ namespace asd
 
 		auto collider_imp = CoreCollider2D_Imp::CoreCollider2DToImp(collider);
 
+		collider_imp->SetOwnerObject2D(nullptr);
+
 		if (GetLayer() != nullptr) {
 			auto layerImp = (CoreLayer2D_Imp*)GetLayer();
 			auto manager = layerImp->collisionManager;
