@@ -17,13 +17,9 @@ namespace asd {
 
 		bool isShouldDestroy;
 
-		CoreCollision2D():
-			currentFrameContact(false),
-			previousFrameContact(false),
-			isShouldDestroy(false)
-		{}
+	public:
+		CoreCollision2D(CoreCollider2D_Imp* colliderA, CoreCollider2D_Imp* colliderB);
 		virtual ~CoreCollision2D() {}
-
 
 #if !SWIG
 	private:
@@ -31,21 +27,7 @@ namespace asd {
 		CoreCollider2D_Imp* colliderB_Imp;
 	public:
 		bool GetIsShouldDestroy();
-
-		static CoreCollision2D* Create(CoreCollider2D_Imp* colliderA, CoreCollider2D_Imp* colliderB);
-		static void Destroy(CoreCollision2D* contact);
-		bool operator==(CoreCollision2D *contact);
-		bool operator!=(CoreCollision2D *contact);
 		
-
-		size_t GetHashCode() const {
-			return std::hash<CoreCollider2D_Imp*>()(colliderA_Imp) ^ std::hash<CoreCollider2D_Imp*>()(colliderB_Imp);
-		}
-		
-		struct HashFunctor
-		{
-			size_t operator ()(const CoreCollision2D* v) const { return v->GetHashCode(); }
-		};
 
 		CoreCollider2D_Imp* GetColliderA_Imp() {
 			return colliderA_Imp;

@@ -48,36 +48,22 @@ namespace asd {
 		}
 
 	}
-#if !SWIG
-	CoreCollision2D* CoreCollision2D::Create(CoreCollider2D_Imp* colliderA, CoreCollider2D_Imp* colliderB) {
-		auto contact = new CoreCollision2D();
-		contact->colliderA = CoreCollider2D_Imp::CoreCollider2DImpToAbstract(colliderA);
-		contact->colliderB = CoreCollider2D_Imp::CoreCollider2DImpToAbstract(colliderB);
-		contact->colliderA_Imp = colliderA;
-		contact->colliderB_Imp = colliderB;
-		contact->currentFrameContact = false;
-		contact->previousFrameContact = false;
-		contact->isAlreadyExit = false;
-		return contact;
+	CoreCollision2D::CoreCollision2D(CoreCollider2D_Imp* colliderA, CoreCollider2D_Imp* colliderB) :
+		currentFrameContact(false),
+		previousFrameContact(false),
+		isAlreadyExit(false),
+		isShouldDestroy(false)
+	{
+		this->colliderA = CoreCollider2D_Imp::CoreCollider2DImpToAbstract(colliderA);
+		this->colliderB = CoreCollider2D_Imp::CoreCollider2DImpToAbstract(colliderB);
+		this->colliderA_Imp = colliderA;
+		this->colliderB_Imp = colliderB;
 	}
 
-	void CoreCollision2D::Destroy(CoreCollision2D* contact) {
-		delete contact;
-	}
+#if !SWIG
 
 	bool CoreCollision2D::GetIsShouldDestroy() {
 		return isShouldDestroy;
-	}
-
-	bool CoreCollision2D::operator==(CoreCollision2D *contact) {
-		return colliderA_Imp == contact->colliderA_Imp && colliderB_Imp == contact->colliderB_Imp ||
-			colliderA_Imp == contact->colliderB_Imp && colliderB_Imp == contact->colliderA_Imp;
-	}
-
-
-	bool CoreCollision2D::operator!=(CoreCollision2D *contact) {
-		return (colliderA_Imp != contact->colliderA_Imp || colliderB_Imp != contact->colliderB_Imp) &&
-			(colliderA_Imp != contact->colliderB_Imp || colliderB_Imp != contact->colliderA_Imp);
 	}
 
 #endif

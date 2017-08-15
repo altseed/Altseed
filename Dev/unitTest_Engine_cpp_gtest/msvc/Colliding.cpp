@@ -33,7 +33,7 @@ class ObjectSystem_Colliding : public EngineTest
 			auto circleCollider = std::make_shared<CircleCollider>();
 			circleCollider->SetCenter(Vector2DF(300, 300));
 			circleCollider->SetRadius(90);
-			circleCollider->SetTag(asd::ToAString("D").c_str());
+			circleCollider->SetTag(asd::ToAString("C").c_str());
 			circleCollider->SetVisible(true);
 			AddCollider(circleCollider);
 
@@ -86,7 +86,7 @@ class ObjectSystem_Colliding : public EngineTest
 		{
 			auto rectCollider = std::make_shared<RectangleCollider>();
 			rectCollider->SetArea(asd::RectF(0, 0, 100, 100));
-			rectCollider->SetTag(asd::ToAString("C").c_str());
+			rectCollider->SetTag(asd::ToAString("D").c_str());
 			rectCollider->SetVisible(true);
 			AddCollider(rectCollider);
 			SetScale(asd::Vector2DF(0.5, 0.5));

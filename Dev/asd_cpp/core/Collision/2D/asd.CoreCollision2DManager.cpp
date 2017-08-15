@@ -36,7 +36,7 @@ namespace asd {
 		culling2d::SafeDelete(cullingWorld);
 
 		for (auto addedCollision : addedCollisions) {
-			CoreCollision2D::Destroy(addedCollision);
+			delete addedCollision.second;
 		}
 
 		for (auto addedCollider : addedColliders) {
@@ -104,31 +104,16 @@ namespace asd {
 				if (transformedCollider == elseColliderImp)
 					continue;
 
-				CoreCollision2D* targetCollision = nullptr;
 
-				for (auto addedCollision : addedCollisions) {
-
-					auto colliderAImp = addedCollision->GetColliderA_Imp();
-					auto colliderBImp = addedCollision->GetColliderB_Imp();
-
-					if (
-						colliderAImp->GetOwnerObject2D() != colliderBImp->GetOwnerObject2D() &&
-						(colliderAImp == transformedCollider &&
-						colliderBImp == elseColliderImp ||
-						colliderBImp == transformedCollider &&
-						colliderAImp == elseColliderImp)
-						) {
-						targetCollision = addedCollision;
-						break;
-					}
+				auto query = ColliderPair(transformedCollider, elseColliderImp);
+				auto targetCollision = addedCollisions.find(query);
+				if (targetCollision == addedCollisions.end() && transformedCollider->GetAABB().GetCollision(elseColliderImp->GetAABB())) {
+					auto contact = new CoreCollision2D(transformedCollider, elseColliderImp);
+					addedCollisions.emplace(query, contact);
 				}
-				if (targetCollision == nullptr && transformedCollider->GetAABB().GetCollision(elseColliderImp->GetAABB())) {
-					auto contact = CoreCollision2D::Create(transformedCollider, elseColliderImp);
-					addedCollisions.insert(contact);
-				}
-				else if(targetCollision != nullptr && targetCollision->GetIsShouldDestroy()){
-					addedCollisions.erase(targetCollision);
-					CoreCollision2D::Destroy(targetCollision);
+				else if(targetCollision != addedCollisions.end() && targetCollision->second->GetIsShouldDestroy()){
+					delete targetCollision->second;
+					addedCollisions.erase(query);
 				}
 
 			}
@@ -142,7 +127,7 @@ namespace asd {
 
 		// 当たり判定の更新とイベントの積み上げ
 		for (auto collision : addedCollisions) {
-			collision->Update();
+			collision.second->Update();
 		}
 
 		//変形したオブジェクト一覧の初期化
