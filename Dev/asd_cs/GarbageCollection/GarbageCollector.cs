@@ -90,6 +90,8 @@ namespace asd
 
 					if (TryRelease(o as swig.CoreShape)) continue;
 
+                    if (TryRelease(o as swig.CoreCollider2D)) continue;
+
                     Particular.Helper.ThrowUnregisteredClassException(o);
                 }
 

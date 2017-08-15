@@ -44,6 +44,7 @@ namespace asd
             disposed = false;
         }
         #endregion
+
         /// <summary>
         /// 図形のタイプを取得する。
         /// </summary>

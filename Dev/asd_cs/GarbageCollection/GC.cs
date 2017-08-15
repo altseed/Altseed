@@ -64,6 +64,7 @@ namespace asd
         internal static IDObjectContainer<Object2D> Object2Ds { get; private set; }
 
         internal static IDObjectContainer<Shape> Shapes { get; private set; }
+        internal static IDObjectContainer<Collider2D> Collider2Ds { get; private set; }
 
         internal static IDObjectContainer<Layer3D> Layer3Ds { get; private set; }
         internal static IDObjectContainer<Object3D> Object3Ds { get; private set; }
@@ -124,6 +125,7 @@ namespace asd
             StreamFiles = new IDObjectContainer<StreamFile>();
 
             Shapes = new IDObjectContainer<Shape>();
+            Collider2Ds = new IDObjectContainer<Collider2D>();
         }
 
         internal static void Update()
@@ -174,7 +176,8 @@ namespace asd
                 StaticFiles.Collect();
                 StreamFiles.Collect();
 
-                Shapes.Collect(); 
+                Shapes.Collect();
+                Collider2Ds.Collect();
             }
         }
 
@@ -225,6 +228,7 @@ namespace asd
                 StreamFiles.DestroyAll();
 
                 Shapes.DestroyAll();
+                Collider2Ds.DestroyAll();
 
                 //Profilers.DestroyAll();
 				Collector.Collect();

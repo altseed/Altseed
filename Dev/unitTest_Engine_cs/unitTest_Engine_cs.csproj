@@ -85,6 +85,7 @@
     <Compile Include="Debug\Log.cs" />
     <Compile Include="Graphics\2D\CameraObject2D.cs" />
     <Compile Include="BugFix\AddComponentByComponent.cs" />
+    <Compile Include="ObjectSystem2D\Colliding.cs" />
     <Compile Include="ObjectSystem2D\LifeCycle\AccessAfterDisposed.cs" />
     <Compile Include="ObjectSystem2D\CustomObject.cs" />
     <Compile Include="ObjectSystem2D\LifeCycle\AddChildOnCtor.cs" />

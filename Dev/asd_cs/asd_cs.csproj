@@ -45,6 +45,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collision\2D\CircleCollider.cs" />
+    <Compile Include="Collision\2D\Collider2D.cs" />
+    <Compile Include="Collision\2D\Collider2DShapeType.cs" />
+    <Compile Include="Collision\2D\Collision2DInfo.cs" />
+    <Compile Include="Collision\2D\LineCollider.cs" />
+    <Compile Include="Collision\2D\PolygonCollider.cs" />
+    <Compile Include="Collision\2D\RectangleCollider.cs" />
     <Compile Include="Engine.cs" />
     <Compile Include="GarbageCollection\GarbageCollector.cs" />
     <Compile Include="GarbageCollection\GC.cs" />
@@ -177,13 +184,19 @@
     <Compile Include="swig\ChildDrawingMode.cs" />
     <Compile Include="swig\ChildManagementMode.cs" />
     <Compile Include="swig\ChildTransformingMode.cs" />
+    <Compile Include="swig\Collider2DShapeType.cs" />
+    <Compile Include="swig\CollisionType.cs" />
     <Compile Include="swig\ColorSpaceType.cs" />
     <Compile Include="swig\Core.cs" />
     <Compile Include="swig\CoreArcShape.cs" />
     <Compile Include="swig\CoreCameraObject2D.cs" />
     <Compile Include="swig\CoreCameraObject3D.cs" />
     <Compile Include="swig\CoreChip2D.cs" />
+    <Compile Include="swig\CoreCircleCollider.cs" />
     <Compile Include="swig\CoreCircleShape.cs" />
+    <Compile Include="swig\CoreCollider2D.cs" />
+    <Compile Include="swig\CoreCollision2D.cs" />
+    <Compile Include="swig\CoreCollision2DEvent.cs" />
     <Compile Include="swig\CoreDirectionalLightObject3D.cs" />
     <Compile Include="swig\CoreDrawnObject2D.cs" />
     <Compile Include="swig\CoreEffectObject2D.cs" />
@@ -192,6 +205,7 @@
     <Compile Include="swig\CoreLayer.cs" />
     <Compile Include="swig\CoreLayer2D.cs" />
     <Compile Include="swig\CoreLayer3D.cs" />
+    <Compile Include="swig\CoreLineCollider.cs" />
     <Compile Include="swig\CoreLineShape.cs" />
     <Compile Include="swig\CoreMapObject2D.cs" />
     <Compile Include="swig\CoreMassModelObject3D.cs" />
@@ -199,8 +213,10 @@
     <Compile Include="swig\CoreObject2D.cs" />
     <Compile Include="swig\CoreObject3D.cs" />
     <Compile Include="swig\CoreOption.cs" />
+    <Compile Include="swig\CorePolygonCollider.cs" />
     <Compile Include="swig\CorePolygonShape.cs" />
     <Compile Include="swig\CorePostEffect.cs" />
+    <Compile Include="swig\CoreRectangleCollider.cs" />
     <Compile Include="swig\CoreRectangleShape.cs" />
     <Compile Include="swig\CoreScene.cs" />
     <Compile Include="swig\CoreShape.cs" />
@@ -270,6 +286,7 @@
     <Compile Include="swig\StaticFile.cs" />
     <Compile Include="swig\StreamFile.cs" />
     <Compile Include="swig\StructTranslator.cs" />
+    <Compile Include="swig\SWIGTYPE_p_asd__CoreCollider2D_Imp.cs" />
     <Compile Include="swig\Terrain3D.cs" />
     <Compile Include="swig\Texture.cs" />
     <Compile Include="swig\Texture2D.cs" />

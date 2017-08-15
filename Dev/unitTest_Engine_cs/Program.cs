@@ -24,9 +24,11 @@ namespace unitTest_Engine_cs
 		//[STAThread]
 		static void Main(string[] args)
 		{
-			TestOnTheDevice(typeof (Graphics._2D.PlayEffectImmediately), GraphicsDeviceType.DirectX11);
-			TestOnTheDevice(typeof(Graphics._2D.PlayEffectImmediately), GraphicsDeviceType.OpenGL);
-			Console.ReadKey();
+			//TestOnTheDevice(typeof (Graphics._2D.PlayEffectImmediately), GraphicsDeviceType.DirectX11);
+			//TestOnTheDevice(typeof(Graphics._2D.PlayEffectImmediately), GraphicsDeviceType.OpenGL);
+            TestOnTheDevice(typeof(ObjectSystem2D.Colliding), GraphicsDeviceType.DirectX11);
+            TestOnTheDevice(typeof(ObjectSystem2D.Colliding), GraphicsDeviceType.OpenGL);
+            Console.ReadKey();
 			return;
 
 			TestInNamespace("Graphics._2D");

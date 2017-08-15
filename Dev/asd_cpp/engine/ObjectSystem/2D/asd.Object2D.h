@@ -387,8 +387,8 @@ namespace asd
 		void RemoveCollider(std::shared_ptr<Collider2D> collider);
 
 		/**
-		@brief	現時点での衝突一覧の情報を取得する
-		@return	現時点での衝突一覧の情報
+		@brief	現時点での衝突情報の一覧を取得する
+		@return	現時点での衝突の一覧
 		*/
 		std::list<std::shared_ptr<Collision2DInfo>> &GetCollisionsInfo();
 	};

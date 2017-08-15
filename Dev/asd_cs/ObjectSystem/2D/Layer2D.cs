@@ -423,7 +423,8 @@ namespace asd
 			foreach(var item in Objects)
 			{
 				item.DrawAdditionally();
-			}
+                item.CoreObject.DrawVisibleCollisionsAdditionally();
+            }
 
 			OnDrawAdditionally();
 		}

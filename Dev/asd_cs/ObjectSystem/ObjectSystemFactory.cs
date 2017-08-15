@@ -203,6 +203,26 @@ namespace asd
             return factory.CreateTriangleShape();
         }
 
+        public swig.CoreCircleCollider CreateCircleCollider()
+        {
+            return factory.CreateCircleCollider();
+        }
+
+        public swig.CoreLineCollider CreateLineCollider()
+        {
+            return factory.CreateLineCollider();
+        }
+
+        public swig.CoreRectangleCollider CreateRectangleCollider()
+        {
+            return factory.CreateRectangleCollider();
+        }
+
+        public swig.CorePolygonCollider CreatePolygonCollider()
+        {
+            return factory.CreatePolygonCollider();
+        }
+
 		private swig.ObjectSystemFactory factory;
 	}
 }
