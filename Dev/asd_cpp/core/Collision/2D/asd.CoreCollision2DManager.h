@@ -17,6 +17,12 @@ namespace asd {
 	class CoreCollision2DManager {
 
 		class ColliderPair {
+		private:
+			//boost::hash_combineより引用
+			inline size_t CombineHash(size_t seed, size_t value)
+			{
+				return seed ^(value + 0x9e3779b9 + (seed << 6) + (seed >> 2));
+			}
 			CoreCollider2D_Imp* colliderA_Imp;
 			CoreCollider2D_Imp* colliderB_Imp;
 			size_t hashValue;
@@ -27,16 +33,15 @@ namespace asd {
 				auto hashA = std::hash<CoreCollider2D_Imp*>()(colliderA_Imp);
 				auto hashB = std::hash<CoreCollider2D_Imp*>()(colliderB_Imp);
 
-				//ここより引用: https://stackoverflow.com/questions/17016175/c-unordered-map-using-a-custom-class-type-as-the-key
 				if (hashA > hashB) {
-					size_t res = 17;
-					res = res * 31 + hashA;
-					hashValue = res * 31 + hashB;
+					size_t seed = 0;
+					seed = CombineHash(seed, hashA);
+					hashValue = CombineHash(seed, hashB);
 				}
 				else {
-					size_t res = 17;
-					res = res * 31 + hashB;
-					hashValue = res * 31 + hashA;
+					size_t seed = 0;
+					seed = CombineHash(seed, hashB);
+					hashValue = CombineHash(seed, hashA);
 				}
 			}
 
