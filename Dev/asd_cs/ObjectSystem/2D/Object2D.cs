@@ -28,13 +28,9 @@ namespace asd
         /// </summary>
         public List<Collision2DInfo> Collisions2DInfo { get; private set; }
 
-        private static Dictionary<IntPtr, Collider2D> colliderMap;
         private HashSet<Collider2D> myColliders;
 
 
-        static Object2D() {
-            colliderMap = new Dictionary<IntPtr, Collider2D>();
-        }
 
         /// <summary>
         /// コンストラクタ
@@ -46,6 +42,12 @@ namespace asd
             IsUpdated = true;
             Collisions2DInfo = new List<Collision2DInfo>();
             myColliders = new HashSet<Collider2D>();
+        }
+
+        private static Dictionary<IntPtr, Collider2D> colliderMap;
+        static Object2D()
+        {
+            colliderMap = new Dictionary<IntPtr, Collider2D>();
         }
 
 
@@ -574,17 +576,19 @@ namespace asd
 
                 var collisionInfo = new Collision2DInfo(myCollider, theirCollider);
 
-                switch (collisionEvent.GetCollisionType())
+                var collisionType = collisionEvent.GetCollisionType();
+
+                if(collisionType == swig.CollisionType.Enter)
                 {
-                    case swig.CollisionType.Enter:
-                        OnCollisionEnter(collisionInfo);
-                        break;
-                    case swig.CollisionType.Stay:
-                        OnCollisionStay(collisionInfo);
-                        break;
-                    case swig.CollisionType.Exit:
-                        OnCollisionExit(collisionInfo);
-                        break;
+                    OnCollisionEnter(collisionInfo);
+                }
+                else if(collisionType == swig.CollisionType.Stay)
+                {
+                    OnCollisionStay(collisionInfo);
+                }
+                else if(collisionType == swig.CollisionType.Exit)
+                {
+                    OnCollisionExit(collisionInfo);
                 }
 
                 Collisions2DInfo.Add(collisionInfo);
@@ -701,9 +705,9 @@ namespace asd
         internal ParentInfo2D ParentInfo { get; set; }
 
         /// <summary>
-        /// 
+        /// コライダを追加する
         /// </summary>
-        /// <param name="collider"></param>
+        /// <param name="collider">追加するコライダ</param>
         public void AddCollider(Collider2D collider)
         {
             collider.OwnerObject = this;
@@ -713,9 +717,9 @@ namespace asd
         }
 
         /// <summary>
-        /// 
+        /// コライダを削除する
         /// </summary>
-        /// <param name="collider"></param>
+        /// <param name="collider">削除するコライダ</param>
         public void RemoveCollider(Collider2D collider)
         {
             collider.OwnerObject = null;

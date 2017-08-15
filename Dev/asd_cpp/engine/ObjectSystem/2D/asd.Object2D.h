@@ -388,7 +388,7 @@ namespace asd
 
 		/**
 		@brief	現時点での衝突情報の一覧を取得する
-		@return	現時点での衝突の一覧
+		@return	現時点での衝突情報の一覧
 		*/
 		std::list<std::shared_ptr<Collision2DInfo>> &GetCollisionsInfo();
 	};

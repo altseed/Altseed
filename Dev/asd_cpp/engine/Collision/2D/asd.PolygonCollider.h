@@ -49,7 +49,7 @@ namespace asd {
 		/**
 		@brief	このポリゴンのindex番目の頂点位置を取得する
 		@param	index	ポリゴンの頂点のインデックス
-		@param	vertex	取得する頂点座標
+		@param	vertex	取得したポリゴンの頂点座標
 		*/
 		Vector2DF GetVertex(int index) const;
 

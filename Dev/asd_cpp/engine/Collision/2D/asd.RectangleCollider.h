@@ -4,7 +4,7 @@
 namespace asd {
 
 	/**
-	矩形のコライダクラス
+	@brief	矩形のコライダクラス
 	*/
 	class RectangleCollider : public Collider2D{
 	private:
