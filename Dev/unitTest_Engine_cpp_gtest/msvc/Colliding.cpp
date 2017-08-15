@@ -54,27 +54,12 @@ class ObjectSystem_Colliding : public EngineTest
 
 		void OnCollisionEnter(std::shared_ptr<Collision2DInfo> collisionInfo) {
 			printf("Enter:%s\n", asd::ToAString(collisionInfo->GetSelfCollider()->GetTag()).c_str());
-			/*
-			Engine::GetLogger()->Write(
-				(asd::ToAString("Enter:")+asd::ToAString(collisionInfo->GetSelfCollider()->GetTag())).c_str()
-			);
-			*/
 		}
 		void OnCollisionStay(std::shared_ptr<Collision2DInfo> collisionInfo) {
 			//printf("Stay:%s\n", asd::ToAString(collisionInfo->GetSelfCollider()->GetTag()).c_str());
-			/*
-			Engine::GetLogger()->Write(
-				(asd::ToAString("Stay:") + asd::ToAString(collisionInfo->GetSelfCollider()->GetTag())).c_str()
-			);
-			*/
 		}
 		void OnCollisionExit(std::shared_ptr<Collision2DInfo> collisionInfo) {
 			printf("Exit:%s\n", asd::ToAString(collisionInfo->GetSelfCollider()->GetTag()).c_str());
-			/*
-			Engine::GetLogger()->Write(
-				(asd::ToAString("Exit:") + asd::ToAString(collisionInfo->GetSelfCollider()->GetTag())).c_str()
-			);
-			*/
 		}
 	};
 
