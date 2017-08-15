@@ -16,12 +16,13 @@ namespace asd {
 		CoreCollider2D* colliderB;
 
 		bool isShouldDestroy;
+		CoreCollision2D() {}
 
 	public:
-		CoreCollision2D(CoreCollider2D_Imp* colliderA, CoreCollider2D_Imp* colliderB);
-		virtual ~CoreCollision2D() {}
 
 #if !SWIG
+		CoreCollision2D(CoreCollider2D_Imp* colliderA, CoreCollider2D_Imp* colliderB);
+		virtual ~CoreCollision2D() {}
 	private:
 		CoreCollider2D_Imp* colliderA_Imp;
 		CoreCollider2D_Imp* colliderB_Imp;

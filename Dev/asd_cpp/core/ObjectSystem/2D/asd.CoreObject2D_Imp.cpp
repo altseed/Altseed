@@ -32,9 +32,6 @@ namespace asd
 			SafeRelease(collider);
 		}
 		colliders.clear();
-
-		//auto b2world = b2body->GetWorld();
-		//b2world->DestroyBody(b2body);
 	}
 
 	void CoreObject2D_Imp::SetCullingUpdate(CoreObject2D_Imp* obj)
@@ -147,7 +144,6 @@ namespace asd
 	void CoreObject2D_Imp::NotifyTransformToColliders() {
 
 		auto position = m_transform.GetPosition();
-		//b2body->SetTransform(b2Vec2(position.X, position.Y), m_transform.GetAngle());
 
 		for (auto collider : colliders) {
 			auto collider_Imp = CoreCollider2D_Imp::CoreCollider2DToImp(collider);

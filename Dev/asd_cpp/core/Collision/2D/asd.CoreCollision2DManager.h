@@ -45,11 +45,11 @@ namespace asd {
 				}
 			}
 
-			CoreCollider2D_Imp* GetColliderA_Imp() {
+			CoreCollider2D_Imp* GetColliderA_Imp() const {
 				return colliderA_Imp;
 			}
 
-			CoreCollider2D_Imp* GetColliderB_Imp() {
+			CoreCollider2D_Imp* GetColliderB_Imp() const {
 				return colliderB_Imp;
 			}
 
