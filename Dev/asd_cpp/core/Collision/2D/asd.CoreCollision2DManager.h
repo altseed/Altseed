@@ -19,10 +19,25 @@ namespace asd {
 		class ColliderPair {
 			CoreCollider2D_Imp* colliderA_Imp;
 			CoreCollider2D_Imp* colliderB_Imp;
+			size_t hashValue;
 		public:
 			ColliderPair(CoreCollider2D_Imp* colliderA, CoreCollider2D_Imp* colliderB) {
 				this->colliderA_Imp = colliderA;
 				this->colliderB_Imp = colliderB;
+				auto hashA = std::hash<CoreCollider2D_Imp*>()(colliderA_Imp);
+				auto hashB = std::hash<CoreCollider2D_Imp*>()(colliderB_Imp);
+
+				//ここより引用: https://stackoverflow.com/questions/17016175/c-unordered-map-using-a-custom-class-type-as-the-key
+				if (hashA > hashB) {
+					size_t res = 17;
+					res = res * 31 + hashA;
+					hashValue = res * 31 + hashB;
+				}
+				else {
+					size_t res = 17;
+					res = res * 31 + hashB;
+					hashValue = res * 31 + hashA;
+				}
 			}
 
 			CoreCollider2D_Imp* GetColliderA_Imp() {
@@ -33,12 +48,8 @@ namespace asd {
 				return colliderB_Imp;
 			}
 
-			//ここより引用: https://stackoverflow.com/questions/17016175/c-unordered-map-using-a-custom-class-type-as-the-key
 			size_t GetHashCode() const {
-				size_t res = 17;
-				res = res * 31 + std::hash<CoreCollider2D_Imp*>()(colliderA_Imp);
-				res = res * 31 + std::hash<CoreCollider2D_Imp*>()(colliderB_Imp);
-				return res;
+				return hashValue;
 			}
 
 			bool operator==(const ColliderPair &contact) const{
