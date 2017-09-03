@@ -13,7 +13,7 @@ namespace asd{
 		CoreCollider2D() {}
 		virtual ~CoreCollider2D(){}
 
-		virtual Collider2DShapeType GetType() const = 0;
+		virtual Collider2DShapeType GetShapeType() const = 0;
 
 		virtual const achar* GetTag() const = 0;
 		virtual void SetTag(const achar*) = 0;

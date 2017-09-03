@@ -32,7 +32,7 @@ namespace asd {
 		this->radius = radius;
 	}
 
-	Collider2DShapeType CoreCircleCollider_Imp::GetType() const {
+	Collider2DShapeType CoreCircleCollider_Imp::GetShapeType() const {
 		return Collider2DShapeType::Circle;
 	}
 

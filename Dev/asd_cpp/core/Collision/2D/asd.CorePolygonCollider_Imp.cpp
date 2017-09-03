@@ -37,7 +37,7 @@ namespace asd {
 		return vertexes[index];
 	}
 
-	Collider2DShapeType CorePolygonCollider_Imp::GetType() const {
+	Collider2DShapeType CorePolygonCollider_Imp::GetShapeType() const {
 		return Collider2DShapeType::Polygon;
 	}
 

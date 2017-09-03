@@ -18,7 +18,7 @@ namespace asd {
 		this->area = area;
 	}
 
-	Collider2DShapeType CoreRectangleCollider_Imp::GetType() const {
+	Collider2DShapeType CoreRectangleCollider_Imp::GetShapeType() const {
 		return Collider2DShapeType::Rectangle;
 	}
 

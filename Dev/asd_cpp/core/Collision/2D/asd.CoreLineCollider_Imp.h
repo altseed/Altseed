@@ -31,8 +31,6 @@ namespace asd
 		float GetThickness() const override;
 		void SetThickness(float thickness) override;
 
-		Collider2DShapeType GetType() const override;
-
 		virtual void Update() override;
 
 		const achar* GetTag() const override;
@@ -44,6 +42,8 @@ namespace asd
 		int64_t GetCreationId() const override;
 #if !SWIG
 	public:
+		virtual Collider2DShapeType GetShapeType() const override;
+
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }
 		virtual int Release() { return ReferenceObject::Release(); }

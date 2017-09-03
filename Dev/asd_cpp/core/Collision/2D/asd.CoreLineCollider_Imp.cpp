@@ -38,7 +38,7 @@ namespace asd {
 		this->thickness = thickness;
 	}
 
-	Collider2DShapeType CoreLineCollider_Imp::GetType() const {
+	Collider2DShapeType CoreLineCollider_Imp::GetShapeType() const {
 		return Collider2DShapeType::Line;
 	}
 

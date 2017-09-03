@@ -38,7 +38,7 @@ namespace asd {
 	{
 		if (obj == nullptr) return nullptr;
 
-		switch (obj->GetType())
+		switch (obj->GetShapeType())
 		{
 		case Collider2DShapeType::Circle:
 			return (CoreCircleCollider_Imp*)obj;
@@ -58,7 +58,7 @@ namespace asd {
 	CoreCollider2D* CoreCollider2D_Imp::CoreCollider2DImpToAbstract(CoreCollider2D_Imp* obj) {
 		if (obj == nullptr) return nullptr;
 
-		switch (obj->GetType())
+		switch (obj->GetShapeType())
 		{
 		case Collider2DShapeType::Circle:
 			return (CoreCircleCollider_Imp*)obj;

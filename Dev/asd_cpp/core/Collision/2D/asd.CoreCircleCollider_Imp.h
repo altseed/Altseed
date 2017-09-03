@@ -27,8 +27,6 @@ namespace asd
 		float GetRadius() const override;
 		void SetRadius(float angle) override;
 
-		Collider2DShapeType GetType() const override;
-
 		virtual void Update() override;
 
 		const achar* GetTag() const override;
@@ -41,6 +39,8 @@ namespace asd
 
 #if !SWIG
 	public:
+		virtual Collider2DShapeType GetShapeType() const override;
+
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }
 		virtual int Release() { return ReferenceObject::Release(); }

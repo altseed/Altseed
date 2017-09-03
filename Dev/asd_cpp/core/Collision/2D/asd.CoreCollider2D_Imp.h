@@ -28,11 +28,12 @@ namespace asd {
 
 	public:
 		virtual void Update() = 0;
-		virtual Collider2DShapeType GetType() const = 0;
 
 		CoreCollider2D_Imp();
 		virtual ~CoreCollider2D_Imp();
 #if !SWIG
+		virtual Collider2DShapeType GetShapeType() const = 0;
+
 		void SetOwnerObject2D(CoreObject2D_Imp* ownerObject);
 		CoreObject2D_Imp* GetOwnerObject2D();
 

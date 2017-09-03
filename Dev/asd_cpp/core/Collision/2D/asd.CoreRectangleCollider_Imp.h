@@ -23,7 +23,6 @@ namespace asd
 		RectF GetArea() const override;
 		void SetArea(RectF area) override;
 
-		Collider2DShapeType GetType() const override;
 		void Update();
 
 		const achar* GetTag() const override;
@@ -35,6 +34,7 @@ namespace asd
 		int64_t GetCreationId() const override;
 #if !SWIG
 	public:
+		Collider2DShapeType GetShapeType() const override;
 
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }
