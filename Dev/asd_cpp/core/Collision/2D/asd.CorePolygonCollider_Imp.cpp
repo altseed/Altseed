@@ -99,7 +99,7 @@ namespace asd {
 		//TODO: 書く
 	}
 
-	long CorePolygonCollider_Imp::GetCreationId() const {
+	int64_t CorePolygonCollider_Imp::GetCreationId() const {
 		return creationId;
 	}
 }

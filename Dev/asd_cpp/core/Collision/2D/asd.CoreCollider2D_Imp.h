@@ -14,15 +14,15 @@ namespace asd {
 	private:
 		astring tag;
 		void* userData;
-		static long currentCreationId;
+		static int64_t currentCreationId;
 
-		static long GetCurrentCreationId();
+		static int64_t GetCurrentCreationId();
 	protected:
 		CoreObject2D_Imp* ownerObject;
 		culling2d::RectF aabb;
 		culling2d_aabb::Object *cullingObject;
 		CoreCollision2DManager *coreCollision2DManager;
-		long creationId;
+		int64_t creationId;
 	protected:
 		bool isNeededUpdateShapes;
 

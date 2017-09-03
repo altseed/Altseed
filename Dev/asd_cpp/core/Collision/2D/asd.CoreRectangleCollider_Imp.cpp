@@ -105,7 +105,7 @@ namespace asd {
 			10000);
 	}
 
-	long CoreRectangleCollider_Imp::GetCreationId() const {
+	int64_t CoreRectangleCollider_Imp::GetCreationId() const {
 		return creationId;
 	}
 }

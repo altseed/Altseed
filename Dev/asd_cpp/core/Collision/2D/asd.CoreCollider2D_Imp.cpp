@@ -8,9 +8,9 @@
 
 namespace asd {
 
-	long CoreCollider2D_Imp::currentCreationId = 0;
+	int64_t CoreCollider2D_Imp::currentCreationId = 0;
 
-	long CoreCollider2D_Imp::GetCurrentCreationId() {
+	int64_t CoreCollider2D_Imp::GetCurrentCreationId() {
 		return currentCreationId++;
 	}
 
