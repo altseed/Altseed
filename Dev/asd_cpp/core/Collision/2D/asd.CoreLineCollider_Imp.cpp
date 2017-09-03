@@ -135,4 +135,8 @@ namespace asd {
 			AlphaBlendMode::Blend,
 			10000);
 	}
+
+	long CoreLineCollider_Imp::GetCreationId() const {
+		return creationId;
+	}
 }

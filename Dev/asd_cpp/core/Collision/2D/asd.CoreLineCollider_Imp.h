@@ -40,6 +40,8 @@ namespace asd
 
 		bool GetIsVisible() const override;
 		void SetIsVisible(bool isVisible) override;
+
+		long GetCreationId() const override;
 #if !SWIG
 	public:
 		virtual int GetRef() { return ReferenceObject::GetRef(); }

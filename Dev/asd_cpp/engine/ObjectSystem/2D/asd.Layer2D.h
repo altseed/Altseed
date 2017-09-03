@@ -37,6 +37,7 @@ namespace asd
 		std::shared_ptr<CoreLayer2D>	m_coreLayer;
 		std::shared_ptr<ObjectManager<Object2D>> m_objects;
 		std::shared_ptr<ComponentManager<Layer2DComponent>> m_components;
+		std::unordered_map<long, std::shared_ptr<Collider2D>> collidersMap;
 
 		void BeginUpdating() override;
 		void EndUpdateting() override;

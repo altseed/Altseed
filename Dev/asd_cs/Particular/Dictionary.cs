@@ -32,6 +32,6 @@ namespace asd.Particular
 		public static IEnumerable<KeyValuePair<TKey, TValue>> EntrySet<TKey, TValue>(Dictionary<TKey, TValue> d)
 		{
 			return d;
-		}
-	}
+        }
+    }
 }

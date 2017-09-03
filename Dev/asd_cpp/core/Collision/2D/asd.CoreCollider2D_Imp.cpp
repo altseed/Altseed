@@ -8,16 +8,22 @@
 
 namespace asd {
 
+	long CoreCollider2D_Imp::currentCreationId = 0;
+
+	long CoreCollider2D_Imp::GetCurrentCreationId() {
+		return currentCreationId++;
+	}
+
 	CoreCollider2D_Imp::CoreCollider2D_Imp()
 		:isNeededUpdateShapes(false)
 		, ownerObject(nullptr)
 		, coreCollision2DManager(nullptr)
 	{
-		printf("New");
+		creationId = GetCurrentCreationId();
 	}
 
 	CoreCollider2D_Imp::~CoreCollider2D_Imp() {
-		printf("Delete");
+
 	}
 
 	void CoreCollider2D_Imp::SetOwnerObject2D(CoreObject2D_Imp* ownerObject) {

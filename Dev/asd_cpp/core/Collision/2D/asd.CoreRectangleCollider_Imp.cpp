@@ -104,4 +104,8 @@ namespace asd {
 			AlphaBlendMode::Blend,
 			10000);
 	}
+
+	long CoreRectangleCollider_Imp::GetCreationId() const {
+		return creationId;
+	}
 }

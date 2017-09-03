@@ -24,6 +24,8 @@ namespace asd
 		{
 			object->SetLayer(nullptr);
 		}
+
+		collidersMap.clear();
 	}
 
 	bool Layer2D::GetIsAlive() const

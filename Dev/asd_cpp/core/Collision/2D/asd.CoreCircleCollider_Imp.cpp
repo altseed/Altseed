@@ -95,4 +95,8 @@ namespace asd {
 			asd::AlphaBlendMode::Blend,
 			10000);
 	}
+
+	long CoreCircleCollider_Imp::GetCreationId() const {
+		return creationId;
+	}
 }

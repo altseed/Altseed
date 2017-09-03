@@ -11,7 +11,6 @@ using namespace std;
 
 namespace asd
 {
-	std::unordered_map<CoreCollider2D*, std::shared_ptr<Collider2D>> Object2D::colliderMap;
 
 	Object2D::Object2D()
 		: m_owner(nullptr)
@@ -26,9 +25,6 @@ namespace asd
 
 	Object2D::~Object2D()
 	{
-		for (auto collider : myColliders) {
-			colliderMap.erase(collider->GetCoreCollider().get());
-		}
 	}
 
 
@@ -45,6 +41,16 @@ namespace asd
 		{
 			SyncContainerWithChild(child);
 		}
+
+		auto layer = GetLayer();
+		for(auto& collider : myColliders)
+		{
+			auto creationId = collider->GetCoreCollider()->GetCreationId();
+			if (layer->collidersMap.find(creationId) == layer->collidersMap.end())
+			{
+				layer->collidersMap[creationId] = collider;
+			}
+		}
 	}
 
 	void Object2D::RaiseOnRemoved()
@@ -59,6 +65,16 @@ namespace asd
 			component.second->RaiseOnRemoved();
 		}
 
+		auto layer = GetLayer();
+		for (auto& collider : myColliders)
+		{
+			auto creationId = collider->GetCoreCollider()->GetCreationId();
+			if (layer->collidersMap.find(creationId) != layer->collidersMap.end())
+			{
+				layer->collidersMap.erase(creationId);
+			}
+		}
+
 		OnRemoved();
 	}
 
@@ -66,12 +82,13 @@ namespace asd
 		auto collisionEventsNum = GetCoreObject()->GetCollisionEventsNum();
 		collisions2DInfo.clear();
 
+		auto layer = GetLayer();
 		for (int index = 0; index < collisionEventsNum; index++) {
 			auto collisionEvent = GetCoreObject()->GetCollisionEvent(index);
 			auto collision = collisionEvent->GetCollision();
 
-			auto colliderA = colliderMap[collision->GetColliderA()];
-			auto colliderB = colliderMap[collision->GetColliderB()];
+			auto colliderA = layer->collidersMap[collision->GetColliderA()->GetCreationId()];
+			auto colliderB = layer->collidersMap[collision->GetColliderB()->GetCreationId()];
 
 			std::shared_ptr<Collider2D> myCollider;
 			std::shared_ptr<Collider2D> theirCollider;
@@ -462,13 +479,15 @@ namespace asd
 
 		collider->ownerObject2D = shared_from_this();
 		myColliders.insert(collider);
-		colliderMap[collider->GetCoreCollider().get()] = collider;
+		auto layer = GetLayer();
+		layer->collidersMap[collider->GetCoreCollider()->GetCreationId()] = collider;
 		GetCoreObject()->AddCollider(collider->GetCoreCollider().get());
 	}
 
 	void Object2D::RemoveCollider(std::shared_ptr<Collider2D> collider) {
 		myColliders.erase(collider);
-		colliderMap.erase(collider->GetCoreCollider().get());
+		auto layer = GetLayer();
+		layer->collidersMap.erase(collider->GetCoreCollider()->GetCreationId());
 		GetCoreObject()->RemoveCollider(collider->GetCoreCollider().get());
 
 	}

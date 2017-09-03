@@ -31,10 +31,13 @@ namespace asd
 			ComponentManager = new ComponentManager<Layer2DComponent>(this);
 
 			CoreLayer = coreLayer2D;
-		}
 
-		#region GC対策
-		~Layer2D()
+            CollidersMap = new Dictionary<long, Collider2D>();
+        }
+
+
+        #region GC対策
+        ~Layer2D()
 		{
 			ForceToRelease();
 		}
@@ -176,16 +179,16 @@ namespace asd
 			coreLayer2D.RemoveObject(obj.CoreObject);
 		}
 
-		#endregion
+        #endregion
 
-		#region コンポーネント管理
-		/// <summary>
-		/// 指定したコンポーネントをこのレイヤーに追加する。
-		/// </summary>
-		/// <param name="component">追加するコンポーネント</param>
-		/// <param name="key">コンポーネントに関連付けるキー</param>
-		/// <remarks>実際に追加されるのはこのメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
-		public void AddComponent(Layer2DComponent component, string key)
+        #region コンポーネント管理
+        /// <summary>
+        /// 指定したコンポーネントをこのレイヤーに追加する。
+        /// </summary>
+        /// <param name="component">追加するコンポーネント</param>
+        /// <param name="key">コンポーネントに関連付けるキー</param>
+        /// <remarks>実際に追加されるのはこのメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
+        public void AddComponent(Layer2DComponent component, string key)
 		{
 			ComponentManager.Add(component, key);
 		}
@@ -472,5 +475,11 @@ namespace asd
 		private ObjectManager<Object2D> ObjectManager { get; set; }
 
 		private ComponentManager<Layer2DComponent> ComponentManager { get; set; }
-	}
+
+        /// <summary>
+        /// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+        /// </summary>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+        public Dictionary<long, Collider2D> CollidersMap { get; private set; }
+    }
 }

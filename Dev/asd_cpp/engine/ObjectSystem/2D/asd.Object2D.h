@@ -69,7 +69,6 @@ namespace asd
 		ParentInfo2D::Ptr m_parentInfo;
 		std::list<Object2D::Ptr> m_children;
 		std::unordered_set<std::shared_ptr<Collider2D>> myColliders;
-		static std::unordered_map<CoreCollider2D*,std::shared_ptr<Collider2D>> colliderMap;
 		std::shared_ptr<ComponentManager<Object2DComponent>> m_componentManager;
 		std::list<std::shared_ptr<Collision2DInfo>> collisions2DInfo;
 

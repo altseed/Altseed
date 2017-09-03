@@ -20,5 +20,7 @@ namespace asd{
 
 		virtual bool GetIsVisible() const = 0;
 		virtual void SetIsVisible(bool isVisible) = 0;
+
+		virtual long GetCreationId() const = 0;
 	};
 };

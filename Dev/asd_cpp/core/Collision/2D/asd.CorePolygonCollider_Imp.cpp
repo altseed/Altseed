@@ -98,4 +98,8 @@ namespace asd {
 	void CorePolygonCollider_Imp::DrawVisibleCollisionsAdditionally(CoreLayer2D* layer) {
 		//TODO: 書く
 	}
+
+	long CorePolygonCollider_Imp::GetCreationId() const {
+		return creationId;
+	}
 }

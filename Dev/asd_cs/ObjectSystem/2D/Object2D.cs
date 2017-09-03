@@ -44,12 +44,6 @@ namespace asd
             myColliders = new HashSet<Collider2D>();
         }
 
-        private static Dictionary<IntPtr, Collider2D> colliderMap;
-        static Object2D()
-        {
-            colliderMap = new Dictionary<IntPtr, Collider2D>();
-        }
-
 
         /// <summary>
         /// このオブジェクトの親オブジェクトを取得する。
@@ -531,6 +525,14 @@ namespace asd
             {
                 SyncContainerWithChild(child);
             }
+
+            foreach(var collider in myColliders)
+            {
+                if (!Layer.CollidersMap.ContainsKey(collider.CoreCollider.GetCreationId()))
+                {
+                    Layer.CollidersMap.Add(collider.CoreCollider.GetCreationId(), collider);
+                }
+            }
         }
 
         internal override void RaiseOnRemoved()
@@ -545,6 +547,14 @@ namespace asd
                 component.RaiseOnRemoved();
             }
 
+            foreach (var collider in myColliders)
+            {
+                if (Layer.CollidersMap.ContainsKey(collider.CoreCollider.GetCreationId()))
+                {
+                    Layer.CollidersMap.Remove(collider.CoreCollider.GetCreationId());
+                }
+            }
+
             OnRemoved();
         }
 
@@ -556,9 +566,9 @@ namespace asd
             for (int index = 0; index < collisionEventsNum; index++) {
                 var collisionEvent = CoreObject.GetCollisionEvent(index);
                 var collision = collisionEvent.GetCollision();
-
-                var colliderA = colliderMap[collision.GetColliderA().GetPtr()];
-                var colliderB = colliderMap[collision.GetColliderB().GetPtr()];
+                
+                var colliderA = asd.Particular.Dictionary.Get(Layer.CollidersMap, collision.GetColliderA().GetCreationId());
+                var colliderB = asd.Particular.Dictionary.Get(Layer.CollidersMap, collision.GetColliderB().GetCreationId());
 
                 Collider2D myCollider = null;
                 Collider2D theirCollider = null;
@@ -712,7 +722,10 @@ namespace asd
         {
             collider.OwnerObject = this;
             myColliders.Add(collider);
-            colliderMap[collider.CoreCollider.GetPtr()] = collider;
+            if(Layer != null)
+            {
+                Layer.CollidersMap.Add(collider.CoreCollider.GetCreationId(), collider);
+            }
             CoreObject.AddCollider(collider.CoreCollider);
         }
 
@@ -724,7 +737,10 @@ namespace asd
         {
             collider.OwnerObject = null;
             myColliders.Remove(collider);
-            colliderMap.Remove(collider.CoreCollider.GetPtr());
+            if(Layer != null)
+            {
+                Layer.CollidersMap.Remove(collider.CoreCollider.GetCreationId());
+            }
             CoreObject.RemoveCollider(collider.CoreCollider);
 
         }
