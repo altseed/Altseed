@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>AltseedDotNet</id>
-        <version>1.1.0</version>
+        <version>1.1.0.2</version>
         <title>Altseed(.Net)</title>
         <authors>Altseed</authors>
         <licenseUrl>https://github.com/altseed/Altseed/blob/master/LICENSE</licenseUrl>
@@ -10,18 +10,15 @@
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>Altseedはマルチプラットフォームな和製ゲームエンジンです。オブジェクト指向を用いて効率的にゲームを組み立てることができます。このパッケージにはゲームエンジンのライブラリ部分のみが含まれます。</description>
         <summary>Altseedはマルチプラットフォームな和製ゲームエンジンです。</summary>
-        <copyright>Copyright (c) 2013 - 2016 Altseed</copyright>
+        <copyright>Copyright (c) 2013 - 2017 Altseed</copyright>
         <language>ja-JP</language>
         <tags>Game</tags>
     </metadata>
     <files>
-        <file src="AltseedDotNet.net45.targets" target="build\net45\AltseedDotNet.targets" />
+        <file src="AltseedDotNet.targets" target="build\net45\AltseedDotNet.targets" />
         <file src="Altseed_core.dll" target="build\net45\Altseed_core.dll" />
-        <file src="AltseedDotNet.xamarin.targets" target="build\Xamarin.Mac\AltseedDotNet.targets" />
-        <file src="libAltseed_core.dylib" target="build\Xamarin.Mac\libAltseed_core.dylib" />
+        <file src="libAltseed_core.dylib" target="build\net45\libAltseed_core.dylib" />
         <file src="Altseed.dll" target="lib\net45\Altseed.dll" />
         <file src="Altseed.xml" target="lib\net45\Altseed.xml" />
-        <file src="Altseed.dll" target="lib\Xamarin.Mac\Altseed.dll" />
-        <file src="Altseed.xml" target="lib\Xamarin.Mac\Altseed.xml" />
     </files>
 </package>
