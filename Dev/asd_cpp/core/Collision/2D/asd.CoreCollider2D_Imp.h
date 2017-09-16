@@ -21,7 +21,7 @@ namespace asd {
 		CoreObject2D_Imp* ownerObject;
 		culling2d::RectF aabb;
 		culling2d_aabb::Object *cullingObject;
-		CoreCollision2DManager *coreCollision2DManager;
+		CoreCollision2DManager* coreCollision2DManager;
 		int64_t creationId;
 	protected:
 		bool isNeededUpdateShapes;
@@ -38,7 +38,7 @@ namespace asd {
 		CoreObject2D_Imp* GetOwnerObject2D();
 
 		static CoreCollider2D_Imp* CoreCollider2DToImp(CoreCollider2D* obj);
-		static CoreCollider2D* CoreCollider2DImpToAbstract(CoreCollider2D_Imp* obj);
+		static CoreCollider2D* CoreCollider2DToAbstract(CoreCollider2D_Imp* obj);
 
 		virtual void OnAddedToObject(CoreObject2D_Imp*);
 		virtual void OnRemovedFromObject(CoreObject2D_Imp*);

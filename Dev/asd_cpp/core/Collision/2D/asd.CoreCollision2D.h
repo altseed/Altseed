@@ -12,31 +12,19 @@ namespace asd {
 		bool previousFrameContact;
 		bool isAlreadyExit;
 
-		CoreCollider2D* colliderA;
-		CoreCollider2D* colliderB;
-
 		bool isShouldDestroy;
 		CoreCollision2D() {}
 
 	public:
 
 #if !SWIG
-		CoreCollision2D(CoreCollider2D_Imp* colliderA, CoreCollider2D_Imp* colliderB);
-		virtual ~CoreCollision2D() {}
+		CoreCollision2D(CoreCollider2D* colliderA, CoreCollider2D* colliderB);
+		virtual ~CoreCollision2D();
 	private:
-		CoreCollider2D_Imp* colliderA_Imp;
-		CoreCollider2D_Imp* colliderB_Imp;
+		CoreCollider2D* colliderA;
+		CoreCollider2D* colliderB;
 	public:
 		bool GetIsShouldDestroy();
-		
-
-		CoreCollider2D_Imp* GetColliderA_Imp() {
-			return colliderA_Imp;
-		}
-
-		CoreCollider2D_Imp* GetColliderB_Imp() {
-			return colliderB_Imp;
-		}
 #endif
 	public:
 		void Update();

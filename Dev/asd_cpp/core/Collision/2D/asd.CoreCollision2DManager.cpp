@@ -1,5 +1,6 @@
 ﻿#include "asd.CoreCollision2DManager.h"
 #include "Culling2D_AABB.h"
+#include "../../ObjectSystem/2D/asd.CoreObject2D_Imp.h"
 #include "asd.CoreCollider2D.h"
 #include "asd.CoreCollider2D_Imp.h"
 
@@ -49,31 +50,32 @@ namespace asd {
 	}
 
 	void CoreCollision2DManager::AddCollider(CoreCollider2D* collider) {
-		auto colliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(collider);
-		if (addedCollidersImp.find(colliderImp) != addedCollidersImp.end()) {
+		if (addedColliders.find(collider) != addedColliders.end()) {
 			return;
 		}
 
+
 		addedColliders.insert(collider);
-		addedCollidersImp.insert(colliderImp);
 
 		SafeAddRef(collider);
 
-		auto object = culling2d_aabb::Object::Create((void*)colliderImp, cullingWorld);
-		object->SetUserData((void*)colliderImp);
+		auto object = culling2d_aabb::Object::Create((void*)collider, cullingWorld);
+		object->SetUserData((void*)collider);
+
+		auto colliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(collider);
 		colliderImp->SetCullingObject(object);
+
 		cullingWorld->AddObject(object);
 	}
 
 	void CoreCollision2DManager::RemoveCollider(CoreCollider2D* collider) {
-		auto colliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(collider);
 
-		if (addedCollidersImp.find(colliderImp) == addedCollidersImp.end()) {
+		if (addedColliders.find(collider) == addedColliders.end()) {
 			return;
 		}
+		auto colliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(collider);
 
 		addedColliders.erase(collider);
-		addedCollidersImp.erase(colliderImp);
 
 		SafeRelease(collider);
 
@@ -85,10 +87,11 @@ namespace asd {
 
 		// カリング向けAABBの更新
 		for (auto transformedCollider : lastTransformedColliders) {
-			transformedCollider->Update();
+			auto impObject = CoreCollider2D_Imp::CoreCollider2DToImp(transformedCollider);
+			impObject->Update();
 
-			auto cullingObject = transformedCollider->GetCullingObject();
-			auto aabb = transformedCollider->GetAABB();
+			auto cullingObject = impObject->GetCullingObject();
+			auto aabb = impObject->GetAABB();
 			cullingObject->SetAABB(aabb);
 		}
 
@@ -98,17 +101,22 @@ namespace asd {
 		// 衝突情報の作成と削除
 		for (auto transformedCollider : lastTransformedColliders) {
 
-			auto culledObjects = cullingWorld->GetCullingObjects(transformedCollider->GetAABB());
+			auto colliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(transformedCollider);
+
+			auto culledObjects = cullingWorld->GetCullingObjects(colliderImp->GetAABB());
 			for (auto culledObject : culledObjects) {
-				auto elseColliderImp = (CoreCollider2D_Imp*)culledObject->GetUserData();
-				if (transformedCollider == elseColliderImp)
+				auto elseCollider = (CoreCollider2D*)culledObject->GetUserData();
+				if (transformedCollider == elseCollider)
 					continue;
 
 
-				auto query = ColliderPair(transformedCollider, elseColliderImp);
+				auto query = ColliderPair(transformedCollider, elseCollider);
 				auto targetCollision = addedCollisions.find(query);
-				if (targetCollision == addedCollisions.end() && transformedCollider->GetAABB().GetCollision(elseColliderImp->GetAABB())) {
-					auto contact = new CoreCollision2D(transformedCollider, elseColliderImp);
+
+				auto elseColliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(elseCollider);
+
+				if (targetCollision == addedCollisions.end() && colliderImp->GetAABB().GetCollision(elseColliderImp->GetAABB())) {
+					auto contact = new CoreCollision2D(transformedCollider, elseCollider);
 					addedCollisions.emplace(query, contact);
 				}
 				else if(targetCollision != addedCollisions.end() && targetCollision->second->GetIsShouldDestroy()){
@@ -120,8 +128,10 @@ namespace asd {
 		}
 
 		// イベント一覧の初期化
-		for (auto collider : addedCollidersImp) {
-			auto ownerObject2D = collider->GetOwnerObject2D();
+		for (auto collider : addedColliders) {
+			auto colliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(collider);
+			auto ownerObject2D = colliderImp->GetOwnerObject2D();
+
 			ownerObject2D->currentFrameCollisionEvents.clear();
 		}
 
@@ -134,9 +144,9 @@ namespace asd {
 		lastTransformedColliders.clear();
 	}
 
-	void CoreCollision2DManager::NotifyLastTransformed(CoreCollider2D_Imp* colliderImp) {
-		if (colliderImp != nullptr) {
-			lastTransformedColliders.insert(colliderImp);
+	void CoreCollision2DManager::NotifyLastTransformed(CoreCollider2D* collider) {
+		if (collider != nullptr) {
+			lastTransformedColliders.insert(collider);
 		}
 	}
 }

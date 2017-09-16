@@ -16,7 +16,6 @@ namespace asd {
 
 	CoreCollider2D_Imp::CoreCollider2D_Imp()
 		:isNeededUpdateShapes(false)
-		, ownerObject(nullptr)
 		, coreCollision2DManager(nullptr)
 	{
 		creationId = GetCurrentCreationId();
@@ -55,19 +54,21 @@ namespace asd {
 		return nullptr;
 	}
 
-	CoreCollider2D* CoreCollider2D_Imp::CoreCollider2DImpToAbstract(CoreCollider2D_Imp* obj) {
-		if (obj == nullptr) return nullptr;
+	CoreCollider2D* CoreCollider2D_Imp::CoreCollider2DToAbstract(CoreCollider2D_Imp* colliderImp) 
+	{
 
-		switch (obj->GetShapeType())
+		if (colliderImp == nullptr) return nullptr;
+
+		switch (colliderImp->GetShapeType())
 		{
 		case Collider2DShapeType::Circle:
-			return (CoreCircleCollider_Imp*)obj;
+			return (CoreCircleCollider_Imp*)colliderImp;
 		case Collider2DShapeType::Line:
-			return (CoreLineCollider_Imp*)obj;
+			return (CoreLineCollider_Imp*)colliderImp;
 		case Collider2DShapeType::Polygon:
-			return (CorePolygonCollider_Imp*)obj;
+			return (CorePolygonCollider_Imp*)colliderImp;
 		case Collider2DShapeType::Rectangle:
-			return (CoreRectangleCollider_Imp*)obj;
+			return (CoreRectangleCollider_Imp*)colliderImp;
 		default:
 			break;
 		}
@@ -75,11 +76,12 @@ namespace asd {
 		return nullptr;
 	}
 
+
 	void CoreCollider2D_Imp::OnAddedToObject(CoreObject2D_Imp* ownerObject) {
 		SetOwnerObject2D(ownerObject);
 
 		if (coreCollision2DManager != nullptr) {
-			coreCollision2DManager->NotifyLastTransformed(this);
+			coreCollision2DManager->NotifyLastTransformed(CoreCollider2DToAbstract(this));
 		}
 	}
 
@@ -87,9 +89,9 @@ namespace asd {
 		SetOwnerObject2D(nullptr);
 	}
 
-	void CoreCollider2D_Imp::OnOwnerObjectTransformChanged(CoreObject2D_Imp*) {
+	void CoreCollider2D_Imp::OnOwnerObjectTransformChanged(CoreObject2D_Imp* ownerObject) {
 		if (coreCollision2DManager != nullptr) {
-			coreCollision2DManager->NotifyLastTransformed(this);
+			coreCollision2DManager->NotifyLastTransformed(CoreCollider2DToAbstract(this));
 		}
 	}
 

@@ -4,7 +4,10 @@
 namespace asd {
 
 
-	void CoreCollision2D::Update() {
+	void CoreCollision2D::Update() 
+	{
+		auto colliderA_Imp = CoreCollider2D_Imp::CoreCollider2DToImp(colliderA);
+		auto colliderB_Imp = CoreCollider2D_Imp::CoreCollider2DToImp(colliderB);
 
 		auto aabb1 = colliderA_Imp->GetAABB();
 		auto aabb2 = colliderB_Imp->GetAABB();
@@ -48,17 +51,23 @@ namespace asd {
 		}
 
 	}
-	CoreCollision2D::CoreCollision2D(CoreCollider2D_Imp* colliderA, CoreCollider2D_Imp* colliderB) :
+	CoreCollision2D::CoreCollision2D(CoreCollider2D* colliderA, CoreCollider2D* colliderB) :
 		currentFrameContact(false),
 		previousFrameContact(false),
 		isAlreadyExit(false),
 		isShouldDestroy(false)
 	{
-		this->colliderA = CoreCollider2D_Imp::CoreCollider2DImpToAbstract(colliderA);
-		this->colliderB = CoreCollider2D_Imp::CoreCollider2DImpToAbstract(colliderB);
-		this->colliderA_Imp = colliderA;
-		this->colliderB_Imp = colliderB;
+		this->colliderA = colliderA;
+		this->colliderB = colliderB;
+		SafeAddRef(colliderA);
+		SafeAddRef(colliderB);
 	}
+
+	CoreCollision2D::~CoreCollision2D() {
+		SafeRelease(colliderA);
+		SafeRelease(colliderB);
+	}
+
 
 #if !SWIG
 

@@ -29,7 +29,6 @@ namespace asd
 		friend class CoreCollision2DManager;
 		friend class CoreLayer2D_Imp;
 	private:
-		CoreObject2D_Imp* CoreObject2DToImp(CoreObject2D* obj);
 		void NotifyTransformToColliders();
 
 	protected:
@@ -52,6 +51,7 @@ namespace asd
 		void SetCullingUpdate(CoreObject2D_Imp* obj);
 
 	public:
+		static CoreObject2D_Imp* CoreObject2DToImp(CoreObject2D* obj);
 		CoreObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreObject2D_Imp();
 

@@ -12,7 +12,7 @@ namespace asd {
 	}
 
 	CoreCircleCollider_Imp::~CoreCircleCollider_Imp() {
-		//SafeDelete(circleShape);
+
 	}
 
 	Vector2DF CoreCircleCollider_Imp::GetCenter() const {
