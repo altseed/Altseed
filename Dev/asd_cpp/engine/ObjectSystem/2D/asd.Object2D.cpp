@@ -102,9 +102,11 @@ namespace asd
 				theirCollider = colliderA;
 			}
 
-			auto collisionInfo = std::make_shared<Collision2DInfo>(myCollider, theirCollider);
+			const auto collisionType = collisionEvent->GetCollisionType();
 
-			switch (collisionEvent->GetCollisionType()) {
+			auto collisionInfo = std::make_shared<Collision2DInfo>(myCollider, theirCollider, collisionType);
+
+			switch (collisionType) {
 			case CollisionType::Enter: 
 				OnCollisionEnter(collisionInfo);
 				break;

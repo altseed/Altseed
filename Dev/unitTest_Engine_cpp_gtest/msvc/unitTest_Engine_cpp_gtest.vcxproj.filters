@@ -225,7 +225,10 @@
     <ClCompile Include="..\Graphics\2D\PlayEffectImmediately.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
-    <ClCompile Include="Colliding.cpp">
+    <ClCompile Include="CollidingEvent.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="CollidingMethod.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
   </ItemGroup>

@@ -26,8 +26,8 @@ namespace unitTest_Engine_cs
 		{
 			//TestOnTheDevice(typeof (Graphics._2D.PlayEffectImmediately), GraphicsDeviceType.DirectX11);
 			//TestOnTheDevice(typeof(Graphics._2D.PlayEffectImmediately), GraphicsDeviceType.OpenGL);
-            TestOnTheDevice(typeof(ObjectSystem2D.Colliding), GraphicsDeviceType.DirectX11);
-            TestOnTheDevice(typeof(ObjectSystem2D.Colliding), GraphicsDeviceType.OpenGL);
+            TestOnTheDevice(typeof(ObjectSystem2D.CollidingMethod), GraphicsDeviceType.DirectX11);
+            TestOnTheDevice(typeof(ObjectSystem2D.CollidingMethod), GraphicsDeviceType.OpenGL);
             Console.ReadKey();
 			return;
 

@@ -12,12 +12,13 @@ namespace asd {
 	class Collision2DInfo {
 		std::shared_ptr<Collider2D> selfCollider;
 		std::shared_ptr<Collider2D> theirsCollider;
-
+		CollisionType collisionType;
 
 	public:
-		Collision2DInfo(std::shared_ptr<Collider2D> selfCollider, std::shared_ptr<Collider2D> theirsCollider) {
+		Collision2DInfo(std::shared_ptr<Collider2D> selfCollider, std::shared_ptr<Collider2D> theirsCollider, CollisionType collisionType) {
 			this->selfCollider = selfCollider;
 			this->theirsCollider = theirsCollider;
+			this->collisionType = collisionType;
 		}
 
 		virtual ~Collision2DInfo() {}
@@ -34,6 +35,13 @@ namespace asd {
 		*/
 		std::shared_ptr<Collider2D> GetTheirsCollider() {
 			return theirsCollider;
+		}
+
+		/**
+		@brief	衝突状態の種類を取得する
+		*/
+		CollisionType GetCollisionType() {
+			return collisionType;
 		}
 	};
 }

@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace asd
 {
+    public enum CollisionType
+    {
+        Enter = asd.swig.CollisionType.Enter,
+        Stay = asd.swig.CollisionType.Stay,
+        Exit = asd.swig.CollisionType.Exit
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -13,11 +20,13 @@ namespace asd
     {
         Collider2D selfCollider;
         Collider2D theirsCollider;
+        CollisionType collisionType;
 
-        internal Collision2DInfo(Collider2D selfCollider, Collider2D theirsCollider)
+        internal Collision2DInfo(Collider2D selfCollider, Collider2D theirsCollider, CollisionType collisionType)
         {
             this.selfCollider = selfCollider;
             this.theirsCollider = theirsCollider;
+            this.collisionType = collisionType;
         }
 
         /// <summary>
@@ -39,6 +48,17 @@ namespace asd
             get
             {
                 return theirsCollider;
+            }
+        }
+
+        /// <summary>
+        /// 衝突状態の種類を取得する
+        /// </summary>
+        public CollisionType CollisionType
+        {
+            get
+            {
+                return collisionType;
             }
         }
     }

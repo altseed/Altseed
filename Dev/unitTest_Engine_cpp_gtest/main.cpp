@@ -79,7 +79,8 @@ EXTERN_ENGINE_TEST(ObjectSystem, ObjectsUpdatePriority)
 EXTERN_ENGINE_TEST(ObjectSystem, LayerUpdatePriority)
 EXTERN_ENGINE_TEST(ObjectSystem, UpdateFrequency)
 EXTERN_ENGINE_TEST(ObjectSystem, LifeCycle)
-EXTERN_ENGINE_TEST(ObjectSystem, Colliding)
+EXTERN_ENGINE_TEST(ObjectSystem, CollidingEvent)
+EXTERN_ENGINE_TEST(ObjectSystem, CollidingMethod)
 EXTERN_ENGINE_TEST(ObjectSystem, SceneLifeCycle)
 EXTERN_ENGINE_TEST(ObjectSystem, DisposeOnTerminate)
 
@@ -133,7 +134,7 @@ int main(int argc, char **argv)
 	::testing::InitGoogleTest(&argc, argv);
 	
 	
-	CALL_ENGINE_TEST(ObjectSystem, Colliding, true);
+	CALL_ENGINE_TEST(ObjectSystem, CollidingMethod, true);
 	getchar();
 	return 0;
 	

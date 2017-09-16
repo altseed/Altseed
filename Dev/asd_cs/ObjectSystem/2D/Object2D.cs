@@ -584,9 +584,9 @@ namespace asd
                     theirCollider = colliderA;
                 }
 
-                var collisionInfo = new Collision2DInfo(myCollider, theirCollider);
-
                 var collisionType = collisionEvent.GetCollisionType();
+
+                var collisionInfo = new Collision2DInfo(myCollider, theirCollider, (CollisionType)collisionType);
 
                 if(collisionType == swig.CollisionType.Enter)
                 {
