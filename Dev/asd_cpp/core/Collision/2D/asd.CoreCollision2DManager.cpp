@@ -87,11 +87,10 @@ namespace asd {
 
 		// カリング向けAABBの更新
 		for (auto transformedCollider : lastTransformedColliders) {
-			auto impObject = CoreCollider2D_Imp::CoreCollider2DToImp(transformedCollider);
-			impObject->Update();
+			transformedCollider->Update();
 
-			auto cullingObject = impObject->GetCullingObject();
-			auto aabb = impObject->GetAABB();
+			auto cullingObject = transformedCollider->GetCullingObject();
+			auto aabb = transformedCollider->GetAABB();
 			cullingObject->SetAABB(aabb);
 		}
 
@@ -101,22 +100,21 @@ namespace asd {
 		// 衝突情報の作成と削除
 		for (auto transformedCollider : lastTransformedColliders) {
 
-			auto colliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(transformedCollider);
-
-			auto culledObjects = cullingWorld->GetCullingObjects(colliderImp->GetAABB());
+			auto culledObjects = cullingWorld->GetCullingObjects(transformedCollider->GetAABB());
 			for (auto culledObject : culledObjects) {
 				auto elseCollider = (CoreCollider2D*)culledObject->GetUserData();
-				if (transformedCollider == elseCollider)
+				auto elseColliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(elseCollider);
+
+				if (transformedCollider == elseColliderImp)
 					continue;
 
 
-				auto query = ColliderPair(transformedCollider, elseCollider);
+				auto query = ColliderPair(transformedCollider, elseColliderImp);
 				auto targetCollision = addedCollisions.find(query);
 
-				auto elseColliderImp = CoreCollider2D_Imp::CoreCollider2DToImp(elseCollider);
-
-				if (targetCollision == addedCollisions.end() && colliderImp->GetAABB().GetCollision(elseColliderImp->GetAABB())) {
-					auto contact = new CoreCollision2D(transformedCollider, elseCollider);
+				if (targetCollision == addedCollisions.end() && transformedCollider->GetAABB().GetCollision(elseColliderImp->GetAABB())) {
+					auto contact = new CoreCollision2D(CoreCollider2D_Imp::CoreCollider2DToAbstract(transformedCollider),
+						elseCollider);
 					addedCollisions.emplace(query, contact);
 				}
 				else if(targetCollision != addedCollisions.end() && targetCollision->second->GetIsShouldDestroy()){
@@ -144,7 +142,7 @@ namespace asd {
 		lastTransformedColliders.clear();
 	}
 
-	void CoreCollision2DManager::NotifyLastTransformed(CoreCollider2D* collider) {
+	void CoreCollision2DManager::NotifyLastTransformed(CoreCollider2D_Imp* collider) {
 		if (collider != nullptr) {
 			lastTransformedColliders.insert(collider);
 		}
