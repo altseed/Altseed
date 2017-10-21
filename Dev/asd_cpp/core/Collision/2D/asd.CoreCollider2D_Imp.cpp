@@ -81,7 +81,7 @@ namespace asd {
 		SetOwnerObject2D(ownerObject);
 
 		if (coreCollision2DManager != nullptr) {
-			coreCollision2DManager->NotifyLastTransformed(CoreCollider2DToAbstract(this));
+			coreCollision2DManager->NotifyLastTransformed(this);
 		}
 	}
 
@@ -91,7 +91,7 @@ namespace asd {
 
 	void CoreCollider2D_Imp::OnOwnerObjectTransformChanged(CoreObject2D_Imp* ownerObject) {
 		if (coreCollision2DManager != nullptr) {
-			coreCollision2DManager->NotifyLastTransformed(CoreCollider2DToAbstract(this));
+			coreCollision2DManager->NotifyLastTransformed(this);
 		}
 	}
 
