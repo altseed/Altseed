@@ -1018,6 +1018,7 @@ namespace asd
 		sprite.col = col;
 		sprite.uv = uv;
 		sprite.Texture_ = nullptr;
+		sprite.Material_ = nullptr;
 		sprite.AlphaBlend_ = alphaBlend;
 		sprite.Priority = priority;
 
