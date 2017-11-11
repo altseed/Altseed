@@ -8,35 +8,24 @@ with aceutils.CurrentDir('../Downloads'):
 	aceutils.rmdir(r"culling3d_bin")
 	aceutils.rmdir(r"culling3d_bin_x64")
 
-	if aceutils.isWin():
-		aceutils.editCmakeForACE(r'Culling3D/CMakeLists.txt','cp932')
-	elif aceutils.isMac():
-		aceutils.editCmakeForACE(r'Culling3D/CMakeLists.txt','cp932')
-	# in Linux, using 'cp932' twice on the same file can cause an error "UnicodeDecodeError: 'cp932' codec can't decode byte 0x9a in position 23: illegal multibyte sequence".
-	else:
-		try: 
-			aceutils.editCmakeForACE(r'Culling3D/CMakeLists.txt','cp932')
-		except:
-			aceutils.editCmakeForACE(r'Culling3D/CMakeLists.txt')
-
 	aceutils.mkdir(r"culling3d_bin")
 	aceutils.mkdir(r"culling3d_bin_x64")
 
 	with aceutils.CurrentDir('culling3d_bin'):
 		if aceutils.isWin():
-			aceutils.call(aceutils.cmd_cmake+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../Culling3D/')
+			aceutils.call(aceutils.cmd_cmake+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF ../Culling3D/')
 			aceutils.call(aceutils.cmd_compile + r'Culling3D.sln /p:configuration=Debug')
 			aceutils.call(aceutils.cmd_compile + r'Culling3D.sln /p:configuration=Release')
 		elif aceutils.isMac():
-			aceutils.call(r'cmake -G "Unix Makefiles" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../Culling3D/')
+			aceutils.call(r'cmake -G "Unix Makefiles" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../Culling3D/')
 			aceutils.call(r'make')
 		else:
-			aceutils.call(r'cmake -G "Unix Makefiles" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../Culling3D/')
+			aceutils.call(r'cmake -G "Unix Makefiles" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF ../Culling3D/')
 			aceutils.call(r'make')
 
 	with aceutils.CurrentDir('culling3d_bin_x64'):
 		if aceutils.isWin():
-			aceutils.call(aceutils.cmd_cmake_x64+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../Culling3D/')
+			aceutils.call(aceutils.cmd_cmake_x64+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF ../Culling3D/')
 			aceutils.call(aceutils.cmd_compile + r'Culling3D.sln /p:configuration=Debug')
 			aceutils.call(aceutils.cmd_compile + r'Culling3D.sln /p:configuration=Release')
 

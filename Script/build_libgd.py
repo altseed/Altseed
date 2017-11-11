@@ -15,7 +15,7 @@ with aceutils.CurrentDir('../Downloads'):
 
 	with aceutils.CurrentDir('gd_bin'):
 		if aceutils.isWin():
-			aceutils.call(aceutils.cmd_cmake + r'../' + pathname + '/')
+			aceutils.call(aceutils.cmd_cmake + r'-DBUILD_STATIC_LIBS=ON ../' + pathname + '/')
 			aceutils.call(aceutils.cmd_compile + r'src/libgd_static.vcxproj /p:configuration=Debug')
 			aceutils.call(aceutils.cmd_compile + r'src/libgd_static.vcxproj /p:configuration=Release')
 		elif aceutils.isMac():
@@ -27,7 +27,7 @@ with aceutils.CurrentDir('../Downloads'):
 
 	with aceutils.CurrentDir('gd_bin_x64'):
 		if aceutils.isWin():
-			aceutils.call(aceutils.cmd_cmake_x64 + r'../' + pathname + '/')
+			aceutils.call(aceutils.cmd_cmake_x64 + r'-DBUILD_STATIC_LIBS=ON ../' + pathname + '/')
 			aceutils.call(aceutils.cmd_compile + r'src/libgd_static.vcxproj /p:configuration=Debug')
 			aceutils.call(aceutils.cmd_compile + r'src/libgd_static.vcxproj /p:configuration=Release')
 
