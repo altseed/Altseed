@@ -1,5 +1,6 @@
 
 import aceutils
+import os.path
 
 aceutils.cdToScript()
 aceutils.mkdir('../Downloads')
@@ -14,8 +15,14 @@ with aceutils.CurrentDir('../Downloads'):
 	with aceutils.CurrentDir('gtest_bin'):
 		if aceutils.isWin():
 			aceutils.call(aceutils.cmd_cmake+r'-D BUILD_SHARED_LIBS:BOOL=OFF ../googletest/')
-			aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Debug')
-			aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Release')
+
+			if os.path.exists('gtest.sln'):
+				aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Debug')
+				aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Release')
+			else:
+				aceutils.call(aceutils.cmd_compile + r'googletest-distribution.sln /p:configuration=Debug')
+				aceutils.call(aceutils.cmd_compile + r'googletest-distribution.sln /p:configuration=Release')
+
 		elif aceutils.isMac():
 			aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev -DBUILD_GTEST=ON -DBUILD_GMOCK=OFF "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../googletest/')
 			aceutils.call(r'make')
@@ -26,19 +33,32 @@ with aceutils.CurrentDir('../Downloads'):
 	with aceutils.CurrentDir('gtest_bin_x64'):
 		if aceutils.isWin():
 			aceutils.call(aceutils.cmd_cmake_x64+r'-D BUILD_SHARED_LIBS:BOOL=OFF ../googletest/')
-			aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Debug')
-			aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Release')
+
+			if os.path.exists('gtest.sln'):
+				aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Debug')
+				aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Release')
+			else:
+				aceutils.call(aceutils.cmd_compile + r'googletest-distribution.sln /p:configuration=Debug')
+				aceutils.call(aceutils.cmd_compile + r'googletest-distribution.sln /p:configuration=Release')
 
 	if aceutils.isWin():
-		aceutils.copy(r'gtest_bin/Debug/gtest.lib', r'../Dev/lib/x86/Debug/gtest.lib')
-		aceutils.copy(r'gtest_bin/Debug/gtest_main.lib', r'../Dev/lib/x86/Debug/gtest_main.lib')
-		aceutils.copy(r'gtest_bin/Release/gtest.lib', r'../Dev/lib/x86/Release/gtest.lib')
-		aceutils.copy(r'gtest_bin/Release/gtest_main.lib', r'../Dev/lib/x86/Release/gtest_main.lib')
+		src_path = 'gtest_bin/googlemock/gtest/'
+		if os.path.exists('gtest_bin/gtest.sln'):
+			src_path = 'gtest_bin/'
 
-		aceutils.copy(r'gtest_bin_x64/Debug/gtest.lib', r'../Dev/lib/x64/Debug/gtest.lib')
-		aceutils.copy(r'gtest_bin_x64/Debug/gtest_main.lib', r'../Dev/lib/x64/Debug/gtest_main.lib')
-		aceutils.copy(r'gtest_bin_x64/Release/gtest.lib', r'../Dev/lib/x64/Release/gtest.lib')
-		aceutils.copy(r'gtest_bin_x64/Release/gtest_main.lib', r'../Dev/lib/x64/Release/gtest_main.lib')
+		aceutils.copy(src_path+r'Debug/gtest.lib', r'../Dev/lib/x86/Debug/gtest.lib')
+		aceutils.copy(src_path+r'Debug/gtest_main.lib', r'../Dev/lib/x86/Debug/gtest_main.lib')
+		aceutils.copy(src_path+r'Release/gtest.lib', r'../Dev/lib/x86/Release/gtest.lib')
+		aceutils.copy(src_path+r'Release/gtest_main.lib', r'../Dev/lib/x86/Release/gtest_main.lib')
+
+		src_path = 'gtest_bin_x64/googlemock/gtest/'
+		if os.path.exists('gtest_bin_x64/gtest.sln'):
+			src_path = 'gtest_bin_x64/'
+
+		aceutils.copy(src_path+r'Debug/gtest.lib', r'../Dev/lib/x64/Debug/gtest.lib')
+		aceutils.copy(src_path+r'Debug/gtest_main.lib', r'../Dev/lib/x64/Debug/gtest_main.lib')
+		aceutils.copy(src_path+r'Release/gtest.lib', r'../Dev/lib/x64/Release/gtest.lib')
+		aceutils.copy(src_path+r'Release/gtest_main.lib', r'../Dev/lib/x64/Release/gtest_main.lib')
 
 	else:
 		aceutils.copy(r'gtest_bin/googletest/libgtest.a', r'../Dev/lib/libgtest.a')
