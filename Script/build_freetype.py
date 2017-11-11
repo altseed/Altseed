@@ -42,9 +42,9 @@ with aceutils.CurrentDir('../Downloads'):
 
 		aceutils.copytree(r'freetype/include/', r'../Dev/include/freetype')
 
-		aceutils.copy(r'freetype_bin/Debug/freetype.lib', r'../Dev/lib/x86/Debug/')
+		aceutils.copy(r'freetype_bin/Debug/freetyped.lib', r'../Dev/lib/x86/Debug/freetype.lib')
 		aceutils.copy(r'freetype_bin/Release/freetype.lib', r'../Dev/lib/x86/Release/')
-		aceutils.copy(r'freetype_bin_x64/Debug/freetype.lib', r'../Dev/lib/x64/Debug/')
+		aceutils.copy(r'freetype_bin_x64/Debug/freetyped.lib', r'../Dev/lib/x64/Debug/freetype.lib')
 		aceutils.copy(r'freetype_bin_x64/Release/freetype.lib', r'../Dev/lib/x64/Release/')
 
 	else:
