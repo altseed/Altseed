@@ -185,6 +185,12 @@ cmd_cmake_x64 = r'cmake -G "Visual Studio 14 Win64" '
 cmd_compile = r'"C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild" '
 cmd_premake5 = os.path.dirname(os.path.abspath(__file__)) + r'/premake5/windows/premake5 vs2015 '
 
+def find_msbuild2017():
+	if os.path.exists(r'C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\MSBuild.exe'):
+		return r'"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\MSBuild.exe" '
+
+	return r'"C:\Program Files (x86)\MSBuild\15.0\Bin\msbuild" '
+
 if isWin():
 	if(len(sys.argv) == 4):
 		# すべて直接指定する
@@ -194,7 +200,7 @@ if isWin():
 	elif(len(sys.argv) == 2 and sys.argv[1] == 'Visual Studio 15'):
 		cmd_cmake = r'cmake -G "Visual Studio 15" '
 		cmd_cmake_x64 = r'cmake -G "Visual Studio 15 Win64" '
-		cmd_compile = r'"C:\Program Files (x86)\MSBuild\15.0\Bin\msbuild" '
+		cmd_compile = find_msbuild2017()
 	elif (len(sys.argv) == 1) or (len(sys.argv) == 2 and sys.argv[1] == 'Visual Studio 14'):
 		# vs2015
 		cmd_cmake = r'cmake -G "Visual Studio 14" '
