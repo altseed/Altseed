@@ -32,7 +32,7 @@ with aceutils.CurrentDir('../Downloads'):
          with aceutils.CurrentDir("box2d_temp/Box2D"):
              aceutils.copy('../../../Script/premake5/windows/premake5.lua.box2d','premake5.lua.box2d')
              aceutils.call(aceutils.cmd_premake5 + r'--file=' + 'premake5.lua.box2d')
-             with aceutils.CurrentDir(r'Build/vs2015'):
+             with aceutils.CurrentDir(r'Build/' + aceutils.premake5_directory):
                  aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Debug /p:outdir=Debug_x86 /p:platform=Win32 /p:RuntimeLibrary=MTd_StaticDebug')
                  aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Release /p:outdir=Release_x86 /p:platform=Win32 /p:RuntimeLibrary=MT_StaticRelease')
                  aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Debug /p:outdir=Debug_x64 /p:platform=x64 /p:RuntimeLibrary=MTd_StaticDebug')
@@ -53,10 +53,10 @@ with aceutils.CurrentDir('../Downloads'):
         aceutils.mkdir(r'../Dev/lib/Release')
         aceutils.copytree(pathname + r'/Box2D/Box2D', r'../Dev/include/Box2D/', True, ignoreList=shutil.ignore_patterns(r'*.txt',r'*.cpp',r'*.cmake'))
         
-        aceutils.copy(r'box2d_temp/Box2D/Build/vs2015/Debug_x86/Box2D.lib', r'../Dev/lib/x86/Debug/')
-        aceutils.copy(r'box2d_temp/Box2D/Build/vs2015/Release_x86/Box2D.lib', r'../Dev/lib/x86/Release/')
-        aceutils.copy(r'box2d_temp/Box2D/Build/vs2015/Debug_x64/Box2D.lib', r'../Dev/lib/x64/Debug/')
-        aceutils.copy(r'box2d_temp/Box2D/Build/vs2015/Release_x64/Box2D.lib', r'../Dev/lib/x64/Release/')
+        aceutils.copy(r'box2d_temp/Box2D/Build/' + aceutils.premake5_directory + r'/Debug_x86/Box2D.lib', r'../Dev/lib/x86/Debug/')
+        aceutils.copy(r'box2d_temp/Box2D/Build/' + aceutils.premake5_directory + r'/Release_x86/Box2D.lib', r'../Dev/lib/x86/Release/')
+        aceutils.copy(r'box2d_temp/Box2D/Build/' + aceutils.premake5_directory + r'/Debug_x64/Box2D.lib', r'../Dev/lib/x64/Debug/')
+        aceutils.copy(r'box2d_temp/Box2D/Build/' + aceutils.premake5_directory + r'/Release_x64/Box2D.lib', r'../Dev/lib/x64/Release/')
 
     elif aceutils.isMac():
         aceutils.copytree(pathname + r'/Box2D/Box2D', r'../Dev/include/Box2D/', True)

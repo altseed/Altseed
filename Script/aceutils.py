@@ -182,8 +182,10 @@ def editCmakeForACE(path,enc='utf-8'):
 # strings
 cmd_cmake = r'cmake -G "Visual Studio 14" '
 cmd_cmake_x64 = r'cmake -G "Visual Studio 14 Win64" '
-cmd_compile = r'"C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild" '
+cmd_compile = r'"C:\Program Files (x86)\MSBuild\14.0\bin\msbuild" '
 cmd_premake5 = os.path.dirname(os.path.abspath(__file__)) + r'/premake5/windows/premake5 vs2015 '
+
+premake5_directory = 'vs2015'
 
 def find_msbuild2017():
 	if os.path.exists(r'C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\MSBuild.exe'):
@@ -201,6 +203,8 @@ if isWin():
 		cmd_cmake = r'cmake -G "Visual Studio 15" '
 		cmd_cmake_x64 = r'cmake -G "Visual Studio 15 Win64" '
 		cmd_compile = find_msbuild2017()
+		premake5_directory = 'vs2017'
+
 	elif (len(sys.argv) == 1) or (len(sys.argv) == 2 and sys.argv[1] == 'Visual Studio 14'):
 		# vs2015
 		cmd_cmake = r'cmake -G "Visual Studio 14" '
@@ -211,14 +215,10 @@ if isWin():
 		cmd_cmake = r'cmake -G "Visual Studio 12" '
 		cmd_cmake_x64 = r'cmake -G "Visual Studio 12 Win64" '
 		cmd_compile = r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" '
-	elif (len(sys.argv) == 3 and sys.argv[2] == 'Visual Studio 12'):
-		# vs2013
-		cmd_cmake = r'cmake -G "Visual Studio 12" '
-		cmd_cmake_x64 = r'cmake -G "Visual Studio 12 Win64" '
-		cmd_compile = r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" '
 
 	if 'Visual Studio 15' in sys.argv:
 		cmd_premake5 = os.path.dirname(os.path.abspath(__file__)) + r'/premake5/windows/premake5 vs2017 '
+		premake5_directory = 'vs2017'
 
 elif isMac():
 	cmd_premake5 = os.path.dirname(os.path.abspath(__file__)) + r'/premake5/macosx/premake5 '
