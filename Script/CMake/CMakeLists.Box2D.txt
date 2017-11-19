@@ -21,8 +21,11 @@ endif()
 
 FILE(GLOB_RECURSE Box2D_src Box2D/*.cpp)
 
+include_directories(./)
+
 # コンパイル先を追加
 add_library( Box2D STATIC ${Box2D_src} )
+
 
 # フラグ処理
 if (MSVC)

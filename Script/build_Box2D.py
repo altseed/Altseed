@@ -17,26 +17,29 @@ with aceutils.CurrentDir('../Downloads'):
 
     aceutils.rmdir(r"box2d_temp/.git/")
 
+
     aceutils.rmdir(r"box2d_bin")
+    aceutils.rmdir(r"box2d_bin_x64")
     
     if aceutils.isWin() or aceutils.isMac():
-        print("Not edit")
+        aceutils.copy('../Script/CMake/CMakeLists.Box2D.txt','box2d_temp/Box2D/CMakeLists.txt')
     else:
         aceutils.editCmakeForACE(r'box2d_temp/Box2D/CMakeLists.txt','cp932')
         aceutils.editCmakeForACE(r'box2d_temp/Box2D/Box2D/CMakeLists.txt','cp932')
     aceutils.mkdir(r"box2d_bin")
+    aceutils.mkdir(r"box2d_bin_x64")
 
     pathname = r"box2d_temp/"
 
     if aceutils.isWin():
-         with aceutils.CurrentDir("box2d_temp/Box2D"):
-             aceutils.copy('../../../Script/premake5/windows/premake5.lua.box2d','premake5.lua.box2d')
-             aceutils.call(aceutils.cmd_premake5 + r'--file=' + 'premake5.lua.box2d')
-             with aceutils.CurrentDir(r'Build/' + aceutils.premake5_directory):
-                 aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Debug /p:outdir=Debug_x86 /p:platform=Win32 /p:RuntimeLibrary=MTd_StaticDebug')
-                 aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Release /p:outdir=Release_x86 /p:platform=Win32 /p:RuntimeLibrary=MT_StaticRelease')
-                 aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Debug /p:outdir=Debug_x64 /p:platform=x64 /p:RuntimeLibrary=MTd_StaticDebug')
-                 aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Release /p:outdir=Release_x64 /p:platform=x64 /p:RuntimeLibrary=MT_StaticRelease')
+        with aceutils.CurrentDir("box2d_bin"):
+            aceutils.call(aceutils.cmd_cmake+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF ../Box2d_temp/Box2D/')
+            aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Debug')
+            aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Release')
+        with aceutils.CurrentDir("box2d_bin_x64"):
+            aceutils.call(aceutils.cmd_cmake_x64+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF ../Box2d_temp/Box2D/')
+            aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Debug')
+            aceutils.call(aceutils.cmd_compile + r'Box2D.sln /p:configuration=Release')
 
     elif aceutils.isMac():
         with aceutils.CurrentDir("box2d_temp/Box2D"):
@@ -53,10 +56,10 @@ with aceutils.CurrentDir('../Downloads'):
         aceutils.mkdir(r'../Dev/lib/Release')
         aceutils.copytree(pathname + r'/Box2D/Box2D', r'../Dev/include/Box2D/', True, ignoreList=shutil.ignore_patterns(r'*.txt',r'*.cpp',r'*.cmake'))
         
-        aceutils.copy(r'box2d_temp/Box2D/Build/' + aceutils.premake5_directory + r'/Debug_x86/Box2D.lib', r'../Dev/lib/x86/Debug/')
-        aceutils.copy(r'box2d_temp/Box2D/Build/' + aceutils.premake5_directory + r'/Release_x86/Box2D.lib', r'../Dev/lib/x86/Release/')
-        aceutils.copy(r'box2d_temp/Box2D/Build/' + aceutils.premake5_directory + r'/Debug_x64/Box2D.lib', r'../Dev/lib/x64/Debug/')
-        aceutils.copy(r'box2d_temp/Box2D/Build/' + aceutils.premake5_directory + r'/Release_x64/Box2D.lib', r'../Dev/lib/x64/Release/')
+        aceutils.copy(r'box2d_bin/Debug/Box2D.lib', r'../Dev/lib/x86/Debug/')
+        aceutils.copy(r'box2d_bin/Release/Box2D.lib', r'../Dev/lib/x86/Release/')
+        aceutils.copy(r'box2d_bin_x64/Debug/Box2D.lib', r'../Dev/lib/x64/Debug/')
+        aceutils.copy(r'box2d_bin_x64/Release/Box2D.lib', r'../Dev/lib/x64/Release/')
 
     elif aceutils.isMac():
         aceutils.copytree(pathname + r'/Box2D/Box2D', r'../Dev/include/Box2D/', True)
