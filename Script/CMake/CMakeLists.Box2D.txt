@@ -1,0 +1,59 @@
+# Debug Releaseに限定
+set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE TYPE INTERNAL FORCE )
+
+# プロジェクト名
+project(Box2D)
+
+# CMake バージョンチェック
+cmake_minimum_required(VERSION 2.8)
+
+# MSVC向け設定
+if (MSVC)
+	option(USE_MSVC_RUNTIME_LIBRARY_DLL "Use MSVC runtime library DLL" OFF)
+endif()
+
+# コンパイル設定
+if (MSVC)
+	# 特に何も
+else()
+	set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC" ${CMAKE_CXX_FLAGS})
+endif()
+
+FILE(GLOB_RECURSE Box2D_src Box2D/*.cpp)
+
+# コンパイル先を追加
+add_library( Box2D STATIC ${Box2D_src} )
+
+# フラグ処理
+if (MSVC)
+	if (NOT USE_MSVC_RUNTIME_LIBRARY_DLL)
+		foreach (flag CMAKE_C_FLAGS
+			CMAKE_C_FLAGS_DEBUG
+			CMAKE_C_FLAGS_RELEASE
+			CMAKE_CXX_FLAGS
+			CMAKE_CXX_FLAGS_DEBUG
+			CMAKE_CXX_FLAGS_RELEASE)
+
+			if (${flag} MATCHES "/MD")
+				string(REGEX REPLACE "/MD" "/MT" ${flag} "${${flag}}")
+			endif()
+			if (${flag} MATCHES "/MDd")
+				string(REGEX REPLACE "/MDd" "/MTd" ${flag} "${${flag}}")
+			endif()
+		endforeach()
+	endif()
+endif()
+
+
+# 出力先の設定
+if (MSVC)
+set_target_properties(Box2D PROPERTIES OUTPUT_NAME_DEBUG "Box2D" )
+set_target_properties(Box2D PROPERTIES OUTPUT_NAME_RELEASE "Box2D" )
+else()
+set_target_properties(Box2D PROPERTIES OUTPUT_NAME "Box2D" )
+endif()
+
+install(
+	TARGETS Box2D
+	ARCHIVE DESTINATION lib
+	LIBRARY DESTINATION lib)
