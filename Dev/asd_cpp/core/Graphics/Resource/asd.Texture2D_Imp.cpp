@@ -10,6 +10,7 @@
 #include <pngstruct.h>
 #include <pnginfo.h>
 
+/*
 #ifdef _v120
 #ifdef _WIN64
 
@@ -33,8 +34,9 @@
 
 #endif
 #endif
+*/
 
-#ifdef _v140
+//#ifdef _v140
 #ifdef _WIN64
 
 #if _DEBUG
@@ -56,7 +58,7 @@
 #endif
 
 #endif
-#endif
+//#endif
 
 //----------------------------------------------------------------------------------
 //
