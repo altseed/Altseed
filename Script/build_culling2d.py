@@ -57,5 +57,5 @@ with aceutils.CurrentDir('../Downloads'):
 		aceutils.copy(r'Culling2D/Culling2D/Culling2D.h', r'../Dev/include/')
 		aceutils.copy(r'Culling2D/Culling2D_AABB/src/Culling2D_AABB.h', r'../Dev/include/')
 
-		aceutils.copy(r'culling2d_bin/bin/libCulling2D_AABB.a', r'../Dev/lib/')
-		aceutils.copy(r'culling2d_bin/bin/libCulling2D.a', r'../Dev/lib/')
+		aceutils.copy(r'culling2d_bin/libCulling2D_AABB.a', r'../Dev/lib/')
+		aceutils.copy(r'culling2d_bin/libCulling2D.a', r'../Dev/lib/')
