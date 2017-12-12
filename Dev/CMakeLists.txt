@@ -93,7 +93,7 @@ else()
 	list(APPEND common_lib OpenSoundMixer )
 
 	list(APPEND common_lib Culling2D )
-	list(APPEND common_lib Culling2D_AABB.lib )
+	list(APPEND common_lib Culling2D_AABB )
 
 	list(APPEND common_lib Culling3D )
 
