@@ -339,6 +339,35 @@ void ImageHelper::SavePNGImage(const achar* filepath, int32_t width, int32_t hei
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+
+struct ReadPNGStruct
+{
+	int32_t	Width = 0;
+	int32_t Height = 0;
+	std::vector<uint8_t>*	DstPtr = nullptr;
+	bool Rev = false;
+};
+
+void readPNGImage(const uint8_t* data, int32_t width, int32_t height, void* userData)
+{
+	auto s = (ReadPNGStruct*)userData;
+	s->Width = width;
+	s->Height = height;
+	s->DstPtr->resize(width * height * 4);
+
+	if (s->Rev)
+	{
+		for (auto y = 0; y < height; y++)
+		{
+			memcpy(s->DstPtr->data() + (y * 4 * width), data + ((height - 1 - y) * 4 * width), width * 4);
+		}
+	}
+	else
+	{
+		memcpy(s->DstPtr->data(), data, width * height * 4);
+	}
+}
+
 bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, std::vector<uint8_t>& imagedst, Log* log)
 {
 	imagewidth = 0;
