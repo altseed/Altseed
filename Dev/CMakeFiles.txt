@@ -1,5 +1,4 @@
-set(common_to_engine_src
-
+set(common_to_engine_src
 	asd_cpp/common/asd.common.cpp
 	asd_cpp/common/Graphics/asd.Color.cpp
 	asd_cpp/common/Graphics/Font/asd.AffHeader.cpp
@@ -15,11 +14,9 @@ set(common_to_engine_src
 	asd_cpp/common/Math/asd.Vector3DF.cpp
 	asd_cpp/common/Math/asd.Vector4DF.cpp
 	asd_cpp/common/Utility/asd.PointerArray.cpp
-)
-
-
-set(core_src
-
+)
+
+set(core_src
 	asd_cpp/core/3rdParty/nv_dds/nv_dds.cpp
 	asd_cpp/core/3rdParty/poly2tri/common/shapes.cpp
 	asd_cpp/core/3rdParty/poly2tri/sweep/advancing_front.cpp
@@ -30,6 +27,13 @@ set(core_src
 	asd_cpp/core/asd.Core.Base_Imp.cpp
 	asd_cpp/core/asd.ReferenceObject.cpp
 	asd_cpp/core/asd.StructTranslator.cpp
+	asd_cpp/core/Collision/2D/asd.CoreCircleCollider_Imp.cpp
+	asd_cpp/core/Collision/2D/asd.CoreCollider2D_Imp.cpp
+	asd_cpp/core/Collision/2D/asd.CoreCollision2D.cpp
+	asd_cpp/core/Collision/2D/asd.CoreCollision2DManager.cpp
+	asd_cpp/core/Collision/2D/asd.CoreLineCollider_Imp.cpp
+	asd_cpp/core/Collision/2D/asd.CorePolygonCollider_Imp.cpp
+	asd_cpp/core/Collision/2D/asd.CoreRectangleCollider_Imp.cpp
 	asd_cpp/core/Core/asd.Core_Imp.cpp
 	asd_cpp/core/Core/asd.CreateCore.cpp
 	asd_cpp/core/dll.cxx
@@ -68,8 +72,8 @@ set(core_src
 	asd_cpp/core/Graphics/Command/asd.RenderingCommandExecutor.cpp
 	asd_cpp/core/Graphics/Command/asd.RenderingCommandFactory.cpp
 	asd_cpp/core/Graphics/Command/asd.RenderingCommandHelper.cpp
-	asd_cpp/core/Graphics/Helper/asd.GifAnimationHelper.cpp
 	asd_cpp/core/Graphics/Helper/asd.EffekseerHelper.cpp
+	asd_cpp/core/Graphics/Helper/asd.GifAnimationHelper.cpp
 	asd_cpp/core/Graphics/Resource/asd.CubemapTexture_Imp.cpp
 	asd_cpp/core/Graphics/Resource/asd.DepthBuffer_Imp.cpp
 	asd_cpp/core/Graphics/Resource/asd.Effect_Imp.cpp
@@ -145,12 +149,10 @@ set(core_src
 	asd_cpp/core/Utils/asd.ResourceContainer.cpp
 	asd_cpp/core/Window/asd.Cursor_Imp.cpp
 	asd_cpp/core/Window/asd.Window_Imp.cpp
-)
-
-
-
-set(dx11_src
-
+)
+
+set(dx11_src
+	asd_cpp/core/3rdParty/DirectXToolKit/DDSTextureLoader.cpp
 	asd_cpp/core/Graphics/Platform/DX11/asd.Graphics_Imp_DX11.cpp
 	asd_cpp/core/Graphics/Platform/DX11/Resource/asd.CubemapTexture_Imp_DX11.cpp
 	asd_cpp/core/Graphics/Platform/DX11/Resource/asd.DepthBuffer_Imp_DX11.cpp
@@ -159,12 +161,9 @@ set(dx11_src
 	asd_cpp/core/Graphics/Platform/DX11/Resource/asd.RenderTexture2D_Imp_DX11.cpp
 	asd_cpp/core/Graphics/Platform/DX11/Resource/asd.Texture2D_Imp_DX11.cpp
 	asd_cpp/core/Graphics/Platform/DX11/Resource/asd.VertexBuffer_Imp_DX11.cpp
-)
-
-
-
-set(gl_src
-
+)
+
+set(gl_src
 	asd_cpp/core/Graphics/Platform/GL/asd.Graphics_Imp_GL.cpp
 	asd_cpp/core/Graphics/Platform/GL/Resource/asd.CubemapTexture_Imp_GL.cpp
 	asd_cpp/core/Graphics/Platform/GL/Resource/asd.DepthBuffer_Imp_GL.cpp
@@ -173,20 +172,21 @@ set(gl_src
 	asd_cpp/core/Graphics/Platform/GL/Resource/asd.RenderTexture2D_Imp_GL.cpp
 	asd_cpp/core/Graphics/Platform/GL/Resource/asd.Texture2D_Imp_GL.cpp
 	asd_cpp/core/Graphics/Platform/GL/Resource/asd.VertexBuffer_Imp_GL.cpp
-)
-
-
-
-set(win_src
-
-	asd_cpp/core/Window/asd.Window_Imp_Win.cpp
-)
-
-
-
-set(engine_src
-
+)
+
+set(win_src
+)
+
+set(x11_src
+)
+
+set(engine_src
 	asd_cpp/engine/asd.Engine.cpp
+	asd_cpp/engine/Collision/2D/asd.CircleCollider.cpp
+	asd_cpp/engine/Collision/2D/asd.Collider2D.cpp
+	asd_cpp/engine/Collision/2D/asd.LineCollider.cpp
+	asd_cpp/engine/Collision/2D/asd.PolygonCollider.cpp
+	asd_cpp/engine/Collision/2D/asd.RectangleCollider.cpp
 	asd_cpp/engine/ObjectSystem/2D/asd.CameraObject2D.cpp
 	asd_cpp/engine/ObjectSystem/2D/asd.Chip2D.cpp
 	asd_cpp/engine/ObjectSystem/2D/asd.DrawnObject2D.cpp
@@ -218,6 +218,7 @@ set(engine_src
 	asd_cpp/engine/ObjectSystem/PostEffect/asd.PostEffectSepia.cpp
 	asd_cpp/engine/ObjectSystem/Transition/asd.Transition.cpp
 	asd_cpp/engine/ObjectSystem/Transition/asd.TransitionFade.cpp
+	asd_cpp/engine/ObjectSystem/Transition/TransitionState.cpp
 	asd_cpp/engine/PCH/asd.Engine.PCH.cpp
 	asd_cpp/engine/Shape/asd.ArcShape.cpp
 	asd_cpp/engine/Shape/asd.CircleShape.cpp
@@ -226,12 +227,9 @@ set(engine_src
 	asd_cpp/engine/Shape/asd.RectangleShape.cpp
 	asd_cpp/engine/Shape/asd.Shape.cpp
 	asd_cpp/engine/Shape/asd.TriangleShape.cpp
-)
-
-
-
-set(fontGenerator_src
-
+)
+
+set(fontGenerator_src
 	FontGenerator/FontGeneratorCore/DLL.cpp
 	FontGenerator/FontGeneratorCore/dll_cs.cxx
 	FontGenerator/FontGeneratorCore/FontData.cpp
@@ -244,7 +242,5 @@ set(fontGenerator_src
 	FontGenerator/FontGeneratorCore/Rendering/RasterizedGlyph.cpp
 	FontGenerator/FontGeneratorCore/Rendering/SettingForRendering.cpp
 	FontGenerator/FontGeneratorCore/Rendering/Span.cpp
-)
-
-
-
+)
+
