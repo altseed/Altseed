@@ -1326,6 +1326,48 @@ namespace asd {
 	}
 
 	/// <summary>
+	/// 2Dコライダの形状タイプ 
+	///	</summary>
+	public enum Collider2DShapeType : int
+	{
+		/// <summary>
+		/// 円形 
+		/// </summary>
+		Circle = asd.swig.Collider2DShapeType.Circle,
+		/// <summary>
+		/// 矩形 
+		/// </summary>
+		Rectangle = asd.swig.Collider2DShapeType.Rectangle,
+		/// <summary>
+		/// 線形 
+		/// </summary>
+		Line = asd.swig.Collider2DShapeType.Line,
+		/// <summary>
+		/// ポリゴン 
+		/// </summary>
+		Polygon = asd.swig.Collider2DShapeType.Polygon,
+	}
+
+	/// <summary>
+	/// 
+	///	</summary>
+	public enum CollisionType : int
+	{
+		/// <summary>
+		/// 
+		/// </summary>
+		Enter = asd.swig.CollisionType.Enter,
+		/// <summary>
+		/// 
+		/// </summary>
+		Stay = asd.swig.CollisionType.Stay,
+		/// <summary>
+		/// 
+		/// </summary>
+		Exit = asd.swig.CollisionType.Exit,
+	}
+
+	/// <summary>
 	/// オブジェクトの親子関係の同期方法を表す列挙体 
 	///	</summary>
 	public enum ChildTransformingMode : int

@@ -6,13 +6,6 @@ using System.Threading.Tasks;
 
 namespace asd
 {
-    public enum CollisionType
-    {
-        Enter = asd.swig.CollisionType.Enter,
-        Stay = asd.swig.CollisionType.Stay,
-        Exit = asd.swig.CollisionType.Exit
-    }
-
     /// <summary>
     /// 
     /// </summary>
