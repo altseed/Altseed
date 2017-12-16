@@ -29,11 +29,12 @@ namespace FontGenerator
 
 	static vector<achar> ToUtf16(const char* str, int length)
 	{
-		char buffer[65536];
-		int bufferSize = sizeof(buffer);
-		memset(buffer, 0, bufferSize);
+		std::vector<char> buffer;
+		buffer.resize(length * 4);
+		int bufferSize = length * 4;
+		memset(buffer.data(), 0, bufferSize);
 
-		Convert("-w16", buffer, bufferSize, str, length);
+		Convert("-w16", buffer.data(), bufferSize, str, length);
 
 		vector<achar> result;
 		for (size_t i = 0; i <= bufferSize - 2; i += 2)
