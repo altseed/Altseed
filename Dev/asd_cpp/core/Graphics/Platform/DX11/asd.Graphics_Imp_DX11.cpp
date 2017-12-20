@@ -770,6 +770,12 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle1, void
         }
 	}
 	
+	if (window_ != nullptr)
+	{
+		// For retina
+		window_->GetWindow()->GetFrameBufferSize(width, height);
+	}
+
 	manager = ar::Manager::Create((ar::GraphicsDeviceType)option.GraphicsDevice);
 	ar::ManagerInitializationParameter initParam;
 	initParam.WindowWidth = width;
@@ -837,13 +843,6 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle1, void
 	else if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
 	{
 		writeLogHeading(ToAString("初期化成功(OpenGL)"));
-	}
-
-
-	if (window_ != nullptr)
-	{
-		// For retina
-		window_->GetWindow()->GetFrameBufferSize(width, height);
 	}
 
 	return new Graphics_Imp_DX11(
