@@ -43,6 +43,7 @@ CPP_OBJECT( asd::CoreArcShape )
 CPP_OBJECT( asd::CoreLineShape )
 CPP_OBJECT( asd::CoreTriangleShape )
 CPP_OBJECT( asd::CoreRectangleShape )
+CPP_OBJECT( asd::CorePolygonShape )
 
 CPP_OBJECT( asd::CoreCollision2D )
 CPP_OBJECT( asd::CoreCollider2D )
