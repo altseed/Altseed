@@ -55,6 +55,14 @@
 * [多角形](./Shape/PolygonShape.md)
 * [線分](./Shape/LineShape.md)
 
+#### 2D衝突判定
+
+* [2Dコライダ](./Collider2D/Collider2D.md)
+* [円形コライダ](./Collider2D/CircleCollider.md)
+* [線分コライダ](./Collider2D/LineCollider.md)
+* [矩形コライダ](./Collider2D/RectangleCollider.md)
+* [多角形コライダ](./Collider2D/PolygonCollider.md)
+
 #### 3D
 
 * 開発中
