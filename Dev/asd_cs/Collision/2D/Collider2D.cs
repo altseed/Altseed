@@ -91,7 +91,7 @@ namespace asd
         /// <summary>
         /// このコライダを可視化する成否を取得、または設定する
         /// </summary>
-        public bool Visible
+        public bool IsVisible
         {
             get
             {

@@ -18,7 +18,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 
                 var rectCollider = new RectangleCollider();
                 rectCollider.Area = new RectF(0, 0, 100, 100);
-                rectCollider.Visible = true;
+                rectCollider.IsVisible = true;
                 rectCollider.Tag = "A";
                 AddCollider(rectCollider);
 
@@ -27,14 +27,14 @@ namespace unitTest_Engine_cs.ObjectSystem2D
                 lineCollider.EndingPosition = new Vector2DF(200, 200);
                 lineCollider.Thickness = 10;
                 lineCollider.Tag = "B";
-                lineCollider.Visible = true;
+                lineCollider.IsVisible = true;
                 AddCollider(lineCollider);
 
                 var circleCollider = new CircleCollider();
                 circleCollider.Center = new Vector2DF(300, 300);
                 circleCollider.Radius = 90;
                 circleCollider.Tag = "C";
-                circleCollider.Visible = true;
+                circleCollider.IsVisible = true;
                 AddCollider(circleCollider);
 
                 Scale = new Vector2DF(0.5f, 0.5f);
@@ -79,7 +79,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
                 var rectCollider = new RectangleCollider();
                 rectCollider.Area = new RectF(0, 0, 100, 100);
                 rectCollider.Tag = "D";
-                rectCollider.Visible = true;
+                rectCollider.IsVisible = true;
                 AddCollider(rectCollider);
                 Scale = new Vector2DF(0.5f, 0.5f);
             }

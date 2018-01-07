@@ -43,13 +43,13 @@ namespace asd
         }
 
         /// <summary>
-        /// 円の中心座標を取得する
+        /// このポリゴンが正当か否かを取得する
         /// </summary>
         public bool IsValid
         {
             get
             {
-                return coreCollider.IsValid();
+                return coreCollider.GetIsValid();
             }
         }
 

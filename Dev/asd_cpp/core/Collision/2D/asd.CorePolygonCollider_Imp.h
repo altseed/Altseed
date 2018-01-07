@@ -23,7 +23,7 @@ namespace asd
 		CorePolygonCollider_Imp();
 		virtual ~CorePolygonCollider_Imp();
 
-		bool IsValid() override;
+		bool GetIsValid() override;
 		void AddVertex(Vector2DF vertex) override;
 		void ClearVertexes() override;
 		int GetVertexesNum() const override;

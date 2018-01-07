@@ -13,8 +13,8 @@ namespace asd {
 
 	}
 
-	bool CorePolygonCollider_Imp::IsValid() {
-		return false;
+	bool CorePolygonCollider_Imp::GetIsValid() {
+		return b2polygonShape.Validate();
 	}
 
 	void CorePolygonCollider_Imp::AddVertex(Vector2DF vertex) {

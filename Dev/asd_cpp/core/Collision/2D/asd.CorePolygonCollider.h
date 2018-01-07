@@ -12,7 +12,7 @@ namespace asd {
 		CorePolygonCollider() {}
 		virtual ~CorePolygonCollider() {}
 
-		virtual bool IsValid() = 0;
+		virtual bool GetIsValid() = 0;
 		virtual void AddVertex(Vector2DF vertex) = 0;
 		virtual void ClearVertexes() = 0;
 		virtual int GetVertexesNum() const = 0;
