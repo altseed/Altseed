@@ -41,7 +41,7 @@ namespace asd
                 CoreShape = null;
             }
 
-            disposed = false;
+            disposed = true;
         }
         #endregion
 

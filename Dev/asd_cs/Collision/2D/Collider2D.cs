@@ -43,7 +43,7 @@ namespace asd
                 CoreCollider = null;
             }
 
-            disposed = false;
+            disposed = true;
         }
         #endregion
 
