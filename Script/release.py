@@ -214,7 +214,7 @@ def release_cpp():
 
 	# Doxygen
 	aceutils.call(r'doxygen Script/Doxyfile_cpp')
-	aceutils.copytree(r'Reference_CPP/html/', targetDir+r'/Reference_CPP')
+	aceutils.copytree(r'Doxygen_CPP/html/', targetDir+r'/Reference_CPP')
 
 	# Readme
 	aceutils.copy(r'readme_cpp.txt', targetDir+r'/readme.txt')
