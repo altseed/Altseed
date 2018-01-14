@@ -4,6 +4,11 @@
 
 namespace asd
 {
+
+	class Scene;
+	class Object2D;
+	class Object3D;
+
 	/**
 	@brief	2Dのコライダクラス
 	*/

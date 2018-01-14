@@ -19,7 +19,7 @@ namespace asd {
 		@brief	このポリゴンが正しい形式であることの成否を取得する
 		@return	このポリゴンが正しい形式であることの成否
 		*/
-		bool IsValid();
+		bool GetIsValid();
 
 		/**
 		@brief	このポリゴンに新たな頂点を追加する

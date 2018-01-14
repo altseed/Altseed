@@ -12,8 +12,8 @@ namespace asd {
 
 	}
 
-	bool PolygonCollider::IsValid() {
-		return coreObject->IsValid();
+	bool PolygonCollider::GetIsValid() {
+		return coreObject->GetIsValid();
 	}
 
 	void PolygonCollider::AddVertex(Vector2DF vertex) {
