@@ -11,10 +11,40 @@ namespace FontGenerator
 		auto error = FT_Init_FreeType(&m_library);
 		ACE_ASSERT(!error, "FreeTypeの初期化に失敗しました");
 
+		
+#ifdef _WIN32
+		FILE* fp = nullptr;
+
+		_wfopen_s(&fp, (const wchar_t*)fontPath.c_str(), L"rb");
+		if (fp != nullptr)
+		{
+			fseek(fp, 0, SEEK_END);
+			auto size = ftell(fp);
+			fseek(fp, 0, SEEK_SET);
+
+			
+			fontBuffer.resize(size);
+
+			fread(fontBuffer.data(), 1, size, fp);
+			fclose(fp);
+
+			error = FT_New_Memory_Face(
+				m_library,
+				fontBuffer.data(),
+				size,
+				0,
+				&m_face);
+			ACE_ASSERT(!error, "Faceの初期化に失敗しました");
+		}
+		else
+		{
+			ACE_ASSERT(fp != nullptr, "Faceの初期化に失敗しました");
+		}
+#else
 		auto path = ToUtf8String(fontPath.c_str());
 		error = FT_New_Face(m_library, path.c_str(), 0, &m_face);
 		ACE_ASSERT(!error, "Faceの初期化に失敗しました");
-
+#endif
 		SetFontSize(16);
 	}
 

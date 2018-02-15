@@ -15,6 +15,7 @@ namespace FontGenerator
 		FT_Library m_library;
 		FT_Face m_face;
 		int m_fontSize;
+		std::vector<uint8_t> fontBuffer;
 
 	public:
 		typedef std::shared_ptr<Font> Ptr;
