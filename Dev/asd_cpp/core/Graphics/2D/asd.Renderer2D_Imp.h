@@ -75,6 +75,7 @@ namespace asd {
 				struct DrawSprite
 				{
 					vector2DF	Positions[4];
+					bool		IsLinearColor;
 					color		Colors[4];
 					vector2DF	UV[4];
 					Texture2D*	TexturePtr;
@@ -142,6 +143,9 @@ namespace asd {
 
 		Effekseer::Manager*						m_effectManager = nullptr;
 		EffekseerRenderer::Renderer*			m_effectRenderer = nullptr;
+
+		std::array<uint8_t, 256>				linearColorLookUpTable;
+		std::array<uint8_t, 256>				gammaColorLookUpTable;
 
 	public:
 		Renderer2D_Imp(Graphics* graphics, Log* log);

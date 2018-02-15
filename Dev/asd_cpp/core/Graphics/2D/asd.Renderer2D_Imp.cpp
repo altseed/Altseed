@@ -153,6 +153,13 @@ namespace asd {
 
 			m_effectManager->SetSetting(m_graphics->GetEffectSetting());
 		}
+
+		// Create Linear, Gamma lookup table
+		for (int32_t i = 0; i < 256; i++)
+		{
+			linearColorLookUpTable[i] = (std::pow(i / 255.0f, 2.2f) * 255.0f);
+			gammaColorLookUpTable[i] = (std::pow(i / 255.0f, 1.0f / 2.2f) * 255.0f);
+		}
 	}
 
 	//----------------------------------------------------------------------------------
@@ -282,6 +289,7 @@ namespace asd {
 		Event e;
 		e.Type = Event::EventType::Sprite;
 
+		e.Data.Sprite.IsLinearColor = false;
 		memcpy(e.Data.Sprite.Positions, positions, sizeof(asd::Vector2DF) * 4);
 		memcpy(e.Data.Sprite.Colors, colors, sizeof(asd::Color) * 4);
 		memcpy(e.Data.Sprite.UV, uv, sizeof(asd::Vector2DF) * 4);
@@ -546,10 +554,41 @@ namespace asd {
 				buf[ind + i].Position.Z = 0.5f;
 				buf[ind + i].UV.X = e->Data.Sprite.UV[i].X;
 				buf[ind + i].UV.Y = e->Data.Sprite.UV[i].Y;
-				buf[ind + i].Color_.R = e->Data.Sprite.Colors[i].R;
-				buf[ind + i].Color_.G = e->Data.Sprite.Colors[i].G;
-				buf[ind + i].Color_.B = e->Data.Sprite.Colors[i].B;
-				buf[ind + i].Color_.A = e->Data.Sprite.Colors[i].A;
+
+				if (m_graphics->GetOption().ColorSpace == ColorSpaceType::GammaSpace)
+				{
+					if (e->Data.Sprite.IsLinearColor)
+					{
+						buf[ind + i].Color_.R = gammaColorLookUpTable[e->Data.Sprite.Colors[i].R];
+						buf[ind + i].Color_.G = gammaColorLookUpTable[e->Data.Sprite.Colors[i].G];
+						buf[ind + i].Color_.B = gammaColorLookUpTable[e->Data.Sprite.Colors[i].B];
+						buf[ind + i].Color_.A = e->Data.Sprite.Colors[i].A;
+					}
+					else
+					{
+						buf[ind + i].Color_.R = e->Data.Sprite.Colors[i].R;
+						buf[ind + i].Color_.G = e->Data.Sprite.Colors[i].G;
+						buf[ind + i].Color_.B = e->Data.Sprite.Colors[i].B;
+						buf[ind + i].Color_.A = e->Data.Sprite.Colors[i].A;
+					}
+				}
+				else
+				{
+					if (e->Data.Sprite.IsLinearColor)
+					{
+						buf[ind + i].Color_.R = e->Data.Sprite.Colors[i].R;
+						buf[ind + i].Color_.G = e->Data.Sprite.Colors[i].G;
+						buf[ind + i].Color_.B = e->Data.Sprite.Colors[i].B;
+						buf[ind + i].Color_.A = e->Data.Sprite.Colors[i].A;
+					}
+					else
+					{
+						buf[ind + i].Color_.R = linearColorLookUpTable[e->Data.Sprite.Colors[i].R];
+						buf[ind + i].Color_.G = linearColorLookUpTable[e->Data.Sprite.Colors[i].G];
+						buf[ind + i].Color_.B = linearColorLookUpTable[e->Data.Sprite.Colors[i].B];
+						buf[ind + i].Color_.A = e->Data.Sprite.Colors[i].A;
+					}
+				}
 			}
 
 			// マテリアルモードではシェーダーで行列計算をしないため、CPUで計算
