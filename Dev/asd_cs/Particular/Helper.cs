@@ -20,9 +20,9 @@ namespace asd.Particular
 
 			if (device == GraphicsDeviceType.DirectX11)
 			{
-				if (!HasDLL("D3DCOMPILER_43.dll"))
+				if (!HasDLL("D3DCOMPILER_47.dll"))
 				{
-					System.Windows.Forms.MessageBox.Show("最新のDirectXEndUserRuntimeをインストールしてください。");
+					System.Windows.Forms.MessageBox.Show("Windows Updateをしてください。");
 					return false;
 				}
 			}

@@ -202,9 +202,9 @@ namespace asd
 	bool Engine::CheckDLL()
 	{
 #if _WIN32
-		if (!HasDLL("D3DCOMPILER_43.dll"))
+		if (!HasDLL("D3DCOMPILER_47.dll"))
 		{
-			MessageBoxA(nullptr, "最新のDirectXEndUserRuntime？をインストールしてください。", "Error", MB_OK);
+			MessageBoxA(nullptr, "WindowsUpdateをインストールしてください。", "Error", MB_OK);
 			return false;
 		}
 #endif
