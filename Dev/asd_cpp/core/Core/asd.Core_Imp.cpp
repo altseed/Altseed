@@ -425,6 +425,8 @@ namespace asd
 			}
 		}
 
+		synchronizer->Update();
+
 		if (m_isInitializedByExternal)
 		{
 			return true;

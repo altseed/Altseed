@@ -621,6 +621,8 @@
     <ClInclude Include="..\core\Sound\asd.SoundSource_Imp.h" />
     <ClInclude Include="..\core\Sound\asd.Sound_Imp.h" />
     <ClInclude Include="..\core\Utils\asd.ResourceContainer.h" />
+    <ClInclude Include="..\core\Utils\asd.Synchronizer.h" />
+    <ClInclude Include="..\core\Utils\IAsyncResource.h" />
     <ClInclude Include="..\core\Window\asd.Cursor.h" />
     <ClInclude Include="..\core\Window\asd.Cursor_Imp.h" />
     <ClInclude Include="..\core\Window\asd.Window.h" />
@@ -790,6 +792,7 @@
     <ClCompile Include="..\core\Sound\asd.SoundSource_Imp.cpp" />
     <ClCompile Include="..\core\Sound\asd.Sound_Imp.cpp" />
     <ClCompile Include="..\core\Utils\asd.ResourceContainer.cpp" />
+    <ClCompile Include="..\core\Utils\asd.Synchronizer.cpp" />
     <ClCompile Include="..\core\Window\asd.Cursor_Imp.cpp" />
     <ClCompile Include="..\core\Window\asd.Window_Imp.cpp" />
   </ItemGroup>

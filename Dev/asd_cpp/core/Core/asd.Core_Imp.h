@@ -7,6 +7,7 @@
 #include "../asd.Core.Base_Imp.h"
 #include "../ObjectSystem/asd.CoreScene.h"
 #include "../Graphics/Helper/asd.GifAnimationHelper.h"
+#include "../Utils/asd.Synchronizer.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -57,6 +58,7 @@ namespace asd {
 		CoreScene* m_currentScene;
 
 		LayerRenderer*				layerRenderer = nullptr;
+		Synchronizer::Ptr synchronizer;
 
 #if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
 

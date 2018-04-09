@@ -1074,6 +1074,12 @@
     <ClInclude Include="..\core\Collision\2D\asd.CoreCollision2DEvent.h">
       <Filter>Collision\2D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Utils\asd.Synchronizer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Utils\IAsyncResource.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">
@@ -1515,6 +1521,9 @@
     </ClCompile>
     <ClCompile Include="..\core\Collision\2D\asd.CoreCollision2D.cpp">
       <Filter>Collision\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Utils\asd.Synchronizer.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
