@@ -10,6 +10,7 @@ def cdToScript():
 	cd(os.path.dirname(os.path.abspath(__file__)))
 
 def conv(path):
+	print('Convert {}'.format(path))
 	temp = open(path,mode='rb')
 	byte = temp.read(1)
 	temp.close()

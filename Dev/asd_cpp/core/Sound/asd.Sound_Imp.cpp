@@ -37,7 +37,7 @@ namespace asd
 		SafeRelease(m_manager);
 	}
 
-	SoundSource* Sound_Imp::CreateSoundSource_(const achar* path, bool isDecompressed)
+	SoundSource* Sound_Imp::CreateSoundSource(const achar* path, bool isDecompressed)
 	{
 		if (m_manager == nullptr) return nullptr;
 

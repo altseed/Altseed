@@ -29,7 +29,8 @@ namespace asd
 {
 	SoundSource* Accessor::Sound_CreateSoundSource(Sound* o, const achar* path, bool isDecompressed)
 	{
-		return o->CreateSoundSource_(path, isDecompressed);
+		return nullptr;
+		//return o->CreateSoundSource_(path, isDecompressed);
 	}
 
 	AnimationSource* Accessor::AnimationClip_GetSource(AnimationClip* o)

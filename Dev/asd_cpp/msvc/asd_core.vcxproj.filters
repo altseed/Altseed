@@ -1080,6 +1080,7 @@
     <ClInclude Include="..\core\Utils\IAsyncResource.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\asd.WrapperDLL.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">
@@ -1525,6 +1526,7 @@
     <ClCompile Include="..\core\Utils\asd.Synchronizer.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\core\asd.WrapperDLL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\core\Input\asd.JoystickContainer.h">

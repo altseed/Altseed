@@ -131,6 +131,7 @@
     <ClCompile Include="..\engine\Collision\2D\asd.RectangleCollider.cpp">
       <Filter>Collision\2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\engine\asd.WrapperLib.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\engine\asd.Engine.Base.h" />
@@ -315,6 +316,8 @@
     <ClInclude Include="..\engine\Collision\2D\asd.RectangleCollider.h">
       <Filter>Collision\2D</Filter>
     </ClInclude>
+    <ClInclude Include="..\engine\asd.WrapperLib.h" />
+    <ClInclude Include="..\engine\asd.WrapperLib.Internal.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

@@ -336,6 +336,7 @@
     <ClInclude Include="..\core\asd.Accessor.h" />
     <ClInclude Include="..\core\asd.ReferenceObject.h" />
     <ClInclude Include="..\core\asd.StructTranslator.h" />
+    <ClInclude Include="..\core\asd.WrapperDLL.h" />
     <ClInclude Include="..\core\Collision\2D\asd.CoreCircleCollider.h" />
     <ClInclude Include="..\core\Collision\2D\asd.CoreCircleCollider_Imp.h" />
     <ClInclude Include="..\core\Collision\2D\asd.Collider2DType.h" />
@@ -647,6 +648,7 @@
     <ClCompile Include="..\core\asd.Core.Base_Imp.cpp" />
     <ClCompile Include="..\core\asd.ReferenceObject.cpp" />
     <ClCompile Include="..\core\asd.StructTranslator.cpp" />
+    <ClCompile Include="..\core\asd.WrapperDLL.cpp" />
     <ClCompile Include="..\core\Collision\2D\asd.CoreCircleCollider_Imp.cpp" />
     <ClCompile Include="..\core\Collision\2D\asd.CoreCollider2D_Imp.cpp" />
     <ClCompile Include="..\core\Collision\2D\asd.CoreCollision2D.cpp" />
