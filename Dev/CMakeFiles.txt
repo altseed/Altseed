@@ -27,6 +27,7 @@ set(core_src
 	asd_cpp/core/asd.Core.Base_Imp.cpp
 	asd_cpp/core/asd.ReferenceObject.cpp
 	asd_cpp/core/asd.StructTranslator.cpp
+	asd_cpp/core/asd.WrapperDLL.cpp
 	asd_cpp/core/Collision/2D/asd.CoreCircleCollider_Imp.cpp
 	asd_cpp/core/Collision/2D/asd.CoreCollider2D_Imp.cpp
 	asd_cpp/core/Collision/2D/asd.CoreCollision2D.cpp
@@ -183,6 +184,7 @@ set(x11_src
 
 set(engine_src
 	asd_cpp/engine/asd.Engine.cpp
+	asd_cpp/engine/asd.WrapperLib.cpp
 	asd_cpp/engine/Collision/2D/asd.CircleCollider.cpp
 	asd_cpp/engine/Collision/2D/asd.Collider2D.cpp
 	asd_cpp/engine/Collision/2D/asd.LineCollider.cpp
