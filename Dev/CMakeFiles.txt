@@ -147,6 +147,7 @@ set(core_src
 	asd_cpp/core/Sound/asd.SoundSource_Imp.cpp
 	asd_cpp/core/Sound/asd.Sound_Imp.cpp
 	asd_cpp/core/Utils/asd.ResourceContainer.cpp
+	asd_cpp/core/Utils/asd.Synchronizer.cpp
 	asd_cpp/core/Window/asd.Cursor_Imp.cpp
 	asd_cpp/core/Window/asd.Window_Imp.cpp
 )
