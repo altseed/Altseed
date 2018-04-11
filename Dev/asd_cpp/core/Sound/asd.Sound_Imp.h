@@ -44,7 +44,7 @@ namespace asd
 		Sound_Imp(File *file, Log* log, bool isReloadingEnabled);
 		virtual ~Sound_Imp();
 
-		SoundSource* CreateSoundSource_(const achar* path, bool isDecompressed) override;
+		SoundSource* CreateSoundSource(const achar* path, bool isDecompressed) override;
 
 		int32_t Play(SoundSource* soundSource) override;
 

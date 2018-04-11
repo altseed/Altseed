@@ -174,6 +174,8 @@
   <ItemGroup>
     <ClInclude Include="..\engine\asd.Engine.Base.h" />
     <ClInclude Include="..\engine\asd.Engine.h" />
+    <ClInclude Include="..\engine\asd.WrapperLib.h" />
+    <ClInclude Include="..\engine\asd.WrapperLib.Internal.h" />
     <ClInclude Include="..\engine\Collision\2D\asd.CircleCollider.h" />
     <ClInclude Include="..\engine\Collision\2D\asd.Collider2D.h" />
     <ClInclude Include="..\engine\Collision\2D\asd.Collision2DInfo.h" />
@@ -237,6 +239,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\engine\asd.Engine.cpp" />
+    <ClCompile Include="..\engine\asd.WrapperLib.cpp" />
     <ClCompile Include="..\engine\Collision\2D\asd.CircleCollider.cpp" />
     <ClCompile Include="..\engine\Collision\2D\asd.Collider2D.cpp" />
     <ClCompile Include="..\engine\Collision\2D\asd.LineCollider.cpp" />

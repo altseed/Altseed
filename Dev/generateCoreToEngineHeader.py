@@ -86,8 +86,8 @@ fromCoreToEngine.readLines("asd_cpp/core/IO/asd.File.h")
 fromCoreToEngine.readLines("asd_cpp/core/IO/asd.StaticFile.h")
 fromCoreToEngine.readLines("asd_cpp/core/IO/asd.StreamFile.h")
 
-fromCoreToEngine.readLines("asd_cpp/core/Sound/asd.SoundSource.h")
-fromCoreToEngine.readLines("asd_cpp/core/Sound/asd.Sound.h")
+#fromCoreToEngine.readLines("asd_cpp/core/Sound/asd.SoundSource.h")
+#fromCoreToEngine.readLines("asd_cpp/core/Sound/asd.Sound.h")
 
 fromCoreToEngine.readLines("asd_cpp/core/Graphics/Resource/asd.Texture.h")
 fromCoreToEngine.readLines("asd_cpp/core/Graphics/Resource/asd.Texture2D.h")
@@ -172,6 +172,8 @@ fromCoreToEngine.readLines('asd_cpp/core/ObjectSystem/3D/asd.CoreLayer3D.h')
 fromCoreToEngine.readLines('asd_cpp/core/ObjectSystem/PostEffect/asd.CorePostEffect.h')
 
 fromCoreToEngine.readLines('asd_cpp/core/ObjectSystem/Transition/asd.CoreTransition.h')
+
+fromCoreToEngine.readLines('asd_cpp/core/asd.WrapperDLL.h')
 
 fromCoreToEngine.readLines('asd_cpp/core/ObjectSystem/asd.ObjectSystemFactory.h')
 

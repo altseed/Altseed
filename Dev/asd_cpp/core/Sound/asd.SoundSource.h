@@ -37,7 +37,7 @@ namespace asd
 
 		/**
 		@brief	ループポイントの終了地点(秒)を設定する。
-		@param	startingPoint	終了地点(秒)
+		@param	endPoint	終了地点(秒)
 		*/
 		virtual void SetLoopEndPoint(float endPoint) = 0;
 
@@ -49,7 +49,7 @@ namespace asd
 
 		/**
 		@brief	ループするかを設定する。
-		@return	isLoopingMode	ループするか?
+		@param	isLoopingMode	ループするか?
 		*/
 		virtual void SetIsLoopingMode(bool isLoopingMode) = 0;
 

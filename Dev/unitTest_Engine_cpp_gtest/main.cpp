@@ -134,7 +134,7 @@ int main(int argc, char **argv)
 	::testing::InitGoogleTest(&argc, argv);
 	
 	
-	CALL_ENGINE_TEST(ObjectSystem, CollidingMethod, true);
+	CALL_ENGINE_TEST(Sound, Sound, true);
 	getchar();
 	return 0;
 	

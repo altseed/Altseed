@@ -1,0 +1,13 @@
+{
+	"DoxygenXmlDirPath": "Doxygen_Core/xml/",
+	"ExportFilePath": "../../Dev/asd_cs/Wrappers.cs",
+	"ClassWhiteList":
+	[
+		"Sound",
+		"SoundSource"
+	],
+	"ReleasableClassList":
+	[
+		"SoundSource"
+	]
+}

@@ -35,6 +35,7 @@ namespace asd {
 
 %include "swig/Lib/csharp/achar.i"
 %include "swig/Lib/csharp/astring.i"
+%include "swig/Lib/csharp/char16.i"
 #endif
 
 #if SWIGJAVA
@@ -47,6 +48,7 @@ namespace asd {
 }
 %include "swig/Lib/java/achar.i"
 %include "swig/Lib/java/astring.i"
+%include "swig/Lib/java/char16.i"
 #endif
 
 // セキュリティチェックを外して高速化

@@ -18,21 +18,15 @@ namespace asd
 		Sound() {}
 		~Sound() {}
 
-		virtual SoundSource* CreateSoundSource_(const achar* path, bool isDecompressed) = 0;
 	public:
 		
-#if !SWIG
 		/**
 			@brief	音を読み込む。
 			@param	path	パス
 			@param	isDecompressed	解凍するか?
 			@return	音源
 		*/
-		std::shared_ptr<SoundSource> CreateSoundSource(const achar* path, bool isDecompressed)
-		{
-			return CreateSharedPtrWithReleaseDLL(CreateSoundSource_(path, isDecompressed));
-		}
-#endif
+		virtual SoundSource* CreateSoundSource(const char16_t* path, bool isDecompressed) = 0;
 
 		/**
 			@brief	音を再生する。
@@ -40,18 +34,6 @@ namespace asd
 			@return	ID
 		*/
 		virtual int32_t Play(SoundSource* soundSource) = 0;
-
-#if !SWIG
-		/**
-		@brief	音を再生する。
-		@param	soundSource	音源
-		@return	ID
-		*/
-		int32_t Play(std::shared_ptr<SoundSource> soundSource)
-		{
-			return Play(soundSource.get());
-		}
-#endif
 
 		/**
 		@brief	音が再生中か、取得する。

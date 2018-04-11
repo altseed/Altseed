@@ -99,8 +99,8 @@ engineHeader.readLines("asd_cpp/core/IO/asd.File.h")
 engineHeader.readLines("asd_cpp/core/IO/asd.StaticFile.h")
 engineHeader.readLines("asd_cpp/core/IO/asd.StreamFile.h")
 
-engineHeader.readLines("asd_cpp/core/Sound/asd.SoundSource.h")
-engineHeader.readLines("asd_cpp/core/Sound/asd.Sound.h")
+#engineHeader.readLines("asd_cpp/core/Sound/asd.SoundSource.h")
+#engineHeader.readLines("asd_cpp/core/Sound/asd.Sound.h")
 
 engineHeader.readLines("asd_cpp/core/Graphics/Resource/asd.Texture.h")
 engineHeader.readLines("asd_cpp/core/Graphics/Resource/asd.Texture2D.h")
@@ -136,6 +136,8 @@ engineHeader.readLines("asd_cpp/core/Shape/asd.ShapeType.h")
 engineHeader.readLines("asd_cpp/core/Window/asd.Cursor.h")
 
 engineHeader.readLines("asd_cpp/core/Core/asd.Core.h")
+
+engineHeader.readLines("asd_cpp/engine/asd.WrapperLib.h")
 
 engineHeader.readLines("asd_cpp/engine/ObjectSystem/PostEffect/asd.PostEffect.h")
 engineHeader.readLines("asd_cpp/engine/ObjectSystem/PostEffect/asd.PostEffectGrayScale.h")
