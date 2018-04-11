@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdint.h>
+#include <memory>
 
 #include <asd.common.Base.h>
 
