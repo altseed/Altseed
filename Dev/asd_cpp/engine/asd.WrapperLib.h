@@ -1,10 +1,11 @@
-﻿#pragma once
+﻿
+#pragma once
 
 #include <stdio.h>
 #include <stdint.h>
-#include <memory>
 
 namespace asd {
+
 
 class Sound;
 class SoundSource;
@@ -192,9 +193,9 @@ class SoundSource {
 	
 	/**
 		@brief ループするかを設定する。 
-		@return isLoopingMode ループするか? 
+		@param isLoopingMode ループするか? 
 	*/
-	void SetIsLoopingMode(bool isLoopingPoint);
+	void SetIsLoopingMode(bool isLoopingMode);
 	
 	/**
 		@brief 音の長さを取得する。 
@@ -204,4 +205,6 @@ class SoundSource {
 	
 };
 
-}
+
+};
+

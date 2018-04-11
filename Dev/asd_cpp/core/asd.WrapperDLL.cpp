@@ -1,4 +1,5 @@
-﻿#include "asd.WrapperDLL.h"
+﻿
+#include "asd.WrapperDLL.h"
 
 #include "Sound/asd.Sound.h"
 #include "Sound/asd.SoundSource.h"
@@ -6,173 +7,176 @@
 namespace asd
 {
 
-	void WrapperDLL::Sound_Destruct(void* self) {
-		auto self_ = (Sound*)self;
-	};
 
-	void* WrapperDLL::Sound_CreateSoundSource(void* self, const char16_t* path, bool isDecompressed) {
-		auto self_ = (Sound*)self;
-		auto arg0 = path;
-		auto arg1 = isDecompressed;
-		auto ret = self_->CreateSoundSource(arg0, arg1);
-		return ret;
-	};
+void WrapperDLL::Sound_Destruct(void* self){
+	auto self_ = (Sound*)self;
+};
 
-	int32_t WrapperDLL::Sound_Play(void* self, void* soundSource) {
-		auto self_ = (Sound*)self;
-		auto arg0 = (SoundSource*)soundSource;
-		auto ret = self_->Play(arg0);
-		return ret;
-	};
+void* WrapperDLL::Sound_CreateSoundSource(void* self,const char16_t* path,bool isDecompressed){
+	auto self_ = (Sound*)self;
+	auto arg0 = path;
+	auto arg1 = isDecompressed;
+	auto ret = self_->CreateSoundSource(arg0,arg1);
+	return ret;
+};
 
-	bool WrapperDLL::Sound_GetIsPlaying(void* self, int32_t id) {
-		auto self_ = (Sound*)self;
-		auto arg0 = id;
-		auto ret = self_->GetIsPlaying(arg0);
-		return ret;
-	};
+int32_t WrapperDLL::Sound_Play(void* self,void* soundSource){
+	auto self_ = (Sound*)self;
+	auto arg0 = (SoundSource*)soundSource;
+	auto ret = self_->Play(arg0);
+	return ret;
+};
 
-	void WrapperDLL::Sound_StopAll(void* self) {
-		auto self_ = (Sound*)self;
-		self_->StopAll();
-	};
+bool WrapperDLL::Sound_GetIsPlaying(void* self,int32_t id){
+	auto self_ = (Sound*)self;
+	auto arg0 = id;
+	auto ret = self_->GetIsPlaying(arg0);
+	return ret;
+};
 
-	void WrapperDLL::Sound_Stop(void* self, int32_t id) {
-		auto self_ = (Sound*)self;
-		auto arg0 = id;
-		self_->Stop(arg0);
-	};
+void WrapperDLL::Sound_StopAll(void* self){
+	auto self_ = (Sound*)self;
+	self_->StopAll();
+};
 
-	void WrapperDLL::Sound_Pause(void* self, int32_t id) {
-		auto self_ = (Sound*)self;
-		auto arg0 = id;
-		self_->Pause(arg0);
-	};
+void WrapperDLL::Sound_Stop(void* self,int32_t id){
+	auto self_ = (Sound*)self;
+	auto arg0 = id;
+	self_->Stop(arg0);
+};
 
-	void WrapperDLL::Sound_Resume(void* self, int32_t id) {
-		auto self_ = (Sound*)self;
-		auto arg0 = id;
-		self_->Resume(arg0);
-	};
+void WrapperDLL::Sound_Pause(void* self,int32_t id){
+	auto self_ = (Sound*)self;
+	auto arg0 = id;
+	self_->Pause(arg0);
+};
 
-	void WrapperDLL::Sound_SetVolume(void* self, int32_t id, float volume) {
-		auto self_ = (Sound*)self;
-		auto arg0 = id;
-		auto arg1 = volume;
-		self_->SetVolume(arg0, arg1);
-	};
+void WrapperDLL::Sound_Resume(void* self,int32_t id){
+	auto self_ = (Sound*)self;
+	auto arg0 = id;
+	self_->Resume(arg0);
+};
 
-	void WrapperDLL::Sound_FadeIn(void* self, int32_t id, float second) {
-		auto self_ = (Sound*)self;
-		auto arg0 = id;
-		auto arg1 = second;
-		self_->FadeIn(arg0, arg1);
-	};
+void WrapperDLL::Sound_SetVolume(void* self,int32_t id,float volume){
+	auto self_ = (Sound*)self;
+	auto arg0 = id;
+	auto arg1 = volume;
+	self_->SetVolume(arg0,arg1);
+};
 
-	void WrapperDLL::Sound_FadeOut(void* self, int32_t id, float second) {
-		auto self_ = (Sound*)self;
-		auto arg0 = id;
-		auto arg1 = second;
-		self_->FadeOut(arg0, arg1);
-	};
+void WrapperDLL::Sound_FadeIn(void* self,int32_t id,float second){
+	auto self_ = (Sound*)self;
+	auto arg0 = id;
+	auto arg1 = second;
+	self_->FadeIn(arg0,arg1);
+};
 
-	void WrapperDLL::Sound_Fade(void* self, int32_t id, float second, float targetedVolume) {
-		auto self_ = (Sound*)self;
-		auto arg0 = id;
-		auto arg1 = second;
-		auto arg2 = targetedVolume;
-		self_->Fade(arg0, arg1, arg2);
-	};
+void WrapperDLL::Sound_FadeOut(void* self,int32_t id,float second){
+	auto self_ = (Sound*)self;
+	auto arg0 = id;
+	auto arg1 = second;
+	self_->FadeOut(arg0,arg1);
+};
 
-	bool WrapperDLL::Sound_GetIsPlaybackSpeedEnabled(void* self, int32_t id) {
-		auto self_ = (Sound*)self;
-		auto arg0 = id;
-		auto ret = self_->GetIsPlaybackSpeedEnabled(arg0);
-		return ret;
-	};
+void WrapperDLL::Sound_Fade(void* self,int32_t id,float second,float targetedVolume){
+	auto self_ = (Sound*)self;
+	auto arg0 = id;
+	auto arg1 = second;
+	auto arg2 = targetedVolume;
+	self_->Fade(arg0,arg1,arg2);
+};
 
-	void WrapperDLL::Sound_SetIsPlaybackSpeedEnabled(void* self, int32_t id, bool isPlaybackSpeedEnabled) {
-		auto self_ = (Sound*)self;
-		auto arg0 = id;
-		auto arg1 = isPlaybackSpeedEnabled;
-		self_->SetIsPlaybackSpeedEnabled(arg0, arg1);
-	};
+bool WrapperDLL::Sound_GetIsPlaybackSpeedEnabled(void* self,int32_t id){
+	auto self_ = (Sound*)self;
+	auto arg0 = id;
+	auto ret = self_->GetIsPlaybackSpeedEnabled(arg0);
+	return ret;
+};
 
-	float WrapperDLL::Sound_GetPlaybackSpeed(void* self, int32_t id) {
-		auto self_ = (Sound*)self;
-		auto arg0 = id;
-		auto ret = self_->GetPlaybackSpeed(arg0);
-		return ret;
-	};
+void WrapperDLL::Sound_SetIsPlaybackSpeedEnabled(void* self,int32_t id,bool isPlaybackSpeedEnabled){
+	auto self_ = (Sound*)self;
+	auto arg0 = id;
+	auto arg1 = isPlaybackSpeedEnabled;
+	self_->SetIsPlaybackSpeedEnabled(arg0,arg1);
+};
 
-	void WrapperDLL::Sound_SetPlaybackSpeed(void* self, int32_t id, float playbackSpeed) {
-		auto self_ = (Sound*)self;
-		auto arg0 = id;
-		auto arg1 = playbackSpeed;
-		self_->SetPlaybackSpeed(arg0, arg1);
-	};
+float WrapperDLL::Sound_GetPlaybackSpeed(void* self,int32_t id){
+	auto self_ = (Sound*)self;
+	auto arg0 = id;
+	auto ret = self_->GetPlaybackSpeed(arg0);
+	return ret;
+};
 
-	float WrapperDLL::Sound_GetPanningPosition(void* self, int32_t id) {
-		auto self_ = (Sound*)self;
-		auto arg0 = id;
-		auto ret = self_->GetPanningPosition(arg0);
-		return ret;
-	};
+void WrapperDLL::Sound_SetPlaybackSpeed(void* self,int32_t id,float playbackSpeed){
+	auto self_ = (Sound*)self;
+	auto arg0 = id;
+	auto arg1 = playbackSpeed;
+	self_->SetPlaybackSpeed(arg0,arg1);
+};
 
-	void WrapperDLL::Sound_SetPanningPosition(void* self, int32_t id, float panningPosition) {
-		auto self_ = (Sound*)self;
-		auto arg0 = id;
-		auto arg1 = panningPosition;
-		self_->SetPanningPosition(arg0, arg1);
-	};
+float WrapperDLL::Sound_GetPanningPosition(void* self,int32_t id){
+	auto self_ = (Sound*)self;
+	auto arg0 = id;
+	auto ret = self_->GetPanningPosition(arg0);
+	return ret;
+};
 
-	void WrapperDLL::SoundSource_Destruct(void* self) {
-		auto self_ = (SoundSource*)self;
-		SafeRelease(self_);
-	};
+void WrapperDLL::Sound_SetPanningPosition(void* self,int32_t id,float panningPosition){
+	auto self_ = (Sound*)self;
+	auto arg0 = id;
+	auto arg1 = panningPosition;
+	self_->SetPanningPosition(arg0,arg1);
+};
 
-	float WrapperDLL::SoundSource_GetLoopStartingPoint(void* self) {
-		auto self_ = (SoundSource*)self;
-		auto ret = self_->GetLoopStartingPoint();
-		return ret;
-	};
+void WrapperDLL::SoundSource_Destruct(void* self){
+	auto self_ = (SoundSource*)self;
+	SafeRelease(self_);
+};
 
-	void WrapperDLL::SoundSource_SetLoopStartingPoint(void* self, float startingPoint) {
-		auto self_ = (SoundSource*)self;
-		auto arg0 = startingPoint;
-		self_->SetLoopStartingPoint(arg0);
-	};
+float WrapperDLL::SoundSource_GetLoopStartingPoint(void* self){
+	auto self_ = (SoundSource*)self;
+	auto ret = self_->GetLoopStartingPoint();
+	return ret;
+};
 
-	float WrapperDLL::SoundSource_GetLoopEndPoint(void* self) {
-		auto self_ = (SoundSource*)self;
-		auto ret = self_->GetLoopEndPoint();
-		return ret;
-	};
+void WrapperDLL::SoundSource_SetLoopStartingPoint(void* self,float startingPoint){
+	auto self_ = (SoundSource*)self;
+	auto arg0 = startingPoint;
+	self_->SetLoopStartingPoint(arg0);
+};
 
-	void WrapperDLL::SoundSource_SetLoopEndPoint(void* self, float endPoint) {
-		auto self_ = (SoundSource*)self;
-		auto arg0 = endPoint;
-		self_->SetLoopEndPoint(arg0);
-	};
+float WrapperDLL::SoundSource_GetLoopEndPoint(void* self){
+	auto self_ = (SoundSource*)self;
+	auto ret = self_->GetLoopEndPoint();
+	return ret;
+};
 
-	bool WrapperDLL::SoundSource_GetIsLoopingMode(void* self) {
-		auto self_ = (SoundSource*)self;
-		auto ret = self_->GetIsLoopingMode();
-		return ret;
-	};
+void WrapperDLL::SoundSource_SetLoopEndPoint(void* self,float endPoint){
+	auto self_ = (SoundSource*)self;
+	auto arg0 = endPoint;
+	self_->SetLoopEndPoint(arg0);
+};
 
-	void WrapperDLL::SoundSource_SetIsLoopingMode(void* self, bool isLoopingMode) {
-		auto self_ = (SoundSource*)self;
-		self_->SetIsLoopingMode(isLoopingMode);
-	};
+bool WrapperDLL::SoundSource_GetIsLoopingMode(void* self){
+	auto self_ = (SoundSource*)self;
+	auto ret = self_->GetIsLoopingMode();
+	return ret;
+};
 
-	float WrapperDLL::SoundSource_GetLength(void* self) {
-		auto self_ = (SoundSource*)self;
-		auto ret = self_->GetLength();
-		return ret;
-	};
+void WrapperDLL::SoundSource_SetIsLoopingMode(void* self,bool isLoopingMode){
+	auto self_ = (SoundSource*)self;
+	auto arg0 = isLoopingMode;
+	self_->SetIsLoopingMode(arg0);
+};
 
-}
+float WrapperDLL::SoundSource_GetLength(void* self){
+	auto self_ = (SoundSource*)self;
+	auto ret = self_->GetLength();
+	return ret;
+};
+
+
+};
 
 extern "C"
 {
@@ -189,3 +193,5 @@ ASD_DLLEXPORT void ASD_STDCALL DeleteWrapperDLL(void* o)
 }
 
 }
+
+

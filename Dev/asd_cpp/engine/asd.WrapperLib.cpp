@@ -1,8 +1,10 @@
-﻿#include "asd.WrapperLib.h"
+﻿
+#include "asd.WrapperLib.h"
 #include "asd.WrapperLib.Internal.h"
 #include "asd.CoreToEngine.h"
 
-namespace asd {
+namespace asd
+{
 
 static WrapperDLL* dll = nullptr;
 
@@ -13,6 +15,7 @@ void InitializeWrapper(CreateWrapperDLLFunc func) {
 void TerminateWrapper(DeleteWrapperDLLFunc func) {
 	func(dll);
 };
+
 
 Sound::Sound(void* self, bool isCtrlSelf) {
 	this->self = self;
@@ -180,9 +183,10 @@ bool SoundSource::GetIsLoopingMode() const{
 	return ret;
 };
 
-void SoundSource::SetIsLoopingMode(bool isLoopingPoint){
+void SoundSource::SetIsLoopingMode(bool isLoopingMode){
 	auto arg0 = self;
-	dll->SoundSource_SetIsLoopingMode(arg0, isLoopingPoint);
+	auto arg1 = isLoopingMode;
+	dll->SoundSource_SetIsLoopingMode(arg0,arg1);
 };
 
 float SoundSource::GetLength(){
@@ -191,4 +195,6 @@ float SoundSource::GetLength(){
 	return ret;
 };
 
-}
+
+};
+
