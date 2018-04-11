@@ -1,4 +1,4 @@
-#include "../core/PCH/asd.Core.PCH.h"
+﻿#include "../core/PCH/asd.Core.PCH.h"
 #include "asd.Synchronizer.h"
 
 namespace asd

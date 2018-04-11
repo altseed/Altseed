@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <functional>
 #include <mutex>
 #include "IAsyncResource.h"

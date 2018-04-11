@@ -269,6 +269,8 @@ namespace asd
 		layerRenderer = new LayerRenderer(m_graphics);
 		layerRenderer->SetWindowSize(m_windowSize);
 
+		synchronizer = std::make_shared<Synchronizer>();
+
 		{
 			asd::Vector2DF lpos[4];
 			lpos[0].X = 0;
@@ -347,6 +349,8 @@ namespace asd
 		m_windowSize = Vector2DI(width, height);
 		layerRenderer = new LayerRenderer(m_graphics);
 		layerRenderer->SetWindowSize(m_windowSize);
+
+		synchronizer = std::make_shared<Synchronizer>();
 
 		{
 			asd::Vector2DF lpos[4];

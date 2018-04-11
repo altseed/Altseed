@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../asd.ReferenceObject.h"
 
 namespace asd
