@@ -63,22 +63,6 @@ exported += getCMakeArray(core_common_src,'core_src')
 newline()
 newline()
 
-exported += getCMakeArray(core_dx11_src,'dx11_src')
-newline()
-newline()
-
-exported += getCMakeArray(core_gl_src,'gl_src')
-newline()
-newline()
-
-exported += getCMakeArray(core_win_src,'win_src')
-newline()
-newline()
-
-exported += getCMakeArray(core_x11_src,'x11_src')
-newline()
-newline()
-
 exported += getCMakeArray(engine_src,'engine_src')
 newline()
 newline()

@@ -14,14 +14,24 @@ FILE(GLOB_RECURSE cs *.c)
 FILE(GLOB_RECURSE hs *.h)
 list(APPEND srcs ${cpps} ${cs} ${hs})
 
-# Assgin directory
-# http://stackoverflow.com/questions/31422680/how-to-set-visual-studio-filters-for-nested-sub-directory-using-cmake
+foreach(FILE ${srcs}) 
+    # Get the directory of the source file
+    get_filename_component(PARENT_DIR "${FILE}" DIRECTORY)
 
-foreach(src ${srcs})
-	get_filename_component(src_path_dir "${src}" DIRECTORY)
-	string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" src_path "${src_path_dir}")
-	string(REPLACE "/" "\\" src_path_r "${src_path}")
-	source_group("${src_path_r}" FILES "${src}")
+    # Remove common directory prefix to make the group
+    string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${PARENT_DIR}")
+
+    # Make sure we are using windows slashes
+    string(REPLACE "/" "\\" GROUP "${GROUP}")
+
+    # Group into "Source Files" and "Header Files"
+    if ("${FILE}" MATCHES ".*\\.cpp")
+       set(GROUP "Files${GROUP}")
+    elseif("${FILE}" MATCHES ".*\\.h")
+       set(GROUP "Files${GROUP}")
+    endif()
+
+    source_group("${GROUP}" FILES "${FILE}")
 endforeach()
 
 # Set MSVC Flags

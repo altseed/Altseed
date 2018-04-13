@@ -44,15 +44,90 @@ add_subdirectory(asd_cpp/common/)
 add_subdirectory(asd_cpp/tool/)
 
 
+# ======== Core ========
+
+# 3rd
+FILE(GLOB_RECURSE third_srcs
+	asd_cpp/core/3rdParty/poly2tri/*.cpp
+	asd_cpp/core/3rdParty/poly2tri/*.h
+	asd_cpp/core/3rdParty/nv_dds/*.cpp
+	asd_cpp/core/3rdParty/nv_dds/*.h
+)
 
 if (WIN32)
-	list(APPEND core_src ${win_src})
-	list(APPEND core_src ${dx11_src})
-	list(APPEND core_src ${gl_src})
-else()
-	list(APPEND core_src ${dx11_src})
-	list(APPEND core_src ${gl_src})
+FILE(GLOB_RECURSE third_win_srcs
+	asd_cpp/core/3rdParty/DirectXToolKit/*.cpp
+	asd_cpp/core/3rdParty/DirectXToolKit/*.h)
+
+list(APPEND third_srcs ${third_win_srcs})
+
 endif()
+
+
+
+FILE(GLOB_RECURSE core_srcs
+	asd_cpp/core/Collision/*.cpp
+	asd_cpp/core/Collision/*.h
+	asd_cpp/core/Core/*.cpp
+	asd_cpp/core/Core/*.h
+	asd_cpp/core/Graphics/*.cpp
+	asd_cpp/core/Graphics/*.h
+	asd_cpp/core/Input/*.cpp
+	asd_cpp/core/Input/*.h
+	asd_cpp/core/IO/*.cpp
+	asd_cpp/core/IO/*.h
+	asd_cpp/core/Log/*.cpp
+	asd_cpp/core/Log/*.h
+	asd_cpp/core/ObjectSystem/*.cpp
+	asd_cpp/core/ObjectSystem/*.h
+	asd_cpp/core/PCH/*.cpp
+	asd_cpp/core/PCH/*.h
+	asd_cpp/core/Profiler/*.cpp
+	asd_cpp/core/Profiler/*.h
+	asd_cpp/core/Shape/*.cpp
+	asd_cpp/core/Shape/*.h
+	asd_cpp/core/Sound/*.cpp
+	asd_cpp/core/Sound/*.h
+	asd_cpp/core/Utils/*.cpp
+	asd_cpp/core/Utils/*.h
+	asd_cpp/core/Window/*.cpp
+	asd_cpp/core/Window/*.h
+)
+
+FILE(GLOB core_root_srcs
+	asd_cpp/core/*.cxx
+	asd_cpp/core/*.cpp
+	asd_cpp/core/*.h
+)
+
+list(APPEND core_srcs ${core_root_srcs} ${third_srcs})
+
+foreach(FILE ${core_srcs}) 
+    # Get the directory of the source file
+    get_filename_component(PARENT_DIR "${FILE}" DIRECTORY)
+
+    # Remove common directory prefix to make the group
+    string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${PARENT_DIR}")
+
+    # Make sure we are using windows slashes
+    string(REPLACE "/" "\\" GROUP "${GROUP}")
+
+    # Group into "Source Files" and "Header Files"
+    if ("${FILE}" MATCHES ".*\\.cpp")
+       set(GROUP "Files${GROUP}")
+    elseif("${FILE}" MATCHES ".*\\.c")
+       set(GROUP "Files${GROUP}")
+    elseif("${FILE}" MATCHES ".*\\.cxx")
+       set(GROUP "Files${GROUP}")
+    elseif("${FILE}" MATCHES ".*\\.h")
+       set(GROUP "Files${GROUP}")
+    endif()
+
+    source_group("${GROUP}" FILES "${FILE}")
+endforeach()
+
+# ======== ==== ========
+
 
 # インクルードの設定
 include_directories(
@@ -89,7 +164,6 @@ else()
 	list(APPEND common_lib AltseedPlatform)
 	list(APPEND common_lib AltseedRHI)
 
-	# OpenSoundMixerの後に内部で使用しているライブラリを追加する必要あり
 	list(APPEND common_lib OpenSoundMixer )
 
 	list(APPEND common_lib Culling2D )
@@ -188,24 +262,14 @@ else()
 
 endif()
 
-# ディレクトリ設定
-# http://stackoverflow.com/questions/31422680/how-to-set-visual-studio-filters-for-nested-sub-directory-using-cmake
-
-foreach(src ${core_src})
-	get_filename_component(src_path_dir "${src}" DIRECTORY)
-	string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" src_path "${src_path_dir}")
-	string(REPLACE "/" "\\" src_path_r "${src_path}")
-	source_group("${src_path_r}" FILES "${src}")
-endforeach()
-
 # 共通インクルードの追加
 include_directories( AFTER SYSTEM ${common_inc} )
 
 # コンパイル先を追加
 #add_library( asdCommon STATIC ${common_src} )
 
-add_library( asdCore STATIC ${core_src} )
-add_library( asdCoreDLL SHARED ${core_src} )
+add_library( asdCore STATIC ${core_srcs} )
+add_library( asdCoreDLL SHARED ${core_srcs} )
 
 target_link_libraries(asdCoreDLL asd_tool asd_common ${common_lib}) 
 
