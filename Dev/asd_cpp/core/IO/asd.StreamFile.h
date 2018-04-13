@@ -18,10 +18,11 @@ namespace asd
 		virtual void* GetTempBuffer_() = 0;
 		virtual int32_t GetTempBufferSize_() = 0;
 
-	public:
 		StreamFile() {}
 		virtual ~StreamFile() { };
-		
+
+	public:
+
 		/**
 		@brief	ファイルのサイズを取得する。
 		@return	サイズ

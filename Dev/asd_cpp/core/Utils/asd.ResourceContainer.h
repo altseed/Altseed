@@ -76,12 +76,13 @@ namespace asd
 			}
 
 			auto staticFile = file->CreateStaticFile(path);
-			if (staticFile.get() == nullptr) return nullptr;
+			if (staticFile == nullptr) return nullptr;
 
 			auto ret = loadFunc((uint8_t*)staticFile->GetData(), staticFile->GetSize());
 
 			if (ret == nullptr)
 			{
+				SafeRelease(staticFile);
 				return nullptr;
 			}
 
@@ -93,6 +94,7 @@ namespace asd
 				info->ModifiedTime = GetModifiedTime(path_);
 				info->LoadedPath = path_;
 			}
+			SafeRelease(staticFile);
 
 			info->ResourcePtr = ret;
 
@@ -113,12 +115,13 @@ namespace asd
 			}
 
 			auto staticFile = file->CreateStaticFile(path);
-			if (staticFile.get() == nullptr) return nullptr;
+			if (staticFile == nullptr) return nullptr;
 
 			auto ret = loadFunc(staticFile->GetBuffer());
 
 			if (ret == nullptr)
 			{
+				SafeRelease(staticFile);
 				return nullptr;
 			}
 
@@ -134,6 +137,7 @@ namespace asd
 			info->ResourcePtr = ret;
 			Register(path, ret, info);
 
+			SafeRelease(staticFile);
 			return ret;
 		}
 

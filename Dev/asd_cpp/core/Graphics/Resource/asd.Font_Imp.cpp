@@ -26,7 +26,7 @@ namespace asd {
 		auto g = (Graphics_Imp*) graphics;
 		auto file = g->GetFile();
 	
-		std::shared_ptr<StaticFile> staticFile = nullptr;
+		StaticFile* staticFile = nullptr;
 		
 		// 規定のフォント
 		if (font == nullptr || astring(font) == astring())
@@ -88,9 +88,11 @@ namespace asd {
 		auto rasterizer = std::make_shared<asd::FontRasterizer>();
 		if (!rasterizer->Initialize(staticFile->GetData(), staticFile->GetSize(), fontSize, outlineSize, color, outlineColor, 1024))
 		{
+			SafeRelease(staticFile);
 			return nullptr;
 		}
 
+		SafeRelease(staticFile);
 		return new Font_Imp(graphics, rasterizer);
 #endif
 	}

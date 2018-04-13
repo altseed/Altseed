@@ -95,9 +95,9 @@ engineHeader.readLines("asd_cpp/core/Input/asd.JoystickContainer.h")
 engineHeader.readLines("asd_cpp/core/Log/asd.Log.h")
 engineHeader.readLines("asd_cpp/core/Profiler/asd.Profiler.h")
         
-engineHeader.readLines("asd_cpp/core/IO/asd.File.h")
-engineHeader.readLines("asd_cpp/core/IO/asd.StaticFile.h")
-engineHeader.readLines("asd_cpp/core/IO/asd.StreamFile.h")
+#engineHeader.readLines("asd_cpp/core/IO/asd.File.h")
+#engineHeader.readLines("asd_cpp/core/IO/asd.StaticFile.h")
+#engineHeader.readLines("asd_cpp/core/IO/asd.StreamFile.h")
 
 #engineHeader.readLines("asd_cpp/core/Sound/asd.SoundSource.h")
 #engineHeader.readLines("asd_cpp/core/Sound/asd.Sound.h")

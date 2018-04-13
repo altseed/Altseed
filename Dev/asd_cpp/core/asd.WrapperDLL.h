@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <memory>
+#include <vector>
 
 #include <asd.common.Base.h>
 
@@ -18,6 +19,14 @@ namespace asd
 
 class WrapperDLL {
 public:
+	virtual void File_Destruct(void* self);
+	virtual void* File_CreateStaticFile(void* self,const char16_t* path);
+	virtual void* File_CreateStreamFile(void* self,const char16_t* path);
+	virtual void File_AddRootDirectory(void* self,const char16_t* path);
+	virtual void File_AddRootPackageWithPassword(void* self,const char16_t* path,const char16_t* password);
+	virtual void File_AddRootPackage(void* self,const char16_t* path);
+	virtual void File_ClearRootDirectories(void* self);
+	virtual bool File_Exists(void* self,const char16_t* path);
 	virtual void Sound_Destruct(void* self);
 	virtual void* Sound_CreateSoundSource(void* self,const char16_t* path,bool isDecompressed);
 	virtual int32_t Sound_Play(void* self,void* soundSource);
@@ -44,6 +53,16 @@ public:
 	virtual bool SoundSource_GetIsLoopingMode(void* self);
 	virtual void SoundSource_SetIsLoopingMode(void* self,bool isLoopingMode);
 	virtual float SoundSource_GetLength(void* self);
+	virtual void StaticFile_Destruct(void* self);
+	virtual const std::vector<uint8_t>& StaticFile_GetBuffer(void* self);
+	virtual const char16_t* StaticFile_GetFullPath(void* self);
+	virtual void* StaticFile_GetData(void* self);
+	virtual int32_t StaticFile_GetSize(void* self);
+	virtual bool StaticFile_GetIsInPackage(void* self);
+	virtual void StreamFile_Destruct(void* self);
+	virtual int32_t StreamFile_GetSize(void* self);
+	virtual int32_t StreamFile_GetCurrentPosition(void* self);
+	virtual void StreamFile_Read(void* self,std::vector<uint8_t>& buffer,int32_t size);
 };
 
 };

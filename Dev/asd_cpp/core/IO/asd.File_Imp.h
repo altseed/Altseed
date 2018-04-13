@@ -49,15 +49,15 @@ namespace asd
 
 		void AddDefaultRootDirectory();
 
-		virtual void AddRootDirectory(const achar* path) override;
-		virtual void AddRootPackageWithPassword(const achar* path, const achar* password)  override;
-		virtual void AddRootPackage(const achar* path)  override;
+		virtual void AddRootDirectory(const char16_t* path) override;
+		virtual void AddRootPackageWithPassword(const char16_t* path, const char16_t* password)  override;
+		virtual void AddRootPackage(const char16_t* path)  override;
 		virtual void ClearRootDirectories() override;
-		virtual bool Exists(const achar* path) const override;
+		virtual bool Exists(const char16_t* path) const override;
 
 #ifndef SWIG
-		virtual StaticFile* CreateStaticFile_(const achar* path);
-		virtual StreamFile* CreateStreamFile_(const achar* path);
+		virtual StaticFile* CreateStaticFile(const char16_t* path) override;
+		virtual StreamFile* CreateStreamFile(const char16_t* path) override;
 
 		void UnregisterStaticFile(const astring& key);
 		void UnregisterStreamFile(const astring& key);

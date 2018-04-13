@@ -13,9 +13,12 @@ namespace asd
 		: public IReference
 	{
 	private:
-	public:
-		virtual ~StaticFile() { };
 
+	protected:
+		StaticFile() {}
+		virtual ~StaticFile() { };
+	public:
+		
 		/**
 			@brief	読み込まれたバッファを取得する。
 			@return	バッファ
@@ -29,7 +32,7 @@ namespace asd
 			パッケージ外から読み込まれた場合は絶対パス、もしくは実行ファイルからの相対パスを返す。
 			パッケージ内から読み込まれた場合は「パッケージへのパス?パッケージ内のファイルへのパス」を返す。
 		*/
-		virtual const achar* GetFullPath() const = 0;
+		virtual const char16_t* GetFullPath() const = 0;
 
 		/**
 			@brief	読み込まれたバッファの先頭のポインタを取得する。

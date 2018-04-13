@@ -82,9 +82,9 @@ fromCoreToEngine.readLines("asd_cpp/core/Log/asd.Log.h")
 fromCoreToEngine.readLines("asd_cpp/core/Profiler/asd.Profiler.h")
 fromCoreToEngine.readLines("asd_cpp/core/Profiler/asd.LayerProfiler.h")
                                                                        
-fromCoreToEngine.readLines("asd_cpp/core/IO/asd.File.h")
-fromCoreToEngine.readLines("asd_cpp/core/IO/asd.StaticFile.h")
-fromCoreToEngine.readLines("asd_cpp/core/IO/asd.StreamFile.h")
+#fromCoreToEngine.readLines("asd_cpp/core/IO/asd.File.h")
+#fromCoreToEngine.readLines("asd_cpp/core/IO/asd.StaticFile.h")
+#fromCoreToEngine.readLines("asd_cpp/core/IO/asd.StreamFile.h")
 
 #fromCoreToEngine.readLines("asd_cpp/core/Sound/asd.SoundSource.h")
 #fromCoreToEngine.readLines("asd_cpp/core/Sound/asd.Sound.h")

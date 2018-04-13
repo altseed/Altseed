@@ -397,13 +397,15 @@ namespace asd
 	CubemapTexture_Imp* CubemapTexture_Imp_DX11::Create(Graphics_Imp* graphics, const achar* path)
 	{
 		auto staticFile = graphics->GetFile()->CreateStaticFile(path);
-		if (staticFile.get() == nullptr) return nullptr;
+		if (staticFile == nullptr) return nullptr;
 
 		auto g = (Graphics_Imp_DX11*)graphics;
 
 		auto rhi = ar::CubemapTexture::Create(g->GetRHI());
 		if (rhi->Initialize(g->GetRHI(), (void*)staticFile->GetBuffer().data(), staticFile->GetBuffer().size()))
 		{
+			SafeRelease(staticFile);
+
 			return new CubemapTexture_Imp_DX11(
 				graphics,
 				rhi,
@@ -412,6 +414,7 @@ namespace asd
 				rhi->GetMipmapCount());
 		}
 
+		SafeRelease(staticFile);
 		asd::SafeDelete(rhi);
 
 		return nullptr;

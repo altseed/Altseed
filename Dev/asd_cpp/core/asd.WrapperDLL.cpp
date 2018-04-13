@@ -4,9 +4,62 @@
 #include "Sound/asd.Sound.h"
 #include "Sound/asd.SoundSource.h"
 
+#include "IO/asd.File.h"
+#include "IO/asd.StaticFile.h"
+#include "IO/asd.StreamFile.h"
+
 namespace asd
 {
 
+
+void WrapperDLL::File_Destruct(void* self){
+	auto self_ = (File*)self;
+};
+
+void* WrapperDLL::File_CreateStaticFile(void* self,const char16_t* path){
+	auto self_ = (File*)self;
+	auto arg0 = path;
+	auto ret = self_->CreateStaticFile(arg0);
+	return ret;
+};
+
+void* WrapperDLL::File_CreateStreamFile(void* self,const char16_t* path){
+	auto self_ = (File*)self;
+	auto arg0 = path;
+	auto ret = self_->CreateStreamFile(arg0);
+	return ret;
+};
+
+void WrapperDLL::File_AddRootDirectory(void* self,const char16_t* path){
+	auto self_ = (File*)self;
+	auto arg0 = path;
+	self_->AddRootDirectory(arg0);
+};
+
+void WrapperDLL::File_AddRootPackageWithPassword(void* self,const char16_t* path,const char16_t* password){
+	auto self_ = (File*)self;
+	auto arg0 = path;
+	auto arg1 = password;
+	self_->AddRootPackageWithPassword(arg0,arg1);
+};
+
+void WrapperDLL::File_AddRootPackage(void* self,const char16_t* path){
+	auto self_ = (File*)self;
+	auto arg0 = path;
+	self_->AddRootPackage(arg0);
+};
+
+void WrapperDLL::File_ClearRootDirectories(void* self){
+	auto self_ = (File*)self;
+	self_->ClearRootDirectories();
+};
+
+bool WrapperDLL::File_Exists(void* self,const char16_t* path){
+	auto self_ = (File*)self;
+	auto arg0 = path;
+	auto ret = self_->Exists(arg0);
+	return ret;
+};
 
 void WrapperDLL::Sound_Destruct(void* self){
 	auto self_ = (Sound*)self;
@@ -173,6 +226,65 @@ float WrapperDLL::SoundSource_GetLength(void* self){
 	auto self_ = (SoundSource*)self;
 	auto ret = self_->GetLength();
 	return ret;
+};
+
+void WrapperDLL::StaticFile_Destruct(void* self){
+	auto self_ = (StaticFile*)self;
+	SafeRelease(self_);
+};
+
+const std::vector<uint8_t>& WrapperDLL::StaticFile_GetBuffer(void* self){
+	auto self_ = (StaticFile*)self;
+	auto& ret = self_->GetBuffer();
+	return ret;
+};
+
+const char16_t* WrapperDLL::StaticFile_GetFullPath(void* self){
+	auto self_ = (StaticFile*)self;
+	auto ret = self_->GetFullPath();
+	return ret;
+};
+
+void* WrapperDLL::StaticFile_GetData(void* self){
+	auto self_ = (StaticFile*)self;
+	auto ret = self_->GetData();
+	return ret;
+};
+
+int32_t WrapperDLL::StaticFile_GetSize(void* self){
+	auto self_ = (StaticFile*)self;
+	auto ret = self_->GetSize();
+	return ret;
+};
+
+bool WrapperDLL::StaticFile_GetIsInPackage(void* self){
+	auto self_ = (StaticFile*)self;
+	auto ret = self_->GetIsInPackage();
+	return ret;
+};
+
+void WrapperDLL::StreamFile_Destruct(void* self){
+	auto self_ = (StreamFile*)self;
+	SafeRelease(self_);
+};
+
+int32_t WrapperDLL::StreamFile_GetSize(void* self){
+	auto self_ = (StreamFile*)self;
+	auto ret = self_->GetSize();
+	return ret;
+};
+
+int32_t WrapperDLL::StreamFile_GetCurrentPosition(void* self){
+	auto self_ = (StreamFile*)self;
+	auto ret = self_->GetCurrentPosition();
+	return ret;
+};
+
+void WrapperDLL::StreamFile_Read(void* self,std::vector<uint8_t>& buffer,int32_t size){
+	auto self_ = (StreamFile*)self;
+	auto arg0 = buffer;
+	auto arg1 = size;
+	self_->Read(arg0,arg1);
 };
 
 
