@@ -4,10 +4,15 @@
 	"ClassWhiteList":
 	[
 		"Sound",
-		"SoundSource"
+    "SoundSource",
+    "File",
+    "StaticFile",
+    "StreamFile"
 	],
 	"ReleasableClassList":
 	[
-		"SoundSource"
+    "SoundSource",
+    "StaticFile",
+    "StreamFile"
 	]
 }

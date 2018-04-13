@@ -19,30 +19,44 @@ namespace asd
 		friend class Accessor;
 
 	protected:
-		virtual StaticFile* CreateStaticFile_(const achar* path) = 0;
-		virtual StreamFile* CreateStreamFile_(const achar* path) = 0;
 
-	public:
+
+		File() {}
 		virtual ~File() { }
+	public:
+		
+		/**
+		@brief	一括読込のファイルを生成する。
+		@param	path	ファイルパス
+		@return	ファイル
+		*/
+		virtual StaticFile* CreateStaticFile(const char16_t* path) = 0;
+
+		/**
+		@brief	逐次読込のファイルを生成する。
+		@param	path	ファイルパス
+		@return	ファイル
+		*/
+		virtual StreamFile* CreateStreamFile(const char16_t* path) = 0;
 
 		/**
 			@brief	ファイル操作する時のルートのディレクトリを追加する。
 			@param	path	ルートのディレクトリのパス
 		*/
-		virtual void AddRootDirectory(const achar* path) = 0;
+		virtual void AddRootDirectory(const char16_t* path) = 0;
 
 		/**
 		@brief	ファイル操作する時のルートのパスワード付パッケージを追加する。
 		@param	path		パッケージのパス
 		@param	password	パスワード
 		*/
-		virtual void AddRootPackageWithPassword(const achar* path, const achar* password) = 0;
+		virtual void AddRootPackageWithPassword(const char16_t* path, const char16_t* password) = 0;
 		
 		/**
 		@brief	ファイル操作する時のルートのパッケージを追加する。
 		@param	path		パッケージのパス
 		*/
-		virtual void AddRootPackage(const achar* path) = 0;
+		virtual void AddRootPackage(const char16_t* path) = 0;
 
 		/**
 		@brief	追加されたパッケージを全て消去する。
@@ -54,18 +68,6 @@ namespace asd
 		@param	path		ファイルのパス
 		@return	ファイルが存在するか?
 		*/
-		virtual bool Exists(const achar* path) const = 0;
-
-#ifndef SWIG
-		std::shared_ptr<StaticFile> CreateStaticFile(const achar* path)
-		{
-			return CreateSharedPtrWithReleaseDLL(CreateStaticFile_(path));
-		}
-
-		std::shared_ptr<StreamFile> CreateStreamFile(const achar* path)
-		{
-			return CreateSharedPtrWithReleaseDLL(CreateStreamFile_(path));
-		}
-#endif
+		virtual bool Exists(const char16_t* path) const = 0;
 	};
 }

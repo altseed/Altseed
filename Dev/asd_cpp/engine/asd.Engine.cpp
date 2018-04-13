@@ -400,6 +400,11 @@ bool Engine::GenerateCore()
 		{
 			return new Sound(self, false);
 		}
+
+		File* CreateFileW(void* self)
+		{
+			return new File(self, false);
+		}
 	};
 
 	Core* Engine::m_core = nullptr;
@@ -641,7 +646,7 @@ bool Engine::GenerateCore()
 			m_sound = accessor.CreateSound((void*)m_core->GetSound());
 			m_graphics = m_core->GetGraphics();
 			m_animationSyatem = m_core->GetAnimationSyatem();
-			m_file = m_core->GetFile();
+			m_file = accessor.CreateFileW(m_core->GetFile());
 			m_transitionState = std::make_shared<NeutralState>();
 			m_changesToCommit = std::queue<std::shared_ptr<ICommitable>>();
 
@@ -718,7 +723,7 @@ bool Engine::GenerateCore()
 			m_layerProfiler = m_core->GetLayerProfiler();
 			m_objectSystemFactory = m_core->GetObjectSystemFactory();
 			m_sound = accessor.CreateSound((void*)m_core->GetSound());
-			m_file = m_core->GetFile();
+			m_file = accessor.CreateFileW(m_core->GetFile());
 			m_graphics = m_core->GetGraphics();
 			m_animationSyatem = m_core->GetAnimationSyatem();
 			m_transitionState = std::make_shared<NeutralState>();
@@ -846,7 +851,8 @@ bool Engine::GenerateCore()
 
 		m_core->Terminate();
 
-		//SafeDelete(m_sound);
+		SafeDelete(m_sound);
+		SafeDelete(m_file);
 
 		SafeRelease(m_core);
 	}

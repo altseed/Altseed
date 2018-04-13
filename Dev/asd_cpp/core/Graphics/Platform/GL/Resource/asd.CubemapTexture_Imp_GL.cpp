@@ -24,10 +24,12 @@ namespace asd
 		auto loadFile = [graphics](const achar* path, std::vector<uint8_t>& dst)-> bool
 		{
 			auto staticFile = graphics->GetFile()->CreateStaticFile(path);
-			if (staticFile.get() == nullptr) return false;
+			if (staticFile == nullptr) return false;
 
 			dst.resize(staticFile->GetSize());
 			memcpy(dst.data(), staticFile->GetData(), staticFile->GetSize());
+
+			SafeRelease(staticFile);
 
 			return true;
 		};
@@ -135,10 +137,12 @@ namespace asd
 		auto loadFile = [graphics](const achar* path, std::vector<uint8_t>& dst)-> bool
 		{
 			auto staticFile = graphics->GetFile()->CreateStaticFile(path);
-			if (staticFile.get() == nullptr) return false;
+			if (staticFile == nullptr) return false;
 
 			dst.resize(staticFile->GetSize());
 			memcpy(dst.data(), staticFile->GetData(), staticFile->GetSize());
+
+			SafeRelease(staticFile);
 
 			return true;
 		};
@@ -240,13 +244,15 @@ namespace asd
 	CubemapTexture_Imp* CubemapTexture_Imp_GL::Create(Graphics_Imp* graphics, const achar* path)
 	{
 		auto staticFile = graphics->GetFile()->CreateStaticFile(path);
-		if (staticFile.get() == nullptr) return nullptr;
+		if (staticFile == nullptr) return nullptr;
 
 		if (!ImageHelper::IsDDS(staticFile->GetBuffer().data(), staticFile->GetBuffer().size())) return nullptr;
 
 		nv_dds::CDDSImage image;
 		std::istringstream stream(std::string(staticFile->GetBuffer().begin(), staticFile->GetBuffer().end()));
 		image.load(stream);
+
+		SafeRelease(staticFile);
 
 		auto g = (Graphics_Imp_GL*) graphics;
 

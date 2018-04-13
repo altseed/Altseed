@@ -109,11 +109,14 @@ namespace asd {
 		bool Load(const EFK_CHAR* path, void*& data, int32_t& size)
 		{
 			auto sf = file->CreateStaticFile((const achar*) path);
-			if (sf.get() == nullptr) return false;
+			if (sf == nullptr) return false;
 
 			size = sf->GetSize();
 			data = new uint8_t[size];
 			memcpy(data, sf->GetData(), size);
+
+			SafeRelease(sf);
+
 			return true;
 		}
 
@@ -838,9 +841,11 @@ Texture2D_Imp* Graphics_Imp::CreateEmptyTexture2D_Imp(int32_t width, int32_t hei
 Texture2D_Imp* Graphics_Imp::CreateEditableTexture2D_Imp(const achar* path)
 {
 	auto staticFile = m_file->CreateStaticFile(path);
-	if (staticFile.get() == nullptr) return nullptr;
+	if (staticFile == nullptr) return nullptr;
 
-	return CreateEditableTexture2D_Imp_Internal(this, (uint8_t*)staticFile->GetData(), staticFile->GetSize());
+	auto ret = CreateEditableTexture2D_Imp_Internal(this, (uint8_t*)staticFile->GetData(), staticFile->GetSize());
+	SafeRelease(staticFile);
+	return ret;
 }
 
 Texture2D_Imp* Graphics_Imp::CreateTexture2DWithRawData(int32_t width, int32_t height, TextureFormat format, void* data)
@@ -919,12 +924,14 @@ Model* Graphics_Imp::CreateModel_(const achar* path)
 MassModel* Graphics_Imp::CreateMassModelFromModelFile_(const achar* path)
 {
 	auto staticFile = GetFile()->CreateStaticFile(path);
-	if (staticFile.get() == nullptr) return nullptr;
+	if (staticFile == nullptr) return nullptr;
 
 	std::vector<uint8_t> data;
 	data.resize(staticFile->GetSize());
 
 	memcpy(data.data(), staticFile->GetData(), staticFile->GetSize());
+	
+	SafeRelease(staticFile);
 
 	Model_IO model_io;
 	if (!model_io.Load(data, path))
@@ -951,12 +958,14 @@ MassModel* Graphics_Imp::CreateMassModelFromModelFile_(const achar* path)
 MassModel* Graphics_Imp::CreateMassModel_(const achar* path)
 {
 	auto staticFile = GetFile()->CreateStaticFile(path);
-	if (staticFile.get() == nullptr) return nullptr;
+	if (staticFile == nullptr) return nullptr;
 
 	std::vector<uint8_t> data;
 	data.resize(staticFile->GetSize());
 
 	memcpy(data.data(), staticFile->GetData(), staticFile->GetSize());
+
+	SafeRelease(staticFile);
 
 	MassModel_IO massmodel_io;
 	if (!massmodel_io.Load(data, path))

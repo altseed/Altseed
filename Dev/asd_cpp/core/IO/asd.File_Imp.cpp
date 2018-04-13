@@ -33,19 +33,19 @@ namespace asd
 		m_roots.push_back(std::shared_ptr<FileRoot>(new FileRoot(ToAString("./"), std::shared_ptr<Decryptor>())));
 	}
 
-	void File_Imp::AddRootDirectory(const achar* path)
+	void File_Imp::AddRootDirectory(const char16_t* path)
 	{
 		m_roots.insert(m_roots.begin(), std::shared_ptr<FileRoot>(new FileRoot(path, std::shared_ptr<Decryptor>())));
 	}
 
-	void File_Imp::AddRootPackageWithPassword(const achar* path, const achar* password)
+	void File_Imp::AddRootPackageWithPassword(const char16_t* path, const char16_t* password)
 	{
 		std::shared_ptr<Decryptor> dec = std::shared_ptr<Decryptor>(new Decryptor(astring(password)));
 
 		m_roots.insert(m_roots.begin(), std::shared_ptr<FileRoot>(new FileRoot(path, dec)));
 	}
 
-	void File_Imp::AddRootPackage(const achar* path)
+	void File_Imp::AddRootPackage(const char16_t* path)
 	{
 		m_roots.insert(m_roots.begin(), std::shared_ptr<FileRoot>(new FileRoot(path, std::shared_ptr<Decryptor>())));
 	}
@@ -56,7 +56,7 @@ namespace asd
 		AddDefaultRootDirectory();
 	}
 
-	bool File_Imp::Exists(const achar* path) const
+	bool File_Imp::Exists(const char16_t* path) const
 	{
 		if (FileHelper::IsAbsolutePath(path))
 		{
@@ -99,7 +99,7 @@ namespace asd
 		return false;
 	}
 
-	StaticFile* File_Imp::CreateStaticFile_(const achar* path)
+	StaticFile* File_Imp::CreateStaticFile(const char16_t* path)
 	{
 		std::lock_guard<std::recursive_mutex> lock(mtx_);
 
@@ -185,7 +185,7 @@ namespace asd
 		return nullptr;
 	}
 
-	StreamFile* File_Imp::CreateStreamFile_(const achar* path)
+	StreamFile* File_Imp::CreateStreamFile(const char16_t* path)
 	{
 		std::lock_guard<std::recursive_mutex> lock(mtx_);
 
