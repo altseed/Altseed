@@ -46,7 +46,7 @@ namespace asd {
 
 		ProfilerViewer_Imp* m_profilerViewer;
 		Graphics_Imp*	m_graphics;
-		Sound_Imp*		m_sound;
+		Sound*			m_sound;
 
 		ObjectSystemFactory_Imp* m_objectSystemFactory;
 		AnimationSystem_Imp*	m_animationSyatem;

@@ -23,6 +23,7 @@
 #include "Graphics/3D/Resource/asd.Mesh.h"
 #include "Graphics/3D//Resource/asd.Model.h"
 
+#include "IO/asd.File.h"
 #include "IO/asd.StreamFile.h"
 
 namespace asd

@@ -19,7 +19,7 @@
 #include "../ObjectSystem/asd.ObjectSystemFactory_Imp.h"
 #include "../ObjectSystem/Transition/asd.CoreTransition_Imp.h"
 
-#include "../Sound/asd.Sound_Imp.h"
+#include "../Sound/asd.Sound.h"
 
 #include "../Graphics/3D/Resource/Animation/asd.AnimationSystem_Imp.h"
 #include "../Graphics/2D/asd.LayerRenderer.h"
@@ -252,7 +252,7 @@ namespace asd
 
 		if (m_graphics == nullptr) return false;
 
-		m_sound = new Sound_Imp(m_file, m_logger, option.IsReloadingEnabled);
+		m_sound = new Sound(m_file, m_logger, option.IsReloadingEnabled);
 
 		m_profiler = Profiler_Imp::Create();
 
@@ -336,7 +336,7 @@ namespace asd
 		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, option.GraphicsDevice, m_logger,m_file, go);
 		if (m_graphics == nullptr) return false;
 
-		m_sound = new Sound_Imp(m_file, m_logger, option.IsReloadingEnabled);
+		m_sound = new Sound(m_file, m_logger, option.IsReloadingEnabled);
 
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, Vector2DI(width, height));
 

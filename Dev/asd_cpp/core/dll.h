@@ -26,8 +26,8 @@
 #include "IO/asd.StaticFile.h"
 //#include "IO/asd.StreamFile.h"
 
-#include "Sound/asd.SoundSource_Imp.h"
-#include "Sound/asd.Sound_Imp.h"
+#include "Sound/asd.SoundSource.h"
+#include "Sound/asd.Sound.h"
 
 #include "Graphics/asd.Graphics_Imp.h"
 #include "Graphics/Resource/asd.Texture2D_Imp.h"

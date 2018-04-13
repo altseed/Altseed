@@ -334,13 +334,7 @@
     <ClInclude Include="..\core\Sound\asd.Sound.h">
       <Filter>Sound</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Sound\asd.Sound_Imp.h">
-      <Filter>Sound</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Sound\asd.SoundSource.h">
-      <Filter>Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Sound\asd.SoundSource_Imp.h">
       <Filter>Sound</Filter>
     </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreEffectObject2D_Imp.h">
@@ -1175,12 +1169,6 @@
     <ClCompile Include="..\core\PCH\asd.Core.PCH.cpp">
       <Filter>PCH</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\Sound\asd.Sound_Imp.cpp">
-      <Filter>Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Sound\asd.SoundSource_Imp.cpp">
-      <Filter>Sound</Filter>
-    </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreEffectObject2D_Imp.cpp">
       <Filter>ObjectSystem\2D</Filter>
     </ClCompile>
@@ -1527,6 +1515,12 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="..\core\asd.WrapperDLL.cpp" />
+    <ClCompile Include="..\core\Sound\asd.SoundSource.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Sound\asd.Sound.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\core\Input\asd.JoystickContainer.h">

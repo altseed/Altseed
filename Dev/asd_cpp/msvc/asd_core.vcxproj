@@ -619,8 +619,6 @@
     <ClInclude Include="..\core\Shape\asd.CoreShapeConverter.h" />
     <ClInclude Include="..\core\Sound\asd.Sound.h" />
     <ClInclude Include="..\core\Sound\asd.SoundSource.h" />
-    <ClInclude Include="..\core\Sound\asd.SoundSource_Imp.h" />
-    <ClInclude Include="..\core\Sound\asd.Sound_Imp.h" />
     <ClInclude Include="..\core\Utils\asd.ResourceContainer.h" />
     <ClInclude Include="..\core\Utils\asd.Synchronizer.h" />
     <ClInclude Include="..\core\Utils\IAsyncResource.h" />
@@ -791,8 +789,8 @@
     <ClCompile Include="..\core\Shape\asd.CoreShape_Imp.cpp" />
     <ClCompile Include="..\core\Shape\asd.CoreTriangleShape_Imp.cpp" />
     <ClCompile Include="..\core\Shape\asd.CorePolygonShape_Imp.cpp" />
-    <ClCompile Include="..\core\Sound\asd.SoundSource_Imp.cpp" />
-    <ClCompile Include="..\core\Sound\asd.Sound_Imp.cpp" />
+    <ClCompile Include="..\core\Sound\asd.SoundSource.cpp" />
+    <ClCompile Include="..\core\Sound\asd.Sound.cpp" />
     <ClCompile Include="..\core\Utils\asd.ResourceContainer.cpp" />
     <ClCompile Include="..\core\Utils\asd.Synchronizer.cpp" />
     <ClCompile Include="..\core\Window\asd.Cursor_Imp.cpp" />

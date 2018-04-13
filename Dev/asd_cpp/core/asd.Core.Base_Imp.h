@@ -35,9 +35,6 @@ namespace asd {
 	class StaticFile_Imp;
 	class StreamFile_Imp;
 
-	class Sound_Imp;
-	class SoundSource_Imp;
-
 	class RenderingThreadEvent;
 	class RenderingThread;
 
