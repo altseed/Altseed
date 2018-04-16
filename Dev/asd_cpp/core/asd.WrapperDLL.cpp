@@ -280,11 +280,23 @@ int32_t WrapperDLL::StreamFile_GetCurrentPosition(void* self){
 	return ret;
 };
 
-void WrapperDLL::StreamFile_Read(void* self,std::vector<uint8_t>& buffer,int32_t size){
+int32_t WrapperDLL::StreamFile_Read(void* self,int32_t size){
 	auto self_ = (StreamFile*)self;
-	auto arg0 = buffer;
-	auto arg1 = size;
-	self_->Read(arg0,arg1);
+	auto arg0 = size;
+	auto ret = self_->Read(arg0);
+	return ret;
+};
+
+void* WrapperDLL::StreamFile_GetTempBuffer(void* self){
+	auto self_ = (StreamFile*)self;
+	auto ret = self_->GetTempBuffer();
+	return ret;
+};
+
+int32_t WrapperDLL::StreamFile_GetTempBufferSize(void* self){
+	auto self_ = (StreamFile*)self;
+	auto ret = self_->GetTempBufferSize();
+	return ret;
 };
 
 

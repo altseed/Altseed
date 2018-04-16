@@ -37,9 +37,30 @@ namespace asd
 
 #if !SWIG
 		/**
+			@brief	ファイルからデータを読み込み、一時的なバッファに格納する。
+			@param	size	読み込むサイズ
+			@return	読み込んだサイズ
+		*/
+		virtual int32_t Read(int32_t size) = 0;
+
+		/**
+		@brief	読み込まれた一時的なバッファの先頭のポインタを取得する。
+		@return	ポインタ
+		*/
+		virtual void* GetTempBuffer() = 0;
+
+		/**
+		@brief	読み込まれた一時的なバッファのサイズを取得する。
+		@return	サイズ
+		*/
+		virtual int32_t GetTempBufferSize() = 0;
+
+		/**
 			@brief	指定したサイズ分、ファイルを読み込む。
 			@param	buffer	出力先
 			@param	size	読み込まれるサイズ
+			@note
+			#Ignore
 		*/
 		void Read(std::vector<uint8_t>& buffer, int32_t size)
 		{

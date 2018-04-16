@@ -33,6 +33,12 @@ namespace asd
 
 		virtual ~StreamFile_Imp();
 
+		int32_t Read(int32_t size) override;
+
+		void* GetTempBuffer() override;
+
+		int32_t GetTempBufferSize() override;
+
 		int32_t Read_(int32_t size) override;
 		void* GetTempBuffer_() override;
 		int32_t GetTempBufferSize_() override;

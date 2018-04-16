@@ -62,7 +62,9 @@ public:
 	virtual void StreamFile_Destruct(void* self);
 	virtual int32_t StreamFile_GetSize(void* self);
 	virtual int32_t StreamFile_GetCurrentPosition(void* self);
-	virtual void StreamFile_Read(void* self,std::vector<uint8_t>& buffer,int32_t size);
+	virtual int32_t StreamFile_Read(void* self,int32_t size);
+	virtual void* StreamFile_GetTempBuffer(void* self);
+	virtual int32_t StreamFile_GetTempBufferSize(void* self);
 };
 
 };

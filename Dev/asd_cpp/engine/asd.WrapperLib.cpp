@@ -312,11 +312,23 @@ int32_t StreamFile::GetCurrentPosition() const{
 	return ret;
 };
 
-void StreamFile::Read(std::vector<uint8_t>& buffer,int32_t size){
+int32_t StreamFile::Read(int32_t size){
 	auto arg0 = self;
-	auto arg1 = buffer;
-	auto arg2 = size;
-	dll->StreamFile_Read(arg0,arg1,arg2);
+	auto arg1 = size;
+	auto ret = dll->StreamFile_Read(arg0,arg1);
+	return ret;
+};
+
+void* StreamFile::GetTempBuffer(){
+	auto arg0 = self;
+	auto ret = dll->StreamFile_GetTempBuffer(arg0);
+	return ret;
+};
+
+int32_t StreamFile::GetTempBufferSize(){
+	auto arg0 = self;
+	auto ret = dll->StreamFile_GetTempBufferSize(arg0);
+	return ret;
 };
 
 

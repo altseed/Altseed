@@ -365,12 +365,37 @@ class StreamFile {
 	int32_t GetCurrentPosition() const;
 	
 	/**
-		@brief 指定したサイズ分、ファイルを読み込む。 
-		@param buffer 出力先 
-		@param size 読み込まれるサイズ 
+		@brief ファイルからデータを読み込み、一時的なバッファに格納する。 
+		@param size 読み込むサイズ 
+		@return 読み込んだサイズ 
 	*/
-	void Read(std::vector<uint8_t>& buffer,int32_t size);
+	int32_t Read(int32_t size);
 	
+	/**
+		@brief 読み込まれた一時的なバッファの先頭のポインタを取得する。 
+		@return ポインタ 
+	*/
+	void* GetTempBuffer();
+	
+	/**
+		@brief 読み込まれた一時的なバッファのサイズを取得する。 
+		@return サイズ 
+	*/
+	int32_t GetTempBufferSize();
+	
+	
+/**
+	@brief	指定したサイズ分、ファイルを読み込む。
+	@param	buffer	出力先
+	@param	size	読み込まれるサイズ
+*/
+void Read(std::vector<uint8_t>& buffer, int32_t size)
+{
+	auto result = Read(size);
+	buffer.resize(result);
+	memcpy(buffer.data(), GetTempBuffer(), result);
+}
+
 };
 
 
