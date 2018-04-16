@@ -21,7 +21,7 @@ namespace asd
 		IAsyncResource* GetResource() { return resource; }
 		Continuation GetContinuation() { return continuation; }
 
-		bool operator==(SyncInfo right)
+		bool operator==(const SyncInfo& right) const
 		{
 			return id == right.id;
 		}

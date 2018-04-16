@@ -1,7 +1,7 @@
 ﻿
 #include "asd.Accessor.h"
 
-#include "Sound/asd.Sound_Imp.h"
+//#include "Sound/asd.Sound_Imp.h"
 
 #include "Graphics/3D/Resource/Animation/asd.AnimationSystem.h"
 #include "Graphics/3D/Resource/Animation/asd.AnimationClip.h"
