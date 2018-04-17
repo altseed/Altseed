@@ -159,9 +159,9 @@ namespace asd.Particular
 
 		public static unsafe void CopyStreamFileToList(asd.swig.StreamFile CoreInstance, List<byte> buffer, int size)
 		{
-			swig.Accessor.StreamFile_Read_(CoreInstance, size);
-            System.IntPtr raw = swig.Accessor.StreamFile_GetTempBuffer_(CoreInstance);
-            byte[] bytes = new byte[swig.Accessor.StreamFile_GetTempBufferSize_(CoreInstance)];
+			CoreInstance.Read(size);
+            System.IntPtr raw = CoreInstance.GetTempBuffer();
+            byte[] bytes = new byte[CoreInstance.GetTempBufferSize()];
             System.Runtime.InteropServices.Marshal.Copy(raw, bytes, 0, bytes.Length);
 
             buffer.Clear();

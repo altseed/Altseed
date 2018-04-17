@@ -35,7 +35,6 @@ namespace asd
 		*/
 		virtual int32_t GetCurrentPosition() const = 0;
 
-#if !SWIG
 		/**
 			@brief	ファイルからデータを読み込み、一時的なバッファに格納する。
 			@param	size	読み込むサイズ
@@ -55,6 +54,7 @@ namespace asd
 		*/
 		virtual int32_t GetTempBufferSize() = 0;
 
+#if !SWIG
 		/**
 			@brief	指定したサイズ分、ファイルを読み込む。
 			@param	buffer	出力先

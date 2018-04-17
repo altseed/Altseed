@@ -1,8 +1,6 @@
 ﻿
 #include "asd.Accessor.h"
 
-//#include "Sound/asd.Sound_Imp.h"
-
 #include "Graphics/3D/Resource/Animation/asd.AnimationSystem.h"
 #include "Graphics/3D/Resource/Animation/asd.AnimationClip.h"
 #include "Graphics/3D/Resource/Animation/asd.AnimationSource.h"
@@ -23,17 +21,8 @@
 #include "Graphics/3D/Resource/asd.Mesh.h"
 #include "Graphics/3D//Resource/asd.Model.h"
 
-#include "IO/asd.File.h"
-#include "IO/asd.StreamFile.h"
-
 namespace asd
 {
-	SoundSource* Accessor::Sound_CreateSoundSource(Sound* o, const achar* path, bool isDecompressed)
-	{
-		return nullptr;
-		//return o->CreateSoundSource_(path, isDecompressed);
-	}
-
 	AnimationSource* Accessor::AnimationClip_GetSource(AnimationClip* o)
 	{
 		return o->GetSource_();
@@ -102,30 +91,5 @@ namespace asd
 	Effect* Accessor::CoreEffectObject2D_GetEffect(CoreEffectObject2D* o)
 	{
 		return o->GetEffect_();
-	}
-
-	StaticFile* Accessor::File_CreateStaticFile(File* file, const achar* path)
-	{
-		return file->CreateStaticFile_(path);
-	}
-
-	StreamFile* Accessor::File_CreateStreamFile(File* file, const achar* path)
-	{
-		return file->CreateStreamFile_(path);
-	}
-
-	int32_t Accessor::StreamFile_Read_(StreamFile* o, int32_t size)
-	{
-		return o->Read_(size);
-	}
-
-	void* Accessor::StreamFile_GetTempBuffer_(StreamFile* o)
-	{
-		return o->GetTempBuffer_();
-	}
-
-	int32_t Accessor::StreamFile_GetTempBufferSize_(StreamFile* o)
-	{
-		return o->GetTempBufferSize_();
 	}
 }

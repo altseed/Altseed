@@ -14,8 +14,6 @@ namespace asd
 		~Accessor() {}
 	public:
 
-		static SoundSource* Sound_CreateSoundSource(Sound* o, const achar* path, bool isDecompressed);
-
 		static AnimationSource* AnimationClip_GetSource(AnimationClip* o);
 
 		static Texture2D* Material2D_GetTexture2D(Material2D* o, const achar* name);
@@ -38,12 +36,5 @@ namespace asd
 		static Effect* CoreEffectObject2D_GetEffect(CoreEffectObject2D* o);
 
 		static Texture2D* Chip2D_GetTexture(CoreChip2D* chip);
-
-		static StaticFile* File_CreateStaticFile(File* file, const achar* path);
-		static StreamFile* File_CreateStreamFile(File* file, const achar* path);
-
-		static int32_t StreamFile_Read_(StreamFile* o, int32_t size);
-		static void* StreamFile_GetTempBuffer_(StreamFile* o);
-		static int32_t StreamFile_GetTempBufferSize_(StreamFile* o);
 	};
 }

@@ -15,14 +15,14 @@ namespace asd
 
         public StaticFile CreateStaticFile(string path)
         {
-            var file_ = swig.Accessor.File_CreateStaticFile(CoreInstance, path);
+            var file_ = CoreInstance.CreateStaticFile(path);
             if (file_ == null) return null;
             return GC.GenerateStaticFile(file_, GenerationType.Create);
         }
 
 		public StreamFile CreateStreamFile(string path)
 		{
-			var file_ = swig.Accessor.File_CreateStreamFile(CoreInstance, path);
+			var file_ = CoreInstance.CreateStreamFile(path);
 			if (file_ == null) return null;
 			return GC.GenerateStreamFile(file_, GenerationType.Create);
 		}
