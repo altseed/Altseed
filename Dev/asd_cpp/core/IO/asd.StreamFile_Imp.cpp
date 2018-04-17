@@ -35,6 +35,21 @@ namespace asd
 		SafeRelease(file);
 	}
 
+	int32_t StreamFile_Imp::Read(int32_t size)
+	{
+		return Read_(size);
+	}
+
+	void* StreamFile_Imp::GetTempBuffer()
+	{
+		return GetTempBuffer_();
+	}
+
+	int32_t StreamFile_Imp::GetTempBufferSize()
+	{
+		return GetTempBufferSize_();
+	}
+
 	int32_t StreamFile_Imp::Read_(int32_t size)
 	{
 		buffer.clear();

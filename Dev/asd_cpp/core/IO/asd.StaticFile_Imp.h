@@ -29,7 +29,7 @@ namespace asd
 		virtual ~StaticFile_Imp();
 		
 		const std::vector<uint8_t>& GetBuffer() const { return m_buffer; }
-		const achar* GetFullPath() const { return m_path.c_str(); }
+		const char16_t* GetFullPath() const { return m_path.c_str(); }
 		void* GetData() { return static_cast<void*>(m_buffer.data()); }
 		int32_t GetSize() { return static_cast<int32_t>(m_buffer.size()); }
 

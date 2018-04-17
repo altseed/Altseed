@@ -26,7 +26,7 @@ protected:
 
 		//ファイル機能で読み込んだバイナリ
 		asd::Engine::GetFile()->AddRootPackage(asd::ToAString("Data/Texture.pack").c_str());
-		auto staticFile = asd::Engine::GetFile()->CreateStaticFile(asd::ToAString("Surface/Tile_Normal.png").c_str());
+		auto staticFile = asd::Engine::GetFile()->CreateStaticFile(u"Surface/Tile_Normal.png");
 		auto staticFileData = staticFile->GetBuffer();
 
 		int cnt = 0;
