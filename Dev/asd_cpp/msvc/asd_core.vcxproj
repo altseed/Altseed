@@ -323,6 +323,15 @@
     <ClInclude Include="..\core\3rdParty\DirectXToolKit\DDSTextureLoader.h" />
     <ClInclude Include="..\core\3rdParty\DirectXToolKit\DirectXHelpers.h" />
     <ClInclude Include="..\core\3rdParty\DirectXToolKit\PlatformHelpers.h" />
+    <ClInclude Include="..\core\3rdParty\imgui\imconfig.h" />
+    <ClInclude Include="..\core\3rdParty\imgui\imgui.h" />
+    <ClInclude Include="..\core\3rdParty\imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="..\core\3rdParty\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="..\core\3rdParty\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="..\core\3rdParty\imgui\imgui_internal.h" />
+    <ClInclude Include="..\core\3rdParty\imgui\stb_rect_pack.h" />
+    <ClInclude Include="..\core\3rdParty\imgui\stb_textedit.h" />
+    <ClInclude Include="..\core\3rdParty\imgui\stb_truetype.h" />
     <ClInclude Include="..\core\3rdParty\nv_dds\nv_dds.h" />
     <ClInclude Include="..\core\3rdParty\poly2tri\common\shapes.h" />
     <ClInclude Include="..\core\3rdParty\poly2tri\common\utils.h" />
@@ -619,6 +628,7 @@
     <ClInclude Include="..\core\Shape\asd.CoreShapeConverter.h" />
     <ClInclude Include="..\core\Sound\asd.Sound.h" />
     <ClInclude Include="..\core\Sound\asd.SoundSource.h" />
+    <ClInclude Include="..\core\Tool\asd.Tool.h" />
     <ClInclude Include="..\core\Utils\asd.ResourceContainer.h" />
     <ClInclude Include="..\core\Utils\asd.Synchronizer.h" />
     <ClInclude Include="..\core\Utils\IAsyncResource.h" />
@@ -636,6 +646,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\3rdParty\DirectXToolKit\DDSTextureLoader.cpp" />
+    <ClCompile Include="..\core\3rdParty\imgui\imgui.cpp" />
+    <ClCompile Include="..\core\3rdParty\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\core\3rdParty\imgui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="..\core\3rdParty\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="..\core\3rdParty\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\core\3rdParty\nv_dds\nv_dds.cpp" />
     <ClCompile Include="..\core\3rdParty\poly2tri\common\shapes.cpp" />
     <ClCompile Include="..\core\3rdParty\poly2tri\sweep\advancing_front.cpp" />
@@ -791,6 +806,7 @@
     <ClCompile Include="..\core\Shape\asd.CorePolygonShape_Imp.cpp" />
     <ClCompile Include="..\core\Sound\asd.SoundSource.cpp" />
     <ClCompile Include="..\core\Sound\asd.Sound.cpp" />
+    <ClCompile Include="..\core\Tool\asd.Tool.cpp" />
     <ClCompile Include="..\core\Utils\asd.ResourceContainer.cpp" />
     <ClCompile Include="..\core\Utils\asd.Synchronizer.cpp" />
     <ClCompile Include="..\core\Window\asd.Cursor_Imp.cpp" />

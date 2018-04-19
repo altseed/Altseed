@@ -331,6 +331,41 @@ int32_t StreamFile::GetTempBufferSize(){
 	return ret;
 };
 
+Tool::Tool(void* self, bool isCtrlSelf) {
+	this->self = self;
+	this->isCtrlSelf = isCtrlSelf;
+}
+Tool::~Tool(){
+	if (isCtrlSelf) {
+		dll->Tool_Destruct(self);
+	}
+};
+
+bool Tool::Begin(const char16_t* name){
+	auto arg0 = self;
+	auto arg1 = name;
+	auto ret = dll->Tool_Begin(arg0,arg1);
+	return ret;
+};
+
+void Tool::End(){
+	auto arg0 = self;
+	dll->Tool_End(arg0);
+};
+
+void Tool::Text(const char16_t* text){
+	auto arg0 = self;
+	auto arg1 = text;
+	dll->Tool_Text(arg0,arg1);
+};
+
+bool Tool::Button(const char16_t* label){
+	auto arg0 = self;
+	auto arg1 = label;
+	auto ret = dll->Tool_Button(arg0,arg1);
+	return ret;
+};
+
 
 };
 

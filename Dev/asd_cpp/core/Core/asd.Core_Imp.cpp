@@ -24,6 +24,8 @@
 #include "../Graphics/3D/Resource/Animation/asd.AnimationSystem_Imp.h"
 #include "../Graphics/2D/asd.LayerRenderer.h"
 
+#include "../Tool/asd.Tool.h"
+
 #include <Utility/asd.Timer.h>
 
 //----------------------------------------------------------------------------------
@@ -436,7 +438,14 @@ namespace asd
 			return true;
 		}
 
-		return m_window->DoEvent();
+		auto ret = m_window->DoEvent();
+
+		if (ret && tool != nullptr)
+		{
+			tool->NewFrame();
+		}
+
+		return ret;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -452,6 +461,11 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Core_Imp::Terminate()
 	{
+		if (tool != nullptr)
+		{
+			CloseTool();
+		}
+
 #if (defined(_CONSOLE_GAME))
 
 #else
@@ -509,6 +523,11 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Core_Imp::EndDrawing()
 	{
+		if (tool != nullptr)
+		{
+			tool->Render();
+		}
+
 		m_graphics->Present();
 		m_graphics->End();
 
@@ -921,5 +940,24 @@ namespace asd
 	void Core_Imp::SetProfilerVisibility(bool visible)
 	{
 		m_isProfilerVisible = visible;
+	}
+
+	void Core_Imp::OpenTool()
+	{
+		if (tool != nullptr) return;
+		tool = new Tool(m_window, m_graphics);
+		tool->Initialize();
+	}
+
+	void Core_Imp::CloseTool()
+	{
+		if (tool == nullptr) return;
+		tool->Terminate();
+		SafeRelease(tool);
+	}
+
+	Tool* Core_Imp::GetTool()
+	{
+		return tool;
 	}
 };
