@@ -480,6 +480,6 @@ namespace asd
         /// 内部用のメソッドで、ユーザーは呼び出してはいけない。
         /// </summary>
 		[EditorBrowsable(EditorBrowsableState.Never)]
-        public Dictionary<long, Collider2D> CollidersMap { get; private set; }
+        public Dictionary<System.Int64, Collider2D> CollidersMap { get; private set; }
     }
 }

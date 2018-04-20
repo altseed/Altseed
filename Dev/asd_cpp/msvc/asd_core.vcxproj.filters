@@ -160,6 +160,12 @@
     <Filter Include="Collision\2D">
       <UniqueIdentifier>{114e34c7-a230-4333-8291-4050ad2f1cfc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tool">
+      <UniqueIdentifier>{6879cb8e-d155-4ef9-a115-12346ca0ed14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty\imgui">
+      <UniqueIdentifier>{3fa6a041-b39b-4628-ac6c-bee31d237d81}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\asd.Log_Imp.h">
@@ -1075,6 +1081,36 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="..\core\asd.WrapperDLL.h" />
+    <ClInclude Include="..\core\Tool\asd.Tool.h">
+      <Filter>Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\imgui\imconfig.h">
+      <Filter>3rdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\imgui\imgui.h">
+      <Filter>3rdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\imgui\imgui_impl_dx11.h">
+      <Filter>3rdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\imgui\imgui_impl_glfw.h">
+      <Filter>3rdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\imgui\imgui_impl_opengl3.h">
+      <Filter>3rdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\imgui\imgui_internal.h">
+      <Filter>3rdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\imgui\stb_rect_pack.h">
+      <Filter>3rdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\imgui\stb_textedit.h">
+      <Filter>3rdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\imgui\stb_truetype.h">
+      <Filter>3rdParty\imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">
@@ -1520,6 +1556,24 @@
     </ClCompile>
     <ClCompile Include="..\core\Sound\asd.Sound.cpp">
       <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Tool\asd.Tool.cpp">
+      <Filter>Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\imgui\imgui.cpp">
+      <Filter>3rdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\imgui\imgui_draw.cpp">
+      <Filter>3rdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\imgui\imgui_impl_dx11.cpp">
+      <Filter>3rdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\imgui\imgui_impl_glfw.cpp">
+      <Filter>3rdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\imgui\imgui_impl_opengl3.cpp">
+      <Filter>3rdParty\imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

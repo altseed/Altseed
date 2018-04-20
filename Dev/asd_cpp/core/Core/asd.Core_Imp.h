@@ -83,6 +83,8 @@ namespace asd {
 		bool isReloadingEnabeld = false;
 		bool m_isProfilerVisible = false;
 
+		Tool*	tool = nullptr;
+
 		Core_Imp();
 		virtual ~Core_Imp();
 
@@ -194,6 +196,12 @@ namespace asd {
 		void SetProfilerVisibility(bool visible);
 
 		bool IsReloadingEnabeld() const { return isReloadingEnabeld; }
+
+		void OpenTool() override;
+
+		void CloseTool()  override;
+
+		Tool* GetTool() override;
 	};
 	//----------------------------------------------------------------------------------
 	//

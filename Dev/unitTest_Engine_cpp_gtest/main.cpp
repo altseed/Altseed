@@ -131,6 +131,43 @@ int main(int argc, char **argv)
 	GetDirectoryName(current_path, argv[0]);
 	SetCurrentDirectoryA(current_path);
 #endif
+
+	asd::Engine::Initialize(u"Empty", 640, 480, asd::EngineOption());
+	asd::Engine::OpenTool();
+
+	int32_t count = 0;
+	// Altseedのウインドウが閉じられていないか確認する。
+	while (asd::Engine::DoEvents())
+	{
+		asd::Engine::GetTool()->Begin(u"test");
+
+		if (asd::Engine::GetTool()->Button(u"Button!"))
+		{
+			count++;
+		}
+
+		if (count % 2 == 0)
+		{
+			asd::Engine::GetTool()->Text(u"a");
+		}
+		else
+		{
+			asd::Engine::GetTool()->Text(u"b");
+		}
+		
+		asd::Engine::GetTool()->End();
+
+		// Altseedを更新する。
+		asd::Engine::Update();
+	}
+
+	// Altseedの終了処理をする。
+	asd::Engine::Terminate();
+
+	return 0;
+
+	return 0;
+
 	::testing::InitGoogleTest(&argc, argv);
 	
 	

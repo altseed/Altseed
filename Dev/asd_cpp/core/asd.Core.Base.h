@@ -17,7 +17,8 @@ namespace asd {
 	
 	class Window;
 	class Cursor;
-	
+	class Tool;
+
 	class Keyboard;
 	class Mouse;
 	class Log;

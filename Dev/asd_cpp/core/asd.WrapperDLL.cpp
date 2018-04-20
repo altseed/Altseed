@@ -7,6 +7,7 @@
 #include "IO/asd.File.h"
 #include "IO/asd.StaticFile.h"
 #include "IO/asd.StreamFile.h"
+#include "Tool/asd.Tool.h"
 
 namespace asd
 {
@@ -296,6 +297,35 @@ void* WrapperDLL::StreamFile_GetTempBuffer(void* self){
 int32_t WrapperDLL::StreamFile_GetTempBufferSize(void* self){
 	auto self_ = (StreamFile*)self;
 	auto ret = self_->GetTempBufferSize();
+	return ret;
+};
+
+void WrapperDLL::Tool_Destruct(void* self){
+	auto self_ = (Tool*)self;
+};
+
+bool WrapperDLL::Tool_Begin(void* self,const char16_t* name){
+	auto self_ = (Tool*)self;
+	auto arg0 = name;
+	auto ret = self_->Begin(arg0);
+	return ret;
+};
+
+void WrapperDLL::Tool_End(void* self){
+	auto self_ = (Tool*)self;
+	self_->End();
+};
+
+void WrapperDLL::Tool_Text(void* self,const char16_t* text){
+	auto self_ = (Tool*)self;
+	auto arg0 = text;
+	self_->Text(arg0);
+};
+
+bool WrapperDLL::Tool_Button(void* self,const char16_t* label){
+	auto self_ = (Tool*)self;
+	auto arg0 = label;
+	auto ret = self_->Button(arg0);
 	return ret;
 };
 

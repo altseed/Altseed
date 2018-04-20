@@ -65,6 +65,11 @@ public:
 	virtual int32_t StreamFile_Read(void* self,int32_t size);
 	virtual void* StreamFile_GetTempBuffer(void* self);
 	virtual int32_t StreamFile_GetTempBufferSize(void* self);
+	virtual void Tool_Destruct(void* self);
+	virtual bool Tool_Begin(void* self,const char16_t* name);
+	virtual void Tool_End(void* self);
+	virtual void Tool_Text(void* self,const char16_t* text);
+	virtual bool Tool_Button(void* self,const char16_t* label);
 };
 
 };

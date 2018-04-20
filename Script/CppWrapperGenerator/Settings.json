@@ -1,18 +1,19 @@
 {
-	"DoxygenXmlDirPath": "Doxygen_Core/xml/",
-	"ExportFilePath": "../../Dev/asd_cs/Wrappers.cs",
-	"ClassWhiteList":
-	[
-		"Sound",
-    "SoundSource",
-    "File",
-    "StaticFile",
-    "StreamFile"
-	],
-	"ReleasableClassList":
-	[
-    "SoundSource",
-    "StaticFile",
-    "StreamFile"
-	]
+    "DoxygenXmlDirPath": "Doxygen_Core/xml/",
+    "ExportFilePath": "../../Dev/asd_cs/Wrappers.cs",
+    "ClassWhiteList":
+    [
+        "Sound",
+        "SoundSource",
+        "File",
+        "StaticFile",
+        "StreamFile",
+        "Tool"
+    ],
+    "ReleasableClassList":
+    [
+        "SoundSource",
+        "StaticFile",
+        "StreamFile"
+    ]
 }

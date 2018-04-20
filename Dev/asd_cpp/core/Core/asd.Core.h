@@ -294,6 +294,12 @@ namespace asd {
 		virtual bool GetProfilerVisibility() const = 0;
 
 		virtual void SetProfilerVisibility(bool visible) = 0;
+
+		virtual void OpenTool() = 0;
+
+		virtual void CloseTool() = 0;
+
+		virtual Tool* GetTool() = 0;
 	};
 	//----------------------------------------------------------------------------------
 	//

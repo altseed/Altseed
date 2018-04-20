@@ -164,7 +164,7 @@ namespace asd {
 		static Graphics* m_graphics ;
 		static ObjectSystemFactory* m_objectSystemFactory ;
 		static AnimationSystem* m_animationSyatem ;
-
+		static Tool*	tool;
 
 		static std::shared_ptr<Scene>	m_currentScene;
 		static std::shared_ptr<Scene>	m_nextScene;
@@ -468,6 +468,21 @@ namespace asd {
 		static bool GetProfilerVisibility();
 
 		static void SetProfilerVisibility(bool visibility);
+
+		/**
+		@brief	ツールを開く。
+		*/
+		static void OpenTool();
+
+		/**
+		@brief	ツールを閉じる。
+		*/
+		static void CloseTool();
+
+		/**
+		@brief	Toolクラスを取得する。
+		*/
+		static Tool* GetTool();
 
 #if _WIN32
 
