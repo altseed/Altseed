@@ -63,10 +63,10 @@ with aceutils.CurrentDir('../Downloads'):
 
     elif aceutils.isMac():
         aceutils.copytree(pathname + r'/Box2D/Box2D', r'../Dev/include/Box2D/', True)
-        aceutils.copy(r'Box2D/Box2D/Build/xcode4/bin/Release/libBox2D.a', r'../Dev/lib/')
+        aceutils.copy(r'box2d_temp/Box2D/Build/xcode4/bin/Release/libBox2D.a', r'../Dev/lib/')
         # ダミー用にコピー
         aceutils.mkdir(r'box2d_bin/Box2D')
-        aceutils.copy(r'Box2D/Box2D/Build/xcode4/bin/Release/libBox2D.a', r'box2d_bin/Box2D/')
+        aceutils.copy(r'box2d_temp/Box2D/Build/xcode4/bin/Release/libBox2D.a', r'box2d_bin/Box2D/')
     else:
         aceutils.copytree(pathname + r'/Box2D/Box2D', r'../Dev/include/Box2D/', True)
         aceutils.copy(r'box2d_bin/Box2D/libBox2D.a', r'../Dev/lib/')
