@@ -52,12 +52,19 @@ FILE(GLOB_RECURSE third_srcs
 	asd_cpp/core/3rdParty/poly2tri/*.h
 	asd_cpp/core/3rdParty/nv_dds/*.cpp
 	asd_cpp/core/3rdParty/nv_dds/*.h
+
+	asd_cpp/core/3rdParty/imgui/imgui.cpp
+	asd_cpp/core/3rdParty/imgui/imgui_draw.cpp
+	asd_cpp/core/3rdParty/imgui/imgui_impl_glfw.cpp
+	asd_cpp/core/3rdParty/imgui/imgui_impl_opengl3.cpp
 )
 
 if (WIN32)
 FILE(GLOB_RECURSE third_win_srcs
 	asd_cpp/core/3rdParty/DirectXToolKit/*.cpp
-	asd_cpp/core/3rdParty/DirectXToolKit/*.h)
+	asd_cpp/core/3rdParty/DirectXToolKit/*.h
+	asd_cpp/core/3rdParty/imgui/imgui_impl_dx11.cpp
+)
 
 list(APPEND third_srcs ${third_win_srcs})
 
@@ -92,6 +99,8 @@ FILE(GLOB_RECURSE core_srcs
 	asd_cpp/core/Utils/*.h
 	asd_cpp/core/Window/*.cpp
 	asd_cpp/core/Window/*.h
+	asd_cpp/core/Tool/*.cpp
+	asd_cpp/core/Tool/*.h
 )
 
 FILE(GLOB core_root_srcs

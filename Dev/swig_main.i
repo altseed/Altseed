@@ -105,6 +105,8 @@ CPP_OBJECT( asd::File )
 CPP_OBJECT( asd::StaticFile )
 CPP_OBJECT( asd::StreamFile )
 
+CPP_OBJECT( asd::Tool )
+
 //-----------------------------------------------------------------------------------
 //
 //-----------------------------------------------------------------------------------
@@ -232,6 +234,7 @@ CPP_OBJECT( asd::StreamFile )
 %include "asd_cpp/core/Shape/asd.CoreRectangleShape.h"
 %include "asd_cpp/core/Shape/asd.CorePolygonShape.h"
 
+%include "asd_cpp/core/Tool/asd.Tool.h"
 
 %include "asd_cpp/core/Collision/2D/asd.Collider2DType.h"
 %include "asd_cpp/core/Collision/2D/asd.CoreCollision2D.h"
