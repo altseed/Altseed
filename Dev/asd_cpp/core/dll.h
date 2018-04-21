@@ -122,3 +122,5 @@
 
 #include "asd.Accessor.h"
 #include "asd.StructTranslator.h"
+
+#include "Tool/asd.Tool.h"

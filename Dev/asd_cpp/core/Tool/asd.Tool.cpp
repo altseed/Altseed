@@ -10,7 +10,11 @@
 #include "../3rdParty/imgui/imgui_impl_opengl3.h"
 
 #include "../Graphics/asd.Graphics_Imp.h"
+#include "../Graphics/Platform/DX11/Resource/asd.Texture2D_Imp_DX11.h"
+
 #include "../Window/asd.Window_Imp.h"
+
+#include "../3rdParty/nfd/nfd.h"
 
 #include <codecvt>
 #include <locale>
@@ -31,6 +35,37 @@ namespace asd
 		std::wstring_convert<std::codecvt_utf8_utf16<char16_t, 0x10ffff, mode>, char16_t> conv;
 		return conv.to_bytes(s);
 #endif
+	}
+
+	static std::u16string utf8_to_utf16(const std::string& s)
+	{
+
+#if defined(_MSC_VER)
+		std::wstring_convert<std::codecvt_utf8_utf16<std::uint16_t, 0x10ffff, mode>, std::uint16_t> conv;
+		auto p = reinterpret_cast<const std::uint16_t*>(s.c_str());
+		return std::u16string((const char16_t*)conv.from_bytes(s).c_str());
+#else
+		std::wstring_convert<std::codecvt_utf8_utf16<char16_t, 0x10ffff, mode>, char16_t> conv;
+		return conv.from_bytes(s);
+#endif
+	}
+
+	/**
+	@brief	文字列分割
+	@note
+	http://shnya.jp/blog/?p=195 のコードを改造
+	*/
+	static std::vector<astring> split(const astring &str, const astring &delim)
+	{
+		std::vector<astring> res;
+		size_t current = 0, found, delimlen = delim.size();
+		while ((found = str.find(delim, current)) != astring::npos)
+		{
+			res.push_back(astring(str, current, found - current));
+			current = found + delimlen;
+		}
+		res.push_back(astring(str, current, str.size() - current));
+		return res;
 	}
 
 	Tool::Tool(Window* window, Graphics* graphics)
@@ -139,5 +174,108 @@ namespace asd
 	bool Tool::Button(const char16_t* label)
 	{
 		return ImGui::Button(utf16_to_utf8(label).c_str());
+	}
+
+	void Tool::Image(Texture2D* user_texture, const Vector2DF& size)
+	{
+		// TODO get internal buffer
+		//ImGui::Image()
+	}
+
+	bool Tool::BeginCombo(const char16_t* label, const char16_t* preview_value)
+	{
+		return ImGui::BeginCombo(utf16_to_utf8(label).c_str(), utf16_to_utf8(preview_value).c_str());
+	}
+
+	void Tool::EndCombo()
+	{
+		ImGui::EndCombo();
+	}
+
+	bool Tool::InputText(const char16_t* label, int8_t* buf, int32_t buf_size)
+	{
+		return ImGui::InputText(utf16_to_utf8(label).c_str(), (char*)buf, buf_size);
+	}
+
+	bool Tool::InputInt(const char16_t* label, int* v)
+	{
+		return ImGui::InputInt(utf16_to_utf8(label).c_str(), v);
+	}
+
+	bool Tool::ColorEdit4(const char16_t* label, float* vs)
+	{
+		return ImGui::ColorEdit4(utf16_to_utf8(label).c_str(), vs);
+	}
+
+	bool Tool::ListBox(const char16_t* label, int* current_item, const char16_t* items)
+	{
+		auto items_ = split(items, astring(u";"));
+		std::vector<std::string> strs;
+		strs.resize(items_.size());
+
+		std::vector<char*> cs;
+
+		for (int i = 0; i < items_.size(); i++)
+		{
+			strs[i] = utf16_to_utf8(items_[i]);
+			cs.push_back((char*)strs[i].c_str());
+		}
+
+		return ImGui::ListBox(utf16_to_utf8(label).c_str(), current_item, cs.data(), cs.size());
+	}
+
+	void Tool::SetItemDefaultFocus()
+	{
+		ImGui::SetItemDefaultFocus();
+	}
+
+	static std::u16string temp;
+
+	const char16_t* Tool::OpenDialog(const char16_t* filterList, const char16_t* defaultPath)
+	{
+		auto filterList_ = utf16_to_utf8(filterList);
+		auto defaultPath_ = utf16_to_utf8(defaultPath);
+
+		nfdchar_t* outPath = NULL;
+		nfdresult_t result = NFD_OpenDialog(filterList_.c_str(), defaultPath_.c_str(), &outPath);
+
+		if (result == NFD_OKAY)
+		{
+			temp = utf8_to_utf16(outPath);
+			free(outPath);
+			return temp.c_str();
+		}
+		else if (result == NFD_CANCEL)
+		{
+			temp = u"";
+			return temp.c_str();
+		}
+
+		temp = u"";
+		return temp.c_str();
+	}
+
+	const char16_t* Tool::SaveDialog(const char16_t* filterList, const char16_t* defaultPath)
+	{
+		auto filterList_ = utf16_to_utf8(filterList);
+		auto defaultPath_ = utf16_to_utf8(defaultPath);
+
+		nfdchar_t* outPath = NULL;
+		nfdresult_t result = NFD_SaveDialog(filterList_.c_str(), defaultPath_.c_str(), &outPath);
+
+		if (result == NFD_OKAY)
+		{
+			temp = utf8_to_utf16(outPath);
+			free(outPath);
+			return temp.c_str();
+		}
+		else if (result == NFD_CANCEL)
+		{
+			temp = u"";
+			return temp.c_str();
+		}
+
+		temp = u"";
+		return temp.c_str();
 	}
 }
