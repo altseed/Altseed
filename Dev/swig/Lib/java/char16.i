@@ -3,7 +3,7 @@
 
 %{
 
-int astrlen(const char16_t* s)
+int char16_len(const char16_t* s)
 {
 	int cnt = 0;
 	while(*s++) cnt++;
@@ -32,7 +32,7 @@ int astrlen(const char16_t* s)
   }
 }
 %typemap(freearg) char16_t* { if ($1) JCALL2(ReleaseStringChars, jenv, $input, (const jchar *) $1); }
-%typemap(out) char16_t* { if($1) $result = JCALL2(NewString, jenv, (const jchar *) $1, astrlen ($1)); }
+%typemap(out) char16_t* { if($1) $result = JCALL2(NewString, jenv, (const jchar *) $1, char16_len ($1)); }
 %typemap(javadirectorin) char16_t* "$jniinput"
 %typemap(javadirectorout) char16_t* "$javacall"
 
