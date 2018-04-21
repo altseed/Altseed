@@ -57,9 +57,11 @@ namespace asd
 
 		if (g->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
 		{
+#if _WIN32
 			auto rhi = g->GetRHI();
 			auto internalObjs = rhi->GetInternalObjects();
 			ImGui_ImplDX11_Init(w->GetWindowHandle(), (ID3D11Device*)internalObjs[0], (ID3D11DeviceContext*)internalObjs[1]);
+#endif
 		}
 		else if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 		{
@@ -72,7 +74,9 @@ namespace asd
 		auto g = (Graphics_Imp*)graphics;
 		if (g->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
 		{
+#if _WIN32
 			ImGui_ImplDX11_Shutdown();
+#endif
 		}
 		else if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 		{
@@ -88,7 +92,9 @@ namespace asd
 		auto g = (Graphics_Imp*)graphics;
 		if (g->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
 		{
+#if _WIN32
 			ImGui_ImplDX11_NewFrame();
+#endif
 		}
 		else if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 		{
@@ -105,7 +111,9 @@ namespace asd
 		auto g = (Graphics_Imp*)graphics;
 		if (g->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
 		{
+#if _WIN32
 			ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+#endif
 		}
 		else if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 		{
