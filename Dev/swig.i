@@ -138,13 +138,13 @@ unsafe class"
 // For Tool
 %apply int8_t INOUT[] { int8_t* buf }
 
-%apply int *INOUT { int* v }
-%apply float *INOUT { float* v }
+%apply int INOUT[] { int* v }
+%apply float INOUT[] { float* v }
 
 %apply int INOUT[] { int* vs }
 %apply float INOUT[] { float* vs }
 
-%apply int *INOUT { int* current_item }
+%apply int INOUT[] { int* current_item }
 
 #endif
 
@@ -353,13 +353,13 @@ StructTranslator.Enqueue_##NAME($javainput)
 // For Tool
 %apply int8_t[] { int8_t* buf }
 
-%apply int *INOUT { int* v }
-%apply float *INOUT { float* v }
+%apply int[] { int* v }
+%apply float[] { float* v }
 
 %apply int[] {int * vs};
 %apply float[] {float * vs};
 
-%apply int *INOUT { int* current_item }
+%apply int[] { int* current_item }
 
 #endif
 
