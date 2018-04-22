@@ -131,6 +131,7 @@ void ImGui_ImplGlfw_Shutdown()
 	for (ImGuiMouseCursor cursor_n = 0; cursor_n < ImGuiMouseCursor_COUNT; cursor_n++)
 		glfwDestroyCursor(g_MouseCursors[cursor_n]);
 	memset(g_MouseCursors, 0, sizeof(g_MouseCursors));
+	g_Time = 0;
 }
 
 void ImGui_ImplGlfw_NewFrame()
