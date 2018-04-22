@@ -57,6 +57,7 @@ namespace asd
 		public static Graphics Graphics { get; private set; }
 		public static AnimationSystem AnimationSystem { get; private set; }
 		public static File File { get; private set; }
+		public static Tool Tool { get; private set; }
 
 		/// <summary>
 		/// プロファイリング結果を画面に表示するかどうかを表す真偽値を取得または設定する。
@@ -699,6 +700,7 @@ namespace asd
 			ObjectSystemFactory = new asd.ObjectSystemFactory(core.GetObjectSystemFactory());
 			Profiler = new Profiler(core.GetProfiler());
 			AnimationSystem = new AnimationSystem(core.GetAnimationSyatem());
+			Tool = new Tool(core.GetTool());
 
 			layerProfiler = core.GetLayerProfiler();
 			
