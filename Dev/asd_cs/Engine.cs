@@ -700,11 +700,28 @@ namespace asd
 			ObjectSystemFactory = new asd.ObjectSystemFactory(core.GetObjectSystemFactory());
 			Profiler = new Profiler(core.GetProfiler());
 			AnimationSystem = new AnimationSystem(core.GetAnimationSyatem());
-			Tool = new Tool(core.GetTool());
 
 			layerProfiler = core.GetLayerProfiler();
 			
 			ChangesToBeCommited = new Queue<ICommitable>();
+		}
+
+		/// <summary>
+		/// GUI機能の使用を開始します。
+		/// </summary>
+		public static void OpenTool()
+		{
+			core.OpenTool();
+			Tool = new Tool(core.GetTool());
+		}
+
+		/// <summary>
+		/// GUI機能の使用を終了します。
+		/// </summary>
+		public static void CloseTool()
+		{
+			core.CloseTool();
+			Tool = null;
 		}
 
 		/// <summary>

@@ -3211,9 +3211,9 @@ namespace asd {
 		/// <param name="label">ラベル名 </param>
 		/// <param name="v">値 </param>
 		/// <returns></returns>
-		public bool InputInt(string label, int v)
+		public bool InputInt(string label, int[] v)
 		{
-			return CoreInstance.InputInt(label, ref v);
+			return CoreInstance.InputInt(label, v);
 		}
 
 		/// <summary>
@@ -3237,9 +3237,9 @@ namespace asd {
 		/// <remarks>
 		/// 仕様が大きく変更される可能性がある。 
 		/// </remarks>
-		public bool ListBox(string label, int current_item, string items)
+		public bool ListBox(string label, int[] current_item, string items)
 		{
-			return CoreInstance.ListBox(label, ref current_item, items);
+			return CoreInstance.ListBox(label, current_item, items);
 		}
 
 		/// <summary>
