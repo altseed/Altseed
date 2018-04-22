@@ -166,6 +166,9 @@
     <Filter Include="3rdParty\imgui">
       <UniqueIdentifier>{3fa6a041-b39b-4628-ac6c-bee31d237d81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rdParty\nfd">
+      <UniqueIdentifier>{404ef121-3934-4f6d-b954-92a5372c6fd3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\asd.Log_Imp.h">
@@ -1111,6 +1114,15 @@
     <ClInclude Include="..\core\3rdParty\imgui\stb_truetype.h">
       <Filter>3rdParty\imgui</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\3rdParty\nfd\nfd.h">
+      <Filter>3rdParty\nfd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\nfd\nfd_common.h">
+      <Filter>3rdParty\nfd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\nfd\common.h">
+      <Filter>3rdParty\nfd</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">
@@ -1574,6 +1586,12 @@
     </ClCompile>
     <ClCompile Include="..\core\3rdParty\imgui\imgui_impl_opengl3.cpp">
       <Filter>3rdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\nfd\nfd_win.cpp">
+      <Filter>3rdParty\nfd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\nfd\nfd_common.cpp">
+      <Filter>3rdParty\nfd</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

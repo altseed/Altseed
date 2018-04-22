@@ -57,6 +57,7 @@ namespace asd
 		public static Graphics Graphics { get; private set; }
 		public static AnimationSystem AnimationSystem { get; private set; }
 		public static File File { get; private set; }
+		public static Tool Tool { get; private set; }
 
 		/// <summary>
 		/// プロファイリング結果を画面に表示するかどうかを表す真偽値を取得または設定する。
@@ -703,6 +704,24 @@ namespace asd
 			layerProfiler = core.GetLayerProfiler();
 			
 			ChangesToBeCommited = new Queue<ICommitable>();
+		}
+
+		/// <summary>
+		/// GUI機能の使用を開始します。
+		/// </summary>
+		public static void OpenTool()
+		{
+			core.OpenTool();
+			Tool = new Tool(core.GetTool());
+		}
+
+		/// <summary>
+		/// GUI機能の使用を終了します。
+		/// </summary>
+		public static void CloseTool()
+		{
+			core.CloseTool();
+			Tool = null;
 		}
 
 		/// <summary>

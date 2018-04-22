@@ -19,10 +19,25 @@ static GLFWcursor*  g_MouseCursors[ImGuiMouseCursor_COUNT] = { 0 };
 static void ImGui_ImplGlfw_InstallCallbacks(GLFWwindow* window)
 {
 	glfwSetMouseButtonCallback(window, ImGui_ImplGlfw_MouseButtonCallback);
-	glfwSetScrollCallback(window, ImGui_ImplGlfw_ScrollCallback);
+	
+	// TODO : merge altseed mouse wheel
+	//glfwSetScrollCallback(window, ImGui_ImplGlfw_ScrollCallback);
+	
 	glfwSetKeyCallback(window, ImGui_ImplGlfw_KeyCallback);
 	glfwSetCharCallback(window, ImGui_ImplGlfw_CharCallback);
 }
+
+static void ImGui_ImplGlfw_UninstallCallbacks(GLFWwindow* window)
+{
+	glfwSetMouseButtonCallback(window, nullptr);
+
+	// TODO : merge altseed mouse wheel
+	//glfwSetScrollCallback(window, ImGui_ImplGlfw_ScrollCallback);
+
+	glfwSetKeyCallback(window, nullptr);
+	glfwSetCharCallback(window, nullptr);
+}
+
 
 static const char* ImGui_ImplGlfwGL3_GetClipboardText(void* user_data)
 {
@@ -125,12 +140,15 @@ bool ImGui_ImplGlfw_Init(GLFWwindow* window, bool install_callbacks)
 	return true;
 }
 
-void ImGui_ImplGlfw_Shutdown()
+void ImGui_ImplGlfw_Shutdown(GLFWwindow* window)
 {
 	// Destroy GLFW mouse cursors
 	for (ImGuiMouseCursor cursor_n = 0; cursor_n < ImGuiMouseCursor_COUNT; cursor_n++)
 		glfwDestroyCursor(g_MouseCursors[cursor_n]);
 	memset(g_MouseCursors, 0, sizeof(g_MouseCursors));
+	g_Time = 0;
+
+	ImGui_ImplGlfw_UninstallCallbacks(window);
 }
 
 void ImGui_ImplGlfw_NewFrame()

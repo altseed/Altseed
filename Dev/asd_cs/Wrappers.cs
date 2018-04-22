@@ -2632,9 +2632,6 @@ namespace asd {
 		/// <param name="id">音のID </param>
 		/// <param name="second">変更にかかる時間(秒) </param>
 		/// <param name="targetedVolume">変更先の音量(0.0～1.0) </param>
-		/// <remarks>
-		/// この指定される音量はSetVolumeに指定される音量とは異なり、FadeIn、FadeOutに使用される音量と共通である。 つまり、このメソッドはFadeIn、FadeOutの任意音量指定版と言える。 
-		/// </remarks>
 		public void Fade(int id, float second, float targetedVolume)
 		{
 			CoreInstance.Fade(id, second, targetedVolume);
@@ -2665,9 +2662,6 @@ namespace asd {
 		/// </summary>
 		/// <param name="id">音のID </param>
 		/// <returns>再生速度(比率) </returns>
-		/// <remarks>
-		/// 設定値は再生速度に比例する。1.0で等速。範囲は0.25から4.0。 音程は再生速度に比例して変化する。 
-		/// </remarks>
 		public float GetPlaybackSpeed(int id)
 		{
 			return CoreInstance.GetPlaybackSpeed(id);
@@ -2678,9 +2672,6 @@ namespace asd {
 		/// </summary>
 		/// <param name="id">音のID </param>
 		/// <param name="playbackSpeed">再生速度(比率) </param>
-		/// <remarks>
-		/// 設定値は再生速度に比例する。1.0で等速。範囲は0.25から4.0。 音程は再生速度に比例して変化する。 
-		/// </remarks>
 		public void SetPlaybackSpeed(int id, float playbackSpeed)
 		{
 			CoreInstance.SetPlaybackSpeed(id, playbackSpeed);
@@ -2821,6 +2812,32 @@ namespace asd {
 			get { return CoreInstance.GetCurrentPosition(); }
 		}
 
+		/// <summary>
+		/// 読み込まれた一時的なバッファの先頭のポインタを取得する。
+		/// </summary>
+		public System.IntPtr TempBuffer
+		{
+			get { return CoreInstance.GetTempBuffer(); }
+		}
+
+		/// <summary>
+		/// 読み込まれた一時的なバッファのサイズを取得する。
+		/// </summary>
+		public int TempBufferSize
+		{
+			get { return CoreInstance.GetTempBufferSize(); }
+		}
+
+
+		/// <summary>
+		/// ファイルからデータを読み込み、一時的なバッファに格納する。 
+		/// </summary>
+		/// <param name="size">読み込むサイズ </param>
+		/// <returns>読み込んだサイズ </returns>
+		public int Read(int size)
+		{
+			return CoreInstance.Read(size);
+		}
 
 	}
 
@@ -3045,6 +3062,175 @@ namespace asd {
 		public void Unlock()
 		{
 			CoreInstance.Unlock();
+		}
+
+	}
+
+
+	/// <summary>
+	/// ツールを開発するための低レイヤーな命令群のクラス 
+	/// </summary>
+	public partial class Tool
+	{
+		internal asd.swig.Tool CoreInstance { get; set; }
+
+
+		/// <summary>
+		/// ウインドウの表示を開始する。 
+		/// </summary>
+		/// <param name="name">ウインドウ名 </param>
+		/// <returns></returns>
+		public bool Begin(string name)
+		{
+			return CoreInstance.Begin(name);
+		}
+
+		/// <summary>
+		/// ウインドウの表示を終了する。 
+		/// </summary>
+		public void End()
+		{
+			CoreInstance.End();
+		}
+
+		/// <summary>
+		/// テキストを表示する。 
+		/// </summary>
+		/// <param name="text">テキスト名 </param>
+		public void Text(string text)
+		{
+			CoreInstance.Text(text);
+		}
+
+		/// <summary>
+		/// ボタンを表示する。 
+		/// </summary>
+		/// <param name="label">ラベル名 </param>
+		/// <returns></returns>
+		public bool Button(string label)
+		{
+			return CoreInstance.Button(label);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="user_texture"></param>
+		/// <param name="size"></param>
+		public void Image(Texture2D user_texture, asd.Vector2DF size)
+		{
+			asd.swig.Texture2D user_textureCore = null;
+			if(user_texture != null)
+			{
+				user_textureCore = user_texture.CoreInstance;
+			}
+			CoreInstance.Image(user_textureCore, ref size);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="label"></param>
+		/// <param name="preview_value"></param>
+		/// <returns></returns>
+		public bool BeginCombo(string label, string preview_value)
+		{
+			return CoreInstance.BeginCombo(label, preview_value);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public void EndCombo()
+		{
+			CoreInstance.EndCombo();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="label"></param>
+		/// <param name="buf"></param>
+		/// <param name="buf_size"></param>
+		/// <returns></returns>
+		public bool InputText(string label, sbyte[] buf, int buf_size)
+		{
+			return CoreInstance.InputText(label, buf, buf_size);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="label"></param>
+		/// <param name="v"></param>
+		/// <returns></returns>
+		public bool InputInt(string label, int[] v)
+		{
+			return CoreInstance.InputInt(label, v);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="label"></param>
+		/// <param name="vs"></param>
+		/// <returns></returns>
+		public bool ColorEdit4(string label, float[] vs)
+		{
+			return CoreInstance.ColorEdit4(label, vs);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="label"></param>
+		/// <param name="selected"></param>
+		/// <returns></returns>
+		public bool Selectable(string label, bool selected)
+		{
+			return CoreInstance.Selectable(label, selected);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="label"></param>
+		/// <param name="current_item"></param>
+		/// <param name="items"></param>
+		/// <returns></returns>
+		public bool ListBox(string label, int[] current_item, string items)
+		{
+			return CoreInstance.ListBox(label, current_item, items);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public void SetItemDefaultFocus()
+		{
+			CoreInstance.SetItemDefaultFocus();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="filterList"></param>
+		/// <param name="defaultPath"></param>
+		/// <returns></returns>
+		public string OpenDialog(string filterList, string defaultPath)
+		{
+			return CoreInstance.OpenDialog(filterList, defaultPath);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="filterList"></param>
+		/// <param name="defaultPath"></param>
+		/// <returns></returns>
+		public string SaveDialog(string filterList, string defaultPath)
+		{
+			return CoreInstance.SaveDialog(filterList, defaultPath);
 		}
 
 	}

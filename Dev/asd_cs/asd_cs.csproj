@@ -295,12 +295,14 @@
     <Compile Include="swig\TextureFormat.cs" />
     <Compile Include="swig\TextureLockInfomation.cs" />
     <Compile Include="swig\TextureWrapType.cs" />
+    <Compile Include="swig\Tool.cs" />
     <Compile Include="swig\VectorUint8.cs" />
     <Compile Include="swig\VisualizedBufferType.cs" />
     <Compile Include="swig\Window.cs" />
     <Compile Include="swig\WindowPositionType.cs" />
     <Compile Include="swig\Window_Imp.cs" />
     <Compile Include="swig\WritingDirection.cs" />
+    <Compile Include="Tool\Tool.cs" />
     <Compile Include="Utils\InternalGetter.cs" />
     <Compile Include="Utils\StringHelper.cs" />
     <Compile Include="Window\Cursor.cs" />

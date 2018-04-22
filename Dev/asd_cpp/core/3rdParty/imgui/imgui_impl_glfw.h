@@ -12,6 +12,6 @@ IMGUI_API void        ImGui_ImplGlfw_CharCallback(GLFWwindow* window, unsigned i
 
 bool ImGui_ImplGlfw_Init(GLFWwindow* window, bool install_callbacks);
 
-void ImGui_ImplGlfw_Shutdown();
+void ImGui_ImplGlfw_Shutdown(GLFWwindow* window);
 
 void ImGui_ImplGlfw_NewFrame();

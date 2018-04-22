@@ -26,6 +26,7 @@
 
 #if SWIGCSHARP
 %include "arrays_csharp.i"
+%include "typemaps.i"
 
 // 独自の定義を使用
 namespace asd {
@@ -39,6 +40,7 @@ namespace asd {
 #endif
 
 #if SWIGJAVA
+%include "typemaps.i"
 %include "arrays_java.i"
 
 // 独自の定義を使用
@@ -132,6 +134,17 @@ unsafe class"
 %typemap(in)		const CTYPE& "$1 = (CTYPE*)$input;"
 %typemap(csin)		const CTYPE& "ref $csinput"
 %enddef
+
+// For Tool
+%apply int8_t INOUT[] { int8_t* buf }
+
+%apply int INOUT[] { int* v }
+%apply float INOUT[] { float* v }
+
+%apply int INOUT[] { int* vs }
+%apply float INOUT[] { float* vs }
+
+%apply int INOUT[] { int* current_item }
 
 #endif
 
@@ -336,6 +349,17 @@ StructTranslator.Enqueue_##NAME($javainput)
 		return v;
 	}
 %}
+
+// For Tool
+%apply int8_t[] { int8_t* buf }
+
+%apply int[] { int* v }
+%apply float[] { float* v }
+
+%apply int[] {int * vs};
+%apply float[] {float * vs};
+
+%apply int[] { int* current_item }
 
 #endif
 
