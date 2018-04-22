@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace unitTest_Engine_cs.Tool
 {
-	class ShowButton : EngineTest
+	class Basic : EngineTest
 	{
 		private asd.TextureObject2D obj;
 		private sbyte[] inputText = new sbyte[128];
@@ -16,15 +16,17 @@ namespace unitTest_Engine_cs.Tool
 		private string list;
 		private asd.Texture2D texture;
 
-		public ShowButton() : base(600)
-		{
-			var listArray = new string[4]
+		private int selectedCombo = 0;
+		private string[] listArray = new string[4]
 			{
 				"Plain Propton",
 				"Raster Road",
 				"Octern Ocean",
 				"Gigant Ground",
 			};
+
+		public Basic() : base(600)
+		{
 			list = string.Join(";", listArray);
 		}
 
@@ -55,20 +57,21 @@ namespace unitTest_Engine_cs.Tool
 					obj.IsDrawn = true;
 				}
 
-				/*
-				asd.Engine.Tool.BeginCombo("Combo!", "Select");
-
+				if(asd.Engine.Tool.BeginCombo("Combo", listArray[selectedCombo]))
 				{
-					asd.Engine.Tool.Text("Plain Propton");
-					asd.Engine.Tool.Text("Raster Road");
-					asd.Engine.Tool.Text("Octern Ocean");
-					asd.Engine.Tool.Text("Gigant Ground");
+					for (int i = 0; i < listArray.Length; i++)
+					{
+						if (asd.Engine.Tool.Selectable(listArray[i], selectedCombo == i))
+						{
+							selectedCombo = i;
+							asd.Engine.Tool.SetItemDefaultFocus();
+						}
+					}
+					
+					asd.Engine.Tool.EndCombo();
 				}
 
-				asd.Engine.Tool.EndCombo();
-				//*/
-
-				asd.Engine.Tool.Image(texture, new asd.Vector2DF(100, 100));
+				//asd.Engine.Tool.Image(texture, new asd.Vector2DF(100, 100));
 				
 				asd.Engine.Tool.InputText("Enter text!", inputText, inputText.Length);
 				asd.Engine.Tool.InputInt("Enter integer!", inputInt);

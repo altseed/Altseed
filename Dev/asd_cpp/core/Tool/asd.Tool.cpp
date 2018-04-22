@@ -88,7 +88,7 @@ namespace asd
 		
 		ImGui::CreateContext();
 
-		ImGui_ImplGlfw_Init(gw, false);
+		ImGui_ImplGlfw_Init(gw, true);
 
 		if (g->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
 		{
@@ -106,7 +106,11 @@ namespace asd
 
 	void Tool::Terminate()
 	{
+		auto w = (Window_Imp*)window;
 		auto g = (Graphics_Imp*)graphics;
+
+		auto gw = (GLFWwindow*)w->GetWindow()->GetNativeWindow();
+
 		if (g->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
 		{
 #if _WIN32
@@ -118,7 +122,7 @@ namespace asd
 			ImGui_ImplGlfwGL3_Shutdown();
 		}
 
-		ImGui_ImplGlfw_Shutdown();
+		ImGui_ImplGlfw_Shutdown(gw);
 		ImGui::DestroyContext();
 	}
 
@@ -178,8 +182,10 @@ namespace asd
 
 	void Tool::Image(Texture2D* user_texture, const Vector2DF& size)
 	{
-		// TODO get internal buffer
-		//ImGui::Image()
+		if (user_texture == nullptr) return;
+		//auto texture = (Texture2D_Imp_DX11*)user_texture;
+		//auto o = texture->GetRHI()->GetInternalObject();
+		//ImGui::Image((ImTextureID)o, ImVec2(size.X, size.Y));
 	}
 
 	bool Tool::BeginCombo(const char16_t* label, const char16_t* preview_value)
@@ -205,6 +211,11 @@ namespace asd
 	bool Tool::ColorEdit4(const char16_t* label, float* vs)
 	{
 		return ImGui::ColorEdit4(utf16_to_utf8(label).c_str(), vs);
+	}
+
+	bool Tool::Selectable(const char16_t* label, bool selected)
+	{
+		return ImGui::Selectable(utf16_to_utf8(label).c_str(), selected);
 	}
 
 	bool Tool::ListBox(const char16_t* label, int* current_item, const char16_t* items)

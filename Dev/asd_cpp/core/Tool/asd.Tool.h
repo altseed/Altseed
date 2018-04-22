@@ -23,12 +23,12 @@ namespace asd
 	protected:
 		Tool(Window* window, Graphics* graphics);
 		virtual ~Tool();
-	public:
 
 		void Initialize();
 		void Terminate();
 		void NewFrame();
 		void Render();
+	public:
 
 		// Imgui Windows
 
@@ -111,6 +111,13 @@ namespace asd
 		bool ColorEdit4(const char16_t* label, float* vs);
 
 		// Widgets: Selectable / Lists
+
+		/**
+			@brief	選択可能な文字列を表示する。
+			@param	label	ラベル名
+			@param	selected	選択されているか?
+		*/
+		bool Selectable(const char16_t* label, bool selected);
 
 		/**
 			@brief	リストボックスを表示する。
