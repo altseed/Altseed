@@ -5,6 +5,7 @@
 #include "PngGenerator.h"
 #include "Rendering/ImageBuffer.h"
 #include "Utility.h"
+#include <AltseedRHI.h>
 
 #ifdef _v120
 #ifdef _WIN64
@@ -58,10 +59,14 @@
 #pragma comment(lib,"x86/Debug/freetype.lib")
 #pragma comment(lib,"x86/Debug/asd_common.lib")
 #pragma comment(lib,"x86/Debug/asd_tool.lib")
+#pragma comment(lib, "GdiPlus.lib")
+#pragma comment(lib, "x86/Debug/AltseedRHI.lib")
 #else
 #pragma comment(lib,"x86/Release/freetype.lib")
 #pragma comment(lib,"x86/Release/asd_common.lib")
 #pragma comment(lib,"x86/Release/asd_tool.lib")
+#pragma comment(lib, "GdiPlus.lib")
+#pragma comment(lib, "x86/Release/AltseedRHI.lib")
 #endif
 
 
@@ -98,7 +103,7 @@ namespace FontGenerator
 			std::ostringstream os;
 			os << "_" << i << ".png";
 			auto pngPath = GetSheetName() + ToAString(os.str().c_str());
-			SavePNGImage(pngPath.c_str(), m_sheetSize, m_sheetSize, buffers[i]->data(), false);
+			ar::ImageHelper::SavePNG(pngPath.c_str(), m_sheetSize, m_sheetSize, buffers[i]->data());
 		}
 
 		ResultOfGeneratingPng result;
@@ -129,7 +134,7 @@ namespace FontGenerator
 
 		auto buffers = buffer.GetBuffers();
 
-		SavePNGImage(path.c_str(), IMAGE_SIZE, IMAGE_SIZE, buffers[0]->data(), false);
+		ar::ImageHelper::SavePNG(path.c_str(), IMAGE_SIZE, IMAGE_SIZE, buffers[0]->data());
 	}
 
 #pragma region GetSet

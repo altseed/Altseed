@@ -39,7 +39,7 @@
     <ProjectGuid>{E500B6B8-E90E-46D7-B6D0-F85388E0D75E}</ProjectGuid>
     <RootNamespace>ace_file</RootNamespace>
     <ProjectName>asd_tool</ProjectName>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
