@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\</OutputPath>
+    <OutputPath>..\..\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -26,15 +26,12 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\</OutputPath>
+    <OutputPath>..\..\bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Altseed">
-      <HintPath>..\bin\Altseed.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -55,7 +52,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FontGenerator\FontGenerator.Model\FontGenerator.Model.csproj">
+    <ProjectReference Include="..\..\asd_cs\asd_cs.csproj">
+      <Project>{93fa987a-48b8-45a4-9bad-8518b2e20a54}</Project>
+      <Name>asd_cs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FontGenerator.Model\FontGenerator.Model.csproj">
       <Project>{a0b8aa62-9a43-4b3e-ac73-a55f10b595f9}</Project>
       <Name>FontGenerator.Model</Name>
     </ProjectReference>
