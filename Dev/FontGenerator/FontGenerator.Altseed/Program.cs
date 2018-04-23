@@ -17,8 +17,9 @@ namespace FontGenerator.Altseed
 
 			while (asd.Engine.DoEvents())
 			{
-				asd.Engine.Update();
+				// must to run before Engine.Update (TODO fix it or throw exception)
 				tool.Render();
+				asd.Engine.Update();
 			}
 
 			asd.Engine.CloseTool();

@@ -18,10 +18,10 @@ namespace FontGenerator.Altseed
 			tool.Begin("FontGenerator");
 
 			{
-				tool.InputInt("Font Index", ref viewModel.FontIndex);
-				tool.InputText("Text File", viewModel.TextPath, ConfigViewModel.TextSize);
-				tool.InputText("Export Directory", viewModel.ExportPath, ConfigViewModel.TextSize);
-				tool.InputText("Sheet Name", viewModel.SheetName, ConfigViewModel.TextSize);
+				//tool.InputInt("Font Index", ref viewModel.FontIndex);
+				//tool.InputText("Text File", viewModel.TextPath, ConfigViewModel.TextSize);
+				//tool.InputText("Export Directory", viewModel.ExportPath, ConfigViewModel.TextSize);
+				//tool.InputText("Sheet Name", viewModel.SheetName, ConfigViewModel.TextSize);
 			}
 
 			tool.End();
