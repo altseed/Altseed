@@ -1,6 +1,7 @@
 ﻿
 #pragma once
 #include "imgui.h"
+#include <GLFW/glfw3.h>
 
 // GLFW callbacks (installed by default if you enable 'install_callbacks' during initialization)
 // Provided here if you want to chain callbacks.

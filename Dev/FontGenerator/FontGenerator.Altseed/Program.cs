@@ -13,8 +13,12 @@ namespace FontGenerator.Altseed
 			asd.Engine.Initialize("フォント生成ツール", 320, 640, new asd.EngineOption());
 			asd.Engine.OpenTool();
 
+			var tool = new ToolRenderer();
+
 			while (asd.Engine.DoEvents())
 			{
+				// must to run before Engine.Update (TODO fix it or throw exception)
+				tool.Render();
 				asd.Engine.Update();
 			}
 

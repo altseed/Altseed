@@ -71,7 +71,7 @@ namespace unitTest_Engine_cs.Tool
 					asd.Engine.Tool.EndCombo();
 				}
 
-				//asd.Engine.Tool.Image(texture, new asd.Vector2DF(100, 100));
+				asd.Engine.Tool.Image(texture, new asd.Vector2DF(100, 100));
 				
 				asd.Engine.Tool.InputText("Enter text!", inputText, inputText.Length);
 				asd.Engine.Tool.InputInt("Enter integer!", inputInt);
