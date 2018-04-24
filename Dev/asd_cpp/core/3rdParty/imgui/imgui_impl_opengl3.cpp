@@ -41,7 +41,15 @@
 #include "imgui_impl_opengl3.h"
 
 
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#include <OpenGL/gl3.h>
+#define GLFW_INCLUDE_GLCOREARB
+#else
+#define GLEW_STATIC
+#include <GL/gl.h>
 #include <GL/glew.h>
+#endif
 
 // OpenGL3 data
 static char         g_GlslVersion[32] = "#version 150";
