@@ -183,9 +183,19 @@ namespace asd
 	void Tool::Image(Texture2D* user_texture, const Vector2DF& size)
 	{
 		if (user_texture == nullptr) return;
-		//auto texture = (Texture2D_Imp_DX11*)user_texture;
-		//auto o = texture->GetRHI()->GetInternalObject();
-		//ImGui::Image((ImTextureID)o, ImVec2(size.X, size.Y));
+		auto texture = (Texture2D_Imp_DX11*)user_texture;
+
+		auto g = (Graphics_Imp*)graphics;
+		if (g->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
+		{
+			auto o = texture->GetRHI()->GetInternalObjects();
+			ImGui::Image((ImTextureID)o[1], ImVec2(size.X, size.Y));
+		}
+		else if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
+		{
+			auto o = texture->GetRHI()->GetInternalObjects();
+			ImGui::Image((ImTextureID)o[0], ImVec2(size.X, size.Y), ImVec2(0, 1), ImVec2(0, 0));
+		}
 	}
 
 	bool Tool::BeginCombo(const char16_t* label, const char16_t* preview_value)

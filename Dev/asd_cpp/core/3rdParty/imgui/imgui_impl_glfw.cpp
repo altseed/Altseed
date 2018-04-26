@@ -148,7 +148,10 @@ void ImGui_ImplGlfw_Shutdown(GLFWwindow* window)
 	memset(g_MouseCursors, 0, sizeof(g_MouseCursors));
 	g_Time = 0;
 
-	ImGui_ImplGlfw_UninstallCallbacks(window);
+	if (window != nullptr)
+	{
+		ImGui_ImplGlfw_UninstallCallbacks(window);
+	}
 }
 
 void ImGui_ImplGlfw_NewFrame()

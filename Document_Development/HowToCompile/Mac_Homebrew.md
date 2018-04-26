@@ -7,8 +7,6 @@ brew install libogg --universal
 brew install libvorbis --universal
 ```
 
-.dylibにリンクされるのを防ぐために、/usr/local/lib/にあるoggとvorbis関連の.dylibをすべてリネームする。
-
 コンパイラから参照できるようにパスを通す。
 
 ```
