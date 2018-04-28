@@ -8,7 +8,7 @@ aceutils.mkdir('../Downloads')
 with aceutils.CurrentDir('../Downloads'):
 
 	# Build dependencies
-	glfw_args = ' '.join(sys.argv[1:])
+	glfw_args = ' '.join('"{0}"'.format(w) for w in sys.argv[1:])
 
 	if not aceutils.isMac():
 		aceutils.call(sys.executable + ' AltseedRHI/Script/build_glew.py ' + glfw_args)
