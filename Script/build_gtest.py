@@ -14,7 +14,7 @@ with aceutils.CurrentDir('../Downloads'):
 
 	with aceutils.CurrentDir('gtest_bin'):
 		if aceutils.isWin():
-			aceutils.call(aceutils.cmd_cmake+r'-D BUILD_SHARED_LIBS:BOOL=OFF ../googletest/')
+			aceutils.call(aceutils.cmd_cmake+r'-D BUILD_SHARED_LIBS:BOOL=OFF ../googletest/ "-DCMAKE_CXX_FLAGS=/source-charset:utf-8 /D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING"')
 
 			if os.path.exists('gtest.sln'):
 				aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Debug')
@@ -32,7 +32,7 @@ with aceutils.CurrentDir('../Downloads'):
 
 	with aceutils.CurrentDir('gtest_bin_x64'):
 		if aceutils.isWin():
-			aceutils.call(aceutils.cmd_cmake_x64+r'-D BUILD_SHARED_LIBS:BOOL=OFF ../googletest/')
+			aceutils.call(aceutils.cmd_cmake_x64+r'-D BUILD_SHARED_LIBS:BOOL=OFF ../googletest/ "-DCMAKE_CXX_FLAGS=/source-charset:utf-8 /D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING"')
 
 			if os.path.exists('gtest.sln'):
 				aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Debug')
