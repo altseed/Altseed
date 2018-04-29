@@ -2,7 +2,7 @@
 
 namespace asd{
 	/**
-	@brief	ACEで扱うキーボードのキー一覧
+	@brief	Altseedで扱うキーボードのキー一覧
 	*/
 	enum class Keys : int32_t
 	{

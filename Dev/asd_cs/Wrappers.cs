@@ -586,7 +586,7 @@ namespace asd {
 	}
 
 	/// <summary>
-	/// ACEで扱うキーボードのキー一覧 
+	/// Altseedで扱うキーボードのキー一覧 
 	///	</summary>
 	public enum Keys : int
 	{
