@@ -11,7 +11,7 @@ TEST(Window, Empty)
 	printf("-Create\n");
 #endif
 
-	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(L"Test Window").c_str(), NULL, asd::WindowPositionType::Default, asd::GraphicsDeviceType::Default, asd::ColorSpaceType::LinearSpace, false);
+	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(L"Test Window").c_str(), NULL, false, asd::WindowPositionType::Default, asd::GraphicsDeviceType::Default, asd::ColorSpaceType::LinearSpace, false);
 #ifdef _PRINTLOG
 	if( window != nullptr )
 	{
