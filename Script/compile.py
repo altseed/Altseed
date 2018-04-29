@@ -81,10 +81,5 @@ def compile(type):
 			aceutils.cd(r'../../')
 
 if __name__ == "__main__":
-	if 'compile' in sys.argv[0]:
-		init()
-		compile('cs')
-
-	if 'compile' in sys.argv[1]:
-		init()
-		compile('cs')
+	init()
+	compile('cs')
