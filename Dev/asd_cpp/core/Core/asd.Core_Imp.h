@@ -92,6 +92,8 @@ namespace asd {
 
 		void ControlFPS();
 
+		void SetWindowSizeInternal(int32_t x, int32_t y);
+
 	public:
 		static Core_Imp* CreateCore();
 

@@ -15,27 +15,6 @@ namespace asd {
 //
 //----------------------------------------------------------------------------------
 
-#if ( defined(_CONSOLE_GAME) )
-#else
-static void CallbackOnFocus(GLFWwindow* window, int b)
-{
-	auto w = (Window_Imp*)glfwGetWindowUserPointer(window);
-	if (b == GL_TRUE)
-	{
-		auto onFocused = w->OnFocused;
-
-		if (onFocused)
-		{
-			onFocused();
-		}
-	}
-	else
-	{
-
-	}
-}
-#endif
-
 Window_Imp::Window_Imp(Log* logger)
 	: m_logger(logger)
 {
@@ -53,6 +32,7 @@ Window_Imp* Window_Imp::Create(
 	int32_t height,
 	const achar* title,
 	Log* logger,
+	bool isResizable,
 	WindowPositionType windowPositionType,
 	GraphicsDeviceType graphicsDeviceType,
 	ColorSpaceType colorSpaceType,
@@ -67,6 +47,7 @@ Window_Imp* Window_Imp::Create(
 	initParam.WindowWidth = width;
 	initParam.WindowHeight = height;
 	initParam.Title = std::u16string(title);
+	initParam.IsResizable = isResizable;
 	initParam.WindowPosition = (ap::WindowPositionType)windowPositionType;
 	initParam.ColorSpace = (ap::ColorSpaceType)colorSpaceType;
 	initParam.GraphicsDevice = (ap::GraphicsDeviceType)graphicsDeviceType;
@@ -84,8 +65,24 @@ Window_Imp* Window_Imp::Create(
 #if ( defined(_PSVITA) || defined(_PS4) || defined(_SWITCH) || defined(_XBOXONE) )
 #else
 			auto glfwWindow = (GLFWwindow*)window->GetNativeWindow();
-			glfwSetWindowUserPointer(glfwWindow, ret);
-			glfwSetWindowFocusCallback(glfwWindow, CallbackOnFocus);
+
+			window->Resized = ([ret](int x, int y) -> void
+			{
+				auto w = (Window_Imp*)ret;
+				if (w->OnChangedSize != nullptr)
+				{
+					w->OnChangedSize(x, y);
+				}
+			});
+
+			window->Focused = [ret](bool b) -> void
+			{
+				auto w = (Window_Imp*)ret;
+				if (w->OnFocused && b)
+				{
+					w->OnFocused();
+				}
+			};
 #endif
 
 			if (logger != nullptr) logger->WriteLine("ウインドウ作成成功");

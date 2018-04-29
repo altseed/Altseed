@@ -8,7 +8,7 @@ with aceutils.CurrentDir('../Downloads'):
 	aceutils.rmdir(r"freetype_bin")
 	aceutils.rmdir(r"freetype_bin_x64")
 
-	aceutils.wget(r'http://sourceforge.net/projects/freetype/files/freetype2/2.6/ft26.zip')
+	aceutils.wget(r'https://sourceforge.net/projects/freetype/files/freetype2/2.6/ft26.zip') 
 	aceutils.mkdir(r"freetype_bin")
 	aceutils.mkdir(r"freetype_bin_x64")
 	aceutils.editCmakeForACE(r'freetype/CMakeLists.txt','cp932')
@@ -19,10 +19,10 @@ with aceutils.CurrentDir('../Downloads'):
 			aceutils.call(aceutils.cmd_compile + r'freetype.sln /p:configuration=Debug')
 			aceutils.call(aceutils.cmd_compile + r'freetype.sln /p:configuration=Release')
 		elif aceutils.isMac():
-			aceutils.call(r'cmake -G "Unix Makefiles" "-DWITH_BZip2=OFF" "-DWITH_HarfBuzz=OFF" "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../freetype/')
+			aceutils.call(r'cmake -G "Unix Makefiles" "-DWITH_BZip2=OFF" "-DWITH_HarfBuzz=OFF" "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" -D CMAKE_BUILD_TYPE=Release ../freetype/')
 			aceutils.call(r'make')
 		else:
-			aceutils.call(r'cmake -G "Unix Makefiles" ../freetype/')
+			aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release ../freetype/')
 			aceutils.call(r'make')
 
 	with aceutils.CurrentDir('freetype_bin_x64'):

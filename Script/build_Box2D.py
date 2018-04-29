@@ -48,7 +48,7 @@ with aceutils.CurrentDir('../Downloads'):
                     aceutils.call(r'xcodebuild -project Box2D.xcodeproj ONLY_ACTIVE_ARCH=NO ARCHS="i386 x86_64" -configuration Release')
     else:
         with aceutils.CurrentDir("box2d_bin"):
-            aceutils.call(r'cmake -G "Unix Makefiles" ../' + pathname + r'/Box2D/')
+            aceutils.call(r'cmake -D CMAKE_BUILD_TYPE=Release -G "Unix Makefiles" ../' + pathname + r'/Box2D/')
             aceutils.call(r'make')
 
     if aceutils.isWin():

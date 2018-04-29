@@ -14,10 +14,10 @@ with aceutils.CurrentDir('../Downloads'):
 		aceutils.call(aceutils.cmd_compile + r'./Chipmunk2D/msvc/vc14/demo/chipmunk.sln /p:configuration=Debug /p:platform=x64')
 		aceutils.call(aceutils.cmd_compile + r'./Chipmunk2D/msvc/vc14/demo/chipmunk.sln /p:configuration=Release /p:platform=x64')
 	elif aceutils.isMac():
-		aceutils.call(r'cmake -G "Unix Makefiles" ./Chipmunk2D/')
+		aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release ./Chipmunk2D/')
 		aceutils.call(r'make')
 	else:
-		aceutils.call(r'cmake -G "Unix Makefiles" ./Chipmunk2D/')
+		aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release ./Chipmunk2D/')
 		aceutils.call(r'make')
 
 	if aceutils.isWin():

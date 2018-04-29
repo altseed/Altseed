@@ -28,7 +28,7 @@ def init():
 		aceutils.rmdir(r'Dev/cmake')
 		aceutils.mkdir(r'Dev/cmake')
 		aceutils.cd(r'Dev/cmake')
-		aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../ ../')
+		aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../ ../')
 		aceutils.call(r'make install')
 		aceutils.cd(r'../../')
 		aceutils.copytree(r'Dev/bin/Data',r'Dev/cmake/bin/Data')

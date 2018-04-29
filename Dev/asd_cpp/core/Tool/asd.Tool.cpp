@@ -22,6 +22,18 @@
 
 namespace asd
 {
+	template <size_t size_>
+	struct utf8str {
+		enum { size = size_ };
+		char data[size];
+		utf8str(const char16_t* u16str) {
+			Effekseer::ConvertUtf16ToUtf8((int8_t*)data, size, (const int16_t*)u16str);
+		}
+		operator const char*() const {
+			return data;
+		}
+	};
+
 	// http://hasenpfote36.blogspot.jp/2016/09/stdcodecvt.html
 	static constexpr std::codecvt_mode mode = std::codecvt_mode::little_endian;
 
@@ -160,6 +172,21 @@ namespace asd
 		}
 	}
 
+	bool Tool::BeginFullscreen(const char16_t* name, int32_t offset)
+	{
+		ImVec2 windowSize;
+		windowSize.x = ImGui::GetIO().DisplaySize.x;
+		windowSize.y = ImGui::GetIO().DisplaySize.y - offset;
+
+		ImGui::SetNextWindowSize(windowSize);
+		ImGui::SetNextWindowPos(ImVec2(0, offset));
+		const ImGuiWindowFlags flags = (ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoTitleBar);
+		const float oldWindowRounding = ImGui::GetStyle().WindowRounding; ImGui::GetStyle().WindowRounding = 0;
+		const bool visible = ImGui::Begin(utf8str<256>(name), NULL, ImVec2(0, 0), 1.0f, flags);
+		ImGui::GetStyle().WindowRounding = oldWindowRounding;
+		return visible;
+	}
+
 	bool Tool::Begin(const char16_t* name)
 	{
 		return ImGui::Begin(utf16_to_utf8(name).c_str());
@@ -194,7 +221,7 @@ namespace asd
 		else if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 		{
 			auto o = texture->GetRHI()->GetInternalObjects();
-			ImGui::Image((ImTextureID)o[0], ImVec2(size.X, size.Y), ImVec2(0, 1), ImVec2(0, 0));
+			ImGui::Image((ImTextureID)o[0], ImVec2(size.X, size.Y), ImVec2(0, 1), ImVec2(1, 0));
 		}
 	}
 

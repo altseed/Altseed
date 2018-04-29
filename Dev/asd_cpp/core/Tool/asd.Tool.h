@@ -30,6 +30,14 @@ namespace asd
 		void Render();
 	public:
 
+		// Ex
+		/**
+		@brief	フルスクリーンでウインドウの表示を開始する。
+		@param	name	ウインドウ名
+		@param	offset	ウインドウ上部の位置のオフセット
+		*/
+		bool BeginFullscreen(const char16_t* name, int32_t offset);
+
 		// Imgui Windows
 
 		/**
