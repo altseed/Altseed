@@ -48,6 +48,7 @@ namespace asd {
 			int32_t height, 
 			const achar* title, 
 			Log* logger, 
+			bool isResizable,
 			WindowPositionType windowPositionType,
 			GraphicsDeviceType graphicsDeviceType,
 			ColorSpaceType colorSpaceType, 
@@ -73,6 +74,8 @@ namespace asd {
 
 #ifndef SWIG
 		std::function<void()> OnFocused;
+
+		std::function<void(int,int)> OnChangedSize;
 
 		ap::Window* GetWindow();
 #endif

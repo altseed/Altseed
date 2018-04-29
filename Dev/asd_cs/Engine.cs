@@ -24,6 +24,11 @@ namespace asd
 		public WindowPositionType WindowPosition = WindowPositionType.Default;
 
 		/// <summary>
+		/// ユーザーがウインドウを変更できるようにするか?
+		/// </summary>
+		public bool IsWindowResizable = false;
+
+		/// <summary>
 		/// リソースの再読み込みを有効にするかどうか?
 		/// </summary>
 		public bool IsReloadingEnabled = false;
@@ -100,6 +105,7 @@ namespace asd
 			coreOption.GraphicsDevice = (swig.GraphicsDeviceType)graphicsType;
 			coreOption.IsFullScreen = option.IsFullScreen;
 			coreOption.WindowPosition = (swig.WindowPositionType)option.WindowPosition;
+			coreOption.IsWindowResizable = option.IsWindowResizable;
 			coreOption.IsReloadingEnabled = option.IsReloadingEnabled;
             coreOption.ColorSpace = (swig.ColorSpaceType)option.ColorSpace;
 
@@ -168,6 +174,7 @@ namespace asd
             coreOption.GraphicsDevice = (swig.GraphicsDeviceType)graphicsType;
             coreOption.IsFullScreen = option.IsFullScreen;
             coreOption.WindowPosition = (swig.WindowPositionType)option.WindowPosition;
+			coreOption.IsWindowResizable = option.IsWindowResizable;
             coreOption.IsReloadingEnabled = option.IsReloadingEnabled;
             coreOption.ColorSpace = (swig.ColorSpaceType)option.ColorSpace;
 

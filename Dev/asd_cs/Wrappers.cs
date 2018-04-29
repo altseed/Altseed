@@ -3076,6 +3076,17 @@ namespace asd {
 
 
 		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="offset"></param>
+		/// <returns></returns>
+		public bool BeginFullscreen(string name, int offset)
+		{
+			return CoreInstance.BeginFullscreen(name, offset);
+		}
+
+		/// <summary>
 		/// ウインドウの表示を開始する。 
 		/// </summary>
 		/// <param name="name">ウインドウ名 </param>
