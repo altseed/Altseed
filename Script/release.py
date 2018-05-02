@@ -36,6 +36,7 @@ def compile(type):
 			aceutils.call(aceutils.cmd_compile + r'Dev/unitTest_Engine_cs.sln /p:configuration=Release')
 
 		if type=='java':
+			aceutils.call(aceutils.cmd_compile + r'Dev/unitTest_Engine_cpp.sln /p:configuration=Release')
 			aceutils.cd(r'Dev/asd_java')
 			aceutils.call(r'ant')
 			aceutils.cd(r'../../')
@@ -47,11 +48,21 @@ def compile(type):
 			aceutils.cd(r'../../')
 
 		elif type=='cs':
+			# for core
+			aceutils.cd(r'Dev/cmake')
+			aceutils.call(r'make install')
+			aceutils.cd(r'../../')
+
 			aceutils.cd(r'Dev')
 			aceutils.call(r'xbuild /p:Configuration=Release unitTest_Engine_cs.sln')
 			aceutils.cd(r'../')
 
 		elif type=='java':
+			# for core
+			aceutils.cd(r'Dev/cmake')
+			aceutils.call(r'make install')
+			aceutils.cd(r'../../')
+
 			aceutils.cd(r'Dev/asd_java')
 			aceutils.call(r'ant')
 			aceutils.cd(r'../../')
