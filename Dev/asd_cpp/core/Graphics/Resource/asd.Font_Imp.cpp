@@ -37,8 +37,9 @@ namespace asd {
             
             
 			if(staticFile == nullptr) staticFile = file->CreateStaticFile(ToAString("/Library/Fonts/ヒラギノ丸ゴ Pro W4.otf").c_str());
-            if(staticFile == nullptr) staticFile = file->CreateStaticFile(ToAString("/Library/Fonts/ヒラギノ丸ゴ ProN W4.ttc").c_str());
-
+            if(staticFile == nullptr) staticFile = file->CreateStaticFile(ToAString("/Library/Fonts/ヒラギノ丸ゴ ProN W4.ttc").c_str());
+			if(staticFile == nullptr) staticFile = file->CreateStaticFile(ToAString("/System/Library/Fonts/ヒラギノ丸ゴ ProN W4.ttc").c_str());
+			
 			if (staticFile == nullptr)
 			{
 				InstalledFontList::Load();
