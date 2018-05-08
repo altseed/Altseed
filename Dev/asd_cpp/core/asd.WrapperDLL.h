@@ -71,10 +71,10 @@ public:
 	virtual void Tool_End(void* self);
 	virtual void Tool_Text(void* self,const char16_t* text);
 	virtual bool Tool_Button(void* self,const char16_t* label);
-	virtual void Tool_Image(void* self,void* user_texture,void* size);
+	virtual void Tool_Image(void* self,void* user_texture,const Vector2DF& size);
 	virtual bool Tool_BeginCombo(void* self,const char16_t* label,const char16_t* preview_value);
 	virtual void Tool_EndCombo(void* self);
-	virtual bool Tool_InputText(void* self,const char16_t* label,void* buf,int32_t buf_size);
+	virtual bool Tool_InputText(void* self,const char16_t* label,int8_t* buf,int32_t buf_size);
 	virtual bool Tool_InputInt(void* self,const char16_t* label,int* v);
 	virtual bool Tool_ColorEdit4(void* self,const char16_t* label,float* vs);
 	virtual bool Tool_Selectable(void* self,const char16_t* label,bool selected);

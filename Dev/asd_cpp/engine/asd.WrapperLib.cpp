@@ -374,12 +374,14 @@ bool Tool::Button(const char16_t* label){
 	return ret;
 };
 
-void Tool::Image(std::shared_ptr<Texture2D> user_texture,std::shared_ptr<Vector2DF> size){
+/*
+void Tool::Image(std::shared_ptr<Texture2D> user_texture,const Vector2DF& size){
 	auto arg0 = self;
 	auto arg1 = user_texture.get()->self;
-	auto arg2 = size.get()->self;
+	auto arg2 = size;
 	dll->Tool_Image(arg0,arg1,arg2);
 };
+*/
 
 bool Tool::BeginCombo(const char16_t* label,const char16_t* preview_value){
 	auto arg0 = self;
@@ -394,10 +396,10 @@ void Tool::EndCombo(){
 	dll->Tool_EndCombo(arg0);
 };
 
-bool Tool::InputText(const char16_t* label,std::shared_ptr<int8_t> buf,int32_t buf_size){
+bool Tool::InputText(const char16_t* label,int8_t* buf,int32_t buf_size){
 	auto arg0 = self;
 	auto arg1 = label;
-	auto arg2 = buf.get()->self;
+	auto arg2 = buf;
 	auto arg3 = buf_size;
 	auto ret = dll->Tool_InputText(arg0,arg1,arg2,arg3);
 	return ret;

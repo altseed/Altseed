@@ -337,10 +337,10 @@ bool WrapperDLL::Tool_Button(void* self,const char16_t* label){
 	return ret;
 };
 
-void WrapperDLL::Tool_Image(void* self,void* user_texture,void* size){
+void WrapperDLL::Tool_Image(void* self,void* user_texture,const Vector2DF& size){
 	auto self_ = (Tool*)self;
 	auto arg0 = (Texture2D*)user_texture;
-	auto arg1 = (Vector2DF*)size;
+	auto arg1 = size;
 	self_->Image(arg0,arg1);
 };
 
@@ -357,10 +357,10 @@ void WrapperDLL::Tool_EndCombo(void* self){
 	self_->EndCombo();
 };
 
-bool WrapperDLL::Tool_InputText(void* self,const char16_t* label,void* buf,int32_t buf_size){
+bool WrapperDLL::Tool_InputText(void* self,const char16_t* label,int8_t* buf,int32_t buf_size){
 	auto self_ = (Tool*)self;
 	auto arg0 = label;
-	auto arg1 = (int8_t*)buf;
+	auto arg1 = buf;
 	auto arg2 = buf_size;
 	auto ret = self_->InputText(arg0,arg1,arg2);
 	return ret;

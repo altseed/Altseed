@@ -459,7 +459,7 @@ class Tool {
 		@param user_texture 画像 
 		@param size 大きさ 
 	*/
-	void Image(std::shared_ptr<Texture2D> user_texture,std::shared_ptr<Vector2DF> size);
+	//void Image(std::shared_ptr<Texture2D> user_texture,const Vector2DF& size);
 	
 	/**
 		@brief コンボボックスを表示する。 
@@ -479,7 +479,7 @@ class Tool {
 		@param buf 文字が格納されるバッファ 
 		@param buf_size バッファサイズ 
 	*/
-	bool InputText(const char16_t* label,std::shared_ptr<int8_t> buf,int32_t buf_size);
+	bool InputText(const char16_t* label,int8_t* buf,int32_t buf_size);
 	
 	/**
 		@brief 整数を入力する。 
