@@ -159,5 +159,14 @@ namespace asd
 		@return	保存するパス
 		*/
 		const char16_t* SaveDialog(const char16_t* filterList, const char16_t* defaultPath);
+
+		/**
+		@brief	フォントを追加する。
+		@param	filename	フォントへのパス
+		@param	size_pixels	フォントサイズ
+		@note
+		現在、パッケージからは読み込めない。実行ファイルからの相対パスを指定する。
+		*/
+		void AddFontFromFileTTF(const char16_t* filename, float size_pixels);
 	};
 }

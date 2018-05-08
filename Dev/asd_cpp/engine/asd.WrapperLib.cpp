@@ -341,6 +341,14 @@ Tool::~Tool(){
 	}
 };
 
+bool Tool::BeginFullscreen(const char16_t* name,int32_t offset){
+	auto arg0 = self;
+	auto arg1 = name;
+	auto arg2 = offset;
+	auto ret = dll->Tool_BeginFullscreen(arg0,arg1,arg2);
+	return ret;
+};
+
 bool Tool::Begin(const char16_t* name){
 	auto arg0 = self;
 	auto arg1 = name;
@@ -364,6 +372,96 @@ bool Tool::Button(const char16_t* label){
 	auto arg1 = label;
 	auto ret = dll->Tool_Button(arg0,arg1);
 	return ret;
+};
+
+void Tool::Image(std::shared_ptr<Texture2D> user_texture,std::shared_ptr<Vector2DF> size){
+	auto arg0 = self;
+	auto arg1 = user_texture.get()->self;
+	auto arg2 = size.get()->self;
+	dll->Tool_Image(arg0,arg1,arg2);
+};
+
+bool Tool::BeginCombo(const char16_t* label,const char16_t* preview_value){
+	auto arg0 = self;
+	auto arg1 = label;
+	auto arg2 = preview_value;
+	auto ret = dll->Tool_BeginCombo(arg0,arg1,arg2);
+	return ret;
+};
+
+void Tool::EndCombo(){
+	auto arg0 = self;
+	dll->Tool_EndCombo(arg0);
+};
+
+bool Tool::InputText(const char16_t* label,std::shared_ptr<int8_t> buf,int32_t buf_size){
+	auto arg0 = self;
+	auto arg1 = label;
+	auto arg2 = buf.get()->self;
+	auto arg3 = buf_size;
+	auto ret = dll->Tool_InputText(arg0,arg1,arg2,arg3);
+	return ret;
+};
+
+bool Tool::InputInt(const char16_t* label,int* v){
+	auto arg0 = self;
+	auto arg1 = label;
+	auto arg2 = v;
+	auto ret = dll->Tool_InputInt(arg0,arg1,arg2);
+	return ret;
+};
+
+bool Tool::ColorEdit4(const char16_t* label,float* vs){
+	auto arg0 = self;
+	auto arg1 = label;
+	auto arg2 = vs;
+	auto ret = dll->Tool_ColorEdit4(arg0,arg1,arg2);
+	return ret;
+};
+
+bool Tool::Selectable(const char16_t* label,bool selected){
+	auto arg0 = self;
+	auto arg1 = label;
+	auto arg2 = selected;
+	auto ret = dll->Tool_Selectable(arg0,arg1,arg2);
+	return ret;
+};
+
+bool Tool::ListBox(const char16_t* label,int* current_item,const char16_t* items){
+	auto arg0 = self;
+	auto arg1 = label;
+	auto arg2 = current_item;
+	auto arg3 = items;
+	auto ret = dll->Tool_ListBox(arg0,arg1,arg2,arg3);
+	return ret;
+};
+
+void Tool::SetItemDefaultFocus(){
+	auto arg0 = self;
+	dll->Tool_SetItemDefaultFocus(arg0);
+};
+
+const char16_t* Tool::OpenDialog(const char16_t* filterList,const char16_t* defaultPath){
+	auto arg0 = self;
+	auto arg1 = filterList;
+	auto arg2 = defaultPath;
+	auto ret = dll->Tool_OpenDialog(arg0,arg1,arg2);
+	return ret;
+};
+
+const char16_t* Tool::SaveDialog(const char16_t* filterList,const char16_t* defaultPath){
+	auto arg0 = self;
+	auto arg1 = filterList;
+	auto arg2 = defaultPath;
+	auto ret = dll->Tool_SaveDialog(arg0,arg1,arg2);
+	return ret;
+};
+
+void Tool::AddFontFromFileTTF(const char16_t* filename,float size_pixels){
+	auto arg0 = self;
+	auto arg1 = filename;
+	auto arg2 = size_pixels;
+	dll->Tool_AddFontFromFileTTF(arg0,arg1,arg2);
 };
 
 

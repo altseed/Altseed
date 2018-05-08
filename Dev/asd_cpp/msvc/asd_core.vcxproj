@@ -632,6 +632,7 @@
     <ClInclude Include="..\core\Sound\asd.Sound.h" />
     <ClInclude Include="..\core\Sound\asd.SoundSource.h" />
     <ClInclude Include="..\core\Tool\asd.Tool.h" />
+    <ClInclude Include="..\core\Tool\asd.ToolJapaneseFont.h" />
     <ClInclude Include="..\core\Utils\asd.ResourceContainer.h" />
     <ClInclude Include="..\core\Utils\asd.Synchronizer.h" />
     <ClInclude Include="..\core\Utils\IAsyncResource.h" />

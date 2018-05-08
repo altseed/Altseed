@@ -3076,10 +3076,10 @@ namespace asd {
 
 
 		/// <summary>
-		/// 
+		/// フルスクリーンでウインドウの表示を開始する。 
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="offset"></param>
+		/// <param name="name">ウインドウ名 </param>
+		/// <param name="offset">ウインドウ上部の位置のオフセット </param>
 		/// <returns></returns>
 		public bool BeginFullscreen(string name, int offset)
 		{
@@ -3124,10 +3124,10 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 画像を表示する。 
 		/// </summary>
-		/// <param name="user_texture"></param>
-		/// <param name="size"></param>
+		/// <param name="user_texture">画像 </param>
+		/// <param name="size">大きさ </param>
 		public void Image(Texture2D user_texture, asd.Vector2DF size)
 		{
 			asd.swig.Texture2D user_textureCore = null;
@@ -3139,10 +3139,10 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// コンボボックスを表示する。 
 		/// </summary>
-		/// <param name="label"></param>
-		/// <param name="preview_value"></param>
+		/// <param name="label">ラベル名 </param>
+		/// <param name="preview_value">コンボボックスの先頭に表示される文字列 </param>
 		/// <returns></returns>
 		public bool BeginCombo(string label, string preview_value)
 		{
@@ -3150,7 +3150,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// コンボボックスを表示を終了する。 
 		/// </summary>
 		public void EndCombo()
 		{
@@ -3158,11 +3158,11 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 文字を入力する。 
 		/// </summary>
-		/// <param name="label"></param>
-		/// <param name="buf"></param>
-		/// <param name="buf_size"></param>
+		/// <param name="label">ラベル名 </param>
+		/// <param name="buf">文字が格納されるバッファ </param>
+		/// <param name="buf_size">バッファサイズ </param>
 		/// <returns></returns>
 		public bool InputText(string label, sbyte[] buf, int buf_size)
 		{
@@ -3170,10 +3170,10 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 整数を入力する。 
 		/// </summary>
-		/// <param name="label"></param>
-		/// <param name="v"></param>
+		/// <param name="label">ラベル名 </param>
+		/// <param name="v">値 </param>
 		/// <returns></returns>
 		public bool InputInt(string label, int[] v)
 		{
@@ -3181,10 +3181,10 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 色を変更する。 
 		/// </summary>
-		/// <param name="label"></param>
-		/// <param name="vs"></param>
+		/// <param name="label">ラベル名 </param>
+		/// <param name="vs">色(RGB+A) </param>
 		/// <returns></returns>
 		public bool ColorEdit4(string label, float[] vs)
 		{
@@ -3192,10 +3192,10 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 選択可能な文字列を表示する。 
 		/// </summary>
-		/// <param name="label"></param>
-		/// <param name="selected"></param>
+		/// <param name="label">ラベル名 </param>
+		/// <param name="selected">選択されているか? </param>
 		/// <returns></returns>
 		public bool Selectable(string label, bool selected)
 		{
@@ -3203,11 +3203,11 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// リストボックスを表示する。 
 		/// </summary>
-		/// <param name="label"></param>
-		/// <param name="current_item"></param>
-		/// <param name="items"></param>
+		/// <param name="label">ラベル名 </param>
+		/// <param name="current_item">選択されているアイテム </param>
+		/// <param name="items">アイテム(;区切り) </param>
 		/// <returns></returns>
 		public bool ListBox(string label, int[] current_item, string items)
 		{
@@ -3215,7 +3215,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 現在選択されているアイテムにフォーカスを設定する。 
 		/// </summary>
 		public void SetItemDefaultFocus()
 		{
@@ -3223,25 +3223,35 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// ファイルを開くダイアログを開く。 
 		/// </summary>
-		/// <param name="filterList"></param>
-		/// <param name="defaultPath"></param>
-		/// <returns></returns>
+		/// <param name="filterList">フィルタ </param>
+		/// <param name="defaultPath">最初に表示するディレクトリのパス </param>
+		/// <returns>開くパス </returns>
 		public string OpenDialog(string filterList, string defaultPath)
 		{
 			return CoreInstance.OpenDialog(filterList, defaultPath);
 		}
 
 		/// <summary>
-		/// 
+		/// ファイルを保存するダイアログを開く。 
 		/// </summary>
-		/// <param name="filterList"></param>
-		/// <param name="defaultPath"></param>
-		/// <returns></returns>
+		/// <param name="filterList">フィルタ </param>
+		/// <param name="defaultPath">最初に表示するディレクトリのパス </param>
+		/// <returns>保存するパス </returns>
 		public string SaveDialog(string filterList, string defaultPath)
 		{
 			return CoreInstance.SaveDialog(filterList, defaultPath);
+		}
+
+		/// <summary>
+		/// フォントを追加する。 
+		/// </summary>
+		/// <param name="filename">フォントへのパス </param>
+		/// <param name="size_pixels">フォントサイズ </param>
+		public void AddFontFromFileTTF(string filename, float size_pixels)
+		{
+			CoreInstance.AddFontFromFileTTF(filename, size_pixels);
 		}
 
 	}

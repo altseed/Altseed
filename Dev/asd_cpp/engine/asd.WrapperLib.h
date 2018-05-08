@@ -425,6 +425,13 @@ class Tool {
 	virtual ~Tool();
 	
 	/**
+		@brief フルスクリーンでウインドウの表示を開始する。 
+		@param name ウインドウ名 
+		@param offset ウインドウ上部の位置のオフセット 
+	*/
+	bool BeginFullscreen(const char16_t* name,int32_t offset);
+	
+	/**
 		@brief ウインドウの表示を開始する。 
 		@param name ウインドウ名 
 	*/
@@ -446,6 +453,90 @@ class Tool {
 		@param label ラベル名 
 	*/
 	bool Button(const char16_t* label);
+	
+	/**
+		@brief 画像を表示する。 
+		@param user_texture 画像 
+		@param size 大きさ 
+	*/
+	void Image(std::shared_ptr<Texture2D> user_texture,std::shared_ptr<Vector2DF> size);
+	
+	/**
+		@brief コンボボックスを表示する。 
+		@param label ラベル名 
+		@param preview_value コンボボックスの先頭に表示される文字列 
+	*/
+	bool BeginCombo(const char16_t* label,const char16_t* preview_value);
+	
+	/**
+		@brief コンボボックスを表示を終了する。 
+	*/
+	void EndCombo();
+	
+	/**
+		@brief 文字を入力する。 
+		@param label ラベル名 
+		@param buf 文字が格納されるバッファ 
+		@param buf_size バッファサイズ 
+	*/
+	bool InputText(const char16_t* label,std::shared_ptr<int8_t> buf,int32_t buf_size);
+	
+	/**
+		@brief 整数を入力する。 
+		@param label ラベル名 
+		@param v 値 
+	*/
+	bool InputInt(const char16_t* label,int* v);
+	
+	/**
+		@brief 色を変更する。 
+		@param label ラベル名 
+		@param vs 色(RGB+A) 
+	*/
+	bool ColorEdit4(const char16_t* label,float* vs);
+	
+	/**
+		@brief 選択可能な文字列を表示する。 
+		@param label ラベル名 
+		@param selected 選択されているか? 
+	*/
+	bool Selectable(const char16_t* label,bool selected);
+	
+	/**
+		@brief リストボックスを表示する。 
+		@param label ラベル名 
+		@param current_item 選択されているアイテム 
+		@param items アイテム(;区切り) 
+	*/
+	bool ListBox(const char16_t* label,int* current_item,const char16_t* items);
+	
+	/**
+		@brief 現在選択されているアイテムにフォーカスを設定する。 
+	*/
+	void SetItemDefaultFocus();
+	
+	/**
+		@brief ファイルを開くダイアログを開く。 
+		@param filterList フィルタ 
+		@param defaultPath 最初に表示するディレクトリのパス 
+		@return 開くパス 
+	*/
+	const char16_t* OpenDialog(const char16_t* filterList,const char16_t* defaultPath);
+	
+	/**
+		@brief ファイルを保存するダイアログを開く。 
+		@param filterList フィルタ 
+		@param defaultPath 最初に表示するディレクトリのパス 
+		@return 保存するパス 
+	*/
+	const char16_t* SaveDialog(const char16_t* filterList,const char16_t* defaultPath);
+	
+	/**
+		@brief フォントを追加する。 
+		@param filename フォントへのパス 
+		@param size_pixels フォントサイズ 
+	*/
+	void AddFontFromFileTTF(const char16_t* filename,float size_pixels);
 	
 };
 

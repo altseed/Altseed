@@ -16,6 +16,8 @@
 
 #include "../3rdParty/nfd/nfd.h"
 
+#include "asd.ToolJapaneseFont.h"
+
 #include <codecvt>
 #include <locale>
 #include <functional>
@@ -325,5 +327,11 @@ namespace asd
 
 		temp = u"";
 		return temp.c_str();
+	}
+
+	void Tool::AddFontFromFileTTF(const char16_t* filename, float size_pixels)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		io.Fonts->AddFontFromFileTTF(utf16_to_utf8(filename).c_str(), size_pixels, nullptr, glyphRangesJapanese);
 	}
 }

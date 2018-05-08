@@ -1123,6 +1123,9 @@
     <ClInclude Include="..\core\3rdParty\nfd\common.h">
       <Filter>3rdParty\nfd</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Tool\asd.ToolJapaneseFont.h">
+      <Filter>Tool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">
