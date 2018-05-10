@@ -3245,6 +3245,16 @@ namespace asd {
 		}
 
 		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="defaultPath"></param>
+		/// <returns></returns>
+		public string PickFolder(string defaultPath)
+		{
+			return CoreInstance.PickFolder(defaultPath);
+		}
+
+		/// <summary>
 		/// フォントを追加する。 
 		/// </summary>
 		/// <param name="filename">フォントへのパス </param>

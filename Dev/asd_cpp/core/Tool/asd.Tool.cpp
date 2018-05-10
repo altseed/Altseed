@@ -329,6 +329,29 @@ namespace asd
 		return temp.c_str();
 	}
 
+	const char16_t* Tool::PickFolder(const char16_t* defaultPath)
+	{
+		auto defaultPath_ = utf16_to_utf8(defaultPath);
+
+		nfdchar_t* outPath = NULL;
+		nfdresult_t result = NFD_PickFolder(defaultPath_.c_str(), &outPath);
+
+		if (result == NFD_OKAY)
+		{
+			temp = utf8_to_utf16(outPath);
+			free(outPath);
+			return temp.c_str();
+		}
+		else if (result == NFD_CANCEL)
+		{
+			temp = u"";
+			return temp.c_str();
+		}
+
+		temp = u"";
+		return temp.c_str();
+	}
+
 	void Tool::AddFontFromFileTTF(const char16_t* filename, float size_pixels)
 	{
 		ImGuiIO& io = ImGui::GetIO();

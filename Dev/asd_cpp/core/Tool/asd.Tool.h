@@ -161,6 +161,13 @@ namespace asd
 		const char16_t* SaveDialog(const char16_t* filterList, const char16_t* defaultPath);
 
 		/**
+		@brief	フォルダを選択するダイアログを開く。
+		@param	defaultPath	最初に表示するディレクトリのパス
+		@return	フォルダのパス
+		*/
+		const char16_t* PickFolder(const char16_t* defaultPath);
+
+		/**
 		@brief	フォントを追加する。
 		@param	filename	フォントへのパス
 		@param	size_pixels	フォントサイズ
