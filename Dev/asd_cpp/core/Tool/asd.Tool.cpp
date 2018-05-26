@@ -28,11 +28,17 @@ namespace asd
 	struct utf8str {
 		enum { size = size_ };
 		char data[size];
+		bool isNull = false;
 		utf8str(const char16_t* u16str) {
+			if (u16str == nullptr)
+			{
+				isNull = true;
+				return;
+			}
 			Effekseer::ConvertUtf16ToUtf8((int8_t*)data, size, (const int16_t*)u16str);
 		}
 		operator const char*() const {
-			return data;
+			return isNull ? nullptr : data;
 		}
 	};
 
@@ -306,7 +312,7 @@ namespace asd
 
 	bool Tool::MenuItem(const char16_t* label, const char16_t* shortcut, bool* p_selected)
 	{
-		return ImGui::MenuItem(utf16_to_utf8(label).c_str(), utf16_to_utf8(shortcut).c_str(), p_selected);
+		return ImGui::MenuItem(utf8str<255>(label), utf8str<255>(shortcut), p_selected);
 	}
 
 	void Tool::Columns(int count)

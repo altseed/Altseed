@@ -152,7 +152,7 @@ namespace asd
 		void EndMainMenuBar();
 
 		/**
-		@brief	メニューバーの表示を開始する。
+		@brief	メニューバー(ウインドウ等)の表示を開始する。
 		*/
 		bool BeginMenuBar();
 
