@@ -274,6 +274,66 @@ namespace asd
 		return ImGui::ListBox(utf16_to_utf8(label).c_str(), current_item, cs.data(), cs.size());
 	}
 
+	bool Tool::BeginMainMenuBar()
+	{
+		return ImGui::BeginMainMenuBar();
+	}
+
+	void Tool::EndMainMenuBar()
+	{
+		ImGui::EndMainMenuBar();
+	}
+
+	bool Tool::BeginMenuBar()
+	{
+		return ImGui::BeginMenuBar();
+	}
+
+	void Tool::EndMenuBar()
+	{
+		ImGui::EndMenuBar();
+	}
+
+	bool Tool::BeginMenu(const char16_t* label)
+	{
+		return ImGui::BeginMenu(utf16_to_utf8(label).c_str());
+	}
+
+	void Tool::EndMenu()
+	{
+		ImGui::EndMenu();
+	}
+
+	bool Tool::MenuItem(const char16_t* label, const char16_t* shortcut, bool* p_selected)
+	{
+		return ImGui::MenuItem(utf16_to_utf8(label).c_str(), utf16_to_utf8(shortcut).c_str(), p_selected);
+	}
+
+	void Tool::Columns(int count)
+	{
+		ImGui::Columns(count);
+	}
+
+	void Tool::NextColumn()
+	{
+		ImGui::NextColumn();
+	}
+
+	int Tool::GetColumnIndex()
+	{
+		return ImGui::GetColumnIndex();
+	}
+
+	float Tool::GetColumnWidth(int column_index)
+	{
+		return ImGui::GetColumnWidth(column_index);
+	}
+
+	void Tool::SetColumnWidth(int column_index, float width)
+	{
+		ImGui::SetColumnWidth(column_index, width);
+	}
+
 	void Tool::SetItemDefaultFocus()
 	{
 		ImGui::SetItemDefaultFocus();

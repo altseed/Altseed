@@ -3074,6 +3074,14 @@ namespace asd {
 	{
 		internal asd.swig.Tool CoreInstance { get; set; }
 
+		/// <summary>
+		/// 
+		/// </summary>
+		public int ColumnIndex
+		{
+			get { return CoreInstance.GetColumnIndex(); }
+		}
+
 
 		/// <summary>
 		/// フルスクリーンでウインドウの表示を開始する。 
@@ -3124,10 +3132,10 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 画像を表示する。 
+		/// 
 		/// </summary>
-		/// <param name="user_texture">画像 </param>
-		/// <param name="size">大きさ </param>
+		/// <param name="user_texture"></param>
+		/// <param name="size"></param>
 		public void Image(Texture2D user_texture, asd.Vector2DF size)
 		{
 			asd.swig.Texture2D user_textureCore = null;
@@ -3139,7 +3147,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// コンボボックスを表示する。 
+		/// 画像を表示する。 
 		/// </summary>
 		/// <param name="label">ラベル名 </param>
 		/// <param name="preview_value">コンボボックスの先頭に表示される文字列 </param>
@@ -3212,6 +3220,107 @@ namespace asd {
 		public bool ListBox(string label, int[] current_item, string items)
 		{
 			return CoreInstance.ListBox(label, current_item, items);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public bool BeginMainMenuBar()
+		{
+			return CoreInstance.BeginMainMenuBar();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public void EndMainMenuBar()
+		{
+			CoreInstance.EndMainMenuBar();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		public bool BeginMenuBar()
+		{
+			return CoreInstance.BeginMenuBar();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public void EndMenuBar()
+		{
+			CoreInstance.EndMenuBar();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="label"></param>
+		/// <returns></returns>
+		public bool BeginMenu(string label)
+		{
+			return CoreInstance.BeginMenu(label);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public void EndMenu()
+		{
+			CoreInstance.EndMenu();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="label"></param>
+		/// <param name="shortcut"></param>
+		/// <param name="p_selected"></param>
+		/// <returns></returns>
+		public bool MenuItem(string label, string shortcut, bool[] p_selected)
+		{
+			return CoreInstance.MenuItem(label, shortcut, p_selected);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="count"></param>
+		public void Columns(int count)
+		{
+			CoreInstance.Columns(count);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public void NextColumn()
+		{
+			CoreInstance.NextColumn();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="column_index"></param>
+		/// <returns></returns>
+		public float GetColumnWidth(int column_index)
+		{
+			return CoreInstance.GetColumnWidth(column_index);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="column_index"></param>
+		/// <param name="width"></param>
+		public void SetColumnWidth(int column_index, float width)
+		{
+			CoreInstance.SetColumnWidth(column_index, width);
 		}
 
 		/// <summary>

@@ -137,6 +137,82 @@ namespace asd
 		*/
 		bool ListBox(const char16_t* label, int* current_item, const char16_t* items);
 
+		// MenuBar
+
+		/**
+		@brief	画面上のメニューバーの表示を開始する。
+		*/
+		bool BeginMainMenuBar();
+
+		/**
+		@brief	画面上のメニューバーの表示を終了する。
+		@note
+		BeginMainMenuBarがtrueを返した場合のみ、実行する。
+		*/
+		void EndMainMenuBar();
+
+		/**
+		@brief	メニューバーの表示を開始する。
+		*/
+		bool BeginMenuBar();
+
+		/**
+		@brief	メニューバーの表示を終了する。
+		@note
+		BeginMenuBarがtrueを返した場合のみ、実行する。
+		*/
+		void EndMenuBar();
+
+		/**
+		@brief	メニューの表示を開始する。
+		@param	label	ラベル名
+		*/
+		bool BeginMenu(const char16_t* label);
+
+		/**
+		@brief	メニューの表示を終了する。
+		@note
+		BeginMenuがtrueを返した場合のみ、実行する。
+		*/
+		void EndMenu();
+
+		/**
+		@brief	メニューアイテムを表示する。
+		@param	label		ラベル名
+		@param	shortcut	ショートカット
+
+		*/
+		bool MenuItem(const char16_t* label, const char16_t* shortcut, bool* p_selected);
+
+		/**
+		@brief	行数を設定する。
+		@param	count	行数
+		*/
+		void Columns(int count);
+
+		/**
+		@brief	次の行に移動する。
+		*/
+		void NextColumn();
+		
+		/**
+		@brief	現在の行のインデックスを取得する。
+		*/
+		int GetColumnIndex();
+		
+		/**
+			@brief	行の幅を取得する。
+			@param	column_index	インデックス
+		*/
+		float GetColumnWidth(int column_index);
+
+		/**
+			@brief	行の幅を設定する。
+			@param	column_index	インデックス
+			@param	width	幅
+		*/
+		void SetColumnWidth(int column_index, float width);
+
 		// Focus, Activation
 
 		/**
