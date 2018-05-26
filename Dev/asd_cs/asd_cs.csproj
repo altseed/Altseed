@@ -296,6 +296,9 @@
     <Compile Include="swig\TextureLockInfomation.cs" />
     <Compile Include="swig\TextureWrapType.cs" />
     <Compile Include="swig\Tool.cs" />
+    <Compile Include="swig\ToolDialogButtons.cs" />
+    <Compile Include="swig\ToolDialogSelection.cs" />
+    <Compile Include="swig\ToolDialogStyle.cs" />
     <Compile Include="swig\VectorUint8.cs" />
     <Compile Include="swig\VisualizedBufferType.cs" />
     <Compile Include="swig\Window.cs" />

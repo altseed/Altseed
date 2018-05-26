@@ -15,6 +15,7 @@
 #include "../Window/asd.Window_Imp.h"
 
 #include "../3rdParty/nfd/nfd.h"
+#include "../3rdParty/Boxer/boxer.h"
 
 #include "asd.ToolJapaneseFont.h"
 
@@ -422,5 +423,10 @@ namespace asd
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		io.Fonts->AddFontFromFileTTF(utf16_to_utf8(filename).c_str(), size_pixels, nullptr, glyphRangesJapanese);
+	}
+
+	ToolDialogSelection Tool::ShowDialog(const char16_t* message, const char16_t* title, ToolDialogStyle style, ToolDialogButtons buttons)
+	{
+		return (ToolDialogSelection)boxer::show(utf8str<512>(message), utf8str<512>(title), (boxer::Style)style, (boxer::Buttons)buttons);
 	}
 }

@@ -8,6 +8,30 @@ namespace asd
 {
 	class Core_Imp;
 
+	enum class ToolDialogStyle {
+		Info,
+		Warning,
+		Error,
+		Question
+	};
+
+	enum class ToolDialogButtons {
+		OK,
+		OKCancel,
+		YesNo,
+		Quit
+	};
+
+	enum class ToolDialogSelection {
+		OK,
+		Cancel,
+		Yes,
+		No,
+		Quit,
+		None,
+		Error
+	};
+
 	/**
 		@brief	ツールを開発するための低レイヤーな命令群のクラス
 	*/
@@ -251,5 +275,10 @@ namespace asd
 		現在、パッケージからは読み込めない。実行ファイルからの相対パスを指定する。
 		*/
 		void AddFontFromFileTTF(const char16_t* filename, float size_pixels);
+
+		/**
+			@brief	ダイアログを表示する。
+		*/
+		ToolDialogSelection ShowDialog(const char16_t* message, const char16_t* title, ToolDialogStyle style, ToolDialogButtons buttons);
 	};
 }
