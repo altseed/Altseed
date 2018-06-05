@@ -1,25 +1,34 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.IO;
 using System.Linq;
 using FilePackageGenerator.Packaging;
 
 namespace FilePackageGenerator.Altseed
 {
+
     static class GUI
     {
-        static sbyte[] Password = new sbyte[512];
-        static string SrcPath = string.Empty;
-        static string DstPath = string.Empty;
-        static bool IsIgnoreHidden = true;
-
         public static void MainProgram()
         {
-            if (!asd.Engine.Initialize("FilePackageGenerator", 640, 480, new asd.EngineOption())) return;
+            var options = new asd.EngineOption()
+            {
+                IsWindowResizable = true,
+            };
+
+            if (!asd.Engine.Initialize("FilePackageGenerator", 480, 640, options)) return;
             asd.Engine.OpenTool();
 
+            TryLoadFont(
+                @"C:\Windows\Fonts\meiryo.ttc",
+                @"/Library/Fonts/ヒラギノ丸ゴ Pro W4.otf",
+                @"/Library/Fonts/ヒラギノ丸ゴ ProN W4.ttc",
+                @"/System/Library/Fonts/ヒラギノ丸ゴ ProN W4.ttc"
+            );
+
+            asd.Engine.ChangeScene(new ToolScene());
             while (asd.Engine.DoEvents())
             {
-                RenderTool();
                 asd.Engine.Update();
             }
 
@@ -27,43 +36,100 @@ namespace FilePackageGenerator.Altseed
             asd.Engine.Terminate();
         }
 
-        private static void RenderTool()
+        private static void TryLoadFont(params string[] fonts)
         {
-            asd.Engine.Tool.Begin("FilePackageGenerator");
-
-            asd.Engine.Tool.Text("Source:");
-            asd.Engine.Tool.Text(SrcPath);
-            if (asd.Engine.Tool.Button("Open..."))
+            foreach (var font in fonts)
             {
-                var result = asd.Engine.Tool.OpenDialog("*", Directory.GetCurrentDirectory());
-                if (result != string.Empty)
-                    SrcPath = Path.GetDirectoryName(result);
+                if (!File.Exists(font)) continue;
+                asd.Engine.Tool.AddFontFromFileTTF(font, 14);
+                break;
             }
+        }
+    }
 
-            asd.Engine.Tool.Text("Setting:");
-            if (asd.Engine.Tool.Button(IsIgnoreHidden ? "Ignore Hidden" : "All Files"))
+    class ToolScene : asd.Scene
+    {
+        private sbyte[] Password = new sbyte[512];
+        private string SrcPath = string.Empty;
+        private string DstPath = string.Empty;
+        private string FileList = string.Empty;
+        private PackagingSetting Setting;
+
+        protected override void OnUpdated()
+        {
+            if (asd.Engine.Tool.BeginFullscreen("FilePackageGenerator", 0))
             {
-                IsIgnoreHidden = !IsIgnoreHidden;
+
+                asd.Engine.Tool.Text("Source:");
+                if (asd.Engine.Tool.Button("Open...")) Open();
+
+                asd.Engine.Tool.Text("Setting:");
+                if (asd.Engine.Tool.Button(Setting == PackagingSetting.IgnoreHiddenAttribute ? "Ignore Hidden" : "All Files"))
+                {
+                    Setting = (Setting == PackagingSetting.AllFiles) ?
+                        PackagingSetting.IgnoreHiddenAttribute :
+                        PackagingSetting.AllFiles;
+                    RefleshList();
+                }
+                asd.Engine.Tool.Text("Password:");
+                asd.Engine.Tool.InputText(string.Empty, Password, 512);
+
+                asd.Engine.Tool.Text("Package:");
+                if (asd.Engine.Tool.Button("Save as...") && SrcPath != string.Empty) Save();
+
+                asd.Engine.Tool.Text("");
+                asd.Engine.Tool.Text("Selected Folder:");
+                asd.Engine.Tool.Text(SrcPath);
+                asd.Engine.Tool.Text("File List:");
+
+                asd.Engine.Tool.ListBox(string.Empty, new[] { 0 }, FileList);
             }
-
-            asd.Engine.Tool.Text("Password:");
-            asd.Engine.Tool.InputText(string.Empty, Password, 512);
-
-            asd.Engine.Tool.Text("Package:");
-            if (asd.Engine.Tool.Button("Save as...") && SrcPath != string.Empty)
-            {
-                DstPath = asd.Engine.Tool.SaveDialog("pack", Directory.GetCurrentDirectory());
-                if (DstPath != string.Empty) Package(Password, SrcPath, DstPath, IsIgnoreHidden);
-            }
-
             asd.Engine.Tool.End();
         }
 
-        private static void Package(sbyte[] password, string srcPath, string dstPath, bool isIgnoreHidden)
+        private void Save()
         {
-            var pass = Encoding.UTF8.GetString(password.Select(sb => (byte)sb).ToArray(), 0, password.Length);
-            var setting = isIgnoreHidden ? PackagingSetting.IgnoreHiddenAttribute : PackagingSetting.AllFiles;
-            Packing.Run(srcPath, dstPath, PackagingSetting.IgnoreHiddenAttribute, new string[] { }, pass);
+            DstPath = asd.Engine.Tool.SaveDialog("pack", Directory.GetCurrentDirectory());
+            if (!string.IsNullOrEmpty(DstPath)) Package();
+        }
+
+        private void Open()
+        {
+            var result = asd.Engine.Tool.PickFolder(Directory.GetCurrentDirectory());
+            if (!string.IsNullOrEmpty(result))
+            {
+                SrcPath = result;
+                RefleshList();
+            }
+        }
+
+        private void RefleshList()
+        {
+            if (string.IsNullOrEmpty(SrcPath)) return;
+
+            var directoryUri = new Uri(Path.GetFullPath(SrcPath));
+            var builder = new StringBuilder();
+            foreach (var f in Directory.EnumerateFiles(SrcPath, "*", SearchOption.AllDirectories))
+            {
+                if (Setting == PackagingSetting.IgnoreHiddenAttribute &&
+                        File.GetAttributes(f).HasFlag(FileAttributes.Hidden))
+                    continue;
+
+                builder.Append(f.Substring(SrcPath.Length + 1));
+                builder.Append(";");
+            }
+            FileList = builder.ToString();
+        }
+
+        private void Package()
+        {
+            int length;
+            for (length = 0; length < Password.Length; length++)
+                if (Password[length] == 0x00) break;
+
+            var pass = Encoding.UTF8.GetString(Password.Select(sb => (byte)sb).ToArray(), 0, length);
+
+            Packing.Run(SrcPath, DstPath, Setting, new string[] { }, pass);
         }
     }
 }

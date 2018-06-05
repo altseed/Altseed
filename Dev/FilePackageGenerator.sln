@@ -3,11 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilePackageGenerator", "FilePackageGenerator\FilePackageGenerator\FilePackageGenerator.csproj", "{B664E097-5381-449A-9415-0143EC59C6B1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilePackageGeneratorCore", "FilePackageGenerator\FilePackageGeneratorCore\FilePackageGeneratorCore.csproj", "{67B21C11-7288-4890-8196-67221F74077F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilePackageGenerator.GUI", "FilePackageGenerator\FilePackageGenerator.GUI\FilePackageGenerator.GUI.csproj", "{18D2DA76-50A1-4CFE-B6E0-3B0839F6DF8B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilePackageGenerator.Altseed", "FilePackageGenerator\FilePackageGenerator.Altseed\FilePackageGenerator.Altseed.csproj", "{277005BE-2AA4-43AD-9BD4-8FDA2862BA5C}"
 EndProject
@@ -17,18 +13,10 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B664E097-5381-449A-9415-0143EC59C6B1}.Debug|x86.ActiveCfg = Debug|x86
-		{B664E097-5381-449A-9415-0143EC59C6B1}.Debug|x86.Build.0 = Debug|x86
-		{B664E097-5381-449A-9415-0143EC59C6B1}.Release|x86.ActiveCfg = Release|x86
-		{B664E097-5381-449A-9415-0143EC59C6B1}.Release|x86.Build.0 = Release|x86
 		{67B21C11-7288-4890-8196-67221F74077F}.Debug|x86.ActiveCfg = Debug|x86
 		{67B21C11-7288-4890-8196-67221F74077F}.Debug|x86.Build.0 = Debug|x86
 		{67B21C11-7288-4890-8196-67221F74077F}.Release|x86.ActiveCfg = Release|x86
 		{67B21C11-7288-4890-8196-67221F74077F}.Release|x86.Build.0 = Release|x86
-		{18D2DA76-50A1-4CFE-B6E0-3B0839F6DF8B}.Debug|x86.ActiveCfg = Debug|x86
-		{18D2DA76-50A1-4CFE-B6E0-3B0839F6DF8B}.Debug|x86.Build.0 = Debug|x86
-		{18D2DA76-50A1-4CFE-B6E0-3B0839F6DF8B}.Release|x86.ActiveCfg = Release|x86
-		{18D2DA76-50A1-4CFE-B6E0-3B0839F6DF8B}.Release|x86.Build.0 = Release|x86
 		{277005BE-2AA4-43AD-9BD4-8FDA2862BA5C}.Debug|x86.ActiveCfg = Debug|x86
 		{277005BE-2AA4-43AD-9BD4-8FDA2862BA5C}.Debug|x86.Build.0 = Debug|x86
 		{277005BE-2AA4-43AD-9BD4-8FDA2862BA5C}.Release|x86.ActiveCfg = Release|x86
