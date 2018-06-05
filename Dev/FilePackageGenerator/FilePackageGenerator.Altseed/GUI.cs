@@ -123,11 +123,8 @@ namespace FilePackageGenerator.Altseed
 
         private void Package()
         {
-            int length;
-            for (length = 0; length < Password.Length; length++)
-                if (Password[length] == 0x00) break;
-
-            var pass = Encoding.UTF8.GetString(Password.Select(sb => (byte)sb).ToArray(), 0, length);
+            var bPass = Password.TakeWhile(c => c != 0x00).Select(sb => (byte)sb).ToArray();
+            var pass = Encoding.UTF8.GetString(bPass, 0, sbPass.Length);
 
             Packing.Run(SrcPath, DstPath, Setting, new string[] { }, pass);
         }
