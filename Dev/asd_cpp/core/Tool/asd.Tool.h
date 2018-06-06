@@ -75,6 +75,18 @@ namespace asd
 		*/
 		void End();
 
+		// Cursor / Layout
+
+		/**
+			@brief	分割線を表示する。
+		*/
+		void Separator();
+
+		/**
+			@brief	次に表示する要素を改行せずに表示する。
+		*/
+		void SameLine();
+
 		// Widgets: Text
 
 		/**

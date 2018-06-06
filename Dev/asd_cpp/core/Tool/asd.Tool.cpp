@@ -206,6 +206,16 @@ namespace asd
 		ImGui::End();
 	}
 
+	void Tool::Separator()
+	{
+		ImGui::Separator();
+	}
+
+	void Tool::SameLine()
+	{
+		ImGui::SameLine();
+	}
+
 	void Tool::Text(const char16_t* text)
 	{
 		ImGui::Text(utf16_to_utf8(text).c_str());

@@ -3203,6 +3203,22 @@ namespace asd {
 		}
 
 		/// <summary>
+		/// 分割線を表示する。 
+		/// </summary>
+		public void Separator()
+		{
+			CoreInstance.Separator();
+		}
+
+		/// <summary>
+		/// 次に表示する要素を改行せずに表示する。 
+		/// </summary>
+		public void SameLine()
+		{
+			CoreInstance.SameLine();
+		}
+
+		/// <summary>
 		/// テキストを表示する。 
 		/// </summary>
 		/// <param name="text">テキスト名 </param>
