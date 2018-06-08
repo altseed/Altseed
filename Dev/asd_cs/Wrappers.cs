@@ -314,6 +314,29 @@ namespace asd {
 	}
 
 	/// <summary>
+	/// ボタンの押し状態を示す列挙型 
+	///	</summary>
+	public enum ButtonState : int
+	{
+		/// <summary>
+		/// ボタンをこのフレームで押した状態 
+		/// </summary>
+		Push = asd.swig.ButtonState.Push,
+		/// <summary>
+		/// ボタンをこのフレームで離した状態 
+		/// </summary>
+		Release = asd.swig.ButtonState.Release,
+		/// <summary>
+		/// ボタンを押し続けている状態 
+		/// </summary>
+		Hold = asd.swig.ButtonState.Hold,
+		/// <summary>
+		/// ボタンを離し続けている状態 
+		/// </summary>
+		Free = asd.swig.ButtonState.Free,
+	}
+
+	/// <summary>
 	/// 
 	///	</summary>
 	public enum Object2DType : int
@@ -642,29 +665,6 @@ namespace asd {
 		/// 
 		/// </summary>
 		Max = asd.swig.JoystickAxisType.Max,
-	}
-
-	/// <summary>
-	/// ジョイスティックのボタンの押し状態を示す列挙型 
-	///	</summary>
-	public enum JoystickButtonState : int
-	{
-		/// <summary>
-		/// ボタンをこのフレームで押した状態 
-		/// </summary>
-		Push = asd.swig.JoystickButtonState.Push,
-		/// <summary>
-		/// ボタンをこのフレームで離した状態 
-		/// </summary>
-		Release = asd.swig.JoystickButtonState.Release,
-		/// <summary>
-		/// ボタンを押し続けている状態 
-		/// </summary>
-		Hold = asd.swig.JoystickButtonState.Hold,
-		/// <summary>
-		/// ボタンを離し続けている状態 
-		/// </summary>
-		Free = asd.swig.JoystickButtonState.Free,
 	}
 
 	/// <summary>
@@ -1167,29 +1167,6 @@ namespace asd {
 	}
 
 	/// <summary>
-	/// キーボードの押下状態を示す列挙型 
-	///	</summary>
-	public enum KeyState : int
-	{
-		/// <summary>
-		/// キーをこのフレームで押した状態 
-		/// </summary>
-		Push = asd.swig.KeyState.Push,
-		/// <summary>
-		/// キーをこのフレームで離した状態 
-		/// </summary>
-		Release = asd.swig.KeyState.Release,
-		/// <summary>
-		/// キーを押し続けている状態 
-		/// </summary>
-		Hold = asd.swig.KeyState.Hold,
-		/// <summary>
-		/// キーを離し続けている状態 
-		/// </summary>
-		Free = asd.swig.KeyState.Free,
-	}
-
-	/// <summary>
 	/// マウスのボタン一覧を示す列挙型 
 	///	</summary>
 	public enum MouseButtons : int
@@ -1226,29 +1203,6 @@ namespace asd {
 		/// サブボタン5 
 		/// </summary>
 		SubButton5 = asd.swig.MouseButtons.SubButton5,
-	}
-
-	/// <summary>
-	/// マウスボタンの押し状態を示す列挙型 
-	///	</summary>
-	public enum MouseButtonState : int
-	{
-		/// <summary>
-		/// ボタンをこのフレームで押した状態 
-		/// </summary>
-		Push = asd.swig.MouseButtonState.Push,
-		/// <summary>
-		/// ボタンをこのフレームで離した状態 
-		/// </summary>
-		Release = asd.swig.MouseButtonState.Release,
-		/// <summary>
-		/// ボタンを押し続けている状態 
-		/// </summary>
-		Hold = asd.swig.MouseButtonState.Hold,
-		/// <summary>
-		/// ボタンを離し続けている状態 
-		/// </summary>
-		Free = asd.swig.MouseButtonState.Free,
 	}
 
 	/// <summary>
@@ -1699,9 +1653,9 @@ namespace asd {
 		/// </summary>
 		/// <param name="at">何番目のボタンの押し状態を取得するか </param>
 		/// <returns>押し状態 </returns>
-		public JoystickButtonState GetButtonState(int at)
+		public ButtonState GetButtonState(int at)
 		{
-			return (asd.JoystickButtonState)CoreInstance.GetButtonState(at);
+			return (asd.ButtonState)CoreInstance.GetButtonState(at);
 		}
 
 		/// <summary>
@@ -1709,9 +1663,9 @@ namespace asd {
 		/// </summary>
 		/// <param name="type">ボタンの種類 </param>
 		/// <returns>押し状態 </returns>
-		public JoystickButtonState GetButtonStateAt(JoystickButtonType type)
+		public ButtonState GetButtonStateAt(JoystickButtonType type)
 		{
-			return (asd.JoystickButtonState)CoreInstance.GetButtonStateAt((asd.swig.JoystickButtonType)type);
+			return (asd.ButtonState)CoreInstance.GetButtonStateAt((asd.swig.JoystickButtonType)type);
 		}
 
 		/// <summary>
@@ -1779,9 +1733,9 @@ namespace asd {
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns>押し状態 </returns>
-		public KeyState GetKeyState(Keys key)
+		public ButtonState GetKeyState(Keys key)
 		{
-			return (asd.KeyState)CoreInstance.GetKeyState((asd.swig.Keys)key);
+			return (asd.ButtonState)CoreInstance.GetKeyState((asd.swig.Keys)key);
 		}
 
 	}
@@ -2550,9 +2504,9 @@ namespace asd {
 		/// </summary>
 		/// <param name="mouseButton"></param>
 		/// <returns></returns>
-		public MouseButtonState GetButtonInputState(MouseButtons mouseButton)
+		public ButtonState GetButtonInputState(MouseButtons mouseButton)
 		{
-			return (asd.MouseButtonState)CoreInstance.GetButtonInputState((asd.swig.MouseButtons)mouseButton);
+			return (asd.ButtonState)CoreInstance.GetButtonInputState((asd.swig.MouseButtons)mouseButton);
 		}
 
 	}

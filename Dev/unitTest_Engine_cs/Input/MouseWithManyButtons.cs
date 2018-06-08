@@ -42,19 +42,19 @@ namespace unitTest_Engine_cs.Input
             {
                 var inputState = Engine.Mouse.GetButtonInputState((MouseButtons)i);
 
-                if (inputState == MouseButtonState.Push)
+                if (inputState == ButtonState.Push)
                 {
                     textObjects[i].Text = "ボタン" + i + "を押しました。";
                 }
-                else if (inputState == MouseButtonState.Hold)
+                else if (inputState == ButtonState.Hold)
                 {
                     textObjects[i].Text = "ボタン" + i + "を押し続けています。";
                 }
-                else if (inputState == MouseButtonState.Free)
+                else if (inputState == ButtonState.Free)
                 {
                     textObjects[i].Text = "ボタン" + i + "を離し続けています。";
                 }
-                else if (inputState == MouseButtonState.Release)
+                else if (inputState == ButtonState.Release)
                 {
                     textObjects[i].Text = "ボタン" + i + "を離しました。";
                 }

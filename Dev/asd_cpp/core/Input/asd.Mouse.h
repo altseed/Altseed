@@ -93,7 +93,7 @@ namespace asd{
 		/**
 		@brief 指定したボタンの入力状態を取得を取得する。
 		*/
-		virtual MouseButtonState GetButtonInputState(MouseButtons mouseButton) const = 0;
+		virtual ButtonState GetButtonInputState(MouseButtons mouseButton) const = 0;
 
 
 		/**

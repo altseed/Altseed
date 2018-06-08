@@ -14,7 +14,7 @@ namespace asd
         /// <summary>
         /// 押下状態を保持する変数
         /// </summary>
-        private MouseButtonState mouseButtonState;
+        private ButtonState mouseButtonState;
 
         /// <summary>
         /// コンストラクタ
@@ -25,7 +25,7 @@ namespace asd
         /// ボタンの押し状態をセットする関数
         /// </summary>
         /// <param name="mButtonState">押し状態</param>
-        internal void SetState(MouseButtonState mButtonState)
+        internal void SetState(ButtonState mButtonState)
         {
             mouseButtonState=mButtonState;
         }
@@ -33,7 +33,7 @@ namespace asd
         /// <summary>
         /// ボタンの押し状態を返すプロパティ
         /// </summary>
-        public MouseButtonState ButtonState
+        public ButtonState ButtonState
         {
             get { return mouseButtonState; }
         }

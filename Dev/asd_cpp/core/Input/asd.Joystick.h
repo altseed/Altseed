@@ -59,32 +59,6 @@ namespace asd{
 	};
 
 	/**
-	@brief	ジョイスティックのボタンの押し状態を示す列挙型
-	*/
-	enum class JoystickButtonState : int32_t
-	{
-		/**
-		@brief ボタンをこのフレームで押した状態
-		*/
-		Push,
-
-		/**
-		@brief ボタンをこのフレームで離した状態
-		*/
-		Release,
-
-		/**
-		@brief ボタンを押し続けている状態
-		*/
-		Hold,
-
-		/**
-		@brief ボタンを離し続けている状態
-		*/
-		Free
-	};
-
-	/**
 	@brief	ジョイステイックのクラス
 	*/
 	class Joystick
@@ -119,14 +93,14 @@ namespace asd{
 		@param	at	何番目のボタンの押し状態を取得するか
 		@return 押し状態
 		*/
-		virtual JoystickButtonState GetButtonState(int at) = 0;
+		virtual ButtonState GetButtonState(int at) = 0;
 
 		/**
 			@brief	特定のジョイステイックの場合(PS4)に指定したボタンの押し状態を取得する。
 			@param	type	ボタンの種類
 			@return 押し状態
 		*/
-		virtual JoystickButtonState GetButtonStateAt(JoystickButtonType type) = 0;
+		virtual ButtonState GetButtonStateAt(JoystickButtonType type) = 0;
 
 		/**
 		@brief	指定した軸の倒し具合を返す

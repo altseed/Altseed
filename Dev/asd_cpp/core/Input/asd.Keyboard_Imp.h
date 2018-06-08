@@ -15,7 +15,7 @@ namespace asd{
 	public:
 		static Keyboard_Imp* Create(Window_Imp* window);
 		void RefreshInputState();
-		KeyState GetKeyState(Keys key) const override;
+		ButtonState GetKeyState(Keys key) const override;
 		Keyboard_Imp(Window_Imp* window);
 		virtual ~Keyboard_Imp();
 	};

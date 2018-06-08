@@ -26,9 +26,9 @@ namespace asd
 
 		int GetAxesCount() override;
 		
-		JoystickButtonState GetButtonState(int at) override;
+		ButtonState GetButtonState(int at) override;
 
-		JoystickButtonState GetButtonStateAt(JoystickButtonType type) override;
+		ButtonState GetButtonStateAt(JoystickButtonType type) override;
 
 		float GetAxisState(int at) override;
 

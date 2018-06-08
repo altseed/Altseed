@@ -19,7 +19,7 @@ namespace asd
         /// <summary>
         /// 押下状態を保持する変数
         /// </summary>
-        private MouseButtonState mouseButtonState;
+        private ButtonState mouseButtonState;
 
         /// <summary>
         /// コンストラクタ
@@ -31,7 +31,7 @@ namespace asd
         /// </summary>
         /// <param name="mbuttonstate">押し状態</param>
         /// <param name="rot">回転度合い</param>
-		internal void SetState(MouseButtonState mbuttonstate, float rot)
+		internal void SetState(ButtonState mbuttonstate, float rot)
         {
             rotation = rot;
             mouseButtonState = mbuttonstate;
@@ -48,7 +48,7 @@ namespace asd
         /// <summary>
         /// ボタンの押し状態を返すプロパティ
         /// </summary>
-        public MouseButtonState ButtonState
+        public ButtonState ButtonState
         {
             get { return mouseButtonState; }
         }
