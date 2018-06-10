@@ -2,7 +2,7 @@
 
 namespace asd{
 	/**
-	@brief	ACEで扱うキーボードのキー一覧
+	@brief	Altseedで扱うキーボードのキー一覧
 	*/
 	enum class Keys : int32_t
 	{
@@ -132,32 +132,6 @@ namespace asd{
 	};
 
 	/**
-	@brief キーボードの押下状態を示す列挙型
-	*/
-	enum class KeyState : int32_t
-	{
-		/**
-		@brief キーをこのフレームで押した状態
-		*/
-		Push,
-
-		/**
-		@brief キーをこのフレームで離した状態
-		*/
-		Release,
-
-		/**
-		@brief キーを押し続けている状態
-		*/
-		Hold,
-
-		/**
-		@brief キーを離し続けている状態
-		*/
-		Free
-	};
-
-	/**
 	@brief キーボードからの入力を取得するクラス
 	*/
 	class Keyboard
@@ -168,7 +142,7 @@ namespace asd{
 		@param 押し状態を調べたいキー
 		@return 押し状態
 		*/
-		virtual KeyState GetKeyState(Keys key) const = 0;
+		virtual ButtonState GetKeyState(Keys key) const = 0;
 	};
 
 };

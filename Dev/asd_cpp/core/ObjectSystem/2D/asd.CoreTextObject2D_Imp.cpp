@@ -228,16 +228,13 @@ namespace asd
 					pos = Vector2DF(result.X, result.Y);
 				}
 
-				if (min.X >= position.at(0).X && min.Y >= position.at(0).Y)
+				for (auto& pos : position)
 				{
-					min = position.at(0);
+					min.X = std::min(min.X, pos.X);
+					min.Y = std::min(min.Y, pos.Y);
+					max.X = std::max(max.X, pos.X);
+					max.Y = std::max(max.Y, pos.Y);
 				}
-
-				if (max.X <= position.at(2).X && min.Y <= position.at(2).Y)
-				{
-					max = position.at(2);
-				}
-
 			}
 
 			if (m_writingDirection == WritingDirection::Horizontal)

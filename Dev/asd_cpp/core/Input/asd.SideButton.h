@@ -2,6 +2,8 @@
 
 #include "asd.MouseButtonState.h"
 
+#include "../asd.Core.Base.h"
+
 namespace asd{
 
 	/**
@@ -10,15 +12,15 @@ namespace asd{
 	class SideButton
 	{
 	private:
-		MouseButtonState m_mouseButtonState;
+		ButtonState m_mouseButtonState;
 	public:
 		/**
 		@brief ボタンの押し状態を返す
 		@return ボタンの押し状態
 		*/
-		virtual MouseButtonState GetButtonState() const;
+		virtual ButtonState GetButtonState() const;
 
 		SideButton(){}
-		SideButton(MouseButtonState mouseButtonState,bool doubleClicked);
+		SideButton(ButtonState mouseButtonState,bool doubleClicked);
 	};
 };

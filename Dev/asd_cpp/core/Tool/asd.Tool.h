@@ -8,6 +8,30 @@ namespace asd
 {
 	class Core_Imp;
 
+	enum class ToolDialogStyle {
+		Info,
+		Warning,
+		Error,
+		Question
+	};
+
+	enum class ToolDialogButtons {
+		OK,
+		OKCancel,
+		YesNo,
+		Quit
+	};
+
+	enum class ToolDialogSelection {
+		OK,
+		Cancel,
+		Yes,
+		No,
+		Quit,
+		None,
+		Error
+	};
+
 	/**
 		@brief	ツールを開発するための低レイヤーな命令群のクラス
 	*/
@@ -30,6 +54,14 @@ namespace asd
 		void Render();
 	public:
 
+		// Ex
+		/**
+		@brief	フルスクリーンでウインドウの表示を開始する。
+		@param	name	ウインドウ名
+		@param	offset	ウインドウ上部の位置のオフセット
+		*/
+		bool BeginFullscreen(const char16_t* name, int32_t offset);
+
 		// Imgui Windows
 
 		/**
@@ -42,6 +74,18 @@ namespace asd
 			@brief	ウインドウの表示を終了する。
 		*/
 		void End();
+
+		// Cursor / Layout
+
+		/**
+			@brief	分割線を表示する。
+		*/
+		void Separator();
+
+		/**
+			@brief	次に表示する要素を改行せずに表示する。
+		*/
+		void SameLine();
 
 		// Widgets: Text
 
@@ -129,6 +173,82 @@ namespace asd
 		*/
 		bool ListBox(const char16_t* label, int* current_item, const char16_t* items);
 
+		// MenuBar
+
+		/**
+		@brief	画面上のメニューバーの表示を開始する。
+		*/
+		bool BeginMainMenuBar();
+
+		/**
+		@brief	画面上のメニューバーの表示を終了する。
+		@note
+		BeginMainMenuBarがtrueを返した場合のみ、実行する。
+		*/
+		void EndMainMenuBar();
+
+		/**
+		@brief	メニューバー(ウインドウ等)の表示を開始する。
+		*/
+		bool BeginMenuBar();
+
+		/**
+		@brief	メニューバーの表示を終了する。
+		@note
+		BeginMenuBarがtrueを返した場合のみ、実行する。
+		*/
+		void EndMenuBar();
+
+		/**
+		@brief	メニューの表示を開始する。
+		@param	label	ラベル名
+		*/
+		bool BeginMenu(const char16_t* label);
+
+		/**
+		@brief	メニューの表示を終了する。
+		@note
+		BeginMenuがtrueを返した場合のみ、実行する。
+		*/
+		void EndMenu();
+
+		/**
+		@brief	メニューアイテムを表示する。
+		@param	label		ラベル名
+		@param	shortcut	ショートカット
+
+		*/
+		bool MenuItem(const char16_t* label, const char16_t* shortcut, bool* p_selected);
+
+		/**
+		@brief	行数を設定する。
+		@param	count	行数
+		*/
+		void Columns(int count);
+
+		/**
+		@brief	次の行に移動する。
+		*/
+		void NextColumn();
+		
+		/**
+		@brief	現在の行のインデックスを取得する。
+		*/
+		int GetColumnIndex();
+		
+		/**
+			@brief	行の幅を取得する。
+			@param	column_index	インデックス
+		*/
+		float GetColumnWidth(int column_index);
+
+		/**
+			@brief	行の幅を設定する。
+			@param	column_index	インデックス
+			@param	width	幅
+		*/
+		void SetColumnWidth(int column_index, float width);
+
 		// Focus, Activation
 
 		/**
@@ -151,5 +271,26 @@ namespace asd
 		@return	保存するパス
 		*/
 		const char16_t* SaveDialog(const char16_t* filterList, const char16_t* defaultPath);
+
+		/**
+		@brief	フォルダを選択するダイアログを開く。
+		@param	defaultPath	最初に表示するディレクトリのパス
+		@return	フォルダのパス
+		*/
+		const char16_t* PickFolder(const char16_t* defaultPath);
+
+		/**
+		@brief	フォントを追加する。
+		@param	filename	フォントへのパス
+		@param	size_pixels	フォントサイズ
+		@note
+		現在、パッケージからは読み込めない。実行ファイルからの相対パスを指定する。
+		*/
+		void AddFontFromFileTTF(const char16_t* filename, float size_pixels);
+
+		/**
+			@brief	ダイアログを表示する。
+		*/
+		ToolDialogSelection ShowDialog(const char16_t* message, const char16_t* title, ToolDialogStyle style, ToolDialogButtons buttons);
 	};
 }

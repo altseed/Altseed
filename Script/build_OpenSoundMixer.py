@@ -18,10 +18,10 @@ with aceutils.CurrentDir('../Downloads'):
 			aceutils.call(aceutils.cmd_compile + r'OpenSoundMixer.sln /p:configuration=Debug')
 			aceutils.call(aceutils.cmd_compile + r'OpenSoundMixer.sln /p:configuration=Release')
 		elif aceutils.isMac():
-			aceutils.call(r'cmake -G "Unix Makefiles" "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../OpenSoundMixer/')
+			aceutils.call(r'cmake -G "Unix Makefiles" "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" -D CMAKE_BUILD_TYPE=Release ../OpenSoundMixer/')
 			aceutils.call(r'make')
 		else:
-			aceutils.call(r'cmake -G "Unix Makefiles" ../OpenSoundMixer/')
+			aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release ../OpenSoundMixer/')
 			aceutils.call(r'make')
 
 	with aceutils.CurrentDir('osm_bin_x64'):

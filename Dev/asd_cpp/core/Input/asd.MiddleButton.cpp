@@ -1,13 +1,13 @@
 ﻿#include "asd.MiddleButton.h"
 
 namespace asd{
-	MiddleButton::MiddleButton(MouseButtonState mouseButtonState, float rotation)
+	MiddleButton::MiddleButton(ButtonState mouseButtonState, float rotation)
 	{
 		m_mouseButtonState = mouseButtonState;
 		m_rotation = rotation;
 	}
 
-	MouseButtonState MiddleButton::GetButtonState() const
+	ButtonState MiddleButton::GetButtonState() const
 	{
 		return m_mouseButtonState;
 	}

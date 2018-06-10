@@ -1,12 +1,12 @@
 ﻿#include "asd.SideButton.h"
 
 namespace asd{
-	SideButton::SideButton(MouseButtonState mouseButtonState,bool doubleClicked)
+	SideButton::SideButton(ButtonState mouseButtonState,bool doubleClicked)
 	{
 		m_mouseButtonState = mouseButtonState;
 	}
 
-	MouseButtonState SideButton::GetButtonState() const
+	ButtonState SideButton::GetButtonState() const
 	{
 		return m_mouseButtonState;
 	}

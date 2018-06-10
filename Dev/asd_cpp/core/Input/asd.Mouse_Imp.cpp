@@ -11,7 +11,7 @@ namespace asd
 
 	Mouse_Imp::Mouse_Imp(Window_Imp* window)
 	{
-		buttonInputStates.fill(asd::MouseButtonState::Free);
+		buttonInputStates.fill(ButtonState::Free);
 
 		m_leftButton = new SideButton(buttonInputStates[0], false);
 		m_rightButton = new SideButton(buttonInputStates[1], false);
@@ -43,7 +43,7 @@ namespace asd
 
 		for (int buttonIndex = 0; buttonIndex < 8; ++buttonIndex)
 		{
-			buttonInputStates[buttonIndex] = (MouseButtonState)mouse->GetMouseButtonState((ap::MouseButtons)buttonIndex);
+			buttonInputStates[buttonIndex] = (ButtonState)mouse->GetMouseButtonState((ap::MouseButtons)buttonIndex);
 		}
 
 		SafeDelete(m_leftButton);
@@ -83,7 +83,7 @@ namespace asd
 		mouse->SetPosition(x, y);
 	}
 
-	MouseButtonState Mouse_Imp::GetButtonInputState(MouseButtons mouseButton) const
+	ButtonState Mouse_Imp::GetButtonInputState(MouseButtons mouseButton) const
 	{
 		return buttonInputStates[static_cast<int>(mouseButton)];
 	}

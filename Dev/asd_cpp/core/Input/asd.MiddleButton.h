@@ -2,6 +2,8 @@
 
 #include "asd.MouseButtonState.h"
 
+#include "../asd.Core.Base.h"
+
 namespace asd{
 
 	/**
@@ -12,19 +14,19 @@ namespace asd{
 		friend class Mouse;
 
 	private:
-		MouseButtonState m_mouseButtonState;
+		ButtonState m_mouseButtonState;
 		double m_rotation;
 	public:
 		/**
 		@brief ボタンの押し状態を返す
 		*/
-		virtual MouseButtonState GetButtonState() const;
+		virtual ButtonState GetButtonState() const;
 
 		/**
 		@brief ホイールの回転度合いを返す
 		*/
 		virtual float GetRotation() const;
-		MiddleButton(MouseButtonState mouseButtonState, float rotation);
+		MiddleButton(ButtonState mouseButtonState, float rotation);
 		MiddleButton(){}
 	};
 };

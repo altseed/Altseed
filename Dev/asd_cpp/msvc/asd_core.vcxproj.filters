@@ -169,6 +169,9 @@
     <Filter Include="3rdParty\nfd">
       <UniqueIdentifier>{404ef121-3934-4f6d-b954-92a5372c6fd3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rdParty\Boxer">
+      <UniqueIdentifier>{86a718e7-ab32-4946-8dfb-3b86d0a8af37}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\asd.Log_Imp.h">
@@ -1123,6 +1126,12 @@
     <ClInclude Include="..\core\3rdParty\nfd\common.h">
       <Filter>3rdParty\nfd</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Tool\asd.ToolJapaneseFont.h">
+      <Filter>Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\Boxer\boxer.h">
+      <Filter>3rdParty\Boxer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">
@@ -1592,6 +1601,9 @@
     </ClCompile>
     <ClCompile Include="..\core\3rdParty\nfd\nfd_common.cpp">
       <Filter>3rdParty\nfd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\Boxer\boxer_win.cpp">
+      <Filter>3rdParty\Boxer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

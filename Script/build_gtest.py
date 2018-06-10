@@ -14,7 +14,7 @@ with aceutils.CurrentDir('../Downloads'):
 
 	with aceutils.CurrentDir('gtest_bin'):
 		if aceutils.isWin():
-			aceutils.call(aceutils.cmd_cmake+r'-D BUILD_SHARED_LIBS:BOOL=OFF ../googletest/')
+			aceutils.call(aceutils.cmd_cmake+r'-D BUILD_SHARED_LIBS:BOOL=OFF ../googletest/ "-DCMAKE_CXX_FLAGS=/source-charset:utf-8 /D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING"')
 
 			if os.path.exists('gtest.sln'):
 				aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Debug')
@@ -24,15 +24,15 @@ with aceutils.CurrentDir('../Downloads'):
 				aceutils.call(aceutils.cmd_compile + r'googletest-distribution.sln /p:configuration=Release')
 
 		elif aceutils.isMac():
-			aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev -DBUILD_GTEST=ON -DBUILD_GMOCK=OFF "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../googletest/')
+			aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev -DBUILD_GTEST=ON -DBUILD_GMOCK=OFF "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../googletest/')
 			aceutils.call(r'make')
 		else:
-			aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev ../googletest/')
+			aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev ../googletest/')
 			aceutils.call(r'make')
 
 	with aceutils.CurrentDir('gtest_bin_x64'):
 		if aceutils.isWin():
-			aceutils.call(aceutils.cmd_cmake_x64+r'-D BUILD_SHARED_LIBS:BOOL=OFF ../googletest/')
+			aceutils.call(aceutils.cmd_cmake_x64+r'-D BUILD_SHARED_LIBS:BOOL=OFF ../googletest/ "-DCMAKE_CXX_FLAGS=/source-charset:utf-8 /D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING"')
 
 			if os.path.exists('gtest.sln'):
 				aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Debug')

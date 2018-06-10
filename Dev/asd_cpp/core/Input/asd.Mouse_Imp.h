@@ -21,7 +21,7 @@ namespace asd
 		void SetPosition(Vector2DF pos) override;
 		void RefreshInputState();
 
-		MouseButtonState GetButtonInputState(MouseButtons mouseButton) const override;
+		ButtonState GetButtonInputState(MouseButtons mouseButton) const override;
 		float GetWheel() const override;
 
 		virtual ~Mouse_Imp();
@@ -34,6 +34,6 @@ namespace asd
 		SideButton* m_rightButton;
 		MiddleButton* m_middleButton;
 
-		std::array<MouseButtonState, 8> buttonInputStates;
+		std::array<ButtonState, 8> buttonInputStates;
 	};
 };

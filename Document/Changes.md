@@ -1,7 +1,12 @@
 ﻿## 変更点
 
-### 1.x.x (201x/xx/xx)
+### 1.2.x (2018/xx/xx)
 * ImagePackageの仕様を拡張(詳細はヘルプ参照)
+* MouseButtonState、JoystickButtonState、KeyButtonStateをButtonStateに共通化(破壊的変更)
+
+### 1.1.5 (2018/05/14)
+不具合修正のための更新です。
+変更の詳細は1.2でまとめます。
 
 ### 1.1.0 (2016/12/03)
 * Java(JVM)に対応

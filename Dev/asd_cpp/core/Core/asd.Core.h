@@ -25,6 +25,7 @@ namespace asd {
 		bool IsFullScreen;
 		GraphicsDeviceType GraphicsDevice;
 		bool IsReloadingEnabled;
+		bool IsWindowResizable = false;
 		WindowPositionType WindowPosition;
 		ColorSpaceType ColorSpace;
 	};

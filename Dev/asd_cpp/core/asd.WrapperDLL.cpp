@@ -304,6 +304,14 @@ void WrapperDLL::Tool_Destruct(void* self){
 	auto self_ = (Tool*)self;
 };
 
+bool WrapperDLL::Tool_BeginFullscreen(void* self,const char16_t* name,int32_t offset){
+	auto self_ = (Tool*)self;
+	auto arg0 = name;
+	auto arg1 = offset;
+	auto ret = self_->BeginFullscreen(arg0,arg1);
+	return ret;
+};
+
 bool WrapperDLL::Tool_Begin(void* self,const char16_t* name){
 	auto self_ = (Tool*)self;
 	auto arg0 = name;
@@ -327,6 +335,96 @@ bool WrapperDLL::Tool_Button(void* self,const char16_t* label){
 	auto arg0 = label;
 	auto ret = self_->Button(arg0);
 	return ret;
+};
+
+void WrapperDLL::Tool_Image(void* self,void* user_texture,const Vector2DF& size){
+	auto self_ = (Tool*)self;
+	auto arg0 = (Texture2D*)user_texture;
+	auto arg1 = size;
+	self_->Image(arg0,arg1);
+};
+
+bool WrapperDLL::Tool_BeginCombo(void* self,const char16_t* label,const char16_t* preview_value){
+	auto self_ = (Tool*)self;
+	auto arg0 = label;
+	auto arg1 = preview_value;
+	auto ret = self_->BeginCombo(arg0,arg1);
+	return ret;
+};
+
+void WrapperDLL::Tool_EndCombo(void* self){
+	auto self_ = (Tool*)self;
+	self_->EndCombo();
+};
+
+bool WrapperDLL::Tool_InputText(void* self,const char16_t* label,int8_t* buf,int32_t buf_size){
+	auto self_ = (Tool*)self;
+	auto arg0 = label;
+	auto arg1 = buf;
+	auto arg2 = buf_size;
+	auto ret = self_->InputText(arg0,arg1,arg2);
+	return ret;
+};
+
+bool WrapperDLL::Tool_InputInt(void* self,const char16_t* label,int* v){
+	auto self_ = (Tool*)self;
+	auto arg0 = label;
+	auto arg1 = v;
+	auto ret = self_->InputInt(arg0,arg1);
+	return ret;
+};
+
+bool WrapperDLL::Tool_ColorEdit4(void* self,const char16_t* label,float* vs){
+	auto self_ = (Tool*)self;
+	auto arg0 = label;
+	auto arg1 = vs;
+	auto ret = self_->ColorEdit4(arg0,arg1);
+	return ret;
+};
+
+bool WrapperDLL::Tool_Selectable(void* self,const char16_t* label,bool selected){
+	auto self_ = (Tool*)self;
+	auto arg0 = label;
+	auto arg1 = selected;
+	auto ret = self_->Selectable(arg0,arg1);
+	return ret;
+};
+
+bool WrapperDLL::Tool_ListBox(void* self,const char16_t* label,int* current_item,const char16_t* items){
+	auto self_ = (Tool*)self;
+	auto arg0 = label;
+	auto arg1 = current_item;
+	auto arg2 = items;
+	auto ret = self_->ListBox(arg0,arg1,arg2);
+	return ret;
+};
+
+void WrapperDLL::Tool_SetItemDefaultFocus(void* self){
+	auto self_ = (Tool*)self;
+	self_->SetItemDefaultFocus();
+};
+
+const char16_t* WrapperDLL::Tool_OpenDialog(void* self,const char16_t* filterList,const char16_t* defaultPath){
+	auto self_ = (Tool*)self;
+	auto arg0 = filterList;
+	auto arg1 = defaultPath;
+	auto ret = self_->OpenDialog(arg0,arg1);
+	return ret;
+};
+
+const char16_t* WrapperDLL::Tool_SaveDialog(void* self,const char16_t* filterList,const char16_t* defaultPath){
+	auto self_ = (Tool*)self;
+	auto arg0 = filterList;
+	auto arg1 = defaultPath;
+	auto ret = self_->SaveDialog(arg0,arg1);
+	return ret;
+};
+
+void WrapperDLL::Tool_AddFontFromFileTTF(void* self,const char16_t* filename,float size_pixels){
+	auto self_ = (Tool*)self;
+	auto arg0 = filename;
+	auto arg1 = size_pixels;
+	self_->AddFontFromFileTTF(arg0,arg1);
 };
 
 

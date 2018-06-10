@@ -58,6 +58,7 @@ FILE(GLOB_RECURSE third_srcs
 	asd_cpp/core/3rdParty/imgui/imgui_impl_glfw.cpp
 	asd_cpp/core/3rdParty/imgui/imgui_impl_opengl3.cpp
 	asd_cpp/core/3rdParty/nfd/nfd_common.cpp
+	asd_cpp/core/3rdParty/Boxer/boxer.h
 )
 
 if (WIN32)
@@ -66,6 +67,7 @@ FILE(GLOB_RECURSE third_win_srcs
 	asd_cpp/core/3rdParty/DirectXToolKit/*.h
 	asd_cpp/core/3rdParty/imgui/imgui_impl_dx11.cpp
 	asd_cpp/core/3rdParty/nfd/nfd_win.cpp
+	asd_cpp/core/3rdParty/Boxer/boxer_win.cpp
 )
 
 list(APPEND third_srcs ${third_win_srcs})
@@ -75,6 +77,7 @@ endif()
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 FILE(GLOB_RECURSE third_mac_srcs
 	asd_cpp/core/3rdParty/nfd/nfd_cocoa.m
+	asd_cpp/core/3rdParty/Boxer/boxer_osx.mm
 )
 
 list(APPEND third_srcs ${third_mac_srcs})

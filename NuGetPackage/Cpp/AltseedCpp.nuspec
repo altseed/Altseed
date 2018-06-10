@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>AltseedCpp</id>
-        <version>1.1.0</version>
+        <version>1.1.5</version>
         <title>Altseed(C++)</title>
         <authors>Altseed</authors>
         <licenseUrl>https://github.com/altseed/Altseed/blob/master/LICENSE</licenseUrl>
@@ -10,7 +10,7 @@
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>Altseedはマルチプラットフォームな和製ゲームエンジンです。オブジェクト指向を用いて効率的にゲームを組み立てることができます。このパッケージにはゲームエンジンのライブラリ部分のみが含まれます。</description>
         <summary>Altseedはマルチプラットフォームな和製ゲームエンジンです。</summary>
-        <copyright>Copyright (c) 2013 - 2016 Altseed</copyright>
+        <copyright>Copyright (c) 2013 - 2018 Altseed</copyright>
         <language>ja-JP</language>
         <tags>Game</tags>
     </metadata>

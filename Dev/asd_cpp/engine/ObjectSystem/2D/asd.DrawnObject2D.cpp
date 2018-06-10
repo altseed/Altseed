@@ -15,6 +15,9 @@ namespace asd
 		auto e = make_shared<EventToManageDrawnFamilyship2D>(thisPtr, child);
 		e->SetUpAsAddEvent(managementMode, transformingMode, drawingMode);
 		Engine::m_changesToCommit.push(e);
+
+		child->m_parentInfo = std::make_shared<ParentInfo2D>(this, managementMode);
+		SyncContainerWithChild(child);
 	}
 
 	void DrawnObject2D::ImmediatelyAddDrawnChild(
@@ -28,7 +31,7 @@ namespace asd
 			transformingMode,
 			drawingMode);
 		m_children.push_back(child);
-		child->m_parentInfo = std::make_shared<ParentInfo2D>(this, managementMode);
+		//child->m_parentInfo = std::make_shared<ParentInfo2D>(this, managementMode);
 	}
 
 	Color DrawnObject2D::GetColor() const

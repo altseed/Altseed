@@ -42,14 +42,14 @@ namespace asd{
 		return joystick->GetAxisCount(m_connectId);
 	}
 
-	JoystickButtonState Joystick_Imp::GetButtonState(int at)
+	ButtonState Joystick_Imp::GetButtonState(int at)
 	{
-		return (JoystickButtonState)joystick->GetButtonState(m_connectId, at);
+		return (ButtonState)joystick->GetButtonState(m_connectId, at);
 	}
 
-	JoystickButtonState Joystick_Imp::GetButtonStateAt(JoystickButtonType type)
+	ButtonState Joystick_Imp::GetButtonStateAt(JoystickButtonType type)
 	{
-		return (JoystickButtonState)joystick->GetButtonState(m_connectId, (ap::JoystickButtonType)type);
+		return (ButtonState)joystick->GetButtonState(m_connectId, (ap::JoystickButtonType)type);
 	}
 
 	float Joystick_Imp::GetAxisState(int at)

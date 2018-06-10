@@ -29,13 +29,13 @@ namespace asd
 
         internal void RefreshAllState()
         {
-			MouseButtonState mstate = (MouseButtonState)CoreInstance.GetLeftButton().GetButtonState();
+			ButtonState mstate = (ButtonState)CoreInstance.GetLeftButton().GetButtonState();
             leftButton.SetState(mstate);
 
-			mstate = (MouseButtonState)CoreInstance.GetRightButton().GetButtonState();
+			mstate = (ButtonState)CoreInstance.GetRightButton().GetButtonState();
             rightButton.SetState(mstate);
 
-			mstate = (MouseButtonState)CoreInstance.GetMiddleButton().GetButtonState();
+			mstate = (ButtonState)CoreInstance.GetMiddleButton().GetButtonState();
 			float rot = CoreInstance.GetMiddleButton().GetRotation();
             middleButton.SetState(mstate, rot);
         }

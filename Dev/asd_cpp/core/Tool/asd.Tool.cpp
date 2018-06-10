@@ -15,6 +15,9 @@
 #include "../Window/asd.Window_Imp.h"
 
 #include "../3rdParty/nfd/nfd.h"
+#include "../3rdParty/Boxer/boxer.h"
+
+#include "asd.ToolJapaneseFont.h"
 
 #include <codecvt>
 #include <locale>
@@ -22,6 +25,24 @@
 
 namespace asd
 {
+	template <size_t size_>
+	struct utf8str {
+		enum { size = size_ };
+		char data[size];
+		bool isNull = false;
+		utf8str(const char16_t* u16str) {
+			if (u16str == nullptr)
+			{
+				isNull = true;
+				return;
+			}
+			Effekseer::ConvertUtf16ToUtf8((int8_t*)data, size, (const int16_t*)u16str);
+		}
+		operator const char*() const {
+			return isNull ? nullptr : data;
+		}
+	};
+
 	// http://hasenpfote36.blogspot.jp/2016/09/stdcodecvt.html
 	static constexpr std::codecvt_mode mode = std::codecvt_mode::little_endian;
 
@@ -160,6 +181,21 @@ namespace asd
 		}
 	}
 
+	bool Tool::BeginFullscreen(const char16_t* name, int32_t offset)
+	{
+		ImVec2 windowSize;
+		windowSize.x = ImGui::GetIO().DisplaySize.x;
+		windowSize.y = ImGui::GetIO().DisplaySize.y - offset;
+
+		ImGui::SetNextWindowSize(windowSize);
+		ImGui::SetNextWindowPos(ImVec2(0, offset));
+		const ImGuiWindowFlags flags = (ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoTitleBar);
+		const float oldWindowRounding = ImGui::GetStyle().WindowRounding; ImGui::GetStyle().WindowRounding = 0;
+		const bool visible = ImGui::Begin(utf8str<256>(name), NULL, ImVec2(0, 0), 1.0f, flags);
+		ImGui::GetStyle().WindowRounding = oldWindowRounding;
+		return visible;
+	}
+
 	bool Tool::Begin(const char16_t* name)
 	{
 		return ImGui::Begin(utf16_to_utf8(name).c_str());
@@ -168,6 +204,16 @@ namespace asd
 	void Tool::End()
 	{
 		ImGui::End();
+	}
+
+	void Tool::Separator()
+	{
+		ImGui::Separator();
+	}
+
+	void Tool::SameLine()
+	{
+		ImGui::SameLine();
 	}
 
 	void Tool::Text(const char16_t* text)
@@ -194,7 +240,7 @@ namespace asd
 		else if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 		{
 			auto o = texture->GetRHI()->GetInternalObjects();
-			ImGui::Image((ImTextureID)o[0], ImVec2(size.X, size.Y), ImVec2(0, 1), ImVec2(0, 0));
+			ImGui::Image((ImTextureID)o[0], ImVec2(size.X, size.Y), ImVec2(0, 1), ImVec2(1, 0));
 		}
 	}
 
@@ -243,6 +289,66 @@ namespace asd
 		}
 
 		return ImGui::ListBox(utf16_to_utf8(label).c_str(), current_item, cs.data(), cs.size());
+	}
+
+	bool Tool::BeginMainMenuBar()
+	{
+		return ImGui::BeginMainMenuBar();
+	}
+
+	void Tool::EndMainMenuBar()
+	{
+		ImGui::EndMainMenuBar();
+	}
+
+	bool Tool::BeginMenuBar()
+	{
+		return ImGui::BeginMenuBar();
+	}
+
+	void Tool::EndMenuBar()
+	{
+		ImGui::EndMenuBar();
+	}
+
+	bool Tool::BeginMenu(const char16_t* label)
+	{
+		return ImGui::BeginMenu(utf16_to_utf8(label).c_str());
+	}
+
+	void Tool::EndMenu()
+	{
+		ImGui::EndMenu();
+	}
+
+	bool Tool::MenuItem(const char16_t* label, const char16_t* shortcut, bool* p_selected)
+	{
+		return ImGui::MenuItem(utf8str<255>(label), utf8str<255>(shortcut), p_selected);
+	}
+
+	void Tool::Columns(int count)
+	{
+		ImGui::Columns(count);
+	}
+
+	void Tool::NextColumn()
+	{
+		ImGui::NextColumn();
+	}
+
+	int Tool::GetColumnIndex()
+	{
+		return ImGui::GetColumnIndex();
+	}
+
+	float Tool::GetColumnWidth(int column_index)
+	{
+		return ImGui::GetColumnWidth(column_index);
+	}
+
+	void Tool::SetColumnWidth(int column_index, float width)
+	{
+		ImGui::SetColumnWidth(column_index, width);
 	}
 
 	void Tool::SetItemDefaultFocus()
@@ -298,5 +404,39 @@ namespace asd
 
 		temp = u"";
 		return temp.c_str();
+	}
+
+	const char16_t* Tool::PickFolder(const char16_t* defaultPath)
+	{
+		auto defaultPath_ = utf16_to_utf8(defaultPath);
+
+		nfdchar_t* outPath = NULL;
+		nfdresult_t result = NFD_PickFolder(defaultPath_.c_str(), &outPath);
+
+		if (result == NFD_OKAY)
+		{
+			temp = utf8_to_utf16(outPath);
+			free(outPath);
+			return temp.c_str();
+		}
+		else if (result == NFD_CANCEL)
+		{
+			temp = u"";
+			return temp.c_str();
+		}
+
+		temp = u"";
+		return temp.c_str();
+	}
+
+	void Tool::AddFontFromFileTTF(const char16_t* filename, float size_pixels)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		io.Fonts->AddFontFromFileTTF(utf16_to_utf8(filename).c_str(), size_pixels, nullptr, glyphRangesJapanese);
+	}
+
+	ToolDialogSelection Tool::ShowDialog(const char16_t* message, const char16_t* title, ToolDialogStyle style, ToolDialogButtons buttons)
+	{
+		return (ToolDialogSelection)boxer::show(utf8str<512>(message), utf8str<512>(title), (boxer::Style)style, (boxer::Buttons)buttons);
 	}
 }

@@ -284,6 +284,16 @@ namespace asd {
 		Hovered,	///< ボタンの時、マウスが重なっている状態で表示される
 	};
 
+	/**
+	@brief	ボタンの押し状態を示す列挙型
+	*/
+	enum class ButtonState : int32_t
+	{
+		Push,	///<	ボタンをこのフレームで押した状態
+		Release,	///<	ボタンをこのフレームで離した状態
+		Hold,	///<	ボタンを押し続けている状態
+		Free,	///<	ボタンを離し続けている状態
+	};
 
 
 	enum class Object2DType : int32_t

@@ -98,7 +98,7 @@ void Graphics_TextureFormat(bool isOpenGLMode)
 
 	asd::Log* log = asd::Log_Imp::Create(u"graphics.htmu", u"描画");
 
-	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(u"TextureFormat").c_str(), log, asd::WindowPositionType::Default, isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11, asd::ColorSpaceType::LinearSpace, false);
+	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(u"TextureFormat").c_str(), log, false, asd::WindowPositionType::Default, isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11, asd::ColorSpaceType::LinearSpace, false);
 	ASSERT_TRUE(window != nullptr);
 
 	auto file = asd::File_Imp::Create();

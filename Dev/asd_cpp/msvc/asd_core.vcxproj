@@ -319,6 +319,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\core\3rdParty\Boxer\boxer.h" />
     <ClInclude Include="..\core\3rdParty\DirectXToolKit\dds.h" />
     <ClInclude Include="..\core\3rdParty\DirectXToolKit\DDSTextureLoader.h" />
     <ClInclude Include="..\core\3rdParty\DirectXToolKit\DirectXHelpers.h" />
@@ -632,6 +633,7 @@
     <ClInclude Include="..\core\Sound\asd.Sound.h" />
     <ClInclude Include="..\core\Sound\asd.SoundSource.h" />
     <ClInclude Include="..\core\Tool\asd.Tool.h" />
+    <ClInclude Include="..\core\Tool\asd.ToolJapaneseFont.h" />
     <ClInclude Include="..\core\Utils\asd.ResourceContainer.h" />
     <ClInclude Include="..\core\Utils\asd.Synchronizer.h" />
     <ClInclude Include="..\core\Utils\IAsyncResource.h" />
@@ -648,6 +650,7 @@
     <None Include="..\core\Input\asd.JoystickContainer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\core\3rdParty\Boxer\boxer_win.cpp" />
     <ClCompile Include="..\core\3rdParty\DirectXToolKit\DDSTextureLoader.cpp" />
     <ClCompile Include="..\core\3rdParty\imgui\imgui.cpp" />
     <ClCompile Include="..\core\3rdParty\imgui\imgui_draw.cpp" />

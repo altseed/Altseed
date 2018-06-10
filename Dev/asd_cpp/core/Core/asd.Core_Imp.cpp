@@ -134,6 +134,35 @@ namespace asd
 		}
 	}
 
+	void Core_Imp::SetWindowSizeInternal(int32_t x, int32_t y)
+	{
+		auto size = Vector2DI(x, y);
+
+		m_windowSize = size;
+
+		layerRenderer->SetWindowSize(m_windowSize);
+
+		{
+			asd::Vector2DF lpos[4];
+			lpos[0].X = 0;
+			lpos[0].Y = 0;
+			lpos[1].X = (float)m_windowSize.X;
+			lpos[1].Y = 0;
+			lpos[2].X = (float)m_windowSize.X;
+			lpos[2].Y = (float)m_windowSize.Y;
+			lpos[3].X = 0;
+			lpos[3].Y = (float)m_windowSize.Y;
+			layerRenderer->SetLayerPosition(lpos);
+		}
+
+		if (m_currentScene != nullptr)
+		{
+			m_currentScene->SetSize(size);
+		}
+
+		m_graphics->SetWindowSize(size);
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -212,6 +241,7 @@ namespace asd
 				height, 
 				title, 
 				m_logger,
+				option.IsWindowResizable,
 				option.WindowPosition,
 				option.GraphicsDevice,
 				option.ColorSpace, 
@@ -224,6 +254,7 @@ namespace asd
 				height, 
 				title, 
 				m_logger, 
+				option.IsWindowResizable,
 				option.WindowPosition,
 				option.GraphicsDevice,
 				option.ColorSpace, 
@@ -299,6 +330,11 @@ namespace asd
 			{
 				this->Reload();
 			}
+		};
+
+		m_window->OnChangedSize = [this](int32_t x, int32_t y) -> void
+		{
+			this->SetWindowSizeInternal(x, y);
 		};
 
 		return true;
@@ -903,33 +939,14 @@ namespace asd
 
 	void Core_Imp::SetWindowSize(Vector2DI size)
 	{
-		m_windowSize = size;
 		if (m_window != nullptr)
 		{
 			m_window->SetSize(size);
 		}
-
-		layerRenderer->SetWindowSize(m_windowSize);
-
+		else
 		{
-			asd::Vector2DF lpos[4];
-			lpos[0].X = 0;
-			lpos[0].Y = 0;
-			lpos[1].X = (float) m_windowSize.X;
-			lpos[1].Y = 0;
-			lpos[2].X = (float) m_windowSize.X;
-			lpos[2].Y = (float) m_windowSize.Y;
-			lpos[3].X = 0;
-			lpos[3].Y = (float) m_windowSize.Y;
-			layerRenderer->SetLayerPosition(lpos);
+			SetWindowSizeInternal(size.X, size.Y);
 		}
-
-		if (m_currentScene != nullptr)
-		{
-			m_currentScene->SetSize(size);
-		}
-
-		m_graphics->SetWindowSize(size);
 	}
 
 	bool Core_Imp::GetProfilerVisibility() const

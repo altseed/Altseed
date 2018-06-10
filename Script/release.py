@@ -7,6 +7,10 @@ import os.path
 
 versionNumber = '110'
 
+isToolExported = True
+if aceutils.isMac():
+	isToolExported = False
+
 def getTargetDir(type):
 	common = 'Altseed_' + type.upper() + '_' + versionNumber
 	if aceutils.isWin():
@@ -25,8 +29,9 @@ def init(type, targetDir):
 def compile(type):
 	if aceutils.isWin():
 
-		aceutils.call(aceutils.cmd_compile + r'Dev/FontGeneratorWPF.sln /p:configuration=Release')
-		aceutils.call(aceutils.cmd_compile + r'Dev/FilePackageGenerator.sln /p:configuration=Release')
+		if isToolExported:
+			aceutils.call(aceutils.cmd_compile + r'Dev/FontGeneratorWPF.sln /p:configuration=Release')
+			aceutils.call(aceutils.cmd_compile + r'Dev/FilePackageGenerator.sln /p:configuration=Release')
 
 		if type=='cpp':
 			aceutils.call(aceutils.cmd_compile + r'Dev/unitTest_Engine_cpp.sln /p:configuration=Debug')
@@ -36,6 +41,7 @@ def compile(type):
 			aceutils.call(aceutils.cmd_compile + r'Dev/unitTest_Engine_cs.sln /p:configuration=Release')
 
 		if type=='java':
+			aceutils.call(aceutils.cmd_compile + r'Dev/unitTest_Engine_cpp.sln /p:configuration=Release')
 			aceutils.cd(r'Dev/asd_java')
 			aceutils.call(r'ant')
 			aceutils.cd(r'../../')
@@ -47,11 +53,21 @@ def compile(type):
 			aceutils.cd(r'../../')
 
 		elif type=='cs':
+			# for core
+			aceutils.cd(r'Dev/cmake')
+			aceutils.call(r'make install')
+			aceutils.cd(r'../../')
+
 			aceutils.cd(r'Dev')
 			aceutils.call(r'xbuild /p:Configuration=Release unitTest_Engine_cs.sln')
 			aceutils.cd(r'../')
 
 		elif type=='java':
+			# for core
+			aceutils.cd(r'Dev/cmake')
+			aceutils.call(r'make install')
+			aceutils.cd(r'../../')
+
 			aceutils.cd(r'Dev/asd_java')
 			aceutils.call(r'ant')
 			aceutils.cd(r'../../')
@@ -152,7 +168,8 @@ def release_cpp():
 
 	aceutils.mkdir(targetDir+r'/')
 
-	copyTool(type, targetDir)
+	if isToolExported:
+		copyTool(type, targetDir)
 
 	makeDocument(type, targetDir,'cpp')
 
@@ -257,7 +274,9 @@ def release_cs():
 
 	aceutils.mkdir(targetDir+r'/')
 
-	copyTool(type, targetDir)
+	if isToolExported:
+		copyTool(type, targetDir)
+
 
 	makeDocument(type, targetDir,'cs')
 
@@ -347,7 +366,8 @@ def release_java():
 
 	aceutils.mkdir(targetDir+r'/')
 
-	copyTool(type, targetDir)
+	if isToolExported:
+		copyTool(type, targetDir)
 
 	makeDocument(type, targetDir,'java')
 

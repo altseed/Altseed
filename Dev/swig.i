@@ -146,6 +146,8 @@ unsafe class"
 
 %apply int INOUT[] { int* current_item }
 
+%apply bool INOUT[] { bool* p_selected }
+
 #endif
 
 
@@ -360,6 +362,8 @@ StructTranslator.Enqueue_##NAME($javainput)
 %apply float[] {float * vs};
 
 %apply int[] { int* current_item }
+
+%apply bool[] { bool* p_selected }
 
 #endif
 

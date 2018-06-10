@@ -27,9 +27,9 @@ namespace asd
 		keyboard->RefreshInputState();
 	}
 
-	KeyState Keyboard_Imp::GetKeyState(Keys key) const
+	ButtonState Keyboard_Imp::GetKeyState(Keys key) const
 	{
 		assert(keyboard != nullptr);
-		return (KeyState)keyboard->GetKeyState((ap::Keys)key);
+		return (ButtonState)keyboard->GetKeyState((ap::Keys)key);
 	}
 };

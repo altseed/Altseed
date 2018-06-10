@@ -66,10 +66,23 @@ public:
 	virtual void* StreamFile_GetTempBuffer(void* self);
 	virtual int32_t StreamFile_GetTempBufferSize(void* self);
 	virtual void Tool_Destruct(void* self);
+	virtual bool Tool_BeginFullscreen(void* self,const char16_t* name,int32_t offset);
 	virtual bool Tool_Begin(void* self,const char16_t* name);
 	virtual void Tool_End(void* self);
 	virtual void Tool_Text(void* self,const char16_t* text);
 	virtual bool Tool_Button(void* self,const char16_t* label);
+	virtual void Tool_Image(void* self,void* user_texture,const Vector2DF& size);
+	virtual bool Tool_BeginCombo(void* self,const char16_t* label,const char16_t* preview_value);
+	virtual void Tool_EndCombo(void* self);
+	virtual bool Tool_InputText(void* self,const char16_t* label,int8_t* buf,int32_t buf_size);
+	virtual bool Tool_InputInt(void* self,const char16_t* label,int* v);
+	virtual bool Tool_ColorEdit4(void* self,const char16_t* label,float* vs);
+	virtual bool Tool_Selectable(void* self,const char16_t* label,bool selected);
+	virtual bool Tool_ListBox(void* self,const char16_t* label,int* current_item,const char16_t* items);
+	virtual void Tool_SetItemDefaultFocus(void* self);
+	virtual const char16_t* Tool_OpenDialog(void* self,const char16_t* filterList,const char16_t* defaultPath);
+	virtual const char16_t* Tool_SaveDialog(void* self,const char16_t* filterList,const char16_t* defaultPath);
+	virtual void Tool_AddFontFromFileTTF(void* self,const char16_t* filename,float size_pixels);
 };
 
 };
