@@ -98,6 +98,9 @@ namespace FontGenerator
 
 		auto buffers = buffer.GetBuffers();
 
+		// Be careful. (two image helper exists (asd_core and font generator))
+		ar::ImageHelper::Initizlize();
+
 		for (size_t i = 0; i < buffers.size(); i++)
 		{
 			std::ostringstream os;
@@ -105,6 +108,8 @@ namespace FontGenerator
 			auto pngPath = GetSheetName() + ToAString(os.str().c_str());
 			ar::ImageHelper::SavePNG(pngPath.c_str(), m_sheetSize, m_sheetSize, buffers[i]->data());
 		}
+
+		ar::ImageHelper::Terminate();
 
 		ResultOfGeneratingPng result;
 		result.sheetCount = buffers.size();
@@ -134,7 +139,10 @@ namespace FontGenerator
 
 		auto buffers = buffer.GetBuffers();
 
-		ar::ImageHelper::SavePNG(path.c_str(), IMAGE_SIZE, IMAGE_SIZE, buffers[0]->data());
+		// Be careful. (two image helper exists (asd_core and font generator))
+		ar::ImageHelper::Initizlize();
+		ar::ImageHelper::SavePNG((path).c_str(), IMAGE_SIZE, IMAGE_SIZE, buffers[0]->data());
+		ar::ImageHelper::Terminate();
 	}
 
 #pragma region GetSet
