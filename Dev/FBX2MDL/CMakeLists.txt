@@ -37,9 +37,6 @@ if (MSVC)
 	endif()
 endif()
 
-add_subdirectory(../asd_cpp/common/)
-add_subdirectory(../asd_cpp/tool/)
-
 include_directories(
 	../asd_cpp/common/
 	../asd_cpp/tool/

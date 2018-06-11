@@ -1,8 +1,11 @@
-# Debug Releaseに限定
+# Limit to Debug Release
 set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE TYPE INTERNAL FORCE )
 
-# プロジェクト名
+# Project name
 project(Altseed)
+
+# Option
+option(BUILD_TOOL "Build tool" OFF)
 
 # CMake バージョンチェック
 if (MSVC)
@@ -43,6 +46,9 @@ INCLUDE(CMakeFiles.txt)
 add_subdirectory(asd_cpp/common/)
 add_subdirectory(asd_cpp/tool/)
 
+if (BUILD_TOOL)
+add_subdirectory(FBX2MDL/)
+endif()
 
 # ======== Core ========
 
