@@ -1,5 +1,7 @@
-﻿using System;
+﻿using FontGenerator.Model;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,8 +10,9 @@ namespace FontGenerator.Altseed
 {
 	class ToolRenderer
 	{
-		private Model.GenerationConfig config;
 		private ConfigViewModel viewModel;
+		private ConfigConverter converter;
+		private StringConverter strConverter;
 
 		int selectedFont = 0;
 		string fontListStr = string.Empty;
@@ -34,6 +37,12 @@ namespace FontGenerator.Altseed
 			}
 
 			fontListStr = string.Join(";", fontPairs.Select(_ => _.Name));
+
+			viewModel = new ConfigViewModel();
+			strConverter = new StringConverter();
+			converter = new ConfigConverter(strConverter);
+
+			viewModel.FontName = fontPairs[selectedFont].Name;
 		}
 
 		public void Render()
@@ -51,6 +60,7 @@ namespace FontGenerator.Altseed
 						if(tool.Selectable(fontPairs[i].Name, i == selectedFont))
 						{
 							selectedFont = i;
+							viewModel.FontName = fontPairs[i].Name;
 							tool.SetItemDefaultFocus();
 							break;
 						}
@@ -58,14 +68,49 @@ namespace FontGenerator.Altseed
 					tool.EndCombo();
 				}
 
-				//tool.InputInt("Font Index", ref viewModel.FontIndex);
-				//tool.InputText("Text File", viewModel.TextPath, ConfigViewModel.TextSize);
-				//tool.InputText("Export Directory", viewModel.ExportPath, ConfigViewModel.TextSize);
-				//tool.InputText("Sheet Name", viewModel.SheetName, ConfigViewModel.TextSize);
+				tool.InputText("文字一覧ファイル", viewModel.TextPath, ConfigViewModel.TextSize);
+				if (tool.Button("ファイルを開く..."))
+				{
+					var path = tool.OpenDialog("txt", Directory.GetCurrentDirectory());
+					var bytes = strConverter.StringToSbyte(path);
+					for (int i = 0; i < ConfigViewModel.TextSize; i++)
+					{
+						viewModel.TextPath[i] = i < bytes.Length ? bytes[i] : (sbyte)0;
+					}
+				}
+
+				tool.InputText("出力先ディレクトリ", viewModel.ExportPath, ConfigViewModel.TextSize);
+				if (tool.Button("ディレクトリを開く..."))
+				{
+					var path = tool.PickFolder(Directory.GetCurrentDirectory());
+					var bytes = strConverter.StringToSbyte(path);
+					for (int i = 0; i < ConfigViewModel.TextSize; i++)
+					{
+						viewModel.ExportPath[i] = i < bytes.Length ? bytes[i] : (sbyte)0;
+					}
+				}
+
+				tool.InputText("シート名", viewModel.SheetName, ConfigViewModel.TextSize);
+				tool.InputInt("フォントサイズ", ref viewModel.FontSize);
+				tool.InputInt("テクスチャサイズ", ref viewModel.TextureSize);
+				tool.InputInt("輪郭線の太さ", ref viewModel.OutlineSize);
+				tool.Color("フォント色", ref viewModel.FontColor);
+				tool.Color("輪郭線の色", ref viewModel.OutlineColor);
+
+				if (tool.Button("設定ロード..."))
+				{
+					var path = tool.OpenDialog("afcfg", Directory.GetCurrentDirectory());
+					viewModel = converter.LoadFromModel(ConfigurationFile.Load(path));
+					selectedFont = fontPairs.IndexOf(fontPairs.Find(x => x.Name == viewModel.FontName));
+				}
+				if (tool.Button("設定セーブ..."))
+				{
+					var path = tool.SaveDialog("afcfg", Directory.GetCurrentDirectory());
+					ConfigurationFile.Save(converter.ConvertToModel(viewModel), path);
+				}
+				tool.Button("aff生成");
 
 				tool.End();
-
-
 			}
 		}
 

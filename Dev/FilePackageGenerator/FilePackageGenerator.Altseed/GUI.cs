@@ -124,7 +124,7 @@ namespace FilePackageGenerator.Altseed
         private void Package()
         {
             var bPass = Password.TakeWhile(c => c != 0x00).Select(sb => (byte)sb).ToArray();
-            var pass = Encoding.UTF8.GetString(bPass, 0, sbPass.Length);
+            var pass = Encoding.UTF8.GetString(bPass, 0, bPass.Length);
 
             Packing.Run(SrcPath, DstPath, Setting, new string[] { }, pass);
         }
