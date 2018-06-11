@@ -8,6 +8,7 @@ namespace FontGenerator.Altseed
 {
 	class Program
 	{
+		[STAThread]
 		static void Main(string[] args)
 		{
 			asd.Engine.Initialize("フォント生成ツール", 320, 640, new asd.EngineOption());

@@ -11,6 +11,7 @@ namespace FontGenerator.Altseed
 		public static readonly int TextSize = 2048;
 
 		public int FontIndex = 0;
+		public string FontName = "";
 		public sbyte[] TextPath = new sbyte[TextSize];
 		public sbyte[] ExportPath = new sbyte[TextSize];
 		public sbyte[] SheetName = new sbyte[TextSize];
@@ -20,15 +21,5 @@ namespace FontGenerator.Altseed
 		public int OutlineSampling = 1;
 		public asd.Color FontColor = new asd.Color(255, 255, 255, 255);
 		public asd.Color OutlineColor = new asd.Color(0, 0, 0, 255);
-
-		public string TextPathString
-		{
-			get
-			{
-				var array = TextPath.Select(x => (byte)(x + 128))
-					.ToArray();
-				return Encoding.UTF8.GetString(array);
-			}
-		}
 	}
 }

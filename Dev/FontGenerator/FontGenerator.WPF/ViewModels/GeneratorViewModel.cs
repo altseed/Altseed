@@ -483,21 +483,28 @@ namespace FontGenerator.WPF.ViewModels
 
 		public async Task GeneratePreviewAsync()
 		{
-			var imagePath = await Generator.GeneratePreviewAsync(config);
-
-			var image = new BitmapImage();
-			using (var file = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+			try
 			{
-				image.BeginInit();
-				image.CacheOption = BitmapCacheOption.OnLoad;
-				image.StreamSource = file;
-				image.EndInit();
-				image.Freeze();
+				var imagePath = await Generator.GeneratePreviewAsync(config);
+
+				var image = new BitmapImage();
+				using (var file = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+				{
+					image.BeginInit();
+					image.CacheOption = BitmapCacheOption.OnLoad;
+					image.StreamSource = file;
+					image.EndInit();
+					image.Freeze();
+				}
+
+				PreviewImage = image;
+
+				File.Delete(imagePath);
 			}
-
-			PreviewImage = image;
-
-			File.Delete(imagePath);
+			catch (Exception)
+			{
+				throw;
+			}
 		}
 	}
 }
