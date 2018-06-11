@@ -37,20 +37,32 @@ if (MSVC)
 	endif()
 endif()
 
+add_subdirectory(../asd_cpp/common/)
+add_subdirectory(../asd_cpp/tool/)
 
-include_directories($ENV{FBX_INCLUDE})
+include_directories(
+	../asd_cpp/common/
+	../asd_cpp/tool/
+	$ENV{FBX_INCLUDE})
 
-link_directories($ENV{FBX_LIB})
+link_directories(
+	$ENV{FBX_LIB})
 
 add_executable(FBX2MDL ${srcs})
 
 if (WIN32)
 
-target_link_libraries(FBX2MDL fbxsdk-mt)
+target_link_libraries(FBX2MDL
+	asd_common
+	asd_tool
+	fbxsdk-mt)
 
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-target_link_libraries(FBX2MDL fbxsdk)
+target_link_libraries(FBX2MDL
+	asd_common
+	asd_tool
+	fbxsdk)
 
 endif()
 
