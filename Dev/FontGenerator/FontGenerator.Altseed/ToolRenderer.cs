@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +19,9 @@ namespace FontGenerator.Altseed
 		int selectedFont = 0;
 		string fontListStr = string.Empty;
 		List<Model.FontPair> fontPairs = new List<Model.FontPair>();
+		asd.Texture2D preview = null;
+		bool isGenerating = false;
+		string statusText = "";
 
 		public ToolRenderer()
 		{
@@ -42,7 +47,15 @@ namespace FontGenerator.Altseed
 			strConverter = new StringConverter();
 			converter = new ConfigConverter(strConverter);
 
-			viewModel.FontName = fontPairs[selectedFont].Name;
+			viewModel.FontName.Value = fontPairs[selectedFont].Name;
+
+			viewModel.OnNeedToUpdatePreview
+				.Throttle(TimeSpan.FromSeconds(1))
+				.Subscribe(x =>
+				{
+					Generator.GeneratePreviewAsync(converter.ConvertToModel(viewModel))
+						.ContinueWith(p => preview = asd.Engine.Graphics.CreateTexture2D(p.Result));
+				});
 		}
 
 		public void Render()
@@ -55,12 +68,12 @@ namespace FontGenerator.Altseed
 
 				if (tool.BeginCombo("フォントの種類", fontPairs[selectedFont].Name))
 				{
-					for(int i = 0; i < fontPairs.Count; i++)
+					for (int i = 0; i < fontPairs.Count; i++)
 					{
-						if(tool.Selectable(fontPairs[i].Name, i == selectedFont))
+						if (tool.Selectable(fontPairs[i].Name, i == selectedFont))
 						{
 							selectedFont = i;
-							viewModel.FontName = fontPairs[i].Name;
+							viewModel.FontName.Value = fontPairs[i].Name;
 							tool.SetItemDefaultFocus();
 							break;
 						}
@@ -68,47 +81,66 @@ namespace FontGenerator.Altseed
 					tool.EndCombo();
 				}
 
-				tool.InputText("文字一覧ファイル", viewModel.TextPath, ConfigViewModel.TextSize);
+				tool.InputText("文字一覧ファイル", viewModel.TextPath);
 				if (tool.Button("ファイルを開く..."))
 				{
-					var path = tool.OpenDialog("txt", Directory.GetCurrentDirectory());
-					var bytes = strConverter.StringToSbyte(path);
-					for (int i = 0; i < ConfigViewModel.TextSize; i++)
-					{
-						viewModel.TextPath[i] = i < bytes.Length ? bytes[i] : (sbyte)0;
-					}
+					var defaultPath = File.Exists(viewModel.TextPath.String)
+						? Path.GetDirectoryName(viewModel.TextPath.String)
+						: Directory.GetCurrentDirectory();
+					viewModel.TextPath.String = tool.OpenDialog("txt", defaultPath);
 				}
 
-				tool.InputText("出力先ディレクトリ", viewModel.ExportPath, ConfigViewModel.TextSize);
+				tool.InputText("出力先ディレクトリ", viewModel.ExportPath);
 				if (tool.Button("ディレクトリを開く..."))
 				{
-					var path = tool.PickFolder(Directory.GetCurrentDirectory());
-					var bytes = strConverter.StringToSbyte(path);
-					for (int i = 0; i < ConfigViewModel.TextSize; i++)
-					{
-						viewModel.ExportPath[i] = i < bytes.Length ? bytes[i] : (sbyte)0;
-					}
+					var defaultPath = Directory.Exists(viewModel.ExportPath.String)
+						? viewModel.ExportPath.String
+						: Directory.GetCurrentDirectory();
+					viewModel.ExportPath.String = tool.PickFolder(defaultPath);
 				}
 
-				tool.InputText("シート名", viewModel.SheetName, ConfigViewModel.TextSize);
-				tool.InputInt("フォントサイズ", ref viewModel.FontSize);
-				tool.InputInt("テクスチャサイズ", ref viewModel.TextureSize);
-				tool.InputInt("輪郭線の太さ", ref viewModel.OutlineSize);
-				tool.Color("フォント色", ref viewModel.FontColor);
-				tool.Color("輪郭線の色", ref viewModel.OutlineColor);
+				tool.InputText("シート名", viewModel.SheetName);
+				tool.InputInt("フォントサイズ", viewModel.FontSize);
+				tool.InputInt("テクスチャサイズ", viewModel.TextureSize);
+				tool.InputInt("輪郭線の太さ", viewModel.OutlineSize);
+				tool.InputColor("フォント色", viewModel.FontColor);
+				tool.InputColor("輪郭線の色", viewModel.OutlineColor);
+
+				if (preview != null)
+				{
+					tool.Image(preview, preview.Size.To2DF());
+				}
 
 				if (tool.Button("設定ロード..."))
 				{
 					var path = tool.OpenDialog("afcfg", Directory.GetCurrentDirectory());
 					viewModel = converter.LoadFromModel(ConfigurationFile.Load(path));
-					selectedFont = fontPairs.IndexOf(fontPairs.Find(x => x.Name == viewModel.FontName));
+					selectedFont = fontPairs.IndexOf(fontPairs.Find(x => x.Name == viewModel.FontName.Value));
 				}
 				if (tool.Button("設定セーブ..."))
 				{
 					var path = tool.SaveDialog("afcfg", Directory.GetCurrentDirectory());
 					ConfigurationFile.Save(converter.ConvertToModel(viewModel), path);
 				}
-				tool.Button("aff生成");
+				if (!isGenerating && tool.Button("aff生成"))
+				{
+					isGenerating = true;
+					statusText = "生成中...";
+					var task = Generator.GenerateAsync(converter.ConvertToModel(viewModel));
+					task.ContinueWith(x =>
+					{
+						isGenerating = false;
+						statusText = "生成完了";
+					}, TaskContinuationOptions.OnlyOnRanToCompletion);
+					task.ContinueWith(x =>
+					{
+						isGenerating = false;
+						statusText = "生成失敗";
+						Console.WriteLine(x.Exception);
+					}, TaskContinuationOptions.OnlyOnFaulted);
+				}
+
+				tool.Text(statusText);
 
 				tool.End();
 			}

@@ -29,16 +29,16 @@ namespace FontGenerator.Altseed
 		{
 			return new Model.GenerationConfig
 			{
-				FontName = viewModel.FontName,
-				TextPath = strConverter.SbyteToString(viewModel.TextPath),
-				ExportPath = strConverter.SbyteToString(viewModel.ExportPath),
-				SheetName = strConverter.SbyteToString(viewModel.SheetName),
-				FontSize = viewModel.FontSize,
-				TextureSize = viewModel.TextureSize,
-				OutlineSize = viewModel.OutlineSize,
-				OutlineSampling = viewModel.OutlineSampling,
-				FontColor = ToModelColor(viewModel.FontColor),
-				OutlineColor = ToModelColor(viewModel.OutlineColor),
+				FontName = viewModel.FontName.Value,
+				TextPath = viewModel.TextPath.String,
+				ExportPath = viewModel.ExportPath.String,
+				SheetName = viewModel.SheetName.String,
+				FontSize = viewModel.FontSize.Value,
+				TextureSize = viewModel.TextureSize.Value,
+				OutlineSize = viewModel.OutlineSize.Value,
+				OutlineSampling = viewModel.OutlineSampling.Value,
+				FontColor = ToModelColor(viewModel.FontColor.Value),
+				OutlineColor = ToModelColor(viewModel.OutlineColor.Value),
 			};
 		}
 
@@ -46,16 +46,16 @@ namespace FontGenerator.Altseed
 		{
 			return new ConfigViewModel
 			{
-				FontName = config.FontName,
-				TextPath = strConverter.StringToSbyte(config.TextPath),
-				ExportPath = strConverter.StringToSbyte(config.ExportPath),
-				SheetName = strConverter.StringToSbyte(config.SheetName),
-				FontSize = config.FontSize,
-				TextureSize = config.TextureSize,
-				OutlineSize = config.OutlineSize,
-				OutlineSampling = config.OutlineSampling,
-				FontColor = ToAsdColor(config.FontColor),
-				OutlineColor = ToAsdColor(config.OutlineColor),
+				FontName = { Value = config.FontName },
+				TextPath = { String = config.TextPath },
+				ExportPath = { String = config.ExportPath },
+				SheetName = { String = config.SheetName },
+				FontSize = { Value = config.FontSize },
+				TextureSize = { Value = config.TextureSize },
+				OutlineSize = { Value = config.OutlineSize },
+				OutlineSampling = { Value = config.OutlineSampling },
+				FontColor = { Value = ToAsdColor(config.FontColor) },
+				OutlineColor = { Value = ToAsdColor(config.OutlineColor) },
 			};
 		}
 	}

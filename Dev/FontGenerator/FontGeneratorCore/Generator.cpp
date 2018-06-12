@@ -35,6 +35,7 @@ namespace FontGenerator
 		memset(buffer.data(), 0, bufferSize);
 
 		Convert("-w16", buffer.data(), bufferSize, str, length);
+		wprintf(L"%s\n", str);
 
 		vector<achar> result;
 		for (size_t i = 0; i <= bufferSize - 2; i += 2)

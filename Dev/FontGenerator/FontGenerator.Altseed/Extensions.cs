@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Reactive.Bindings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,6 +34,35 @@ namespace FontGenerator.Altseed
 				(byte)(buf[2] * 255),
 				(byte)(buf[3] * 255));
 			return changed;
+		}
+
+		public static bool InputInt(this asd.Tool tool, string label, ReactiveProperty<int> property)
+		{
+			var integar = property.Value;
+			var result = InputInt(tool, label, ref integar);
+			property.Value = integar;
+			return result;
+		}
+
+		public static bool InputColor(this asd.Tool tool, string label, ReactiveProperty<asd.Color> property)
+		{
+			var color = property.Value;
+			var result = Color(tool, label, ref color);
+			property.Value = color;
+			return result;
+		}
+
+		public static bool InputText(this asd.Tool tool, string label, AltseedToolString str)
+		{
+			var source = str.Bytes.ToArray();
+			var result = tool.InputText(label, source, source.Length);
+			str.Bytes = source;
+			return result;
+		}
+
+		public static IObservable<Unit> MergeUnit<T>(this IObservable<Unit> first, IObservable<T> second)
+		{
+			return first.Merge(second.Select(x => Unit.Default));
 		}
 	}
 }
