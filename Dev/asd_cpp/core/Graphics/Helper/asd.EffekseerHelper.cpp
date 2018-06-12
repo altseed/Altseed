@@ -222,7 +222,9 @@ namespace asd
 		auto f = graphics->GetFile()->CreateStaticFile((const achar*)path);
 		if (f != nullptr)
 		{
-			return new EffekseerFileReader(f->GetBuffer());
+			auto ret = new EffekseerFileReader(f->GetBuffer());
+			SafeRelease(f);
+			return ret;
 		}
 		else
 		{
