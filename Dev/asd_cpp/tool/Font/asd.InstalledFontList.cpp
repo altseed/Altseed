@@ -106,7 +106,7 @@ namespace asd
 			if (face == nullptr) continue;
 
 			Font font;
-			font.Name = ToAString(face->family_name);
+			font.Name = ToAString(face->family_name) + ToAString(" ") + ToAString(face->style_name);
 			font.Path = ToAString(path.c_str());
 
 			Fonts.push_back(font);

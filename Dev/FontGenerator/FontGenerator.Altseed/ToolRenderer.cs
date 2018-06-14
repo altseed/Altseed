@@ -122,7 +122,7 @@ namespace FontGenerator.Altseed
 				if (tool.Button("設定ロード..."))
 				{
 					var path = tool.OpenDialog("afcfg", Directory.GetCurrentDirectory());
-					viewModel = converter.LoadFromModel(ConfigurationFile.Load(path));
+					converter.LoadFromModel(ConfigurationFile.Load(path), viewModel);
 					selectedFont = fontPairs.IndexOf(fontPairs.Find(x => x.Name == viewModel.FontName.Value));
 				}
 				if (tool.Button("設定セーブ..."))
@@ -143,7 +143,14 @@ namespace FontGenerator.Altseed
 					task.ContinueWith(x =>
 					{
 						isGenerating = false;
-						statusText = "生成失敗";
+						if (x.Exception is AggregateException agg)
+						{
+							statusText = "生成失敗：" + x.Exception.InnerException.Message;
+						}
+						else
+						{
+							statusText = "生成失敗：" + x.Exception.Message;
+						}
 						Console.WriteLine(x.Exception);
 					}, TaskContinuationOptions.OnlyOnFaulted);
 				}

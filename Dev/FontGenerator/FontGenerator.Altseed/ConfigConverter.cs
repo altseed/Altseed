@@ -43,21 +43,19 @@ namespace FontGenerator.Altseed
 			};
 		}
 
-		public ConfigViewModel LoadFromModel(Model.GenerationConfig config)
+		public void LoadFromModel(Model.GenerationConfig config, ConfigViewModel viewModel)
 		{
-			return new ConfigViewModel
-			{
-				FontName = { Value = config.FontName },
-				TextPath = { String = config.TextPath },
-				ExportPath = { String = config.ExportPath },
-				SheetName = { String = config.SheetName },
-				FontSize = { Value = config.FontSize },
-				TextureSize = { Value = config.TextureSize },
-				OutlineSize = { Value = config.OutlineSize },
-				OutlineSampling = { Value = config.OutlineSampling },
-				FontColor = { Value = ToAsdColor(config.FontColor) },
-				OutlineColor = { Value = ToAsdColor(config.OutlineColor) },
-			};
+			viewModel.FontIndex.Value = config.FontIndex;
+			viewModel.FontName.Value = config.FontName;
+			viewModel.TextPath.String = config.TextPath;
+			viewModel.ExportPath.String = config.ExportPath;
+			viewModel.SheetName.String = config.SheetName;
+			viewModel.FontSize.Value = config.FontSize;
+			viewModel.TextureSize.Value = config.TextureSize;
+			viewModel.OutlineSize.Value = config.OutlineSize;
+			viewModel.OutlineSampling.Value = config.OutlineSampling;
+			viewModel.FontColor.Value = ToAsdColor(config.FontColor);
+			viewModel.OutlineColor.Value = ToAsdColor(config.OutlineColor);
 		}
 	}
 }

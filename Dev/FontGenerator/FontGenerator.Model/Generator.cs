@@ -30,7 +30,7 @@ namespace FontGenerator.Model
 
 			if(!Directory.Exists(config.ExportPath))
 			{
-				throw new FileNotFoundException("指定され出力先ディレクトリは存在しません。", config.ExportPath);
+				throw new FileNotFoundException("指定された出力先ディレクトリは存在しません。", config.ExportPath);
 			}
 
 			var gen = new DLL();
