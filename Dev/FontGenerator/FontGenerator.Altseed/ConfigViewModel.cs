@@ -13,7 +13,8 @@ namespace FontGenerator.Altseed
 	class ConfigViewModel
 	{
 		public static readonly int TextSize = 2048;
-		
+
+		public ReactiveProperty<int> FontIndex = new ReactiveProperty<int>(0);
 		public ReactiveProperty<string> FontName = new ReactiveProperty<string>("");
 		public AltseedToolString TextPath = new AltseedToolString(TextSize);
 		public AltseedToolString ExportPath = new AltseedToolString(TextSize);
@@ -29,6 +30,7 @@ namespace FontGenerator.Altseed
 		public ConfigViewModel()
 		{
 			OnNeedToUpdatePreview = FontName.Select(x => Unit.Default)
+				.MergeUnit(FontIndex)
 				.MergeUnit(FontSize)
 				.MergeUnit(TextureSize)
 				.MergeUnit(OutlineSize)

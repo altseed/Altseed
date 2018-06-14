@@ -29,6 +29,7 @@ namespace FontGenerator.Altseed
 		{
 			return new Model.GenerationConfig
 			{
+				FontIndex = viewModel.FontIndex.Value,
 				FontName = viewModel.FontName.Value,
 				TextPath = viewModel.TextPath.String,
 				ExportPath = viewModel.ExportPath.String,

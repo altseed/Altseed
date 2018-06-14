@@ -81,6 +81,7 @@ namespace FontGenerator.Altseed
 						{
 							selectedFont = i;
 							viewModel.FontName.Value = fontPairs[i].Name;
+							viewModel.FontIndex.Value = i;
 							tool.SetItemDefaultFocus();
 							break;
 						}
