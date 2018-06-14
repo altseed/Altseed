@@ -90,23 +90,23 @@ protected:
 	{
 		EngineGraphics3DTest::OnUpdating();
 
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Q) == asd::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[0]);
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::W) == asd::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[1]);
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::E) == asd::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[2]);
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::R) == asd::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[3]);
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::T) == asd::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[4]);
-
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::A) == asd::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[0]);
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::S) == asd::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[1]);
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::D) == asd::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[2]);
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::F) == asd::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[3]);
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::G) == asd::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[4]);
-
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Z) == asd::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[0]);
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::X) == asd::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[1]);
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::C) == asd::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[2]);
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::V) == asd::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[3]);
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::B) == asd::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[4]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Q) == asd::ButtonState::Push) mainMesh->SetColorTexture(0, luTexs[0]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::W) == asd::ButtonState::Push) mainMesh->SetColorTexture(0, luTexs[1]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::E) == asd::ButtonState::Push) mainMesh->SetColorTexture(0, luTexs[2]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::R) == asd::ButtonState::Push) mainMesh->SetColorTexture(0, luTexs[3]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::T) == asd::ButtonState::Push) mainMesh->SetColorTexture(0, luTexs[4]);
+																	
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::A) == asd::ButtonState::Push) mainMesh->SetMetalnessTexture(0, luTexs[0]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::S) == asd::ButtonState::Push) mainMesh->SetMetalnessTexture(0, luTexs[1]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::D) == asd::ButtonState::Push) mainMesh->SetMetalnessTexture(0, luTexs[2]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::F) == asd::ButtonState::Push) mainMesh->SetMetalnessTexture(0, luTexs[3]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::G) == asd::ButtonState::Push) mainMesh->SetMetalnessTexture(0, luTexs[4]);
+																		
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Z) == asd::ButtonState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[0]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::X) == asd::ButtonState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[1]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::C) == asd::ButtonState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[2]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::V) == asd::ButtonState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[3]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::B) == asd::ButtonState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[4]);
 
 	}
 };

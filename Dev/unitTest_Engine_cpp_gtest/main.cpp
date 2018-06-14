@@ -132,6 +132,9 @@ int main(int argc, char **argv)
 	SetCurrentDirectoryA(current_path);
 #endif
 
+	CALL_ENGINE_TEST(Graphics, TextureObject2D, false);
+	return 0;
+
 	auto result = RUN_ALL_TESTS();
 
 	getchar();

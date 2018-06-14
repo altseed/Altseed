@@ -38,9 +38,9 @@ protected:
 
 	void OnUpdating()
 	{
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Right) == asd::KeyState::Hold)
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Right) == asd::ButtonState::Hold)
 			X += 1.0f;
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Left) == asd::KeyState::Hold)
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Left) == asd::ButtonState::Hold)
 			X -= 1.0f;
 
 		cam->SetSrc(asd::RectI((int)X - 240, 0, 480, 320));

@@ -78,7 +78,7 @@ void EngineGraphics3DTest::OnUpdating()
 	{
 		auto mousePos = asd::Engine::GetMouse()->GetPosition();
 		auto d = mousePos - m_mousePos;
-		if (asd::Engine::GetMouse()->GetLeftButton()->GetButtonState() == asd::MouseButtonState::Hold)
+		if (asd::Engine::GetMouse()->GetLeftButton()->GetButtonState() == asd::ButtonState::Hold)
 		{
 			m_cameraRotX -= d.Y;
 			m_cameraRotY += d.X;
@@ -89,7 +89,7 @@ void EngineGraphics3DTest::OnUpdating()
 			if (m_cameraRotY > 180.0f) m_cameraRotY = 180.0f;
 		}
 
-		if (asd::Engine::GetMouse()->GetRightButton()->GetButtonState() == asd::MouseButtonState::Hold)
+		if (asd::Engine::GetMouse()->GetRightButton()->GetButtonState() == asd::ButtonState::Hold)
 		{
 			asd::Vector3DF up(0, 1, 0);
 			asd::Vector3DF right(1, 0, 0);

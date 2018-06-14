@@ -39,19 +39,19 @@ protected:
 		{
 			auto inputState = Engine::GetMouse()->GetButtonInputState((MouseButtons)i);
 
-			if (inputState == MouseButtonState::Push)
+			if (inputState == ButtonState::Push)
 			{
 				textObjects[i]->SetText((ToAString("ボタン")+ToAString(to_string(i).c_str())+ToAString("を押しました。")).c_str());
 			}
-			else if (inputState == MouseButtonState::Hold)
+			else if (inputState == ButtonState::Hold)
 			{
 				textObjects[i]->SetText((ToAString("ボタン") + ToAString(to_string(i).c_str()) + ToAString("を押し続けています。")).c_str());
 			}
-			else if (inputState == MouseButtonState::Free)
+			else if (inputState == ButtonState::Free)
 			{
 				textObjects[i]->SetText((ToAString("ボタン") + ToAString(to_string(i).c_str()) + ToAString("を離し続けています。")).c_str());
 			}
-			else if (inputState == MouseButtonState::Release)
+			else if (inputState == ButtonState::Release)
 			{
 				textObjects[i]->SetText((ToAString("ボタン") + ToAString(to_string(i).c_str()) + ToAString("を離しました。")).c_str());
 			}
