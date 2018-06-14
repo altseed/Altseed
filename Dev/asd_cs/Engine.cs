@@ -745,5 +745,13 @@ namespace asd
 				core.SetWindowSize(value);
 			}
 		}
+
+		/// <summary>
+		/// 更新されたリソースのリロードを行う。
+		/// </summary>
+		public static void Reload()
+		{
+			core.Reload();
+		}
 	}
 }

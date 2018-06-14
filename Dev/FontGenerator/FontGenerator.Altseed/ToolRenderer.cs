@@ -21,6 +21,10 @@ namespace FontGenerator.Altseed
 		List<Model.FontPair> fontPairs = new List<Model.FontPair>();
 		asd.Texture2D preview = null;
 		bool isGenerating = false;
+
+		bool isReloadRequired = true;
+		string previewPath = string.Empty;
+
 		string statusText = "";
 
 		public ToolRenderer()
@@ -54,7 +58,10 @@ namespace FontGenerator.Altseed
 				.Subscribe(x =>
 				{
 					Generator.GeneratePreviewAsync(converter.ConvertToModel(viewModel))
-						.ContinueWith(p => preview = asd.Engine.Graphics.CreateTexture2D(p.Result));
+						.ContinueWith(p => {
+							previewPath = p.Result;
+							isReloadRequired = true;
+						});
 				});
 		}
 
@@ -143,6 +150,13 @@ namespace FontGenerator.Altseed
 				tool.Text(statusText);
 
 				tool.End();
+
+				if(isReloadRequired)
+				{
+					preview = asd.Engine.Graphics.CreateTexture2D(previewPath);
+					asd.Engine.Reload();
+					isReloadRequired = false;
+				}
 			}
 		}
 

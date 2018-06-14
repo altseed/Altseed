@@ -1234,6 +1234,11 @@ bool Engine::GenerateCore()
 		return tool;
 	}
 
+	void Engine::Reload()
+	{
+		m_core->Reload();
+	}
+
 #if defined(ALTSEED_DLL)
 	//----------------------------------------------------------------------------------
 	//

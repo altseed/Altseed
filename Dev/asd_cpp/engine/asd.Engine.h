@@ -484,6 +484,11 @@ namespace asd {
 		*/
 		static Tool* GetTool();
 
+		/**
+		@brief	更新されたリソースのリロードを行う。
+		*/
+		static void Reload();
+
 #if _WIN32
 
 #else
