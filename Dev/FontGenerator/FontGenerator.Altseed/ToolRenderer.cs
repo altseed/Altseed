@@ -161,11 +161,55 @@ namespace FontGenerator.Altseed
 
 				if(isReloadRequired)
 				{
-					preview = asd.Engine.Graphics.CreateTexture2D(previewPath);
+					var src = asd.Engine.Graphics.CreateEditableTexture2D(previewPath);
+					if (src != null)
+					{
+						var canvas = asd.Engine.Graphics.CreateEmptyTexture2D(320, 100, asd.TextureFormat.R8G8B8A8_UNORM_SRGB);
+						Render(canvas, src);
+						preview = canvas;
+					}
+					else
+					{
+						preview = null;
+					}
 					asd.Engine.Reload();
 					isReloadRequired = false;
 				}
 			}
+		}
+
+		private unsafe void Render(asd.Texture2D destination, asd.Texture2D source)
+		{
+			var dstWidth = destination.Size.X;
+			var dstHeight = destination.Size.Y;
+			var srcWidth = source.Size.X;
+			var srcHeight = source.Size.Y;
+
+			var dstLock = new asd.TextureLockInfomation();
+			var srcLock = new asd.TextureLockInfomation();
+			destination.Lock(dstLock);
+			source.Lock(srcLock);
+
+			asd.Color* p = (asd.Color*)srcLock.Pixels.ToPointer();
+
+			for (int y = 0; y < dstHeight && y < srcHeight; y++)
+			{
+				for (int x = 0; x < dstWidth && x < srcWidth; x++)
+				{
+					var src = *(p + x + y * srcWidth);
+					var dst = (asd.Color*)dstLock.Pixels + x + y * dstWidth;
+
+					var r = src.B;
+					var b = src.R;
+					src.B = r;
+					src.R = b;
+
+					*dst = src;
+				}
+			}
+
+			source.Unlock();
+			destination.Unlock();
 		}
 
 		static void TryLoadFont(string[] fonts)
