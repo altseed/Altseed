@@ -199,11 +199,6 @@ namespace FontGenerator.Altseed
 					var src = *(p + x + y * srcWidth);
 					var dst = (asd.Color*)dstLock.Pixels + x + y * dstWidth;
 
-					var r = src.B;
-					var b = src.R;
-					src.B = r;
-					src.R = b;
-
 					*dst = src;
 				}
 			}
