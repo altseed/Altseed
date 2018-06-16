@@ -5,7 +5,7 @@ import makeDocumentHtml
 import os
 import os.path
 
-versionNumber = '110'
+versionNumber = '1151'
 
 def getTargetDir(type):
 	common = 'Altseed_' + type.upper() + '_' + versionNumber
