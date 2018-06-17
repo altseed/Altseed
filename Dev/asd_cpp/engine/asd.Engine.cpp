@@ -210,6 +210,8 @@ namespace asd
 		{
 			if (g_dll->GetRef() == 1)
 			{
+				TerminateWrapper();
+
 				g_GetGlobalRef = nullptr;
 				g_dll->Reset();
 				g_dll.reset();
@@ -223,7 +225,6 @@ namespace asd
 
 	static void ASD_STDCALL RemovedCore(Core* core)
 	{
-		TerminateWrapper();
 		ReleaseDLL();
 	}
 
