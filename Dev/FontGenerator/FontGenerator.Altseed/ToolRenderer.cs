@@ -122,13 +122,26 @@ namespace FontGenerator.Altseed
 				if (tool.Button("設定ロード..."))
 				{
 					var path = tool.OpenDialog("afcfg", Directory.GetCurrentDirectory());
-					converter.LoadFromModel(ConfigurationFile.Load(path), viewModel);
-					selectedFont = fontPairs.IndexOf(fontPairs.Find(x => x.Name == viewModel.FontName.Value));
+
+					if(!string.IsNullOrWhiteSpace(path))
+					{
+						converter.LoadFromModel(ConfigurationFile.Load(path), viewModel);
+						selectedFont = fontPairs.IndexOf(fontPairs.Find(x => x.Name == viewModel.FontName.Value));
+					}
 				}
 				if (tool.Button("設定セーブ..."))
 				{
 					var path = tool.SaveDialog("afcfg", Directory.GetCurrentDirectory());
-					ConfigurationFile.Save(converter.ConvertToModel(viewModel), path);
+
+					if (!string.IsNullOrWhiteSpace(path))
+					{
+						if(path.EndsWith(".afcfg"))
+						{
+							path += ".afcfg";
+						}
+
+						ConfigurationFile.Save(converter.ConvertToModel(viewModel), path);
+					}
 				}
 				if (!isGenerating && tool.Button("aff生成"))
 				{
@@ -143,7 +156,7 @@ namespace FontGenerator.Altseed
 					task.ContinueWith(x =>
 					{
 						isGenerating = false;
-						if (x.Exception is AggregateException agg)
+						if (x.Exception is AggregateException)
 						{
 							statusText = "生成失敗：" + x.Exception.InnerException.Message;
 						}
@@ -212,7 +225,7 @@ namespace FontGenerator.Altseed
 			foreach (var font in fonts)
 			{
 				if (!System.IO.File.Exists(font)) continue;
-				asd.Engine.Tool.AddFontFromFileTTF(font, 14);
+				asd.Engine.Tool.AddFontFromFileTTF(font, 16);
 				break;
 			}
 		}
