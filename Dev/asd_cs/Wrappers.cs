@@ -3374,6 +3374,7 @@ namespace asd {
 			CoreInstance.AddFontFromFileTTF(filename, size_pixels);
 		}
 
+		/*
 		/// <summary>
 		/// 
 		/// </summary>
@@ -3386,6 +3387,7 @@ namespace asd {
 		{
 			return (asd.ToolDialogSelection)CoreInstance.ShowDialog(message, title, (asd.swig.ToolDialogStyle)style, (asd.swig.ToolDialogButtons)buttons);
 		}
+		*/
 
 	}
 
