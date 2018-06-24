@@ -9,7 +9,7 @@ namespace unitTest_Engine_cs.Sound
 	class Sound : EngineTest
 	{
 		public Sound()
-			: base(20)
+			: base(80)
 		{
 		}
 

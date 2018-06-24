@@ -4,11 +4,14 @@
 
 namespace asd
 {
-	StaticFile_Imp::StaticFile_Imp(File_Imp* file, const astring& cacheKey, std::shared_ptr<BaseFile>& baseFile)
+	StaticFile_Imp::StaticFile_Imp(File_Imp* file,
+		const astring& cacheKey,
+		std::shared_ptr<BaseFile>& baseFile)
 		: file(file)
 		, cacheKey(cacheKey)
 	{
 		baseFile->ReadAllBytes(m_buffer);
+		loadState = LoadState::Loaded;
 
 		m_path = baseFile->GetFullPath();
 
@@ -23,6 +26,50 @@ namespace asd
 	{
 		packedFile->Seek(internalHeader.GetOffset());
 		packedFile->ReadBytes(m_buffer, internalHeader.GetSize(), decryptor.get(), internalHeader.GetOffset());
+		loadState = LoadState::Loaded;
+
+		m_path = packedFile->GetFullPath() + ToAString("?") + internalHeader.GetFileName();
+
+		SafeAddRef(file);
+
+		isInPackage = true;
+	}
+
+	StaticFile_Imp::StaticFile_Imp(
+		File_Imp * file,
+		Synchronizer::Ptr sync,
+		const astring & cacheKey,
+		std::shared_ptr<BaseFile>& baseFile)
+	{
+		auto load = std::thread([this, baseFile]()
+		{
+			baseFile->ReadAllBytes(m_buffer);
+			loadState = LoadState::Loaded;
+		});
+		sync->Start(this, [](){});
+		loadState = LoadState::Loading;
+
+		m_path = baseFile->GetFullPath();
+
+		SafeAddRef(file);
+
+		isInPackage = false;
+	}
+
+	StaticFile_Imp::StaticFile_Imp(File_Imp * file,
+		Synchronizer::Ptr sync,
+		const astring & cacheKey,
+		const std::shared_ptr<BaseFile>& packedFile,
+		PackFileInternalHeader & internalHeader,
+		std::shared_ptr<Decryptor> decryptor)
+	{
+		auto load = std::thread([this, packedFile, &internalHeader, decryptor]()
+		{
+			packedFile->Seek(internalHeader.GetOffset());
+			packedFile->ReadBytes(m_buffer, internalHeader.GetSize(), decryptor.get(), internalHeader.GetOffset());
+			loadState = LoadState::Loaded;
+		});
+		loadState = LoadState::Loading;
 
 		m_path = packedFile->GetFullPath() + ToAString("?") + internalHeader.GetFileName();
 

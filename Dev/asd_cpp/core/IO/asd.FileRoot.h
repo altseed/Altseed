@@ -15,6 +15,8 @@ namespace asd
 	private:
 
 	public:
+		typedef std::shared_ptr<FileRoot> Ptr;
+
 		astring m_path;
 		std::shared_ptr<Decryptor> decryptor;
 

@@ -26,7 +26,8 @@ namespace asd
 		auto removed = std::list<SyncInfo>();
 		for (auto &info : requests)
 		{
-			if (info.GetResource()->GetLoadState() == LoadState::WaitSync)
+			if (info.GetResource()->GetLoadStateInternal() == LoadState::WaitSync
+				|| info.GetResource()->GetLoadStateInternal() == LoadState::Loaded)
 			{
 				info.GetContinuation()();
 				removed.push_back(info);

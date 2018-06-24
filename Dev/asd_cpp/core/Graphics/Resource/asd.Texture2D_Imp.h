@@ -7,6 +7,7 @@
 
 #include "asd.Texture2D.h"
 #include "../asd.DeviceObject.h"
+#include "../../Utils/IAsyncResource.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -18,6 +19,7 @@ namespace asd {
 	class Texture2D_Imp
 		: public Texture2D
 		, public DeviceObject
+		, public IAsyncResource
 	{
 	protected:
 		/**
@@ -40,6 +42,7 @@ namespace asd {
 		Vector2DI	m_size;
 
 		TextureFormat		m_format;
+		LoadState			m_loadState;
 
 		Texture2D_Imp(Graphics* graphics);
 		virtual ~Texture2D_Imp();
@@ -48,6 +51,7 @@ namespace asd {
 
 		Vector2DI GetSize() const { return m_size; }
 		TextureFormat GetFormat() const override { return m_format; }
+		LoadState GetLoadStateInternal() const override { return m_loadState; }
 
 	// リロード
 #if !SWIG

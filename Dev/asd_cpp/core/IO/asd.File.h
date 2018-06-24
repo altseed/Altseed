@@ -33,6 +33,13 @@ namespace asd
 		virtual StaticFile* CreateStaticFile(const char16_t* path) = 0;
 
 		/**
+		@brief	一括読込のファイルを非同期に生成する。
+		@param	path	ファイルパス
+		@return	ファイル
+		*/
+		virtual StaticFile* CreateStaticFileAsync(const char16_t* path) = 0;
+
+		/**
 		@brief	逐次読込のファイルを生成する。
 		@param	path	ファイルパス
 		@return	ファイル

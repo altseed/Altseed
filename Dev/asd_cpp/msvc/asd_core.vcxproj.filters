@@ -172,6 +172,9 @@
     <Filter Include="3rdParty\Boxer">
       <UniqueIdentifier>{86a718e7-ab32-4946-8dfb-3b86d0a8af37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="IO\StaticFile">
+      <UniqueIdentifier>{9834d3f4-a3cb-4940-be6f-c7d6dd1f5815}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\asd.Log_Imp.h">
@@ -1132,6 +1135,18 @@
     <ClInclude Include="..\core\3rdParty\Boxer\boxer.h">
       <Filter>3rdParty\Boxer</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\IO\StaticFile\StaticFileLoader.h">
+      <Filter>IO\StaticFile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\StaticFile\StaticFileFactoryBase.h">
+      <Filter>IO\StaticFile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\StaticFile\BlockingStaticFileFactory.h">
+      <Filter>IO\StaticFile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\StaticFile\AsyncStaticFileFactory.h">
+      <Filter>IO\StaticFile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">
@@ -1604,6 +1619,18 @@
     </ClCompile>
     <ClCompile Include="..\core\3rdParty\Boxer\boxer_win.cpp">
       <Filter>3rdParty\Boxer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\StaticFile\StaticFileLoader.cpp">
+      <Filter>IO\StaticFile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\StaticFile\StaticFileFactoryBase.cpp">
+      <Filter>IO\StaticFile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\StaticFile\BlockingStaticFileFactory.cpp">
+      <Filter>IO\StaticFile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\StaticFile\AsyncStaticFileFactory.cpp">
+      <Filter>IO\StaticFile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

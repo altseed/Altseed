@@ -545,6 +545,10 @@
     <ClInclude Include="..\core\IO\asd.StreamFile.h" />
     <ClInclude Include="..\core\IO\asd.StreamFile_Imp.h" />
     <ClInclude Include="..\core\IO\asd.BaseFile.h" />
+    <ClInclude Include="..\core\IO\StaticFile\AsyncStaticFileFactory.h" />
+    <ClInclude Include="..\core\IO\StaticFile\BlockingStaticFileFactory.h" />
+    <ClInclude Include="..\core\IO\StaticFile\StaticFileFactoryBase.h" />
+    <ClInclude Include="..\core\IO\StaticFile\StaticFileLoader.h" />
     <ClInclude Include="..\core\Log\asd.GetSpec.h" />
     <ClInclude Include="..\core\Log\asd.Log.h" />
     <ClInclude Include="..\core\Log\asd.Log_Imp.h" />
@@ -763,6 +767,10 @@
     <ClCompile Include="..\core\IO\asd.PackFile.cpp" />
     <ClCompile Include="..\core\IO\asd.StaticFile_Imp.cpp" />
     <ClCompile Include="..\core\IO\asd.StreamFile_Imp.cpp" />
+    <ClCompile Include="..\core\IO\StaticFile\AsyncStaticFileFactory.cpp" />
+    <ClCompile Include="..\core\IO\StaticFile\BlockingStaticFileFactory.cpp" />
+    <ClCompile Include="..\core\IO\StaticFile\StaticFileFactoryBase.cpp" />
+    <ClCompile Include="..\core\IO\StaticFile\StaticFileLoader.cpp" />
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreChip2D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreCameraObject2D_Imp.cpp" />

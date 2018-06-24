@@ -24,7 +24,7 @@ namespace unitTest_Engine_cs
 		//[STAThread]
 		static void Main(string[] args)
 		{
-			TestOnAllDevice(typeof(Tool.Basic));
+			TestOnAllDevice(typeof(IO.StaticFile_NonPackage));
             Console.ReadKey();
 			return;
 

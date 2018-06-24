@@ -1,86 +1,86 @@
-Core�͍ŏI�I��DLL��SharedObject�i�ȉ�DLL�ɓ���j�ɃR���p�C�������B
-���̂��߁A������Core�ɋL�q�����@�\���O�ɂ������@�͐��������B
-����́ADLL���̊O�Ɍ�����֐���C����Ɠ����������󂯂邩��ł���B
-���̂��߁A�N���X�̃C���X�^���X���|�C���^�Ƃ��ĕԂ��֐���錾���A���̃|�C���^������s����K�v������B
-�Ȃ��A�O���ł�delete�����ւł���B���̂��߁Adelete this�ŃN���X�̃C���X�^���X�͍폜����K�v������B
+﻿Coreは最終的にDLLやSharedObject（以下DLLに統一）にコンパイルされる。
+そのため、著しくCoreに記述した機能を外にだす方法は制限される。
+それは、DLL内の外に見える関数はC言語と同じ扱いを受けるからである。
+そのため、クラスのインスタンスをポインタとして返す関数を宣言し、そのポインタから実行する必要がある。
+なお、外部でのdeleteも厳禁である。そのため、delete thisでクラスのインスタンスは削除する必要がある。
 
-���@C++�̏ꍇ
-DLL����O�Ɍ�����֐��͎����ACreateCore�݂̂ł���B
-���̂��߁A���̃N���X���g�p����ɂ�
-�P�DCore��Create�֐�����������B
-�Q�DCore�̓����Ő�������Get�֐���p�ӂ��A�N���X�̃|�C���^��Ԃ��B
-�̂Q������B
+■　C++の場合
+DLLから外に見える関数は実質、CreateCoreのみである。
+そのため、他のクラスを使用するには
+１．CoreにCreate関数を実装する。
+２．Coreの内部で生成してGet関数を用意し、クラスのポインタを返す。
+の２つがある。
 
-�O�҂�I������ꍇ�A�K���N���X�̃C���X�^���X�̎�����Core���Z���Ȃ��Ă͂Ȃ�Ȃ��B
-�iEngine��Core�̃C���X�^���X���������Ƃ���DLL���̂�������邽�߁j
-��҂̏ꍇ�����l�ɁACore�̃C���X�^���X��������Ƃ��ɂ̓N���X�̃C���X�^���X�������Ȃ���΂Ȃ�Ȃ��B
-�O�҂̏ꍇ�́ACore�̎Q�Ƃ������Ă����A�Q�ƃJ�E���^�𑝂₵�Ă����Ɨ��z�I�ł���B
-��҂̏ꍇ�́AC++��Engine�ɁACore�̃C���X�^���X�폜�Ɠ����^�C�~���O�ŃN���X�̃C���X�^���X�ɃA�N�Z�X�ł��Ȃ�����Ƃ������낤�B
+前者を選択する場合、必ずクラスのインスタンスの寿命はCoreより短くなくてはならない。
+（EngineでCoreのインスタンスが消されるときにDLL自体を解放するため）
+後者の場合も同様に、Coreのインスタンスが消えるときにはクラスのインスタンスも消さなければならない。
+前者の場合は、Coreの参照をもっておき、参照カウンタを増やしておくと理想的である。
+後者の場合は、C++のEngineに、Coreのインスタンス削除と同じタイミングでクラスのインスタンスにアクセスできなくするといいだろう。
 
-C#�Ƃ̌��ˍ������l����ƁA�K�����������N���X�͓����Ő������AGet�֐���p�ӂ����ق��������B
+C#との兼ね合いを考えると、必ず生成されるクラスは内部で生成し、Get関数を用意したほうがいい。
 
-�Ƃ肠�����ACore�ɂ����ꂩ�̊֐��̃C���^�[�t�F�[�X�������ACore_Imp�Ɏ��������Ƃ���B
+とりあえず、Coreにいずれかの関数のインターフェースを書き、Core_Impに実装したとする。
 
-���ɁA
+次に、
 generateCoreToEngineHeader.py
-�Ƀw�b�_�̏���ǉ�����B
-����́ACore����Engine�Ɍ����Ẵw�b�_�����ł���B
-�����ɂ̓C���^�[�t�F�[�X�ɂ�����N���X���L�q�����w�b�_�̂ݒǉ��\�ł���B
-�ǉ�����ۂ̏��Ԃ͏d�v�ł���B�N���X�Ԃ̊֌W���l���Ēǉ�����B
-�ǉ�������Apython��p���Ă��̃X�N���v�g�����s����B
-���s�ɐ�������΁Aace.CoreToEngine.h�ɃN���X�̏�񂪋L�q�����B
+にヘッダの情報を追加する。
+これは、CoreからEngineに向けてのヘッダ生成である。
+ここにはインターフェースにあたるクラスを記述したヘッダのみ追加可能である。
+追加する際の順番は重要である。クラス間の関係を考えて追加する。
+追加した後、pythonを用いてこのスクリプトを実行する。
+実行に成功すれば、ace.CoreToEngine.hにクラスの情報が記述される。
 
-��́AEngine�N���X�̃����o�ϐ���Core�����݂���̂ŁAEngine�̏��������ƏI�����ɁA�O���[�o�����o�R����ȂǂƂ��ă��[�U�[���g�p�\����B
+後は、Engineクラスのメンバ変数にCoreが存在するので、Engineの初期化時と終了時に、グローバルを経由するなどとしてユーザーが使用可能する。
 
-�Ō�ɁA
-Engine�̃w�b�_�����ł���B
-Engine��lib�����ł͎g�p�ł��邪�A���[�U�[��Core�̃w�b�_�������킯�ł͂Ȃ��̂ŁA���[�U�[���݂�w�b�_�𐶐�����K�v������B
+最後に、
+Engineのヘッダ生成である。
+Engineのlib内部では使用できるが、ユーザーはCoreのヘッダを見れるわけではないので、ユーザーがみるヘッダを生成する必要がある。
 
 generateEngineHeader.py
-�Ƀw�b�_����ǉ�����B
-�����ɂ̓C���^�[�t�F�[�X�ɂ�����N���X���L�q�����w�b�_�̂ݒǉ��\�ł���B
-�ǉ�����ۂ̏��Ԃ͏d�v�ł���B�N���X�Ԃ̊֌W���l���Ēǉ�����B
-�����āA�Ō�Ɏ��s����B
+にヘッダ情報を追加する。
+ここにはインターフェースにあたるクラスを記述したヘッダのみ追加可能である。
+追加する際の順番は重要である。クラス間の関係を考えて追加する。
+そして、最後に実行する。
 
-*����̓_�ŁACreate�֐���p�ӂ��ׂ��ʒu���w��~�X���Ă���A�\���󂲂����܂���BEngine�Œ��ڎg���N���X�̏ꍇ�́ACreate�֐���Core�ɂȂ��Ƃ����Ȃ��悤�ł��B
+*幾つかの点で、Create関数を用意すべき位置を指定ミスしており、申し訳ございません。Engineで直接使うクラスの場合は、Create関数はCoreにないといけないようです。
 
 
-���@C#�̏ꍇ
-C#�̏ꍇ�́A***_Imp�N���X�𒼐ڎg�p����B
-C++����C#�ւ́Aswig���o�R���ă��b�p�[�R�[�h��������������B
+■　C#の場合
+C#の場合は、***_Impクラスを直接使用する。
+C++からC#へは、swigを経由してラッパーコードを自動生成する。
 
-�܂��Aswig_main.i�ɃN���X�����L�q����B
-�ŏ㕔�́A
+まず、swig_main.iにクラス情報を記述する。
+最上部の、
 %{
-�̒��ɁAcore��dll_cs.cxx�ɒǉ������w�b�_�������L�q����B
-��{�I�ɂ�core/�ȉ���inlude�������΂悢�B
+の中に、coreのdll_cs.cxxに追加されるヘッダ部分を記述する。
+基本的にはcore/以下のinludeを書けばよい。
 
-��ԉ���
+一番下に
 %include "***"
-�Ƃ����̂�����̂ŁA�����ɊO���ɏo�͂���w�b�_�t�@�C����ǋL����B
-������̃w�b�_�t�@�C�����A���Ԃ͏d�v�ł���B
+というのがあるので、ここに外部に出力するヘッダファイルを追記する。
+いずれのヘッダファイルも、順番は重要である。
 
-�K�v�ȏꍇ�́A***_Imp�N���X�����łȂ��A***�̕����ǉ����Ă悢�B
+必要な場合は、***_Impクラスだけでなく、***の方も追加してよい。
 
-�����āAswig.bat�����s����B��������ƁAc++����C#���ɒ��ڂ̃��b�p�[�R�[�h�����������������B
-��́A�d�l�ɍ��킹��C#�̃R�[�h���L�q����΂悢�B
+そして、swig.batを実行する。そうすると、c++側とC#側に直接のラッパーコードが生成が生成される。
+後は、仕様に合わせてC#のコードを記述すればよい。
 
-�Ȃ��AC#���ɐ������ꂽ���b�p�[�R�[�h�͂Ƃ肠�����g�p�ł��邪�A������肪GC���A��������Dispose���ɉ���ɂȂ��Ă邽�߁A���܂������K�v������B
+なお、C#側に生成されたラッパーコードはとりあえず使用できるが、解放周りがGC時、もしくはDispose時に解放になってるため、うまく扱う必要がある。
 
-���̃��b�p�[�R�[�h�����̍ہA���e�ɂ���Ă͍X�ɒǋL����K�v������B
+このラッパーコード生成の際、内容によっては更に追記する必要がある。
 
-�E�E�E���̂����L�q����B
+・・・そのうち記述する。
 
-�֐����V�����C���X�^���X�𐶐�����ꍇ�A
+関数が新しくインスタンスを生成する場合、
 %newobject ace::Core::Create***;
-�Ƃ������L�q��%include����O�ɕK�v�ł���B
-����́ASWIG�̓C���X�^���X�̃|�C���^��Ԃ��֐��̏ꍇ�A�W���ł͂ǂ����Ƀ��������m�ۂ���Ă���A�l�C�e�B�u���ōŏI�I�ɍ폜����A�ƍl���邩��ł���B
-newobject ���w�肵���ꍇ�ASWIG�������������b�p�[��GC���ꂽ���A��������Dispose���ꂽ���Ƀ���������������悤�ɂȂ�B
-�������A����̃v���W�F�N�g�̏ꍇ�ARelease�ŎQ�ƃJ�E���^��0�ɂȂ������ɔj�����������߁A���̋@�\��w�ǎg�����Ƃ��Ȃ��B
+といった記述を%includeする前に必要である。
+これは、SWIGはインスタンスのポインタを返す関数の場合、標準ではどこかにメモリが確保されており、ネイティブ側で最終的に削除する、と考えるからである。
+newobject を指定した場合、SWIGが生成したラッパーがGCされた時、もしくはDisposeされた時にメモリが解放されるようになる。
+ただし、今回のプロジェクトの場合、Releaseで参照カウンタが0になった時に破棄が多いため、この機能を殆ど使うことがない。
 
-SWIG�ŁA�O���ɏo�͂������Ȃ������́A
+SWIGで、外部に出力したくない部分は、
 #ifndef SWIG #endif
-�ň͂ށB
+で囲む。
 
 
-C#�ւ̏o�͂͐F�X�m�E�n�E���K�v�Ȃ��߁A��肪�N������swd�ɐq�˂Ă��������B
+C#への出力は色々ノウハウが必要なため、問題が起きたらswdに尋ねてください。

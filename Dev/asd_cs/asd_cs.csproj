@@ -254,6 +254,7 @@
     <Compile Include="swig\LayerProfiler.cs" />
     <Compile Include="swig\LayerProfiler_Imp.cs" />
     <Compile Include="swig\LayerType.cs" />
+    <Compile Include="swig\LoadState.cs" />
     <Compile Include="swig\Log.cs" />
     <Compile Include="swig\LogLevel.cs" />
     <Compile Include="swig\MassModel.cs" />

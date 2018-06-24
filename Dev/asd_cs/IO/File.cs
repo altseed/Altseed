@@ -20,6 +20,13 @@ namespace asd
             return GC.GenerateStaticFile(file_, GenerationType.Create);
         }
 
+		public StaticFile CreateStaticFileAsync(string path)
+		{
+			var file_ = CoreInstance.CreateStaticFileAsync(path);
+			if (file_ == null) return null;
+			return GC.GenerateStaticFile(file_, GenerationType.Create);
+		}
+
 		public StreamFile CreateStreamFile(string path)
 		{
 			var file_ = CoreInstance.CreateStreamFile(path);

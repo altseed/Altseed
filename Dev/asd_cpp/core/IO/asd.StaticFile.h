@@ -3,6 +3,7 @@
 #include "../asd.ReferenceObject.h"
 #include "../asd.Core.Base.h"
 #include "asd.File.h"
+#include "../Utils/IAsyncResource.h"
 
 namespace asd
 {
@@ -51,5 +52,11 @@ namespace asd
 			@return	パッケージ内からファイルが読み込まれているか?
 		*/
 		virtual bool GetIsInPackage() const = 0;
+
+		/**
+			@brief	ファイルの非同期読み込みの進捗を取得する。
+			@return	ファイルの非同期読み込みの進捗を表す列挙子。
+		*/
+		virtual LoadState GetLoadState() const = 0;
 	};
 }

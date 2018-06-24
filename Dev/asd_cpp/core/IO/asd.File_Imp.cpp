@@ -3,6 +3,8 @@
 #include "asd.BaseFile.h"
 #include "asd.StaticFile_Imp.h"
 #include "asd.StreamFile_Imp.h"
+#include "StaticFile\BlockingStaticFileFactory.h"
+#include "StaticFile\AsyncStaticFileFactory.h"
 
 #include <array>
 #include <algorithm>
@@ -19,9 +21,14 @@
 
 namespace asd
 {
-	File_Imp::File_Imp()
+	File_Imp::File_Imp(Synchronizer::Ptr sync)
 	{
 		AddDefaultRootDirectory();
+
+		staticFileLoader = std::make_shared<StaticFileLoader>(this,
+			std::make_shared<BlockingStaticFileFactory>(this));
+		asyncFileLoader = std::make_shared<StaticFileLoader>(this,
+			std::make_shared<AsyncStaticFileFactory>(this, sync));
 	}
 
 	File_Imp::~File_Imp()
@@ -101,83 +108,33 @@ namespace asd
 
 	StaticFile* File_Imp::CreateStaticFile(const char16_t* path)
 	{
-		std::lock_guard<std::recursive_mutex> lock(mtx_);
+		return CreateStaticFile(path, staticFileLoader);
+	}
 
+	StaticFile * File_Imp::CreateStaticFileAsync(const char16_t * path)
+	{
+		return CreateStaticFile(path, asyncFileLoader);
+	}
+
+	StaticFile* File_Imp::CreateStaticFile(const char16_t * path, StaticFileLoader::Ptr loader)
+	{
 		if (FileHelper::IsAbsolutePath(path))
 		{
-			// 絶対パス
-
-			auto cacheKey = astring(path);
-			auto it = staticFiles.find(cacheKey);
-			if (it != staticFiles.end())
-			{
-				auto ret = it->second;
-				SafeAddRef(ret);
-				return ret;
-			}
-
-			auto file = CreateSharedPtr(new BaseFile(path));
-			if (file->IsValid())
-			{
-				auto staticFile = new StaticFile_Imp(this, cacheKey, file);
-				staticFiles[cacheKey] = staticFile;
-				return staticFile;
-			}
+			return loader->LoadFromAbsolutePath(path);
 		}
 		else
 		{
 			auto packedPath = FileHelper::ToPackedPath(path);
-	
+
 			for (const auto& root : m_roots)
 			{
 				if (root->IsPackFile())
 				{
-					auto cacheKey = packedPath;
-					auto it = staticFiles.find(cacheKey);
-					if (it != staticFiles.end())
-					{
-						auto ret = it->second;
-						SafeAddRef(ret);
-						return ret;
-					}
-
-					auto packFile = root->GetPackFile();
-
-					if (packFile->HaveFile(packedPath))
-					{
-						const auto& internalHeader = packFile->GetInternalHeader(packedPath);
-
-						StaticFile_Imp* staticFile = nullptr;
-
-						{
-							staticFile = new StaticFile_Imp(this, astring(packedPath), packFile->RawFile(), *internalHeader, root->decryptor);
-							staticFiles[cacheKey] = staticFile;
-							return staticFile;
-						}
-					}
+					return loader->LoadFromPackedRoot(path, packedPath, root);
 				}
 				else
 				{
-					auto combinedPath = FileHelper::CombineRootPath(root->m_path, path);
-
-					auto cacheKey = combinedPath;
-					auto it = staticFiles.find(cacheKey);
-					if (it != staticFiles.end())
-					{
-						auto ret = it->second;
-						SafeAddRef(ret);
-						return ret;
-					}
-
-					StaticFile_Imp* staticFile = nullptr;
-
-					auto file = CreateSharedPtr(new BaseFile(combinedPath));
-					if (file->IsValid())
-					{
-						auto staticFile = new StaticFile_Imp(this, astring(combinedPath), file);
-						staticFiles[cacheKey] = staticFile;
-						return staticFile;
-					}
+					return loader->LoadFromNonPackedRoot(path, root);
 				}
 			}
 		}
@@ -272,9 +229,7 @@ namespace asd
 
 	void File_Imp::UnregisterStaticFile(const astring& key)
 	{
-		std::lock_guard<std::recursive_mutex> lock(mtx_);
-
-		staticFiles.erase(key);
+		staticFileLoader->UnregisterStaticFile(key);
 	}
 
 	void File_Imp::UnregisterStreamFile(const astring& key)

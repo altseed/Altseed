@@ -280,7 +280,8 @@ namespace asd
 		m_mouse = Mouse_Imp::Create(m_window);
 		m_joystickContainer = JoystickContainer_Imp::Create(m_window);
 
-		m_file = File_Imp::Create();
+		synchronizer = std::make_shared<Synchronizer>();
+		m_file = File_Imp::Create(synchronizer);
 		m_graphics = Graphics_Imp::Create(m_window, option.GraphicsDevice, m_logger, m_file, go);
 
 		if (m_graphics == nullptr) return false;
@@ -301,8 +302,6 @@ namespace asd
 
 		layerRenderer = new LayerRenderer(m_graphics);
 		layerRenderer->SetWindowSize(m_windowSize);
-
-		synchronizer = std::make_shared<Synchronizer>();
 
 		{
 			asd::Vector2DF lpos[4];
@@ -362,7 +361,8 @@ namespace asd
 		}
 #endif
 
-		m_file = File_Imp::Create();
+		synchronizer = std::make_shared<Synchronizer>();
+		m_file = File_Imp::Create(synchronizer);
 		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), ToAString(L"").c_str());
 
 		GraphicsOption go;
@@ -387,8 +387,6 @@ namespace asd
 		m_windowSize = Vector2DI(width, height);
 		layerRenderer = new LayerRenderer(m_graphics);
 		layerRenderer->SetWindowSize(m_windowSize);
-
-		synchronizer = std::make_shared<Synchronizer>();
 
 		{
 			asd::Vector2DF lpos[4];

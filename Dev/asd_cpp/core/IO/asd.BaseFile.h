@@ -6,6 +6,7 @@
 #include "asd.Decryptor.h"
 
 #include <fstream>
+#include <memory>
 
 namespace asd
 {
@@ -29,6 +30,8 @@ namespace asd
 		astring m_filePath;
 
 	public:
+		typedef std::shared_ptr<BaseFile> Ptr;
+
 		BaseFile(const astring& path);
 		BaseFile(const achar* path);
 

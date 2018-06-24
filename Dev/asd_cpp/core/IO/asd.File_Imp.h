@@ -6,6 +6,8 @@
 #include "asd.File.h"
 #include "asd.PackFile.h"
 #include "asd.FileHelper.h"
+#include "StaticFile\StaticFileLoader.h"
+#include "..\Utils\asd.Synchronizer.h"
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -36,15 +38,18 @@ namespace asd
 	private:
 		std::vector<std::shared_ptr<FileRoot>> m_roots;
 
-		std::unordered_map<astring, StaticFile_Imp*> staticFiles;
 		std::unordered_map<astring, StreamFile_Imp*> streamFiles;
 		
 		std::recursive_mutex		mtx_;
 
-	public:
-		static File_Imp* Create() { return new File_Imp(); };
+		StaticFileLoader::Ptr staticFileLoader;
+		StaticFileLoader::Ptr asyncFileLoader;
+		StaticFile* CreateStaticFile(const char16_t* path, StaticFileLoader::Ptr loader);
 
-		File_Imp();
+	public:
+		static File_Imp* Create(Synchronizer::Ptr sync) { return new File_Imp(sync); };
+
+		File_Imp(Synchronizer::Ptr sync);
 		virtual ~File_Imp();
 
 		void AddDefaultRootDirectory();
@@ -57,6 +62,7 @@ namespace asd
 
 #ifndef SWIG
 		virtual StaticFile* CreateStaticFile(const char16_t* path) override;
+		virtual StaticFile* CreateStaticFileAsync(const char16_t* path) override;
 		virtual StreamFile* CreateStreamFile(const char16_t* path) override;
 
 		void UnregisterStaticFile(const astring& key);
