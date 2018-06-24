@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="psd\psd.c">
+      <Filter>psd</Filter>
+    </ClCompile>
+    <ClCompile Include="psd\list\list_iterator.c">
+      <Filter>psd\list</Filter>
+    </ClCompile>
+    <ClCompile Include="psd\list\list_node.c">
+      <Filter>psd\list</Filter>
+    </ClCompile>
+    <ClCompile Include="psd\list\list.c">
+      <Filter>psd\list</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="PSDParser.cpp" />
+    <ClCompile Include="BitmapWriter.cpp" />
+    <ClCompile Include="dll.cxx" />
+    <ClCompile Include="PSDParser.Document.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="psd">
+      <UniqueIdentifier>{fafe7269-2f12-42d8-bd80-9c69a3a0f5d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="psd\list">
+      <UniqueIdentifier>{5816407d-f978-42d4-9b07-4a834d4b30d0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="psd\psd.h">
+      <Filter>psd</Filter>
+    </ClInclude>
+    <ClInclude Include="psd\psd_p.h">
+      <Filter>psd</Filter>
+    </ClInclude>
+    <ClInclude Include="psd\list\list.h">
+      <Filter>psd\list</Filter>
+    </ClInclude>
+    <ClInclude Include="PSDParser.h" />
+    <ClInclude Include="BitmapWriter.h" />
+    <ClInclude Include="PSDParser.Base.h" />
+  </ItemGroup>
+</Project>
