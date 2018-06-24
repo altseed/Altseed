@@ -8,30 +8,6 @@ namespace asd
 {
 	class Core_Imp;
 
-	enum class ToolDialogStyle {
-		Info,
-		Warning,
-		Error,
-		Question
-	};
-
-	enum class ToolDialogButtons {
-		OK,
-		OKCancel,
-		YesNo,
-		Quit
-	};
-
-	enum class ToolDialogSelection {
-		OK,
-		Cancel,
-		Yes,
-		No,
-		Quit,
-		None,
-		Error
-	};
-
 	/**
 		@brief	ツールを開発するための低レイヤーな命令群のクラス
 	*/
@@ -216,7 +192,7 @@ namespace asd
 		@brief	メニューアイテムを表示する。
 		@param	label		ラベル名
 		@param	shortcut	ショートカット
-
+		@param	p_selected	選択されているか?
 		*/
 		bool MenuItem(const char16_t* label, const char16_t* shortcut, bool* p_selected);
 
@@ -290,6 +266,10 @@ namespace asd
 
 		/**
 			@brief	ダイアログを表示する。
+			@param	message	メッセージ
+			@param	title	タイトル
+			@param	style	ダイアログの種類
+			@param	buttons	ボタンの種類
 		*/
 		ToolDialogSelection ShowDialog(const char16_t* message, const char16_t* title, ToolDialogStyle style, ToolDialogButtons buttons);
 	};

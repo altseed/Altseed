@@ -176,6 +176,5 @@ fromCoreToEngine.readLines('asd_cpp/core/ObjectSystem/Transition/asd.CoreTransit
 fromCoreToEngine.readLines('asd_cpp/core/asd.WrapperDLL.h')
 
 fromCoreToEngine.readLines('asd_cpp/core/ObjectSystem/asd.ObjectSystemFactory.h')
-fromCoreToEngine.readLines("asd_cpp/core/Tool/asd.Tool.h")
 
 fromCoreToEngine.output('asd_cpp/engine/asd.CoreToEngine.h')

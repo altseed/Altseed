@@ -6,6 +6,8 @@
 #include <memory>
 #include <vector>
 
+#include "asd.CoreToEngine.h"
+
 namespace asd {
 
 
@@ -43,6 +45,13 @@ class File {
 		@return ファイル 
 	*/
 	std::shared_ptr<StaticFile> CreateStaticFile(const char16_t* path);
+	
+	/**
+		@brief 一括読込のファイルを非同期に生成する。 
+		@param path ファイルパス 
+		@return ファイル 
+	*/
+	std::shared_ptr<StaticFile> CreateStaticFileAsync(const char16_t* path);
 	
 	/**
 		@brief 逐次読込のファイルを生成する。 
@@ -336,6 +345,12 @@ class StaticFile {
 	*/
 	bool GetIsInPackage() const;
 	
+	/**
+		@brief ファイルの非同期読み込みの進捗を取得する。 
+		@return ファイルの非同期読み込みの進捗を表す列挙子。 
+	*/
+	LoadState GetLoadState() const;
+	
 };
 
 /**
@@ -443,6 +458,16 @@ class Tool {
 	void End();
 	
 	/**
+		@brief 分割線を表示する。 
+	*/
+	void Separator();
+	
+	/**
+		@brief 次に表示する要素を改行せずに表示する。 
+	*/
+	void SameLine();
+	
+	/**
 		@brief テキストを表示する。 
 		@param text テキスト名 
 	*/
@@ -459,7 +484,7 @@ class Tool {
 		@param user_texture 画像 
 		@param size 大きさ 
 	*/
-	//void Image(std::shared_ptr<Texture2D> user_texture,const Vector2DF& size);
+	void Image(std::shared_ptr<Texture2D> user_texture,const Vector2DF& size);
 	
 	/**
 		@brief コンボボックスを表示する。 
@@ -511,6 +536,74 @@ class Tool {
 	bool ListBox(const char16_t* label,int* current_item,const char16_t* items);
 	
 	/**
+		@brief 画面上のメニューバーの表示を開始する。 
+	*/
+	bool BeginMainMenuBar();
+	
+	/**
+		@brief 画面上のメニューバーの表示を終了する。 
+	*/
+	void EndMainMenuBar();
+	
+	/**
+		@brief メニューバー(ウインドウ等)の表示を開始する。 
+	*/
+	bool BeginMenuBar();
+	
+	/**
+		@brief メニューバーの表示を終了する。 
+	*/
+	void EndMenuBar();
+	
+	/**
+		@brief メニューの表示を開始する。 
+		@param label ラベル名 
+	*/
+	bool BeginMenu(const char16_t* label);
+	
+	/**
+		@brief メニューの表示を終了する。 
+	*/
+	void EndMenu();
+	
+	/**
+		@brief メニューアイテムを表示する。 
+		@param label ラベル名 
+		@param shortcut ショートカット 
+		@param p_selected 選択されているか? 
+	*/
+	bool MenuItem(const char16_t* label,const char16_t* shortcut,bool* p_selected);
+	
+	/**
+		@brief 行数を設定する。 
+		@param count 行数 
+	*/
+	void Columns(int count);
+	
+	/**
+		@brief 次の行に移動する。 
+	*/
+	void NextColumn();
+	
+	/**
+		@brief 現在の行のインデックスを取得する。 
+	*/
+	int GetColumnIndex();
+	
+	/**
+		@brief 行の幅を取得する。 
+		@param column_index インデックス 
+	*/
+	float GetColumnWidth(int column_index);
+	
+	/**
+		@brief 行の幅を設定する。 
+		@param column_index インデックス 
+		@param width 幅 
+	*/
+	void SetColumnWidth(int column_index,float width);
+	
+	/**
 		@brief 現在選択されているアイテムにフォーカスを設定する。 
 	*/
 	void SetItemDefaultFocus();
@@ -532,11 +625,27 @@ class Tool {
 	const char16_t* SaveDialog(const char16_t* filterList,const char16_t* defaultPath);
 	
 	/**
+		@brief フォルダを選択するダイアログを開く。 
+		@param defaultPath 最初に表示するディレクトリのパス 
+		@return フォルダのパス 
+	*/
+	const char16_t* PickFolder(const char16_t* defaultPath);
+	
+	/**
 		@brief フォントを追加する。 
 		@param filename フォントへのパス 
 		@param size_pixels フォントサイズ 
 	*/
 	void AddFontFromFileTTF(const char16_t* filename,float size_pixels);
+	
+	/**
+		@brief ダイアログを表示する。 
+		@param messeage メッセージ 
+		@param title タイトル 
+		@param style ダイアログの種類 
+		@param buttons ボタンの種類 
+	*/
+	ToolDialogSelection ShowDialog(const char16_t* messeage,const char16_t* title,ToolDialogStyle style,ToolDialogButtons buttons);
 	
 };
 

@@ -34,6 +34,13 @@ std::shared_ptr<StaticFile> File::CreateStaticFile(const char16_t* path){
 	return std::shared_ptr<StaticFile>( new StaticFile(ret, true) );
 };
 
+std::shared_ptr<StaticFile> File::CreateStaticFileAsync(const char16_t* path){
+	auto arg0 = self;
+	auto arg1 = path;
+	auto ret = dll->File_CreateStaticFileAsync(arg0,arg1);
+	return std::shared_ptr<StaticFile>( new StaticFile(ret, true) );
+};
+
 std::shared_ptr<StreamFile> File::CreateStreamFile(const char16_t* path){
 	auto arg0 = self;
 	auto arg1 = path;
@@ -290,6 +297,12 @@ bool StaticFile::GetIsInPackage() const{
 	return ret;
 };
 
+LoadState StaticFile::GetLoadState() const{
+	auto arg0 = self;
+	auto ret = dll->StaticFile_GetLoadState(arg0);
+	return ret;
+};
+
 StreamFile::StreamFile(void* self, bool isCtrlSelf) {
 	this->self = self;
 	this->isCtrlSelf = isCtrlSelf;
@@ -361,6 +374,16 @@ void Tool::End(){
 	dll->Tool_End(arg0);
 };
 
+void Tool::Separator(){
+	auto arg0 = self;
+	dll->Tool_Separator(arg0);
+};
+
+void Tool::SameLine(){
+	auto arg0 = self;
+	dll->Tool_SameLine(arg0);
+};
+
 void Tool::Text(const char16_t* text){
 	auto arg0 = self;
 	auto arg1 = text;
@@ -374,14 +397,12 @@ bool Tool::Button(const char16_t* label){
 	return ret;
 };
 
-/*
 void Tool::Image(std::shared_ptr<Texture2D> user_texture,const Vector2DF& size){
 	auto arg0 = self;
-	auto arg1 = user_texture.get()->self;
+	auto arg1 = user_texture.get();
 	auto arg2 = size;
 	dll->Tool_Image(arg0,arg1,arg2);
 };
-*/
 
 bool Tool::BeginCombo(const char16_t* label,const char16_t* preview_value){
 	auto arg0 = self;
@@ -438,6 +459,80 @@ bool Tool::ListBox(const char16_t* label,int* current_item,const char16_t* items
 	return ret;
 };
 
+bool Tool::BeginMainMenuBar(){
+	auto arg0 = self;
+	auto ret = dll->Tool_BeginMainMenuBar(arg0);
+	return ret;
+};
+
+void Tool::EndMainMenuBar(){
+	auto arg0 = self;
+	dll->Tool_EndMainMenuBar(arg0);
+};
+
+bool Tool::BeginMenuBar(){
+	auto arg0 = self;
+	auto ret = dll->Tool_BeginMenuBar(arg0);
+	return ret;
+};
+
+void Tool::EndMenuBar(){
+	auto arg0 = self;
+	dll->Tool_EndMenuBar(arg0);
+};
+
+bool Tool::BeginMenu(const char16_t* label){
+	auto arg0 = self;
+	auto arg1 = label;
+	auto ret = dll->Tool_BeginMenu(arg0,arg1);
+	return ret;
+};
+
+void Tool::EndMenu(){
+	auto arg0 = self;
+	dll->Tool_EndMenu(arg0);
+};
+
+bool Tool::MenuItem(const char16_t* label,const char16_t* shortcut,bool* p_selected){
+	auto arg0 = self;
+	auto arg1 = label;
+	auto arg2 = shortcut;
+	auto arg3 = p_selected;
+	auto ret = dll->Tool_MenuItem(arg0,arg1,arg2,arg3);
+	return ret;
+};
+
+void Tool::Columns(int count){
+	auto arg0 = self;
+	auto arg1 = count;
+	dll->Tool_Columns(arg0,arg1);
+};
+
+void Tool::NextColumn(){
+	auto arg0 = self;
+	dll->Tool_NextColumn(arg0);
+};
+
+int Tool::GetColumnIndex(){
+	auto arg0 = self;
+	auto ret = dll->Tool_GetColumnIndex(arg0);
+	return ret;
+};
+
+float Tool::GetColumnWidth(int column_index){
+	auto arg0 = self;
+	auto arg1 = column_index;
+	auto ret = dll->Tool_GetColumnWidth(arg0,arg1);
+	return ret;
+};
+
+void Tool::SetColumnWidth(int column_index,float width){
+	auto arg0 = self;
+	auto arg1 = column_index;
+	auto arg2 = width;
+	dll->Tool_SetColumnWidth(arg0,arg1,arg2);
+};
+
 void Tool::SetItemDefaultFocus(){
 	auto arg0 = self;
 	dll->Tool_SetItemDefaultFocus(arg0);
@@ -459,11 +554,28 @@ const char16_t* Tool::SaveDialog(const char16_t* filterList,const char16_t* defa
 	return ret;
 };
 
+const char16_t* Tool::PickFolder(const char16_t* defaultPath){
+	auto arg0 = self;
+	auto arg1 = defaultPath;
+	auto ret = dll->Tool_PickFolder(arg0,arg1);
+	return ret;
+};
+
 void Tool::AddFontFromFileTTF(const char16_t* filename,float size_pixels){
 	auto arg0 = self;
 	auto arg1 = filename;
 	auto arg2 = size_pixels;
 	dll->Tool_AddFontFromFileTTF(arg0,arg1,arg2);
+};
+
+ToolDialogSelection Tool::ShowDialog(const char16_t* messeage,const char16_t* title,ToolDialogStyle style,ToolDialogButtons buttons){
+	auto arg0 = self;
+	auto arg1 = messeage;
+	auto arg2 = title;
+	auto arg3 = style;
+	auto arg4 = buttons;
+	auto ret = dll->Tool_ShowDialog(arg0,arg1,arg2,arg3,arg4);
+	return ret;
 };
 
 

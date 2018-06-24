@@ -408,6 +408,38 @@ namespace asd {
 		Failed
 	};
 
+	/**
+		@brief	ツールで表示するダイアログの種類
+	*/
+	enum class ToolDialogStyle {
+		Info,
+		Warning,
+		Error,
+		Question
+	};
+
+	/**
+		@brief	ツールで表示するダイアログのボタンの種類
+	*/
+	enum class ToolDialogButtons {
+		OK,
+		OKCancel,
+		YesNo,
+		Quit
+	};
+
+	/**
+		@brief	ツールで表示するダイアログの結果
+	*/
+	enum class ToolDialogSelection {
+		OK,
+		Cancel,
+		Yes,
+		No,
+		Quit,
+		None,
+		Error
+	};
 
 	//----------------------------------------------------------------------------------
 	//

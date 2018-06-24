@@ -7,6 +7,7 @@
 #include <vector>
 
 #include <asd.common.Base.h>
+#include "asd.Core.Base.h"
 
 extern "C"
 {
@@ -21,6 +22,7 @@ class WrapperDLL {
 public:
 	virtual void File_Destruct(void* self);
 	virtual void* File_CreateStaticFile(void* self,const char16_t* path);
+	virtual void* File_CreateStaticFileAsync(void* self,const char16_t* path);
 	virtual void* File_CreateStreamFile(void* self,const char16_t* path);
 	virtual void File_AddRootDirectory(void* self,const char16_t* path);
 	virtual void File_AddRootPackageWithPassword(void* self,const char16_t* path,const char16_t* password);
@@ -59,6 +61,7 @@ public:
 	virtual void* StaticFile_GetData(void* self);
 	virtual int32_t StaticFile_GetSize(void* self);
 	virtual bool StaticFile_GetIsInPackage(void* self);
+	virtual LoadState StaticFile_GetLoadState(void* self);
 	virtual void StreamFile_Destruct(void* self);
 	virtual int32_t StreamFile_GetSize(void* self);
 	virtual int32_t StreamFile_GetCurrentPosition(void* self);
@@ -69,6 +72,8 @@ public:
 	virtual bool Tool_BeginFullscreen(void* self,const char16_t* name,int32_t offset);
 	virtual bool Tool_Begin(void* self,const char16_t* name);
 	virtual void Tool_End(void* self);
+	virtual void Tool_Separator(void* self);
+	virtual void Tool_SameLine(void* self);
 	virtual void Tool_Text(void* self,const char16_t* text);
 	virtual bool Tool_Button(void* self,const char16_t* label);
 	virtual void Tool_Image(void* self,void* user_texture,const Vector2DF& size);
@@ -79,10 +84,24 @@ public:
 	virtual bool Tool_ColorEdit4(void* self,const char16_t* label,float* vs);
 	virtual bool Tool_Selectable(void* self,const char16_t* label,bool selected);
 	virtual bool Tool_ListBox(void* self,const char16_t* label,int* current_item,const char16_t* items);
+	virtual bool Tool_BeginMainMenuBar(void* self);
+	virtual void Tool_EndMainMenuBar(void* self);
+	virtual bool Tool_BeginMenuBar(void* self);
+	virtual void Tool_EndMenuBar(void* self);
+	virtual bool Tool_BeginMenu(void* self,const char16_t* label);
+	virtual void Tool_EndMenu(void* self);
+	virtual bool Tool_MenuItem(void* self,const char16_t* label,const char16_t* shortcut,bool* p_selected);
+	virtual void Tool_Columns(void* self,int count);
+	virtual void Tool_NextColumn(void* self);
+	virtual int Tool_GetColumnIndex(void* self);
+	virtual float Tool_GetColumnWidth(void* self,int column_index);
+	virtual void Tool_SetColumnWidth(void* self,int column_index,float width);
 	virtual void Tool_SetItemDefaultFocus(void* self);
 	virtual const char16_t* Tool_OpenDialog(void* self,const char16_t* filterList,const char16_t* defaultPath);
 	virtual const char16_t* Tool_SaveDialog(void* self,const char16_t* filterList,const char16_t* defaultPath);
+	virtual const char16_t* Tool_PickFolder(void* self,const char16_t* defaultPath);
 	virtual void Tool_AddFontFromFileTTF(void* self,const char16_t* filename,float size_pixels);
+	virtual ToolDialogSelection Tool_ShowDialog(void* self,const char16_t* messeage,const char16_t* title,ToolDialogStyle style,ToolDialogButtons buttons);
 };
 
 };

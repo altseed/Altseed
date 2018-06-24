@@ -24,6 +24,13 @@ void* WrapperDLL::File_CreateStaticFile(void* self,const char16_t* path){
 	return ret;
 };
 
+void* WrapperDLL::File_CreateStaticFileAsync(void* self,const char16_t* path){
+	auto self_ = (File*)self;
+	auto arg0 = path;
+	auto ret = self_->CreateStaticFileAsync(arg0);
+	return ret;
+};
+
 void* WrapperDLL::File_CreateStreamFile(void* self,const char16_t* path){
 	auto self_ = (File*)self;
 	auto arg0 = path;
@@ -264,6 +271,12 @@ bool WrapperDLL::StaticFile_GetIsInPackage(void* self){
 	return ret;
 };
 
+LoadState WrapperDLL::StaticFile_GetLoadState(void* self){
+	auto self_ = (StaticFile*)self;
+	auto ret = self_->GetLoadState();
+	return ret;
+};
+
 void WrapperDLL::StreamFile_Destruct(void* self){
 	auto self_ = (StreamFile*)self;
 	SafeRelease(self_);
@@ -322,6 +335,16 @@ bool WrapperDLL::Tool_Begin(void* self,const char16_t* name){
 void WrapperDLL::Tool_End(void* self){
 	auto self_ = (Tool*)self;
 	self_->End();
+};
+
+void WrapperDLL::Tool_Separator(void* self){
+	auto self_ = (Tool*)self;
+	self_->Separator();
+};
+
+void WrapperDLL::Tool_SameLine(void* self){
+	auto self_ = (Tool*)self;
+	self_->SameLine();
 };
 
 void WrapperDLL::Tool_Text(void* self,const char16_t* text){
@@ -399,6 +422,80 @@ bool WrapperDLL::Tool_ListBox(void* self,const char16_t* label,int* current_item
 	return ret;
 };
 
+bool WrapperDLL::Tool_BeginMainMenuBar(void* self){
+	auto self_ = (Tool*)self;
+	auto ret = self_->BeginMainMenuBar();
+	return ret;
+};
+
+void WrapperDLL::Tool_EndMainMenuBar(void* self){
+	auto self_ = (Tool*)self;
+	self_->EndMainMenuBar();
+};
+
+bool WrapperDLL::Tool_BeginMenuBar(void* self){
+	auto self_ = (Tool*)self;
+	auto ret = self_->BeginMenuBar();
+	return ret;
+};
+
+void WrapperDLL::Tool_EndMenuBar(void* self){
+	auto self_ = (Tool*)self;
+	self_->EndMenuBar();
+};
+
+bool WrapperDLL::Tool_BeginMenu(void* self,const char16_t* label){
+	auto self_ = (Tool*)self;
+	auto arg0 = label;
+	auto ret = self_->BeginMenu(arg0);
+	return ret;
+};
+
+void WrapperDLL::Tool_EndMenu(void* self){
+	auto self_ = (Tool*)self;
+	self_->EndMenu();
+};
+
+bool WrapperDLL::Tool_MenuItem(void* self,const char16_t* label,const char16_t* shortcut,bool* p_selected){
+	auto self_ = (Tool*)self;
+	auto arg0 = label;
+	auto arg1 = shortcut;
+	auto arg2 = p_selected;
+	auto ret = self_->MenuItem(arg0,arg1,arg2);
+	return ret;
+};
+
+void WrapperDLL::Tool_Columns(void* self,int count){
+	auto self_ = (Tool*)self;
+	auto arg0 = count;
+	self_->Columns(arg0);
+};
+
+void WrapperDLL::Tool_NextColumn(void* self){
+	auto self_ = (Tool*)self;
+	self_->NextColumn();
+};
+
+int WrapperDLL::Tool_GetColumnIndex(void* self){
+	auto self_ = (Tool*)self;
+	auto ret = self_->GetColumnIndex();
+	return ret;
+};
+
+float WrapperDLL::Tool_GetColumnWidth(void* self,int column_index){
+	auto self_ = (Tool*)self;
+	auto arg0 = column_index;
+	auto ret = self_->GetColumnWidth(arg0);
+	return ret;
+};
+
+void WrapperDLL::Tool_SetColumnWidth(void* self,int column_index,float width){
+	auto self_ = (Tool*)self;
+	auto arg0 = column_index;
+	auto arg1 = width;
+	self_->SetColumnWidth(arg0,arg1);
+};
+
 void WrapperDLL::Tool_SetItemDefaultFocus(void* self){
 	auto self_ = (Tool*)self;
 	self_->SetItemDefaultFocus();
@@ -420,11 +517,28 @@ const char16_t* WrapperDLL::Tool_SaveDialog(void* self,const char16_t* filterLis
 	return ret;
 };
 
+const char16_t* WrapperDLL::Tool_PickFolder(void* self,const char16_t* defaultPath){
+	auto self_ = (Tool*)self;
+	auto arg0 = defaultPath;
+	auto ret = self_->PickFolder(arg0);
+	return ret;
+};
+
 void WrapperDLL::Tool_AddFontFromFileTTF(void* self,const char16_t* filename,float size_pixels){
 	auto self_ = (Tool*)self;
 	auto arg0 = filename;
 	auto arg1 = size_pixels;
 	self_->AddFontFromFileTTF(arg0,arg1);
+};
+
+ToolDialogSelection WrapperDLL::Tool_ShowDialog(void* self, const char16_t* message,const char16_t* title,ToolDialogStyle style,ToolDialogButtons buttons){
+	auto self_ = (Tool*)self;
+	auto arg0 = message;
+	auto arg1 = title;
+	auto arg2 = style;
+	auto arg3 = buttons;
+	auto ret = self_->ShowDialog(arg0,arg1,arg2,arg3);
+	return ret;
 };
 
 
