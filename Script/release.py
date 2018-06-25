@@ -5,11 +5,9 @@ import makeDocumentHtml
 import os
 import os.path
 
-versionNumber = '110'
+versionNumber = '116'
 
-isToolExported = True
-if aceutils.isMac():
-	isToolExported = False
+leastCompileTarget = ''
 
 def getTargetDir(type):
 	common = 'Altseed_' + type.upper() + '_' + versionNumber
@@ -26,13 +24,27 @@ def init(type, targetDir):
 	aceutils.rmdir(targetDir)
 	aceutils.rmdir(r'Sample/BasicSample/sample_cs/obj')
 
-def compile(type):
+def compile_tool():
+	if(leastCompileTarget != 'cs'):
+		return
+
 	if aceutils.isWin():
+		aceutils.call(aceutils.cmd_compile + r'Dev/FontGenerator.sln /p:configuration=Release')
+		aceutils.call(aceutils.cmd_compile + r'Dev/FilePackageGenerator.sln /p:configuration=Release')
 
-		if isToolExported:
-			aceutils.call(aceutils.cmd_compile + r'Dev/FontGeneratorWPF.sln /p:configuration=Release')
-			aceutils.call(aceutils.cmd_compile + r'Dev/FilePackageGenerator.sln /p:configuration=Release')
+	elif aceutils.isMac():
 
+		# for core
+		aceutils.cd(r'Dev/cmake')
+		aceutils.call(r'make install')
+		aceutils.cd(r'../../')
+
+		aceutils.call(aceutils.cmd_compile + r'xbuild /p:Configuration=Release Dev/FontGenerator.sln')
+		aceutils.call(aceutils.cmd_compile + r'xbuild /p:Configuration=Release Dev/FilePackageGenerator.sln')		
+
+def compile(type):
+	leastCompileTarget = type
+	if aceutils.isWin():
 		if type=='cpp':
 			aceutils.call(aceutils.cmd_compile + r'Dev/unitTest_Engine_cpp.sln /p:configuration=Debug')
 			aceutils.call(aceutils.cmd_compile + r'Dev/unitTest_Engine_cpp.sln /p:configuration=Release')
@@ -72,48 +84,10 @@ def compile(type):
 			aceutils.call(r'ant')
 			aceutils.cd(r'../../')
 
-def copyTool(type, targetDir):
+def copy_tools(type, targetDir):
 	toolDir=targetDir+r'/Tool/'
 	aceutils.mkdir(toolDir)
-	if aceutils.isWin():
-		aceutils.copy(r'Dev/bin/FontGenerator.WPF.exe', toolDir)
-		aceutils.copy(r'Dev/bin/FontGenerator.WPF.exe.config', toolDir)
-		aceutils.copy(r'Dev/bin/FontGenerator.Model.dll', toolDir)
-		aceutils.copy(r'Dev/bin/FontGeneratorCore.dll', toolDir)
-		aceutils.copy(r'Dev/bin/nkf32.dll', toolDir)
-		aceutils.copy(r'Dev/bin/System.Reactive.Core.dll', toolDir)
-		aceutils.copy(r'Dev/bin/System.Reactive.Interfaces.dll', toolDir)
-		aceutils.copy(r'Dev/bin/System.Reactive.Linq.dll', toolDir)
-		aceutils.copy(r'Dev/bin/System.Reactive.PlatformServices.dll', toolDir)
-		
-		aceutils.copy(r'Dev/bin/ImagePackageGenerator.exe', toolDir)
-		aceutils.copy(r'Dev/bin/ImagePackageGenerator.exe.config', toolDir)
-		aceutils.copy(r'Dev/bin/PSDParser.dll', toolDir)
-
-		aceutils.copy(r'Dev/bin/FilePackageGenerator.exe', toolDir)
-		aceutils.copy(r'Dev/bin/FilePackageGenerator.GUI.exe', toolDir)
-		aceutils.copy(r'Dev/bin/FilePackageGenerator.GUI.exe.config', toolDir)
-		aceutils.copy(r'Dev/bin/FilePackageGeneratorCore.dll', toolDir)
-	elif aceutils.isMac():
-		aceutils.copy(r'Dev/bin/FontGenerator.GUI.exe', toolDir)
-		aceutils.copy(r'Dev/bin/FontGenerator.GUI.exe.config', toolDir)
-		aceutils.copy(r'Dev/bin/FontGenerator.Model.dll', toolDir)
-		aceutils.copy(r'Dev/bin/libFontGeneratorCore.dylib', toolDir)
-		aceutils.copy(r'Dev/bin/FontGenerator.exe', toolDir)
-		aceutils.copy(r'Dev/bin/FontGenerator.exe.config', toolDir)
-		aceutils.copy(r'Dev/bin/System.Reactive.Core.dll', toolDir)
-		aceutils.copy(r'Dev/bin/System.Reactive.Interfaces.dll', toolDir)
-		aceutils.copy(r'Dev/bin/System.Reactive.Linq.dll', toolDir)
-		aceutils.copy(r'Dev/bin/System.Reactive.PlatformServices.dll', toolDir)
-		
-		aceutils.copy(r'Dev/bin/ImagePackageGenerator.exe', toolDir)
-		aceutils.copy(r'Dev/bin/ImagePackageGenerator.exe.config', toolDir)
-		aceutils.copy(r'Dev/bin/libPSDParser.dylib', toolDir)
-
-		aceutils.copy(r'Dev/bin/FilePackageGenerator.exe', toolDir)
-		aceutils.copy(r'Dev/bin/FilePackageGenerator.GUI.exe', toolDir)
-		aceutils.copy(r'Dev/bin/FilePackageGenerator.GUI.exe.config', toolDir)
-		aceutils.copy(r'Dev/bin/FilePackageGeneratorCore.dll', toolDir)
+	aceutils.copytree(r'Altseed_Tool/', toolDir)
 
 def makeDocument(type, targetDir,mode):
 	makeDocumentHtml.make_document_html(mode)
@@ -154,8 +128,43 @@ def release_common():
 		aceutils.rmdir(r'Dev/cmake')
 		aceutils.mkdir(r'Dev/cmake')
 		aceutils.cd(r'Dev/cmake')
-		aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../ "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../')
+		aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D BUILD_TOOL=ON -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../ "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../')
 		aceutils.cd(r'../../')
+
+def store_tools():
+	aceutils.cdToScript()
+	aceutils.cd(r'../')
+	aceutils.call(r'python Dev/generate_swig.py')
+	compile_tool()
+
+	toolDir = 'Altseed_Tool'
+	aceutils.rmdir(toolDir)
+	aceutils.mkdir(toolDir)
+
+	aceutils.copy(r'Dev/bin/System.Reactive.Core.dll', toolDir)
+	aceutils.copy(r'Dev/bin/System.Reactive.Interfaces.dll', toolDir)
+	aceutils.copy(r'Dev/bin/System.Reactive.Linq.dll', toolDir)
+	aceutils.copy(r'Dev/bin/System.Reactive.PlatformServices.dll', toolDir)
+
+	aceutils.copy(r'Dev/bin/FontGenerator.WPF.exe', toolDir)
+	aceutils.copy(r'Dev/bin/FontGenerator.WPF.exe.config', toolDir)
+	aceutils.copy(r'Dev/bin/FontGenerator.Model.dll', toolDir)
+		
+	aceutils.copy(r'Dev/bin/ImagePackageGenerator.exe', toolDir)
+	aceutils.copy(r'Dev/bin/ImagePackageGenerator.exe.config', toolDir)
+
+	aceutils.copy(r'Dev/bin/FilePackageGenerator.exe', toolDir)
+	aceutils.copy(r'Dev/bin/FilePackageGenerator.exe.config', toolDir)
+
+	if aceutils.isWin():
+		aceutils.copy(r'Dev/bin/FontGeneratorCore.dll', toolDir)
+		aceutils.copy(r'Dev/bin/PSDParser.dll', toolDir)
+		aceutils.copy(r'Dev/bin/FilePackageGeneratorCore.dll', toolDir)
+	elif aceutils.isMac():
+		aceutils.copy(r'Dev/bin/libFontGeneratorCore.dylib', toolDir)
+		aceutils.copy(r'Dev/bin/libPSDParser.dylib', toolDir)
+		aceutils.copy(r'Dev/bin/libFilePackageGeneratorCore.dylib', toolDir)
+
 
 def release_cpp():
 	type = 'cpp'
@@ -440,6 +449,9 @@ def release_java():
 	# Template
 
 release_common()
+
+store_tools()
+
 release_cpp()
 release_cs()
 release_java()

@@ -16,6 +16,7 @@ endif()
 # ソースコード設定
 set(src
 	PSDParser/PSDParser.cpp
+	PSDParser/PSDParser.Document.cpp
 	PSDParser/dll.cxx
 	PSDParser/psd/psd.c
 	PSDParser/psd/list/list.c
