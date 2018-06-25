@@ -568,9 +568,9 @@ void Tool::AddFontFromFileTTF(const char16_t* filename,float size_pixels){
 	dll->Tool_AddFontFromFileTTF(arg0,arg1,arg2);
 };
 
-ToolDialogSelection Tool::ShowDialog(const char16_t* messeage,const char16_t* title,ToolDialogStyle style,ToolDialogButtons buttons){
+ToolDialogSelection Tool::ShowDialog(const char16_t* message,const char16_t* title,ToolDialogStyle style,ToolDialogButtons buttons){
 	auto arg0 = self;
-	auto arg1 = messeage;
+	auto arg1 = message;
 	auto arg2 = title;
 	auto arg3 = style;
 	auto arg4 = buttons;

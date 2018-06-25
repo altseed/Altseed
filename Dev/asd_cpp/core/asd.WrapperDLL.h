@@ -101,7 +101,7 @@ public:
 	virtual const char16_t* Tool_SaveDialog(void* self,const char16_t* filterList,const char16_t* defaultPath);
 	virtual const char16_t* Tool_PickFolder(void* self,const char16_t* defaultPath);
 	virtual void Tool_AddFontFromFileTTF(void* self,const char16_t* filename,float size_pixels);
-	virtual ToolDialogSelection Tool_ShowDialog(void* self,const char16_t* messeage,const char16_t* title,ToolDialogStyle style,ToolDialogButtons buttons);
+	virtual ToolDialogSelection Tool_ShowDialog(void* self,const char16_t* message,const char16_t* title,ToolDialogStyle style,ToolDialogButtons buttons);
 };
 
 };
