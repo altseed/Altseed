@@ -531,7 +531,7 @@ void WrapperDLL::Tool_AddFontFromFileTTF(void* self,const char16_t* filename,flo
 	self_->AddFontFromFileTTF(arg0,arg1);
 };
 
-ToolDialogSelection WrapperDLL::Tool_ShowDialog(void* self, const char16_t* message,const char16_t* title,ToolDialogStyle style,ToolDialogButtons buttons){
+ToolDialogSelection WrapperDLL::Tool_ShowDialog(void* self,const char16_t* message,const char16_t* title,ToolDialogStyle style,ToolDialogButtons buttons){
 	auto self_ = (Tool*)self;
 	auto arg0 = message;
 	auto arg1 = title;

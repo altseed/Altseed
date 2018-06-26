@@ -29,8 +29,9 @@ def compile_tool():
 		return
 
 	if aceutils.isWin():
-		aceutils.call(aceutils.cmd_compile + r'Dev/FontGenerator.sln /p:configuration=Release')
-		aceutils.call(aceutils.cmd_compile + r'Dev/FilePackageGenerator.sln /p:configuration=Release')
+		aceutils.call(aceutils.cmd_compile + r'Dev/FontGenerator.sln /p:configuration=Release /p:platform=x86')
+		aceutils.call(aceutils.cmd_compile + r'Dev/FilePackageGenerator.sln /p:configuration=Release /p:platform=x86')
+		aceutils.call(aceutils.cmd_compile + r'Dev/ImagePackageGenerator.sln /p:configuration=Release /p:platform=x86')
 
 	elif aceutils.isMac():
 
@@ -39,8 +40,9 @@ def compile_tool():
 		aceutils.call(r'make install')
 		aceutils.cd(r'../../')
 
-		aceutils.call(aceutils.cmd_compile + r'xbuild /p:Configuration=Release Dev/FontGenerator.sln')
-		aceutils.call(aceutils.cmd_compile + r'xbuild /p:Configuration=Release Dev/FilePackageGenerator.sln')		
+		aceutils.call(aceutils.cmd_compile + r'xbuild /p:Configuration=Release /p:platform=x86 Dev/FontGenerator.sln')
+		aceutils.call(aceutils.cmd_compile + r'xbuild /p:Configuration=Release /p:platform=x86 Dev/FilePackageGenerator.sln')
+		aceutils.call(aceutils.cmd_compile + r'xbuild /p:Configuration=Release /p:platform=x86 Dev/ImagePackageGenerator.sln')	
 
 def compile(type):
 	leastCompileTarget = type
@@ -135,19 +137,21 @@ def store_tools():
 	aceutils.cdToScript()
 	aceutils.cd(r'../')
 	aceutils.call(r'python Dev/generate_swig.py')
+
+	compile('cs')
 	compile_tool()
 
 	toolDir = 'Altseed_Tool'
 	aceutils.rmdir(toolDir)
 	aceutils.mkdir(toolDir)
 
-	aceutils.copy(r'Dev/bin/System.Reactive.Core.dll', toolDir)
-	aceutils.copy(r'Dev/bin/System.Reactive.Interfaces.dll', toolDir)
-	aceutils.copy(r'Dev/bin/System.Reactive.Linq.dll', toolDir)
-	aceutils.copy(r'Dev/bin/System.Reactive.PlatformServices.dll', toolDir)
+	aceutils.copy(r'Dev/bin/System.Reactive.dll', toolDir)
+	aceutils.copy(r'Dev/bin/System.Windows.Interactivity.dll', toolDir)
+	aceutils.copy(r'Dev/bin/ReactiveProperty.dll', toolDir)
+	aceutils.copy(r'Dev/bin/ReactiveProperty.NET46.dll', toolDir)
 
-	aceutils.copy(r'Dev/bin/FontGenerator.WPF.exe', toolDir)
-	aceutils.copy(r'Dev/bin/FontGenerator.WPF.exe.config', toolDir)
+	aceutils.copy(r'Dev/bin/FontGenerator.Altseed.exe', toolDir)
+	aceutils.copy(r'Dev/bin/FontGenerator.Altseed.exe.config', toolDir)
 	aceutils.copy(r'Dev/bin/FontGenerator.Model.dll', toolDir)
 		
 	aceutils.copy(r'Dev/bin/ImagePackageGenerator.exe', toolDir)
@@ -156,11 +160,15 @@ def store_tools():
 	aceutils.copy(r'Dev/bin/FilePackageGenerator.exe', toolDir)
 	aceutils.copy(r'Dev/bin/FilePackageGenerator.exe.config', toolDir)
 
+	aceutils.copy(r'Dev/bin/Altseed.dll', toolDir)
+
 	if aceutils.isWin():
+		aceutils.copy(r'Dev/bin/Altseed_core.dll', toolDir)
 		aceutils.copy(r'Dev/bin/FontGeneratorCore.dll', toolDir)
 		aceutils.copy(r'Dev/bin/PSDParser.dll', toolDir)
 		aceutils.copy(r'Dev/bin/FilePackageGeneratorCore.dll', toolDir)
 	elif aceutils.isMac():
+		aceutils.copy(r'Dev/bin/libAltseed_core.dylib', toolDir)
 		aceutils.copy(r'Dev/bin/libFontGeneratorCore.dylib', toolDir)
 		aceutils.copy(r'Dev/bin/libPSDParser.dylib', toolDir)
 		aceutils.copy(r'Dev/bin/libFilePackageGeneratorCore.dylib', toolDir)
@@ -177,8 +185,7 @@ def release_cpp():
 
 	aceutils.mkdir(targetDir+r'/')
 
-	if isToolExported:
-		copyTool(type, targetDir)
+	copyTool(type, targetDir)
 
 	makeDocument(type, targetDir,'cpp')
 
@@ -283,9 +290,7 @@ def release_cs():
 
 	aceutils.mkdir(targetDir+r'/')
 
-	if isToolExported:
-		copyTool(type, targetDir)
-
+	copyTool(type, targetDir)
 
 	makeDocument(type, targetDir,'cs')
 
@@ -375,8 +380,7 @@ def release_java():
 
 	aceutils.mkdir(targetDir+r'/')
 
-	if isToolExported:
-		copyTool(type, targetDir)
+	copyTool(type, targetDir)
 
 	makeDocument(type, targetDir,'java')
 

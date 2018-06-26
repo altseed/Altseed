@@ -640,12 +640,12 @@ class Tool {
 	
 	/**
 		@brief ダイアログを表示する。 
-		@param messeage メッセージ 
+		@param message メッセージ 
 		@param title タイトル 
 		@param style ダイアログの種類 
 		@param buttons ボタンの種類 
 	*/
-	ToolDialogSelection ShowDialog(const char16_t* messeage,const char16_t* title,ToolDialogStyle style,ToolDialogButtons buttons);
+	ToolDialogSelection ShowDialog(const char16_t* message,const char16_t* title,ToolDialogStyle style,ToolDialogButtons buttons);
 	
 };
 
