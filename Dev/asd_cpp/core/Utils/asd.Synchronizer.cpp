@@ -23,13 +23,13 @@ namespace asd
 
 	void Synchronizer::Update()
 	{
-		auto removed = std::list<SyncInfo>();
+		auto removed = std::list<SyncInfo::Ptr>();
 		for (auto &info : requests)
 		{
-			if (info.GetResource()->GetLoadStateInternal() == LoadState::WaitSync
-				|| info.GetResource()->GetLoadStateInternal() == LoadState::Loaded)
+			if (info->GetResource()->GetLoadStateInternal() == LoadState::WaitSync
+				|| info->GetResource()->GetLoadStateInternal() == LoadState::Loaded)
 			{
-				info.GetContinuation()();
+				info->GetContinuation()();
 				removed.push_back(info);
 			}
 		}
@@ -46,7 +46,7 @@ namespace asd
 	{
 		listMutex.lock();
 		finalId++;
-		auto info = SyncInfo(resource, continuation, finalId);
+		auto info = std::make_shared<SyncInfo>(resource, continuation, finalId);
 		requests.push_back(info);
 		listMutex.unlock();
 	}

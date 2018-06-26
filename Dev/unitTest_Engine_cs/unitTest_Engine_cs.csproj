@@ -48,6 +48,7 @@
     <Compile Include="BugFix\AddObjectThenAddChild.cs" />
     <Compile Include="BugFix\DisposeAndChangeParent.cs" />
     <Compile Include="BugFix\DisposeBug.cs" />
+    <Compile Include="BugFix\LoadManyTexture.cs" />
     <Compile Include="BugFix\ModifyObjectHavingDisposedChild.cs" />
     <Compile Include="BugFix\RepeatedlyAddAndRemoveObject.cs" />
     <Compile Include="Debug\Profiler.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Graphics\Transition\Transition.cs" />
     <Compile Include="Input\BundleController.cs" />
     <Compile Include="Input\MouseWithManyButtons.cs" />
+    <Compile Include="IO\StaticFile_LoadAsync.cs" />
     <Compile Include="IO\StaticFile_NonPackage.cs" />
     <Compile Include="IO\StaticFile_Package.cs" />
     <Compile Include="Debug\Log.cs" />

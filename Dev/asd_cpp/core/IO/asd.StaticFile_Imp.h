@@ -20,6 +20,7 @@ namespace asd
 		File_Imp*	file = nullptr;
 		astring		cacheKey;
 
+		std::thread loadThread;
 		std::vector<uint8_t> m_buffer;
 		astring m_path;
 

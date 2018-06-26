@@ -40,8 +40,10 @@ namespace asd
 		Synchronizer::Ptr sync,
 		const astring & cacheKey,
 		std::shared_ptr<BaseFile>& baseFile)
+		: file(file)
+		, cacheKey(cacheKey)
 	{
-		auto load = std::thread([this, baseFile]()
+		loadThread = std::thread([this, baseFile]()
 		{
 			baseFile->ReadAllBytes(m_buffer);
 			loadState = LoadState::Loaded;
@@ -62,6 +64,8 @@ namespace asd
 		const std::shared_ptr<BaseFile>& packedFile,
 		PackFileInternalHeader & internalHeader,
 		std::shared_ptr<Decryptor> decryptor)
+		: file(file)
+		, cacheKey(cacheKey)
 	{
 		auto load = std::thread([this, packedFile, &internalHeader, decryptor]()
 		{
@@ -80,6 +84,10 @@ namespace asd
 
 	StaticFile_Imp::~StaticFile_Imp()
 	{
+		if (loadThread.joinable())
+		{
+			loadThread.detach();
+		}
 		file->UnregisterStaticFile(cacheKey);
 		SafeRelease(file);
 	}

@@ -15,6 +15,8 @@ namespace asd
 		int id;
 
 	public:
+		typedef std::shared_ptr<SyncInfo> Ptr;
+
 		SyncInfo(IAsyncResource* resource, Continuation continuation, int id);
 		~SyncInfo();
 
@@ -30,7 +32,7 @@ namespace asd
 	class Synchronizer
 	{
 	private:
-		std::list<SyncInfo> requests;
+		std::list<SyncInfo::Ptr> requests;
 		std::mutex listMutex;
 		int finalId = -1;
 
