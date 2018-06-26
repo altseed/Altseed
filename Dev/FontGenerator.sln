@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 14 for Windows Desktop
+# Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FontGenerator.Altseed", "FontGenerator\FontGenerator.Altseed\FontGenerator.Altseed.csproj", "{595C54EE-5BC0-4401-B703-4EF102D51FCD}"
@@ -81,8 +81,8 @@ Global
 		{595C54EE-5BC0-4401-B703-4EF102D51FCD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{595C54EE-5BC0-4401-B703-4EF102D51FCD}.Release|x64.ActiveCfg = Release|Any CPU
 		{595C54EE-5BC0-4401-B703-4EF102D51FCD}.Release|x64.Build.0 = Release|Any CPU
-		{595C54EE-5BC0-4401-B703-4EF102D51FCD}.Release|x86.ActiveCfg = Release|Any CPU
-		{595C54EE-5BC0-4401-B703-4EF102D51FCD}.Release|x86.Build.0 = Release|Any CPU
+		{595C54EE-5BC0-4401-B703-4EF102D51FCD}.Release|x86.ActiveCfg = Release|x86
+		{595C54EE-5BC0-4401-B703-4EF102D51FCD}.Release|x86.Build.0 = Release|x86
 		{86542137-F2A1-4152-A16B-5BE71E060DC6}.Debug_DLL|Any CPU.ActiveCfg = Release|x64
 		{86542137-F2A1-4152-A16B-5BE71E060DC6}.Debug_DLL|Any CPU.Build.0 = Release|x64
 		{86542137-F2A1-4152-A16B-5BE71E060DC6}.Debug_DLL|x64.ActiveCfg = Debug|x64

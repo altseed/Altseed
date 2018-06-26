@@ -29,9 +29,9 @@ def compile_tool():
 		return
 
 	if aceutils.isWin():
-		aceutils.call(aceutils.cmd_compile + r'Dev/FontGenerator.sln /p:configuration=Release /p:platform=x86')
-		aceutils.call(aceutils.cmd_compile + r'Dev/FilePackageGenerator.sln /p:configuration=Release /p:platform=x86')
-		aceutils.call(aceutils.cmd_compile + r'Dev/ImagePackageGenerator.sln /p:configuration=Release /p:platform=x86')
+		aceutils.call(aceutils.cmd_compile + r'Dev/FontGenerator.sln /p:configuration=Release;platform=x86')
+		aceutils.call(aceutils.cmd_compile + r'Dev/FilePackageGenerator.sln /p:configuration=Release;platform=x86')
+		aceutils.call(aceutils.cmd_compile + r'Dev/ImagePackageGenerator.sln /p:configuration=Release;platform=x86')
 
 	elif aceutils.isMac():
 
@@ -40,11 +40,12 @@ def compile_tool():
 		aceutils.call(r'make install')
 		aceutils.cd(r'../../')
 
-		aceutils.call(aceutils.cmd_compile + r'xbuild /p:Configuration=Release /p:platform=x86 Dev/FontGenerator.sln')
-		aceutils.call(aceutils.cmd_compile + r'xbuild /p:Configuration=Release /p:platform=x86 Dev/FilePackageGenerator.sln')
-		aceutils.call(aceutils.cmd_compile + r'xbuild /p:Configuration=Release /p:platform=x86 Dev/ImagePackageGenerator.sln')	
+		aceutils.call(aceutils.cmd_compile + r'xbuild /p:Configuration=Release;platform=x86 Dev/FontGenerator.sln')
+		aceutils.call(aceutils.cmd_compile + r'xbuild /p:Configuration=Release;platform=x86 Dev/FilePackageGenerator.sln')
+		aceutils.call(aceutils.cmd_compile + r'xbuild /p:Configuration=Release;platform=x86 Dev/ImagePackageGenerator.sln')	
 
 def compile(type):
+	global leastCompileTarget
 	leastCompileTarget = type
 	if aceutils.isWin():
 		if type=='cpp':
@@ -87,9 +88,9 @@ def compile(type):
 			aceutils.cd(r'../../')
 
 def copy_tools(type, targetDir):
-	toolDir=targetDir+r'/Tool/'
+	toolDir=targetDir+r'/Tool'
 	aceutils.mkdir(toolDir)
-	aceutils.copytree(r'Altseed_Tool/', toolDir)
+	aceutils.copytree(r'Altseed_Tool', toolDir, True)
 
 def makeDocument(type, targetDir,mode):
 	makeDocumentHtml.make_document_html(mode)
@@ -150,15 +151,15 @@ def store_tools():
 	aceutils.copy(r'Dev/bin/ReactiveProperty.dll', toolDir)
 	aceutils.copy(r'Dev/bin/ReactiveProperty.NET46.dll', toolDir)
 
-	aceutils.copy(r'Dev/bin/FontGenerator.Altseed.exe', toolDir)
-	aceutils.copy(r'Dev/bin/FontGenerator.Altseed.exe.config', toolDir)
+	aceutils.copy(r'Dev/bin/FontGenerator.exe', toolDir)
+	aceutils.copy(r'Dev/bin/FontGenerator.exe.config', toolDir)
 	aceutils.copy(r'Dev/bin/FontGenerator.Model.dll', toolDir)
 		
 	aceutils.copy(r'Dev/bin/ImagePackageGenerator.exe', toolDir)
 	aceutils.copy(r'Dev/bin/ImagePackageGenerator.exe.config', toolDir)
 
 	aceutils.copy(r'Dev/bin/FilePackageGenerator.exe', toolDir)
-	aceutils.copy(r'Dev/bin/FilePackageGenerator.exe.config', toolDir)
+	#aceutils.copy(r'Dev/bin/FilePackageGenerator.exe.config', toolDir)
 
 	aceutils.copy(r'Dev/bin/Altseed.dll', toolDir)
 
@@ -185,7 +186,7 @@ def release_cpp():
 
 	aceutils.mkdir(targetDir+r'/')
 
-	copyTool(type, targetDir)
+	copy_tools(type, targetDir)
 
 	makeDocument(type, targetDir,'cpp')
 
@@ -290,7 +291,7 @@ def release_cs():
 
 	aceutils.mkdir(targetDir+r'/')
 
-	copyTool(type, targetDir)
+	copy_tools(type, targetDir)
 
 	makeDocument(type, targetDir,'cs')
 
@@ -380,7 +381,7 @@ def release_java():
 
 	aceutils.mkdir(targetDir+r'/')
 
-	copyTool(type, targetDir)
+	copy_tools(type, targetDir)
 
 	makeDocument(type, targetDir,'java')
 
@@ -452,6 +453,7 @@ def release_java():
 
 	# Template
 
+
 release_common()
 
 store_tools()
@@ -459,8 +461,6 @@ store_tools()
 release_cpp()
 release_cs()
 release_java()
-
-
 
 
 

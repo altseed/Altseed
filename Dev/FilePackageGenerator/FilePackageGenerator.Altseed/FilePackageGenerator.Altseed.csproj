@@ -35,9 +35,6 @@
     <StartupObject>FilePackageGenerator.Altseed.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Altseed">
-      <HintPath>..\..\bin\Altseed.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -57,6 +54,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\asd_cs\asd_cs.csproj">
+      <Project>{93fa987a-48b8-45a4-9bad-8518b2e20a54}</Project>
+      <Name>asd_cs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FilePackageGeneratorCore\FilePackageGeneratorCore.csproj">
       <Project>{67b21c11-7288-4890-8196-67221f74077f}</Project>
       <Name>FilePackageGeneratorCore</Name>
