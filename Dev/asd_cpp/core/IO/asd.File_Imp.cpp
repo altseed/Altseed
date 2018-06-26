@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <unordered_set>
 #include <new>
+#include <time.h>
 
 #if defined(_CONSOLE_GAME)
 
@@ -134,7 +135,11 @@ namespace asd
 				}
 				else
 				{
-					return loader->LoadFromNonPackedRoot(path, root);
+					auto start = clock();
+					auto result = loader->LoadFromNonPackedRoot(path, root);
+					auto end = clock();
+					printf("File_Imp.CreateStaticFile: %d\n", (end - start));
+					return result;
 				}
 			}
 		}

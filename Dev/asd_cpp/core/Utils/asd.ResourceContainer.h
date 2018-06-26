@@ -66,6 +66,8 @@ namespace asd
 
 		RESOURCE* TryLoad(const achar* path, const std::function<RESOURCE*(uint8_t*,int32_t)>& loadFunc)
 		{
+			auto start = clock();
+
 			{
 				auto existing = Get(path);
 				if (existing != nullptr)
@@ -75,10 +77,16 @@ namespace asd
 				}
 			}
 
+			auto staticFileStart = clock();
 			auto staticFile = file->CreateStaticFile(path);
+			auto staticFileEnd = clock();
+			printf("ResourceContainer.TryLoad-CreateStaticFile: %d\n", staticFileEnd - staticFileStart);
 			if (staticFile == nullptr) return nullptr;
 
+			auto loadStart = clock();
 			auto ret = loadFunc((uint8_t*)staticFile->GetData(), staticFile->GetSize());
+			auto loadEnd = clock();
+			printf("ResourceContainer.TryLoad-loadFunc: %d\n", loadEnd - loadStart);
 
 			if (ret == nullptr)
 			{
@@ -100,6 +108,8 @@ namespace asd
 
 			Register(path, ret, info);
 
+			auto end = clock();
+			printf("ResourceContainer.TryLoad: %d\n", end - start);
 			return ret;
 		}
 

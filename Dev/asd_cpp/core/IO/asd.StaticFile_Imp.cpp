@@ -1,6 +1,7 @@
 ﻿
 #include "asd.File_Imp.h"
 #include "asd.StaticFile_Imp.h"
+#include <time.h>
 
 namespace asd
 {
@@ -10,6 +11,7 @@ namespace asd
 		: file(file)
 		, cacheKey(cacheKey)
 	{
+		auto start = clock();
 		baseFile->ReadAllBytes(m_buffer);
 		loadState = LoadState::Loaded;
 
@@ -18,6 +20,8 @@ namespace asd
 		SafeAddRef(file);
 
 		isInPackage = false;
+		auto end = clock();
+		printf("StaticFile_Imp.ctor: %d\n", (end - start));
 	}
 
 	StaticFile_Imp::StaticFile_Imp(File_Imp* file, const astring& cacheKey, const std::shared_ptr<BaseFile>& packedFile, PackFileInternalHeader& internalHeader, std::shared_ptr<Decryptor> decryptor)

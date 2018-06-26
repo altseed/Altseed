@@ -570,6 +570,87 @@ namespace asd {
 	}
 
 	/// <summary>
+	/// ツールで表示するダイアログの種類 
+	///	</summary>
+	public enum ToolDialogStyle : int
+	{
+		/// <summary>
+		/// 
+		/// </summary>
+		Info = asd.swig.ToolDialogStyle.Info,
+		/// <summary>
+		/// 
+		/// </summary>
+		Warning = asd.swig.ToolDialogStyle.Warning,
+		/// <summary>
+		/// 
+		/// </summary>
+		Error = asd.swig.ToolDialogStyle.Error,
+		/// <summary>
+		/// 
+		/// </summary>
+		Question = asd.swig.ToolDialogStyle.Question,
+	}
+
+	/// <summary>
+	/// ツールで表示するダイアログのボタンの種類 
+	///	</summary>
+	public enum ToolDialogButtons : int
+	{
+		/// <summary>
+		/// 
+		/// </summary>
+		OK = asd.swig.ToolDialogButtons.OK,
+		/// <summary>
+		/// 
+		/// </summary>
+		OKCancel = asd.swig.ToolDialogButtons.OKCancel,
+		/// <summary>
+		/// 
+		/// </summary>
+		YesNo = asd.swig.ToolDialogButtons.YesNo,
+		/// <summary>
+		/// 
+		/// </summary>
+		Quit = asd.swig.ToolDialogButtons.Quit,
+	}
+
+	/// <summary>
+	/// ツールで表示するダイアログの結果 
+	///	</summary>
+	public enum ToolDialogSelection : int
+	{
+		/// <summary>
+		/// 
+		/// </summary>
+		OK = asd.swig.ToolDialogSelection.OK,
+		/// <summary>
+		/// 
+		/// </summary>
+		Cancel = asd.swig.ToolDialogSelection.Cancel,
+		/// <summary>
+		/// 
+		/// </summary>
+		Yes = asd.swig.ToolDialogSelection.Yes,
+		/// <summary>
+		/// 
+		/// </summary>
+		No = asd.swig.ToolDialogSelection.No,
+		/// <summary>
+		/// 
+		/// </summary>
+		Quit = asd.swig.ToolDialogSelection.Quit,
+		/// <summary>
+		/// 
+		/// </summary>
+		None = asd.swig.ToolDialogSelection.None,
+		/// <summary>
+		/// 
+		/// </summary>
+		Error = asd.swig.ToolDialogSelection.Error,
+	}
+
+	/// <summary>
 	/// マウスのボタン一覧を示す列挙型 
 	///	</summary>
 	public enum MouseButtons : int
@@ -2763,7 +2844,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// ファイルの非同期読み込みの進捗を取得する。
 		/// </summary>
 		public LoadState LoadState
 		{
@@ -3060,7 +3141,7 @@ namespace asd {
 		internal asd.swig.Tool CoreInstance { get; set; }
 
 		/// <summary>
-		/// 
+		/// 現在の行のインデックスを取得する。
 		/// </summary>
 		public int ColumnIndex
 		{
@@ -3098,7 +3179,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 分割線を表示する。 
 		/// </summary>
 		public void Separator()
 		{
@@ -3106,7 +3187,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 次に表示する要素を改行せずに表示する。 
 		/// </summary>
 		public void SameLine()
 		{
@@ -3133,10 +3214,10 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 画像を表示する。 
 		/// </summary>
-		/// <param name="user_texture"></param>
-		/// <param name="size"></param>
+		/// <param name="user_texture">画像 </param>
+		/// <param name="size">大きさ </param>
 		public void Image(Texture2D user_texture, asd.Vector2DF size)
 		{
 			asd.swig.Texture2D user_textureCore = null;
@@ -3148,7 +3229,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 画像を表示する。 
+		/// コンボボックスを表示する。 
 		/// </summary>
 		/// <param name="label">ラベル名 </param>
 		/// <param name="preview_value">コンボボックスの先頭に表示される文字列 </param>
@@ -3224,7 +3305,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 画面上のメニューバーの表示を開始する。 
 		/// </summary>
 		/// <returns></returns>
 		public bool BeginMainMenuBar()
@@ -3233,7 +3314,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 画面上のメニューバーの表示を終了する。 
 		/// </summary>
 		public void EndMainMenuBar()
 		{
@@ -3241,7 +3322,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// メニューバー(ウインドウ等)の表示を開始する。 
 		/// </summary>
 		/// <returns></returns>
 		public bool BeginMenuBar()
@@ -3250,7 +3331,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// メニューバーの表示を終了する。 
 		/// </summary>
 		public void EndMenuBar()
 		{
@@ -3258,9 +3339,9 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// メニューの表示を開始する。 
 		/// </summary>
-		/// <param name="label"></param>
+		/// <param name="label">ラベル名 </param>
 		/// <returns></returns>
 		public bool BeginMenu(string label)
 		{
@@ -3268,7 +3349,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// メニューの表示を終了する。 
 		/// </summary>
 		public void EndMenu()
 		{
@@ -3276,11 +3357,11 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// メニューアイテムを表示する。 
 		/// </summary>
-		/// <param name="label"></param>
-		/// <param name="shortcut"></param>
-		/// <param name="p_selected"></param>
+		/// <param name="label">ラベル名 </param>
+		/// <param name="shortcut">ショートカット </param>
+		/// <param name="p_selected">選択されているか? </param>
 		/// <returns></returns>
 		public bool MenuItem(string label, string shortcut, bool[] p_selected)
 		{
@@ -3288,16 +3369,16 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 行数を設定する。 
 		/// </summary>
-		/// <param name="count"></param>
+		/// <param name="count">行数 </param>
 		public void Columns(int count)
 		{
 			CoreInstance.Columns(count);
 		}
 
 		/// <summary>
-		/// 
+		/// 次の行に移動する。 
 		/// </summary>
 		public void NextColumn()
 		{
@@ -3305,9 +3386,9 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 行の幅を取得する。 
 		/// </summary>
-		/// <param name="column_index"></param>
+		/// <param name="column_index">インデックス </param>
 		/// <returns></returns>
 		public float GetColumnWidth(int column_index)
 		{
@@ -3315,10 +3396,10 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 行の幅を設定する。 
 		/// </summary>
-		/// <param name="column_index"></param>
-		/// <param name="width"></param>
+		/// <param name="column_index">インデックス </param>
+		/// <param name="width">幅 </param>
 		public void SetColumnWidth(int column_index, float width)
 		{
 			CoreInstance.SetColumnWidth(column_index, width);
@@ -3355,10 +3436,10 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// フォルダを選択するダイアログを開く。 
 		/// </summary>
-		/// <param name="defaultPath"></param>
-		/// <returns></returns>
+		/// <param name="defaultPath">最初に表示するディレクトリのパス </param>
+		/// <returns>フォルダのパス </returns>
 		public string PickFolder(string defaultPath)
 		{
 			return CoreInstance.PickFolder(defaultPath);
@@ -3374,20 +3455,18 @@ namespace asd {
 			CoreInstance.AddFontFromFileTTF(filename, size_pixels);
 		}
 
-		/*
 		/// <summary>
-		/// 
+		/// ダイアログを表示する。 
 		/// </summary>
 		/// <param name="message"></param>
-		/// <param name="title"></param>
-		/// <param name="style"></param>
-		/// <param name="buttons"></param>
+		/// <param name="title">タイトル </param>
+		/// <param name="style">ダイアログの種類 </param>
+		/// <param name="buttons">ボタンの種類 </param>
 		/// <returns></returns>
 		public ToolDialogSelection ShowDialog(string message, string title, ToolDialogStyle style, ToolDialogButtons buttons)
 		{
 			return (asd.ToolDialogSelection)CoreInstance.ShowDialog(message, title, (asd.swig.ToolDialogStyle)style, (asd.swig.ToolDialogButtons)buttons);
 		}
-		*/
 
 	}
 
