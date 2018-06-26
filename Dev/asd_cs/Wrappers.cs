@@ -294,11 +294,11 @@ namespace asd {
 		/// </summary>
 		Default = asd.swig.GraphicsDeviceType.Default,
 		/// <summary>
-		/// DirectX11 
+		/// DirectX11. 
 		/// </summary>
 		DirectX11 = asd.swig.GraphicsDeviceType.DirectX11,
 		/// <summary>
-		/// OpenGL 
+		/// OpenGL. 
 		/// </summary>
 		OpenGL = asd.swig.GraphicsDeviceType.OpenGL,
 	}
@@ -570,6 +570,87 @@ namespace asd {
 	}
 
 	/// <summary>
+	/// ツールで表示するダイアログの種類 
+	///	</summary>
+	public enum ToolDialogStyle : int
+	{
+		/// <summary>
+		/// 
+		/// </summary>
+		Info = asd.swig.ToolDialogStyle.Info,
+		/// <summary>
+		/// 
+		/// </summary>
+		Warning = asd.swig.ToolDialogStyle.Warning,
+		/// <summary>
+		/// 
+		/// </summary>
+		Error = asd.swig.ToolDialogStyle.Error,
+		/// <summary>
+		/// 
+		/// </summary>
+		Question = asd.swig.ToolDialogStyle.Question,
+	}
+
+	/// <summary>
+	/// ツールで表示するダイアログのボタンの種類 
+	///	</summary>
+	public enum ToolDialogButtons : int
+	{
+		/// <summary>
+		/// 
+		/// </summary>
+		OK = asd.swig.ToolDialogButtons.OK,
+		/// <summary>
+		/// 
+		/// </summary>
+		OKCancel = asd.swig.ToolDialogButtons.OKCancel,
+		/// <summary>
+		/// 
+		/// </summary>
+		YesNo = asd.swig.ToolDialogButtons.YesNo,
+		/// <summary>
+		/// 
+		/// </summary>
+		Quit = asd.swig.ToolDialogButtons.Quit,
+	}
+
+	/// <summary>
+	/// ツールで表示するダイアログの結果 
+	///	</summary>
+	public enum ToolDialogSelection : int
+	{
+		/// <summary>
+		/// 
+		/// </summary>
+		OK = asd.swig.ToolDialogSelection.OK,
+		/// <summary>
+		/// 
+		/// </summary>
+		Cancel = asd.swig.ToolDialogSelection.Cancel,
+		/// <summary>
+		/// 
+		/// </summary>
+		Yes = asd.swig.ToolDialogSelection.Yes,
+		/// <summary>
+		/// 
+		/// </summary>
+		No = asd.swig.ToolDialogSelection.No,
+		/// <summary>
+		/// 
+		/// </summary>
+		Quit = asd.swig.ToolDialogSelection.Quit,
+		/// <summary>
+		/// 
+		/// </summary>
+		None = asd.swig.ToolDialogSelection.None,
+		/// <summary>
+		/// 
+		/// </summary>
+		Error = asd.swig.ToolDialogSelection.Error,
+	}
+
+	/// <summary>
 	/// マウスのボタン一覧を示す列挙型 
 	///	</summary>
 	public enum MouseButtons : int
@@ -690,107 +771,107 @@ namespace asd {
 		/// </summary>
 		Equal = asd.swig.Keys.Equal,
 		/// <summary>
-		/// A 
+		/// A. 
 		/// </summary>
 		A = asd.swig.Keys.A,
 		/// <summary>
-		/// B 
+		/// B. 
 		/// </summary>
 		B = asd.swig.Keys.B,
 		/// <summary>
-		/// C 
+		/// C. 
 		/// </summary>
 		C = asd.swig.Keys.C,
 		/// <summary>
-		/// D 
+		/// D. 
 		/// </summary>
 		D = asd.swig.Keys.D,
 		/// <summary>
-		/// E 
+		/// E. 
 		/// </summary>
 		E = asd.swig.Keys.E,
 		/// <summary>
-		/// F 
+		/// F. 
 		/// </summary>
 		F = asd.swig.Keys.F,
 		/// <summary>
-		/// G 
+		/// G. 
 		/// </summary>
 		G = asd.swig.Keys.G,
 		/// <summary>
-		/// H 
+		/// H. 
 		/// </summary>
 		H = asd.swig.Keys.H,
 		/// <summary>
-		/// I 
+		/// I. 
 		/// </summary>
 		I = asd.swig.Keys.I,
 		/// <summary>
-		/// J 
+		/// J. 
 		/// </summary>
 		J = asd.swig.Keys.J,
 		/// <summary>
-		/// K 
+		/// K. 
 		/// </summary>
 		K = asd.swig.Keys.K,
 		/// <summary>
-		/// L 
+		/// L. 
 		/// </summary>
 		L = asd.swig.Keys.L,
 		/// <summary>
-		/// M 
+		/// M. 
 		/// </summary>
 		M = asd.swig.Keys.M,
 		/// <summary>
-		/// N 
+		/// N. 
 		/// </summary>
 		N = asd.swig.Keys.N,
 		/// <summary>
-		/// O 
+		/// O. 
 		/// </summary>
 		O = asd.swig.Keys.O,
 		/// <summary>
-		/// P 
+		/// P. 
 		/// </summary>
 		P = asd.swig.Keys.P,
 		/// <summary>
-		/// Q 
+		/// Q. 
 		/// </summary>
 		Q = asd.swig.Keys.Q,
 		/// <summary>
-		/// R 
+		/// R. 
 		/// </summary>
 		R = asd.swig.Keys.R,
 		/// <summary>
-		/// S 
+		/// S. 
 		/// </summary>
 		S = asd.swig.Keys.S,
 		/// <summary>
-		/// T 
+		/// T. 
 		/// </summary>
 		T = asd.swig.Keys.T,
 		/// <summary>
-		/// U 
+		/// U. 
 		/// </summary>
 		U = asd.swig.Keys.U,
 		/// <summary>
-		/// V 
+		/// V. 
 		/// </summary>
 		V = asd.swig.Keys.V,
 		/// <summary>
-		/// W 
+		/// W. 
 		/// </summary>
 		W = asd.swig.Keys.W,
 		/// <summary>
-		/// X 
+		/// X. 
 		/// </summary>
 		X = asd.swig.Keys.X,
 		/// <summary>
-		/// Y 
+		/// Y. 
 		/// </summary>
 		Y = asd.swig.Keys.Y,
 		/// <summary>
-		/// Z 
+		/// Z. 
 		/// </summary>
 		Z = asd.swig.Keys.Z,
 		/// <summary>
@@ -818,27 +899,27 @@ namespace asd {
 		/// </summary>
 		World2 = asd.swig.Keys.World2,
 		/// <summary>
-		/// Esc 
+		/// Esc. 
 		/// </summary>
 		Escape = asd.swig.Keys.Escape,
 		/// <summary>
-		/// Enter 
+		/// Enter. 
 		/// </summary>
 		Enter = asd.swig.Keys.Enter,
 		/// <summary>
-		/// Tab 
+		/// Tab. 
 		/// </summary>
 		Tab = asd.swig.Keys.Tab,
 		/// <summary>
-		/// BackSpace 
+		/// BackSpace. 
 		/// </summary>
 		Backspace = asd.swig.Keys.Backspace,
 		/// <summary>
-		/// Insert 
+		/// Insert. 
 		/// </summary>
 		Insert = asd.swig.Keys.Insert,
 		/// <summary>
-		/// Delete 
+		/// Delete. 
 		/// </summary>
 		Delete = asd.swig.Keys.Delete,
 		/// <summary>
@@ -858,139 +939,139 @@ namespace asd {
 		/// </summary>
 		Up = asd.swig.Keys.Up,
 		/// <summary>
-		/// PageUp 
+		/// PageUp. 
 		/// </summary>
 		PageUp = asd.swig.Keys.PageUp,
 		/// <summary>
-		/// PageDown 
+		/// PageDown. 
 		/// </summary>
 		PageDown = asd.swig.Keys.PageDown,
 		/// <summary>
-		/// Home 
+		/// Home. 
 		/// </summary>
 		Home = asd.swig.Keys.Home,
 		/// <summary>
-		/// End 
+		/// End. 
 		/// </summary>
 		End = asd.swig.Keys.End,
 		/// <summary>
-		/// CapsLock 
+		/// CapsLock. 
 		/// </summary>
 		CapsLock = asd.swig.Keys.CapsLock,
 		/// <summary>
-		/// ScrollLock 
+		/// ScrollLock. 
 		/// </summary>
 		ScrollLock = asd.swig.Keys.ScrollLock,
 		/// <summary>
-		/// NumLock 
+		/// NumLock. 
 		/// </summary>
 		NumLock = asd.swig.Keys.NumLock,
 		/// <summary>
-		/// PrintScreen 
+		/// PrintScreen. 
 		/// </summary>
 		PrintScreen = asd.swig.Keys.PrintScreen,
 		/// <summary>
-		/// Pause 
+		/// Pause. 
 		/// </summary>
 		Pause = asd.swig.Keys.Pause,
 		/// <summary>
-		/// F1 
+		/// F1. 
 		/// </summary>
 		F1 = asd.swig.Keys.F1,
 		/// <summary>
-		/// F2 
+		/// F2. 
 		/// </summary>
 		F2 = asd.swig.Keys.F2,
 		/// <summary>
-		/// F3 
+		/// F3. 
 		/// </summary>
 		F3 = asd.swig.Keys.F3,
 		/// <summary>
-		/// F4 
+		/// F4. 
 		/// </summary>
 		F4 = asd.swig.Keys.F4,
 		/// <summary>
-		/// F5 
+		/// F5. 
 		/// </summary>
 		F5 = asd.swig.Keys.F5,
 		/// <summary>
-		/// F6 
+		/// F6. 
 		/// </summary>
 		F6 = asd.swig.Keys.F6,
 		/// <summary>
-		/// F7 
+		/// F7. 
 		/// </summary>
 		F7 = asd.swig.Keys.F7,
 		/// <summary>
-		/// F8 
+		/// F8. 
 		/// </summary>
 		F8 = asd.swig.Keys.F8,
 		/// <summary>
-		/// F9 
+		/// F9. 
 		/// </summary>
 		F9 = asd.swig.Keys.F9,
 		/// <summary>
-		/// F10 
+		/// F10. 
 		/// </summary>
 		F10 = asd.swig.Keys.F10,
 		/// <summary>
-		/// F11 
+		/// F11. 
 		/// </summary>
 		F11 = asd.swig.Keys.F11,
 		/// <summary>
-		/// F12 
+		/// F12. 
 		/// </summary>
 		F12 = asd.swig.Keys.F12,
 		/// <summary>
-		/// F13 
+		/// F13. 
 		/// </summary>
 		F13 = asd.swig.Keys.F13,
 		/// <summary>
-		/// F14 
+		/// F14. 
 		/// </summary>
 		F14 = asd.swig.Keys.F14,
 		/// <summary>
-		/// F15 
+		/// F15. 
 		/// </summary>
 		F15 = asd.swig.Keys.F15,
 		/// <summary>
-		/// F16 
+		/// F16. 
 		/// </summary>
 		F16 = asd.swig.Keys.F16,
 		/// <summary>
-		/// F17 
+		/// F17. 
 		/// </summary>
 		F17 = asd.swig.Keys.F17,
 		/// <summary>
-		/// F18 
+		/// F18. 
 		/// </summary>
 		F18 = asd.swig.Keys.F18,
 		/// <summary>
-		/// F19 
+		/// F19. 
 		/// </summary>
 		F19 = asd.swig.Keys.F19,
 		/// <summary>
-		/// F20 
+		/// F20. 
 		/// </summary>
 		F20 = asd.swig.Keys.F20,
 		/// <summary>
-		/// F21 
+		/// F21. 
 		/// </summary>
 		F21 = asd.swig.Keys.F21,
 		/// <summary>
-		/// F22 
+		/// F22. 
 		/// </summary>
 		F22 = asd.swig.Keys.F22,
 		/// <summary>
-		/// F23 
+		/// F23. 
 		/// </summary>
 		F23 = asd.swig.Keys.F23,
 		/// <summary>
-		/// F24 
+		/// F24. 
 		/// </summary>
 		F24 = asd.swig.Keys.F24,
 		/// <summary>
-		/// F25 
+		/// F25. 
 		/// </summary>
 		F25 = asd.swig.Keys.F25,
 		/// <summary>
@@ -1156,19 +1237,19 @@ namespace asd {
 		/// </summary>
 		LeftRight = asd.swig.JoystickButtonType.LeftRight,
 		/// <summary>
-		/// PSx Triangle 
+		/// PSx Triangle. 
 		/// </summary>
 		RightUp = asd.swig.JoystickButtonType.RightUp,
 		/// <summary>
-		/// PSx Circle 
+		/// PSx Circle. 
 		/// </summary>
 		RightRight = asd.swig.JoystickButtonType.RightRight,
 		/// <summary>
-		/// PSx Square 
+		/// PSx Square. 
 		/// </summary>
 		RightLeft = asd.swig.JoystickButtonType.RightLeft,
 		/// <summary>
-		/// PSx Cross 
+		/// PSx Cross. 
 		/// </summary>
 		RightDown = asd.swig.JoystickButtonType.RightDown,
 		/// <summary>
@@ -1196,11 +1277,11 @@ namespace asd {
 		/// </summary>
 		R3 = asd.swig.JoystickButtonType.R3,
 		/// <summary>
-		/// XBOX360 Start, PS4 Options 
+		/// XBOX360 Start, PS4 Options. 
 		/// </summary>
 		LeftStart = asd.swig.JoystickButtonType.LeftStart,
 		/// <summary>
-		/// XBOX360 Select, PS4 TouchPad 
+		/// XBOX360 Select, PS4 TouchPad. 
 		/// </summary>
 		RightStart = asd.swig.JoystickButtonType.RightStart,
 		/// <summary>
@@ -2763,7 +2844,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// ファイルの非同期読み込みの進捗を取得する。
 		/// </summary>
 		public LoadState LoadState
 		{
@@ -3060,7 +3141,7 @@ namespace asd {
 		internal asd.swig.Tool CoreInstance { get; set; }
 
 		/// <summary>
-		/// 
+		/// 現在の行のインデックスを取得する。
 		/// </summary>
 		public int ColumnIndex
 		{
@@ -3098,7 +3179,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 分割線を表示する。 
 		/// </summary>
 		public void Separator()
 		{
@@ -3106,7 +3187,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 次に表示する要素を改行せずに表示する。 
 		/// </summary>
 		public void SameLine()
 		{
@@ -3133,10 +3214,10 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 画像を表示する。 
 		/// </summary>
-		/// <param name="user_texture"></param>
-		/// <param name="size"></param>
+		/// <param name="user_texture">画像 </param>
+		/// <param name="size">大きさ </param>
 		public void Image(Texture2D user_texture, asd.Vector2DF size)
 		{
 			asd.swig.Texture2D user_textureCore = null;
@@ -3148,7 +3229,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 画像を表示する。 
+		/// コンボボックスを表示する。 
 		/// </summary>
 		/// <param name="label">ラベル名 </param>
 		/// <param name="preview_value">コンボボックスの先頭に表示される文字列 </param>
@@ -3224,7 +3305,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 画面上のメニューバーの表示を開始する。 
 		/// </summary>
 		/// <returns></returns>
 		public bool BeginMainMenuBar()
@@ -3233,7 +3314,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 画面上のメニューバーの表示を終了する。 
 		/// </summary>
 		public void EndMainMenuBar()
 		{
@@ -3241,7 +3322,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// メニューバー(ウインドウ等)の表示を開始する。 
 		/// </summary>
 		/// <returns></returns>
 		public bool BeginMenuBar()
@@ -3250,7 +3331,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// メニューバーの表示を終了する。 
 		/// </summary>
 		public void EndMenuBar()
 		{
@@ -3258,9 +3339,9 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// メニューの表示を開始する。 
 		/// </summary>
-		/// <param name="label"></param>
+		/// <param name="label">ラベル名 </param>
 		/// <returns></returns>
 		public bool BeginMenu(string label)
 		{
@@ -3268,7 +3349,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// メニューの表示を終了する。 
 		/// </summary>
 		public void EndMenu()
 		{
@@ -3276,11 +3357,11 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// メニューアイテムを表示する。 
 		/// </summary>
-		/// <param name="label"></param>
-		/// <param name="shortcut"></param>
-		/// <param name="p_selected"></param>
+		/// <param name="label">ラベル名 </param>
+		/// <param name="shortcut">ショートカット </param>
+		/// <param name="p_selected">選択されているか? </param>
 		/// <returns></returns>
 		public bool MenuItem(string label, string shortcut, bool[] p_selected)
 		{
@@ -3288,16 +3369,16 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 行数を設定する。 
 		/// </summary>
-		/// <param name="count"></param>
+		/// <param name="count">行数 </param>
 		public void Columns(int count)
 		{
 			CoreInstance.Columns(count);
 		}
 
 		/// <summary>
-		/// 
+		/// 次の行に移動する。 
 		/// </summary>
 		public void NextColumn()
 		{
@@ -3305,9 +3386,9 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 行の幅を取得する。 
 		/// </summary>
-		/// <param name="column_index"></param>
+		/// <param name="column_index">インデックス </param>
 		/// <returns></returns>
 		public float GetColumnWidth(int column_index)
 		{
@@ -3315,10 +3396,10 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 行の幅を設定する。 
 		/// </summary>
-		/// <param name="column_index"></param>
-		/// <param name="width"></param>
+		/// <param name="column_index">インデックス </param>
+		/// <param name="width">幅 </param>
 		public void SetColumnWidth(int column_index, float width)
 		{
 			CoreInstance.SetColumnWidth(column_index, width);
@@ -3355,10 +3436,10 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// フォルダを選択するダイアログを開く。 
 		/// </summary>
-		/// <param name="defaultPath"></param>
-		/// <returns></returns>
+		/// <param name="defaultPath">最初に表示するディレクトリのパス </param>
+		/// <returns>フォルダのパス </returns>
 		public string PickFolder(string defaultPath)
 		{
 			return CoreInstance.PickFolder(defaultPath);
@@ -3374,20 +3455,18 @@ namespace asd {
 			CoreInstance.AddFontFromFileTTF(filename, size_pixels);
 		}
 
-		/*
 		/// <summary>
-		/// 
+		/// ダイアログを表示する。 
 		/// </summary>
-		/// <param name="message"></param>
-		/// <param name="title"></param>
-		/// <param name="style"></param>
-		/// <param name="buttons"></param>
+		/// <param name="message">メッセージ </param>
+		/// <param name="title">タイトル </param>
+		/// <param name="style">ダイアログの種類 </param>
+		/// <param name="buttons">ボタンの種類 </param>
 		/// <returns></returns>
 		public ToolDialogSelection ShowDialog(string message, string title, ToolDialogStyle style, ToolDialogButtons buttons)
 		{
 			return (asd.ToolDialogSelection)CoreInstance.ShowDialog(message, title, (asd.swig.ToolDialogStyle)style, (asd.swig.ToolDialogButtons)buttons);
 		}
-		*/
 
 	}
 
