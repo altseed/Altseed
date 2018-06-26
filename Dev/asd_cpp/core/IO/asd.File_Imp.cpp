@@ -135,11 +135,7 @@ namespace asd
 				}
 				else
 				{
-					auto start = clock();
-					auto result = loader->LoadFromNonPackedRoot(path, root);
-					auto end = clock();
-					printf("File_Imp.CreateStaticFile: %d\n", (end - start));
-					return result;
+					return loader->LoadFromNonPackedRoot(path, root);
 				}
 			}
 		}

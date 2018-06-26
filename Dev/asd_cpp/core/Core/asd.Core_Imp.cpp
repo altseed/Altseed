@@ -207,6 +207,10 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	bool Core_Imp::Initialize(const achar* title, int32_t width, int32_t height, CoreOption option)
 	{
+#if DEBUG
+		printf("Debug版Altseedを使用しています\n");
+#endif
+
 		if (m_window != nullptr) return false;
 		if (m_keyboard != nullptr) return false;
 		if (m_mouse != nullptr) return false;
@@ -344,6 +348,10 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	bool Core_Imp::InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, CoreOption option)
 	{
+#if DEBUG
+		printf("Debug版Altseedを使用しています\n");
+#endif
+
 		if (m_window != nullptr) return false;
 		if (m_keyboard != nullptr) return false;
 		if (m_mouse != nullptr) return false;
