@@ -24,7 +24,7 @@ namespace unitTest_Engine_cs
 		//[STAThread]
 		static void Main(string[] args)
 		{
-			TestOnAllDevice(typeof(BugFix.LoadManyTexture));
+			TestOnAllDevice(typeof(IO.StaticFile_LoadAsync));
             Console.ReadKey();
 			return;
 

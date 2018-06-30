@@ -29,6 +29,11 @@ namespace unitTest_Engine_cs.IO
 				loadData = new List<byte>(buf);
 			}
 
+			AddTexture(new asd.Vector2DF(0, 0), "Data/Texture/Cloud1.png");
+			AddTexture(new asd.Vector2DF(150, 0), "Data/Texture/Sample1.png");
+			AddTexture(new asd.Vector2DF(300, 0), "Data/Texture/PainRpg.png");
+			AddTexture(new asd.Vector2DF(450, 0), "Data/Texture/PainRpgCopy.png");
+			AddTexture(new asd.Vector2DF(450, 0), "Data/Texture/HomeMenuItem.png");
 			staticFile = asd.Engine.File.CreateStaticFileAsync("Data/Texture/PainRpg.png");
 		}
 
@@ -52,11 +57,27 @@ namespace unitTest_Engine_cs.IO
 				}
 
 				isFinished = true;
+
+				AddTexture(new asd.Vector2DF(0, 0), "Data/Texture/Cloud1.png");
+				AddTexture(new asd.Vector2DF(150, 0), "Data/Texture/Sample1.png");
+				AddTexture(new asd.Vector2DF(300, 0), "Data/Texture/PainRpg.png");
+				AddTexture(new asd.Vector2DF(450, 0), "Data/Texture/PainRpgCopy.png");
+				AddTexture(new asd.Vector2DF(450, 0), "Data/Texture/HomeMenuItem.png");
 			}
-			else
+			else if(!isFinished)
 			{
 				Console.WriteLine("Loading...");
 			}
+		}
+
+		private void AddTexture(asd.Vector2DF position, string texturePath)
+		{
+			var obj = new asd.TextureObject2D()
+			{
+				Position = position,
+				Texture = asd.Engine.Graphics.CreateTexture2D(texturePath),
+			};
+			asd.Engine.AddObject2D(obj);
 		}
 	}
 }
