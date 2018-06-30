@@ -9,7 +9,8 @@ void Graphics_Empty(bool isOpenGLMode)
 	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(u"Empty").c_str(), NULL, false, asd::WindowPositionType::Default, isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11, asd::ColorSpaceType::LinearSpace, false);
 	ASSERT_TRUE(window != nullptr);
 
-	auto file = asd::File_Imp::Create();
+	auto synchronizer = std::make_shared<asd::Synchronizer>();
+	auto file = asd::File_Imp::Create(synchronizer);
 	ASSERT_TRUE(file != nullptr);
 
 	asd::GraphicsOption go;
