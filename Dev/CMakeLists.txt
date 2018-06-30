@@ -1,4 +1,4 @@
-﻿# Limit to Debug Release
+# Limit to Debug Release
 set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE TYPE INTERNAL FORCE )
 
 # Project name
@@ -23,8 +23,8 @@ endif()
 if (MSVC)
 	# Nothing
 else()
-	set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC -fpermissive" ${CMAKE_CXX_FLAGS})
-	set(CMAKE_C_FLAGS "-fPIC" ${CMAKE_C_FLAGS})
+	set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC -fpermissive ${CMAKE_CXX_FLAGS}")
+	set(CMAKE_C_FLAGS "-fPIC ${CMAKE_C_FLAGS}")
 
 endif()
 
@@ -45,14 +45,6 @@ INCLUDE(CMakeFiles.txt)
 
 add_subdirectory(asd_cpp/common/)
 add_subdirectory(asd_cpp/tool/)
-
-if (BUILD_TOOL)
-	add_subdirectory(ImagePackageGenerator/)
-endif()
-
-if (BUILD_TOOL_3D)
-	add_subdirectory(FBX2MDL/)
-endif()
 
 # ======== Core ========
 
@@ -421,3 +413,13 @@ install(
 # Tests
 add_subdirectory(unitTest_cpp_gtest/)
 add_subdirectory(unitTest_Engine_cpp_gtest/)
+
+# Tool
+if (BUILD_TOOL)
+	add_subdirectory(ImagePackageGenerator/)
+endif()
+
+if (BUILD_TOOL_3D)
+	add_subdirectory(FBX2MDL/)
+endif()
+

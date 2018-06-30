@@ -10,7 +10,8 @@ cmake_minimum_required(VERSION 2.8)
 if (MSVC)
 
 else()
-	set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC" ${CMAKE_CXX_FLAGS})
+	set(CMAKE_C_FLAGS "-std=c11 -fPIC ${CMAKE_C_FLAGS}")
+	set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC ${CMAKE_CXX_FLAGS}")
 endif()
 
 # ソースコード設定
@@ -27,6 +28,8 @@ set(src
 add_library( PSDParser SHARED ${src} )
 
 # フラグ処理
+if(MSVC)
+
 if (NOT USE_MSVC_RUNTIME_LIBRARY_DLL)
 	foreach (flag CMAKE_C_FLAGS
 		CMAKE_C_FLAGS_DEBUG
@@ -42,6 +45,8 @@ if (NOT USE_MSVC_RUNTIME_LIBRARY_DLL)
 			string(REGEX REPLACE "/MDd" "/MTd" ${flag} "${${flag}}")
 		endif()
 	endforeach()
+endif()
+
 endif()
 
 # 出力先の設定

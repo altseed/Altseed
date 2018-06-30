@@ -4,6 +4,7 @@ import datetime
 import makeDocumentHtml
 import os
 import os.path
+import sys
 
 versionNumber = '116'
 
@@ -40,9 +41,10 @@ def compile_tool():
 		aceutils.call(r'make install')
 		aceutils.cd(r'../../')
 
-		aceutils.call(aceutils.cmd_compile + r'xbuild /p:Configuration=Release;platform=x86 Dev/FontGenerator.sln')
-		aceutils.call(aceutils.cmd_compile + r'xbuild /p:Configuration=Release;platform=x86 Dev/FilePackageGenerator.sln')
-		aceutils.call(aceutils.cmd_compile + r'xbuild /p:Configuration=Release;platform=x86 Dev/ImagePackageGenerator.sln')	
+		aceutils.call(r'nuget restore Dev/FontGenerator.sln -PackagesDirectory Dev/FontGenerator/packages/')
+		aceutils.call(r'msbuild Dev/FontGenerator/FontGenerator.Altseed/FontGenerator.Altseed.csproj /p:Configuration=Release /p:Platform=x86')
+		aceutils.call(r'msbuild Dev/FilePackageGenerator/FilePackageGenerator.Altseed/FilePackageGenerator.Altseed.csproj /p:Configuration=Release /p:Platform=x86')
+		aceutils.call(r'msbuild Dev/ImagePackageGenerator/ImagePackageGenerator.csproj /p:Configuration=Release /p:Platform=x86')	
 
 def compile(type):
 	global leastCompileTarget
@@ -137,7 +139,7 @@ def release_common():
 def store_tools():
 	aceutils.cdToScript()
 	aceutils.cd(r'../')
-	aceutils.call(r'python Dev/generate_swig.py')
+	aceutils.call(sys.executable + r' Dev/generate_swig.py')
 
 	compile('cs')
 	compile_tool()
@@ -147,7 +149,7 @@ def store_tools():
 	aceutils.mkdir(toolDir)
 
 	aceutils.copy(r'Dev/bin/System.Reactive.dll', toolDir)
-	aceutils.copy(r'Dev/bin/System.Windows.Interactivity.dll', toolDir)
+	#aceutils.copy(r'Dev/bin/System.Windows.Interactivity.dll', toolDir)
 	aceutils.copy(r'Dev/bin/ReactiveProperty.dll', toolDir)
 	aceutils.copy(r'Dev/bin/ReactiveProperty.NET46.dll', toolDir)
 

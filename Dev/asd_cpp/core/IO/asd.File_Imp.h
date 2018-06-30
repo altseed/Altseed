@@ -6,8 +6,8 @@
 #include "asd.File.h"
 #include "asd.PackFile.h"
 #include "asd.FileHelper.h"
-#include "StaticFile\StaticFileLoader.h"
-#include "..\Utils\asd.Synchronizer.h"
+#include "StaticFile/StaticFileLoader.h"
+#include "../Utils/asd.Synchronizer.h"
 #include <string>
 #include <unordered_map>
 #include <unordered_set>

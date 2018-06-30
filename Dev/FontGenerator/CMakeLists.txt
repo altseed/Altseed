@@ -1,4 +1,4 @@
-﻿# Limit in Debug and Release
+# Limit in Debug and Release
 set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE TYPE INTERNAL FORCE )
 
 # Project name
@@ -10,7 +10,7 @@ cmake_minimum_required(VERSION 2.8)
 if (MSVC)
 
 else()
-	set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC" ${CMAKE_CXX_FLAGS})
+	set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC ${CMAKE_CXX_FLAGS}")
 endif()
 
 # Add codes
@@ -42,6 +42,8 @@ else()
 endif()
 
 # Set flag
+if(MSVC)
+
 if (NOT USE_MSVC_RUNTIME_LIBRARY_DLL)
 	foreach (flag CMAKE_C_FLAGS
 		CMAKE_C_FLAGS_DEBUG
@@ -57,6 +59,8 @@ if (NOT USE_MSVC_RUNTIME_LIBRARY_DLL)
 			string(REGEX REPLACE "/MDd" "/MTd" ${flag} "${${flag}}")
 		endif()
 	endforeach()
+endif()
+
 endif()
 
 # Set target
