@@ -3,8 +3,8 @@
 #include "asd.BaseFile.h"
 #include "asd.StaticFile_Imp.h"
 #include "asd.StreamFile_Imp.h"
-#include "StaticFile\BlockingStaticFileFactory.h"
-#include "StaticFile\AsyncStaticFileFactory.h"
+#include "StaticFile/BlockingStaticFileFactory.h"
+#include "StaticFile/AsyncStaticFileFactory.h"
 
 #include <array>
 #include <algorithm>

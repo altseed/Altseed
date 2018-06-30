@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilePackageGeneratorCore", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilePackageGenerator.Altseed", "FilePackageGenerator\FilePackageGenerator.Altseed\FilePackageGenerator.Altseed.csproj", "{277005BE-2AA4-43AD-9BD4-8FDA2862BA5C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "asd_cs", "asd_cs\asd_cs.csproj", "{93FA987A-48B8-45A4-9BAD-8518B2E20A54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -21,6 +23,10 @@ Global
 		{277005BE-2AA4-43AD-9BD4-8FDA2862BA5C}.Debug|x86.Build.0 = Debug|x86
 		{277005BE-2AA4-43AD-9BD4-8FDA2862BA5C}.Release|x86.ActiveCfg = Release|x86
 		{277005BE-2AA4-43AD-9BD4-8FDA2862BA5C}.Release|x86.Build.0 = Release|x86
+		{93FA987A-48B8-45A4-9BAD-8518B2E20A54}.Debug|x86.ActiveCfg = Debug|x86
+		{93FA987A-48B8-45A4-9BAD-8518B2E20A54}.Debug|x86.Build.0 = Debug|x86
+		{93FA987A-48B8-45A4-9BAD-8518B2E20A54}.Release|x86.ActiveCfg = Release|x86
+		{93FA987A-48B8-45A4-9BAD-8518B2E20A54}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
