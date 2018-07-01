@@ -417,6 +417,8 @@ add_subdirectory(unitTest_Engine_cpp_gtest/)
 # Tool
 if (BUILD_TOOL)
 	add_subdirectory(ImagePackageGenerator/)
+	set_target_properties(PSDParser PROPERTIES LIBRARY_OUTPUT_DIRECTORY "bin/" )
+
 endif()
 
 if (BUILD_TOOL_3D)
