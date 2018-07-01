@@ -52,19 +52,19 @@ class Joystick_Basic : ISample
                 {
                     var state = joystick.GetButtonState(buttonIndex);
 
-                    if(state == asd.JoystickButtonState.Free) //前フレームと本フレームで非押下
+                    if(state == asd.ButtonState.Free) //前フレームと本フレームで非押下
                     {
                             displayStr += ("ボタン " + buttonIndex + "を離しています。");
                     }
-                    else if(state == asd.JoystickButtonState.Hold) //前フレームと本フレームで押下
+                    else if(state == asd.ButtonState.Hold) //前フレームと本フレームで押下
                     {
                             displayStr += ("ボタン " + buttonIndex + "を押しています。");
                     }
-                    else if(state == asd.JoystickButtonState.Release) //前フレームで押下、本フレームで非押下
+                    else if(state == asd.ButtonState.Release) //前フレームで押下、本フレームで非押下
                     {
                             displayStr += ("ボタン " + buttonIndex + "を離しました!");
                     }
-                    else if(state == asd.JoystickButtonState.Push) //前フレームで非押下、本フレームで押下
+                    else if(state == asd.ButtonState.Push) //前フレームで非押下、本フレームで押下
                     {
                             displayStr += ("ボタン " + buttonIndex + "を押しました!");
                     }

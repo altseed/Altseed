@@ -34,7 +34,7 @@ public class Mouse_Click :ISample
         while (asd.Engine.DoEvents())
         {
             // 左ボタンが押されているかを表示する。
-            if (asd.Engine.Mouse.LeftButton.ButtonState == asd.MouseButtonState.Hold)
+            if (asd.Engine.Mouse.LeftButton.ButtonState == asd.ButtonState.Hold)
             {
                 stateText.Text = "左ボタンが押されています。";
             }

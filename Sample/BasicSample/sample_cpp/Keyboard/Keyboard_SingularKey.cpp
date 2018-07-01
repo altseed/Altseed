@@ -23,19 +23,19 @@ void Keyboard_SingularKey()
 		// キーボードのZキーの入力状態を取得する。
 		auto zstate = asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Z);
 
-		if (zstate == asd::KeyState::Free) // 前フレームと本フレームで非押下
+		if (zstate == asd::ButtonState::Free) // 前フレームと本フレームで非押下
 		{
 			keyStateText->SetText(asd::ToAString("Zキーを離しています。").c_str());
 		}
-		else if (zstate == asd::KeyState::Hold) // 前フレームと本フレームで押下
+		else if (zstate == asd::ButtonState::Hold) // 前フレームと本フレームで押下
 		{
 			keyStateText->SetText(asd::ToAString("Zキーを押しています。").c_str());
 		}
-		else if (zstate == asd::KeyState::Release) // 前フレームで押下、本フレームで非押下
+		else if (zstate == asd::ButtonState::Release) // 前フレームで押下、本フレームで非押下
 		{
 			keyStateText->SetText(asd::ToAString("Zキーを離しました!").c_str());
 		}
-		else if (zstate == asd::KeyState::Push) // 前フレームで非押下、本フレームで押下
+		else if (zstate == asd::ButtonState::Push) // 前フレームで非押下、本フレームで押下
 		{
 			keyStateText->SetText(asd::ToAString("Zキーを押しました!").c_str());
 		}

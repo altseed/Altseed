@@ -36,11 +36,11 @@ public class Keyboard_Basic :ISample
 
             var zstate = asd.Engine.Keyboard.GetKeyState(asd.Keys.Z);
 
-            if(zstate == asd.KeyState.Free) // Zキーを離している状態。
+            if(zstate == asd.ButtonState.Free) // Zキーを離している状態。
             {
                     keyStateText.Text = "Zキーを離しています。";
             }
-            else if(zstate == asd.KeyState.Hold) // Zキーを押している状態。
+            else if(zstate == asd.ButtonState.Hold) // Zキーを押している状態。
             {
                     keyStateText.Text = "Zキーを押しています。";
             }

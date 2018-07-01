@@ -72,10 +72,10 @@ class Action2D_Camera : ISample
 		while (asd.Engine.DoEvents())
 		{
 			// キャラクターを移動させる。
-			if (asd.Engine.Keyboard.GetKeyState(asd.Keys.Up) == asd.KeyState.Hold) charactor.Position = charactor.Position + new asd.Vector2DF(0, -2);
-			if (asd.Engine.Keyboard.GetKeyState(asd.Keys.Down) == asd.KeyState.Hold) charactor.Position = charactor.Position + new asd.Vector2DF(0, +2);
-			if (asd.Engine.Keyboard.GetKeyState(asd.Keys.Left) == asd.KeyState.Hold) charactor.Position = charactor.Position + new asd.Vector2DF(-2, 0);
-			if (asd.Engine.Keyboard.GetKeyState(asd.Keys.Right) == asd.KeyState.Hold) charactor.Position = charactor.Position + new asd.Vector2DF(+2, 0);
+			if (asd.Engine.Keyboard.GetKeyState(asd.Keys.Up) == asd.ButtonState.Hold) charactor.Position = charactor.Position + new asd.Vector2DF(0, -2);
+			if (asd.Engine.Keyboard.GetKeyState(asd.Keys.Down) == asd.ButtonState.Hold) charactor.Position = charactor.Position + new asd.Vector2DF(0, +2);
+			if (asd.Engine.Keyboard.GetKeyState(asd.Keys.Left) == asd.ButtonState.Hold) charactor.Position = charactor.Position + new asd.Vector2DF(-2, 0);
+			if (asd.Engine.Keyboard.GetKeyState(asd.Keys.Right) == asd.ButtonState.Hold) charactor.Position = charactor.Position + new asd.Vector2DF(+2, 0);
 
 			//カメラをキャラクターの位置に合わせる。
 			var pos = camera.Src;

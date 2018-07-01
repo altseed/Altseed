@@ -27,7 +27,7 @@
 				asd.Engine.Update();
 
 				// Escキーが押されていたら
-				if(asd.Engine.Keyboard.GetKeyState(asd.Keys.Escape) == asd.KeyState.Push)
+				if(asd.Engine.Keyboard.GetKeyState(asd.Keys.Escape) == asd.ButtonState.Push)
 				{
 					// ゲームループを抜ける
 					break;

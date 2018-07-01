@@ -46,7 +46,7 @@ void Object2DComponent_Custom()
 		// Altseedを更新する。
 		asd::Engine::Update();
 
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::P) == asd::KeyState::Push)
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::P) == asd::ButtonState::Push)
 		{
 			asd::Engine::TakeScreenshot(asd::ToAString("Object2DComponent.jpg").c_str());
 		}

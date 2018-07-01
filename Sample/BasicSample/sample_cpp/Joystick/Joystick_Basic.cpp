@@ -39,19 +39,19 @@ void Joystick_Basic()
 			for (int buttonIndex = 0; buttonIndex < joystick->GetButtonsCount(); ++buttonIndex)
 			{
 				auto state = joystick->GetButtonState(buttonIndex);
-				if (state == asd::JoystickButtonState::Free) //前フレームと本フレームで非押下
+				if (state == asd::ButtonState::Free) //前フレームと本フレームで非押下
 				{
 					displayStr += asd::ToAString(("ボタン " + std::to_string(buttonIndex) + "を離しています。").c_str());
 				}
-				else if (state == asd::JoystickButtonState::Hold) //前フレームと本フレームで押下
+				else if (state == asd::ButtonState::Hold) //前フレームと本フレームで押下
 				{
 					displayStr += asd::ToAString(("ボタン " + std::to_string(buttonIndex) + "を押しています。").c_str());
 				}
-				else if (state == asd::JoystickButtonState::Release) //前フレームで押下、本フレームで非押下
+				else if (state == asd::ButtonState::Release) //前フレームで押下、本フレームで非押下
 				{
 					displayStr += asd::ToAString(("ボタン " + std::to_string(buttonIndex) + "を離しました!").c_str());
 				}
-				else if (state == asd::JoystickButtonState::Push) //前フレームで非押下、本フレームで押下
+				else if (state == asd::ButtonState::Push) //前フレームで非押下、本フレームで押下
 				{
 					displayStr += asd::ToAString(("ボタン " + std::to_string(buttonIndex) + "を押しました!").c_str());
 				}

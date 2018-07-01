@@ -42,19 +42,19 @@ void Joystick_GamePad()
 			auto joystick = asd::Engine::GetJoystickContainer()->GetJoystickAt(0);
 
 			auto state = joystick->GetButtonStateAt(asd::JoystickButtonType::RightRight);
-			if (state == asd::JoystickButtonState::Free) //前フレームと本フレームで非押下
+			if (state == asd::ButtonState::Free) //前フレームと本フレームで非押下
 			{
 				displayStr += u"ボタンを離しています。";
 			}
-			else if (state == asd::JoystickButtonState::Hold) //前フレームと本フレームで押下
+			else if (state == asd::ButtonState::Hold) //前フレームと本フレームで押下
 			{
 				displayStr += u"ボタンを押しています。";
 			}
-			else if (state == asd::JoystickButtonState::Release) //前フレームで押下、本フレームで非押下
+			else if (state == asd::ButtonState::Release) //前フレームで押下、本フレームで非押下
 			{
 				displayStr += u"ボタンを離しました!";
 			}
-			else if (state == asd::JoystickButtonState::Push) //前フレームで非押下、本フレームで押下
+			else if (state == asd::ButtonState::Push) //前フレームで非押下、本フレームで押下
 			{
 				displayStr += u"ボタンを押しました!";
 			}

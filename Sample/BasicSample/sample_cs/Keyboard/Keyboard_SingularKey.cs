@@ -36,19 +36,19 @@ public class Keyboard_SingularKey : ISample
 
             var zstate = asd.Engine.Keyboard.GetKeyState(asd.Keys.Z);
 
-            if(zstate == asd.KeyState.Free) // 前フレームと本フレームで非押下
+            if(zstate == asd.ButtonState.Free) // 前フレームと本フレームで非押下
             {
                 keyStateText.Text = "Zキーを離しています。";
             }
-            else if(zstate == asd.KeyState.Hold) // 前フレームと本フレームで押下
+            else if(zstate == asd.ButtonState.Hold) // 前フレームと本フレームで押下
             {
                 keyStateText.Text = "Zキーを押しています。";
             }
-            else if(zstate == asd.KeyState.Release) // 前フレームで押下、本フレームで非押下
+            else if(zstate == asd.ButtonState.Release) // 前フレームで押下、本フレームで非押下
             {
                 keyStateText.Text = "Zキーを離しました!";
             }
-            else if(zstate == asd.KeyState.Push) // 前フレームで非押下、本フレームで押下
+            else if(zstate == asd.ButtonState.Push) // 前フレームで非押下、本フレームで押下
             {
                 keyStateText.Text = "Zキーを押しました!";
             }
