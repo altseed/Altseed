@@ -2,11 +2,11 @@
 
 in vec3 Pos;
 in vec2 UV;
+in vec2 UVSubA;
 in vec4 Color;
 
-#ifdef HAS_TEXTURE
 out vec4 vaTexCoord;
-#endif
+out vec4 vaTexCoordSubA;
 
 out vec4 vaColor;
 
@@ -22,9 +22,9 @@ void main()
 	gl_Position.z = 0.5;
 	gl_Position.w = 1.0;
 
-#ifdef HAS_TEXTURE
 	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);
-#endif
+	vaTexCoordSubA = vec4(UVSubA.x,UVSubA.y,0.0,0.0);
+
 	vaColor = Color;
 }
 

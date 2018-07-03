@@ -32,6 +32,7 @@ namespace asd {
 		{
 			Vector3DF	Pos;
 			Vector2DF	UV;
+			Vector2DF	UVSub1;
 			Color		Color_;
 
 			Vertex() {}

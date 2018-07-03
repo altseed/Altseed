@@ -365,7 +365,21 @@ namespace asd
             return ret;
         }
 
-        internal static Material3D GenerateMaterial3D(swig.Material3D o, GenerationType type)
+		internal static Material2D GenerateMaterial2D(swig.Material2D o, GenerationType type)
+		{
+			if (o == null) return null;
+			var p = o.GetPtr();
+
+			var existing = GC.Material2Ds.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new Material2D(o);
+			GC.Material2Ds.AddObject(p, ret);
+			return ret;
+		}
+
+		internal static Material3D GenerateMaterial3D(swig.Material3D o, GenerationType type)
         {
             if (o == null) return null;
             var p = o.GetPtr();

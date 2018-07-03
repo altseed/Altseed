@@ -8,9 +8,8 @@ SamplerState	g_sampler		: register( s0 );
 struct PS_Input
 {
 	float4 Pos		: SV_POSITION;
-#ifdef HAS_TEXTURE
 	float2 UV		: TEXCOORD0;
-#endif
+	float2 UVSubA	: TEXCOORD1;
 	float4 Color	: COLOR0;
 };
 

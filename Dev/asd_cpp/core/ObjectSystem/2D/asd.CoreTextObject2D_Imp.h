@@ -23,6 +23,10 @@ namespace asd
 	private:
 		WritingDirection m_writingDirection;
 		Font* m_font;
+		
+		Material2D*	m_material = nullptr;
+		bool	m_isRichTextMode = false;
+
 		Vector2DF m_centerPosition;
 		bool m_turnLR;
 		bool m_turnUL;
@@ -36,6 +40,12 @@ namespace asd
 #pragma region Parameter
 		Font* GetFont() const override;
 		void SetFont(Font* font) override;
+
+		bool GetIsRichTextMode() override;
+		void SetIsRichTextMode(bool value) override;
+
+		Material2D* GetMaterial() const override;
+		void SetMaterial(Material2D* material) override;
 
 		WritingDirection GetWritingDirection() const override;
 		void SetWritingDirection(WritingDirection writingDirection) override;
