@@ -207,6 +207,24 @@ namespace asd
 			}
 		}
 
+		/// <summary>
+		/// このオブジェクトを描画する際に使用されるマテリアルを取得、または設定する。
+		/// </summary>
+		public Material2D Material
+		{
+			get
+			{
+				ThrowIfReleased();
+				return GC.GenerateMaterial2D(renderedObject.GetMaterial(), GenerationType.Get);
+			}
+
+			set
+			{
+				ThrowIfReleased();
+				renderedObject.SetMaterial(value.CoreInstance);
+			}
+		}
+
 		internal override swig.CoreObject2D CoreObject
 		{
 			get { return renderedObject; }

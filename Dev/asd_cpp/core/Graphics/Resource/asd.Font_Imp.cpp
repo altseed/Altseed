@@ -317,9 +317,22 @@ namespace asd {
 		return m_glyphs.find(c) != m_glyphs.end();
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
+	Texture2D* Font_Imp::GetImageGlyph(char16_t c)
+	{
+		auto imageGlyph = m_imageGlyphs.find(c);
+		if (imageGlyph == m_imageGlyphs.end()) return nullptr;
+		return (*imageGlyph).second.get();
+	}
+
+	void Font_Imp::AddImageGlyph(const achar* c, Texture2D* texture)
+	{
+		if (texture == nullptr) return;
+
+		SafeAddRef(texture);
+		auto image = CreateSharedPtrWithReleaseDLL(texture);
+		m_imageGlyphs[c[0]] = image;
+	}
+
 	void Font_Imp::Reload(const achar* affFilePathChar, std::vector<uint8_t> data)
 	{
 		if (isDynamic) return;

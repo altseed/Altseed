@@ -125,4 +125,26 @@ namespace asd
 	{
 		return m_coreObject->GetLineSpacing();
 	}
+
+	bool TextObject2D::GetIsRichTextMode() const
+	{
+		return m_coreObject->GetIsRichTextMode();
+	}
+
+	void TextObject2D::SetIsRichTextMode(bool value)
+	{
+		m_coreObject->SetIsRichTextMode(value);
+	}
+
+	std::shared_ptr<Material2D> TextObject2D::GetMaterial()
+	{
+		auto mat = m_coreObject->GetMaterial();
+		SafeAddRef(mat);
+		return CreateSharedPtrWithReleaseDLL(mat);
+	}
+
+	void TextObject2D::SetMaterial(const std::shared_ptr<Material2D>& material)
+	{
+		m_coreObject->SetMaterial(material.get());
+	}
 }
