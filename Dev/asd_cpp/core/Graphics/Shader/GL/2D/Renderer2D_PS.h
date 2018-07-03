@@ -1,8 +1,7 @@
 ﻿static const char* renderer2d_ps_gl = R"(
 
-#ifdef HAS_TEXTURE
 in vec4 vaTexCoord;
-#endif
+in vec4 vaTexCoordSub1;
 in vec4 vaColor;
 
 out vec4 outColor;

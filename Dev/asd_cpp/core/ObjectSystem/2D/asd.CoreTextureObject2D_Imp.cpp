@@ -3,6 +3,8 @@
 #include "asd.CoreTextureObject2D_Imp.h"
 #include <array>
 #include "asd.Culling2D.h"
+#include "../../Graphics/Resource/asd.Material2D.h"
+#include "../../Graphics/Resource/asd.Shader2D.h"
 
 namespace asd
 {
@@ -31,6 +33,16 @@ namespace asd
 
 
 #pragma region Paramater
+	Material2D* CoreTextureObject2D_Imp::GetMaterial() const
+	{
+		return m_material;
+	}
+
+	void CoreTextureObject2D_Imp::SetMaterial(Material2D* material)
+	{
+		SafeSubstitute(m_material, material);
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -250,13 +262,30 @@ namespace asd
 			std::swap(uvs[1], uvs[2]);
 		}
 
-		renderer->AddSprite(
-			position.data(),
-			color,
-			uvs.data(),
-			m_texture,
-			m_alphablend,
-			GetAbsoluteDrawingPriority(),
-			m_textureFilterType);
+		if (m_material != nullptr)
+		{
+			renderer->AddSpriteWithMaterial(
+				position.data(),
+				color,
+				uvs.data(),
+				uvs.data(),
+				m_texture,
+				m_material,
+				m_alphablend,
+				GetAbsoluteDrawingPriority(),
+				m_textureFilterType);
+		}
+		else
+		{
+			renderer->AddSprite(
+				position.data(),
+				color,
+				uvs.data(),
+				m_texture,
+				m_alphablend,
+				GetAbsoluteDrawingPriority(),
+				m_textureFilterType);
+
+		}
 	}
 }

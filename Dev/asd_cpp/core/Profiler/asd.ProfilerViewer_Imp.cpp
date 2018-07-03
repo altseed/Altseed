@@ -307,7 +307,8 @@ namespace asd
 			AlphaBlendMode::Blend,
 			1,
 			0,
-			0);
+			0,
+			false);
 	}
 
 }

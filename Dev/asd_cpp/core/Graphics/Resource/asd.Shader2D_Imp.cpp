@@ -16,6 +16,7 @@ struct VS_Input
 {
 	float3 Pos		: Pos0;
 	float2 UV		: UV0;
+	float2 UVSub1	: UV1;
 	float4 Color	: COLOR0;
 };
 
@@ -24,6 +25,7 @@ struct VS_Output
 	float4 SV_Position	: SV_POSITION;
 	float4 Position		: POSITION;
 	float2 UV			: UV;
+	float2 UVSub1		: UV1;
 	float4 Color		: COLOR;
 };
 
@@ -33,6 +35,7 @@ VS_Output main( const VS_Input Input )
 	Output.SV_Position = float4( Input.Pos.x, Input.Pos.y, Input.Pos.z, 1.0 );
 	Output.Position = float4( Input.Pos.x, Input.Pos.y, Input.Pos.z, 1.0 );
 	Output.UV = Input.UV;
+	Output.UVSub1 = Input.UVSub1;
 	Output.Color = Input.Color;
 	return Output;
 }
@@ -43,10 +46,12 @@ static const char* shader2d_gl_vs = R"(
 
 in vec3 Pos;
 in vec2 UV;
+in vec2 UVSub1;
 in vec4 Color;
 
 out vec4 inPosition;
 out vec2 inUV;
+out vec2 inUVSub1;
 out vec4 inColor;
 
 void main()
@@ -54,10 +59,12 @@ void main()
 	gl_Position = vec4(Pos.x,Pos.y,Pos.z,1.0);
 	inPosition = gl_Position;
 	inUV = UV;
+	inUVSub1 = UVSub1;
 	inColor = Color;
 
 	// gl only
 	inUV.y = 1.0 - inUV.y;
+	inUVSub1.y = 1.0 - inUVSub1.y;
 }
 
 )";
@@ -136,6 +143,7 @@ gl_FragColor = texture2D(g_texture, inUV.xy);
 		std::vector<asd::VertexLayout> vl;
 		vl.push_back(asd::VertexLayout("Pos", asd::VertexLayoutFormat::R32G32B32_FLOAT));
 		vl.push_back(asd::VertexLayout("UV", asd::VertexLayoutFormat::R32G32_FLOAT));
+		vl.push_back(asd::VertexLayout("UVSub1", asd::VertexLayoutFormat::R32G32_FLOAT));
 		vl.push_back(asd::VertexLayout("Color", asd::VertexLayoutFormat::R8G8B8A8_UNORM));
 
 		std::vector<asd::Macro> macro;
@@ -183,6 +191,7 @@ gl_FragColor = texture2D(g_texture, inUV.xy);
 		std::vector<asd::VertexLayout> vl;
 		vl.push_back(asd::VertexLayout("Pos", asd::VertexLayoutFormat::R32G32B32_FLOAT));
 		vl.push_back(asd::VertexLayout("UV", asd::VertexLayoutFormat::R32G32_FLOAT));
+		vl.push_back(asd::VertexLayout("UVSub1", asd::VertexLayoutFormat::R32G32_FLOAT));
 		vl.push_back(asd::VertexLayout("Color", asd::VertexLayoutFormat::R8G8B8A8_UNORM));
 
 		std::vector<asd::Macro> macro;

@@ -4,16 +4,15 @@ struct VS_Input
 {
 	float3 Pos		: Pos0;
 	float2 UV		: UV0;
+	float2 UVSub1	: UV1;
 	float4 Color	: COLOR0;
 };
 
 struct VS_Output
 {
 	float4 Pos		: SV_POSITION;
-
-#ifdef HAS_TEXTURE
 	float2 UV		: TEXCOORD0;
-#endif
+	float2 UVSub1	: TEXCOORD1;
 	float4 Color	: COLOR0;
 };
 
@@ -30,9 +29,9 @@ VS_Output main( const VS_Input Input )
 	Output.Pos.z = 0.5;
 	Output.Pos.w = 1.0;
 
-#ifdef HAS_TEXTURE
 	Output.UV = Input.UV;
-#endif
+	Output.UVSub1 = Input.UVSub1;
+
 	Output.Color = Input.Color;
 	return Output;
 }

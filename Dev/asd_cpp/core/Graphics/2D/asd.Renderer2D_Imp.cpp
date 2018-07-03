@@ -46,6 +46,14 @@
 //----------------------------------------------------------------------------------
 namespace asd {
 
+	static int32_t to_number(char16_t c1)
+	{
+		if (u'0' < c1 && c1 <= u'9') return c1 - u'0';
+		if (u'a' < c1 && c1 <= u'f') return c1 - u'a';
+		if (u'A' < c1 && c1 <= u'F') return c1 - u'A';
+		return 0;
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -95,6 +103,7 @@ namespace asd {
 		std::vector<asd::VertexLayout> vl;
 		vl.push_back(asd::VertexLayout("Pos", asd::VertexLayoutFormat::R32G32B32_FLOAT));
 		vl.push_back(asd::VertexLayout("UV", asd::VertexLayoutFormat::R32G32_FLOAT));
+		vl.push_back(asd::VertexLayout("UVSub1", asd::VertexLayoutFormat::R32G32_FLOAT));
 		vl.push_back(asd::VertexLayout("Color", asd::VertexLayoutFormat::R8G8B8A8_UNORM));
 
 		std::vector<asd::Macro> macro_tex;
@@ -263,27 +272,6 @@ namespace asd {
 		}
 	}
 
-	void Renderer2D_Imp::AddSpriteWithMaterial(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Material2D* material, AlphaBlendMode alphaBlend, int32_t priority)
-	{
-		Event e;
-		e.Type = Event::EventType::Sprite;
-
-		memcpy(e.Data.Sprite.Positions, positions, sizeof(asd::Vector2DF) * 4);
-		memcpy(e.Data.Sprite.Colors, colors, sizeof(asd::Color) * 4);
-		memcpy(e.Data.Sprite.UV, uv, sizeof(asd::Vector2DF) * 4);
-		e.Data.Sprite.AlphaBlendState = alphaBlend;
-		e.Data.Sprite.TexturePtr = nullptr;
-		e.Data.Sprite.Material2DPtr = material;
-
-		SafeAddRef(e.Data.Sprite.TexturePtr);
-		SafeAddRef(e.Data.Sprite.Material2DPtr);
-
-		AddEvent(priority, e);
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	void Renderer2D_Imp::AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority, TextureFilterType filter, TextureWrapType wrap)
 	{
 		Event e;
@@ -305,7 +293,33 @@ namespace asd {
 		AddEvent(priority, e);
 	}
 
-	void Renderer2D_Imp::AddText(Matrix33& parentMatrix, Matrix33& matrix, Vector2DF centerPosition, bool turnLR, bool turnUL, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int32_t priority, float lineSpacing, float letterSpacing, TextureFilterType filter, TextureWrapType wrap)
+	void Renderer2D_Imp::AddSpriteWithMaterial(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Vector2DF uvSub1[4], Texture2D* texture, Material2D* material, AlphaBlendMode alphaBlend, int32_t priority, TextureFilterType filter, TextureWrapType wrap)
+	{
+		Event e;
+		e.Type = Event::EventType::Sprite;
+
+		memcpy(e.Data.Sprite.Positions, positions, sizeof(asd::Vector2DF) * 4);
+		memcpy(e.Data.Sprite.Colors, colors, sizeof(asd::Color) * 4);
+		memcpy(e.Data.Sprite.UV, uv, sizeof(asd::Vector2DF) * 4);
+		memcpy(e.Data.Sprite.UVSub1, uvSub1, sizeof(asd::Vector2DF) * 4);
+		e.Data.Sprite.AlphaBlendState = alphaBlend;
+		e.Data.Sprite.TexturePtr = texture;
+		e.Data.Sprite.Material2DPtr = material;
+		e.Data.Sprite.Filter = filter;
+		e.Data.Sprite.Wrap = wrap;
+
+		SafeAddRef(e.Data.Sprite.TexturePtr);
+		SafeAddRef(e.Data.Sprite.Material2DPtr);
+
+		AddEvent(priority, e);
+	}
+
+	void Renderer2D_Imp::AddText(Matrix33& parentMatrix, Matrix33& matrix, Vector2DF centerPosition, bool turnLR, bool turnUL, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int32_t priority, float lineSpacing, float letterSpacing, bool isRichTextMode, TextureFilterType filter, TextureWrapType wrap)
+	{
+		AddTextWithMaterial(parentMatrix, matrix, centerPosition, turnLR, turnUL, color, font, text, nullptr, writingDirection, alphaBlend, priority, lineSpacing, letterSpacing, isRichTextMode, filter, wrap);
+	}
+
+	void Renderer2D_Imp::AddTextWithMaterial(Matrix33& parentMatrix, Matrix33& matrix, Vector2DF centerPosition, bool turnLR, bool turnUL, Color color, Font* font, const achar* text, Material2D* material, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int32_t priority, float lineSpacing, float letterSpacing, bool isRichTextMode, TextureFilterType filter, TextureWrapType wrap)
 	{
 		Vector2DF drawPosition = Vector2DF(0, 0);
 
@@ -321,15 +335,48 @@ namespace asd {
 		font_Imp->AddCharactorsDynamically(text);
 		font_Imp->UpdateTextureDynamically();
 
+		auto textSize = font_Imp->CalcTextureSize(text, writingDirection);
+
 		for (int textIndex = 0;; ++textIndex)
 		{
 			if (text[textIndex] == 0) break;
 
-			if (text[textIndex] != '\n' && !font_Imp->HasGlyphData(text[textIndex]))
+			if (isRichTextMode)
 			{
-				continue;
+				if (text[textIndex] == u'\\')
+				{
+					auto currentText = std::u16string(text + textIndex);
+
+					if (text[textIndex + 1] == u'\\')
+					{
+						// backslash x 2
+						textIndex++;
+					}
+					else if (currentText[1] == u'c' && currentText.size() > 10)
+					{
+						// backslash + c
+						textIndex += 2;
+
+						// load color
+						auto r = to_number(currentText[2]) * 16 + to_number(currentText[3]);
+						auto g = to_number(currentText[4]) * 16 + to_number(currentText[5]);
+						auto b = to_number(currentText[6]) * 16 + to_number(currentText[7]);
+						auto a = to_number(currentText[8]) * 16 + to_number(currentText[9]);
+
+						for (auto& c : colors)
+						{
+							c = Color(r, g, b, a);
+						}
+
+						textIndex += 8;
+					}
+				}
 			}
-			else if (text[textIndex] == '\n')
+
+			RectI glyphSrc;
+			Texture2D* texture;
+
+			if (text[textIndex] == '\n')
 			{
 				if (writingDirection == WritingDirection::Horizontal)
 				{
@@ -345,16 +392,22 @@ namespace asd {
 
 				continue;
 			}
-
-			const GlyphData glyphData = font_Imp->GetGlyphData(text[textIndex]);
-			auto texture = font_Imp->GetTexture(glyphData.GetSheetNum());
-
+			else if (font_Imp->HasGlyphData(text[textIndex]))
+			{
+				auto glyphData = font_Imp->GetGlyphData(text[textIndex]);
+				glyphSrc = glyphData.GetSrc();
+				texture = font_Imp->GetTexture(glyphData.GetSheetNum()).get();;
+			}
+			else if(font_Imp->GetImageGlyph(text[textIndex]) != nullptr)
+			{
+				texture = font_Imp->GetImageGlyph(text[textIndex]);
+				glyphSrc = RectI(0, 0, texture->GetSize().X, texture->GetSize().Y);
+			}
+			
 			if (texture == nullptr)
 			{
 				continue;
 			}
-
-			const auto glyphSrc = glyphData.GetSrc();
 
 			std::array<Vector2DF, 4> position;
 
@@ -401,8 +454,21 @@ namespace asd {
 					std::swap(uvs.at(1), uvs.at(2));
 				}
 			}
+			
+			std::array<Vector2DF, 4> uv_sub1s;
+			{
+				uv_sub1s.at(0) = Vector2DF(drawPosition.X, drawPosition.Y);
+				uv_sub1s.at(1) = Vector2DF(drawPosition.X + glyphSrc.Width, drawPosition.Y);
+				uv_sub1s.at(2) = Vector2DF(drawPosition.X + glyphSrc.Width, drawPosition.Y + glyphSrc.Height);
+				uv_sub1s.at(3) = Vector2DF(drawPosition.X, drawPosition.Y + glyphSrc.Height);
 
-			AddSprite(position.data(), &colors[0], uvs.data(), texture.get(), alphaBlend, priority, filter, wrap);
+				for (auto& uv : uv_sub1s)
+				{
+					uv /= textSize.To2DF();
+				}
+			}
+
+			AddSpriteWithMaterial(position.data(), &colors[0], uvs.data(), uv_sub1s.data(), texture, material, alphaBlend, priority, filter, wrap);
 
 			if (writingDirection == WritingDirection::Horizontal)
 			{
@@ -554,6 +620,8 @@ namespace asd {
 				buf[ind + i].Position.Z = 0.5f;
 				buf[ind + i].UV.X = e->Data.Sprite.UV[i].X;
 				buf[ind + i].UV.Y = e->Data.Sprite.UV[i].Y;
+				buf[ind + i].UVSub1.X = e->Data.Sprite.UVSub1[i].X;
+				buf[ind + i].UVSub1.Y = e->Data.Sprite.UVSub1[i].Y;
 
 				if (m_graphics->GetOption().ColorSpace == ColorSpaceType::GammaSpace)
 				{
@@ -635,6 +703,11 @@ namespace asd {
 		{
 			shader->SetTexture("g_texture", m_state.TexturePtr, m_state.Filter, m_state.Wrap, 0);
 		}
+		else if (m_state.Material2DPtr != nullptr && m_state.TexturePtr != nullptr)
+		{
+
+		}
+
 		m_graphics->SetVertexBuffer(m_vertexBuffer.get());
 		m_graphics->SetIndexBuffer(m_indexBuffer.get());
 		m_graphics->SetShader(shader);

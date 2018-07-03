@@ -16,6 +16,14 @@ namespace asd
 		CoreTextObject2D() {}
 		virtual ~CoreTextObject2D() {}
 
+		virtual bool GetIsRichTextMode() = 0;
+
+		virtual void SetIsRichTextMode(bool value) = 0;
+
+		virtual Material2D* GetMaterial() const = 0;
+
+		virtual void SetMaterial(Material2D* material) = 0;
+
 		/**
 		@brief	このオブジェクトを描画する際の描画方向を取得する。
 		*/

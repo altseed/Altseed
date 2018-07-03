@@ -39,6 +39,7 @@ namespace asd {
 
 		std::vector<std::shared_ptr<Texture2D>> m_textures;
 		std::map<achar, GlyphData> m_glyphs;
+		std::map<char16_t, std::shared_ptr<Texture2D>>	m_imageGlyphs;
 
 		public:
 
@@ -88,6 +89,10 @@ namespace asd {
 
 		GlyphData GetGlyphData(achar c);
 		bool HasGlyphData(achar c) const;
+
+		Texture2D* GetImageGlyph(char16_t c);
+		
+		void AddImageGlyph(const achar* c, Texture2D* texture);
 
 		// リロード
 		void Reload(const achar* affFilePathChar, std::vector<uint8_t> data);
