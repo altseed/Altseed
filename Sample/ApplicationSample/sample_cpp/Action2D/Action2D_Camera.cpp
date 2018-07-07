@@ -5,7 +5,7 @@
 void Action2D_Camera()
 {
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("Action2D_Camera").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(u"Action2D_Camera", 640, 480, asd::EngineOption());
 
 	// カメラを設定する。
 	auto camera = std::make_shared<asd::CameraObject2D>();
@@ -20,7 +20,7 @@ void Action2D_Camera()
 		// マップオブジェクトを生成する。
 		auto mapObject = std::make_shared<asd::MapObject2D>();
 	
-		auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Chip1.png").c_str());
+		auto texture = asd::Engine::GetGraphics()->CreateTexture2D(u"Data/Texture/Chip1.png");
 	
 		// マップオブジェクトに50*50=2500個のチップを登録する。
 		for (int i = 0; i < 50; ++i)
@@ -58,10 +58,10 @@ void Action2D_Camera()
 	while (asd::Engine::DoEvents())
 	{
 		// キャラクターを移動させる。
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Up) == asd::KeyState::Hold) charactor->SetPosition(charactor->GetPosition() + asd::Vector2DF(0, -2));
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Down) == asd::KeyState::Hold) charactor->SetPosition(charactor->GetPosition() + asd::Vector2DF(0, +2));
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Left) == asd::KeyState::Hold) charactor->SetPosition(charactor->GetPosition() + asd::Vector2DF(-2, 0));
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Right) == asd::KeyState::Hold) charactor->SetPosition(charactor->GetPosition() + asd::Vector2DF(+2, 0));
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Up) == asd::ButtonState::Hold) charactor->SetPosition(charactor->GetPosition() + asd::Vector2DF(0, -2));
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Down) == asd::ButtonState::Hold) charactor->SetPosition(charactor->GetPosition() + asd::Vector2DF(0, +2));
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Left) == asd::ButtonState::Hold) charactor->SetPosition(charactor->GetPosition() + asd::Vector2DF(-2, 0));
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Right) == asd::ButtonState::Hold) charactor->SetPosition(charactor->GetPosition() + asd::Vector2DF(+2, 0));
 
 		//カメラをキャラクターの位置に合わせる。
 		auto pos = camera->GetSrc();

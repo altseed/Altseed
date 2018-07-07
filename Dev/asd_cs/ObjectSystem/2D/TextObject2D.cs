@@ -269,5 +269,41 @@ namespace asd
 				coreTextObject.SetTextureFilterType((swig.TextureFilterType)value);
 			}
 		}
+
+		/// <summary>
+		/// このオブジェクトを描画する際に使用されるマテリアルを取得、または設定する。
+		/// </summary>
+		public Material2D Material
+		{
+			get
+			{
+				ThrowIfReleased();
+				return GC.GenerateMaterial2D(coreTextObject.GetMaterial(), GenerationType.Get);
+			}
+
+			set
+			{
+				ThrowIfReleased();
+				coreTextObject.SetMaterial(value.CoreInstance);
+			}
+		}
+
+		/// <summary>
+		/// 文字の色等を変更できるモードか、取得、または設定する。
+		/// </summary>
+		public bool IsRichTextMode
+		{
+			get
+			{
+				ThrowIfReleased();
+				return coreTextObject.GetIsRichTextMode();
+			}
+
+			set
+			{
+				ThrowIfReleased();
+				coreTextObject.SetIsRichTextMode(value);
+			}
+		}
 	}
 }

@@ -3,6 +3,8 @@
 #include "asd.CoreTextObject2D_Imp.h"
 #include "../../Graphics/Resource/asd.Font_Imp.h"
 #include "../../Graphics/Resource/asd.Texture2D_Imp.h"
+#include "../../Graphics/Resource/asd.Material2D.h"
+#include "../../Graphics/Resource/asd.Shader2D.h"
 
 #ifdef WIN32
 #ifdef min
@@ -54,6 +56,27 @@ namespace asd
 		SafeSubstitute(m_font, font);
 		SetCullingUpdate(this);
 	}
+
+	bool CoreTextObject2D_Imp::GetIsRichTextMode()
+	{
+		return m_isRichTextMode;
+	}
+
+	void CoreTextObject2D_Imp::SetIsRichTextMode(bool value)
+	{
+		m_isRichTextMode = value;
+	}
+
+	Material2D* CoreTextObject2D_Imp::GetMaterial() const
+	{
+		return m_material;
+	}
+
+	void CoreTextObject2D_Imp::SetMaterial(Material2D* material)
+	{
+		SafeSubstitute(m_material, material);
+	}
+
 
 	//----------------------------------------------------------------------------------
 	//
@@ -270,21 +293,44 @@ namespace asd
 		auto inheritedColor = m_parentInfo != nullptr ? m_parentInfo->GetInheritedColor() : Color(255, 255, 255, 255);
 		auto inheritedDrawingPriority = m_parentInfo != nullptr ? m_parentInfo->GetInheritedDrawingPriority() : 0;
 
-		renderer->AddText(
-			parentMatrix,
-			matrix,
-			m_centerPosition,
-			m_turnLR,
-			m_turnUL,
-			GetAbsoluteColor(),
-			m_font,
-			m_text.c_str(),
-			m_writingDirection,
-			m_alphablend,
-			GetAbsoluteDrawingPriority(),
-			m_lineSpacing,
-			m_letterSpacing,
-			m_textureFilterType);
+		if (m_material != nullptr)
+		{
+			renderer->AddText(
+				parentMatrix,
+				matrix,
+				m_centerPosition,
+				m_turnLR,
+				m_turnUL,
+				GetAbsoluteColor(),
+				m_font,
+				m_text.c_str(),
+				m_writingDirection,
+				m_alphablend,
+				GetAbsoluteDrawingPriority(),
+				m_lineSpacing,
+				m_letterSpacing,
+				m_isRichTextMode,
+				m_textureFilterType);
+		}
+		else
+		{
+			renderer->AddText(
+				parentMatrix,
+				matrix,
+				m_centerPosition,
+				m_turnLR,
+				m_turnUL,
+				GetAbsoluteColor(),
+				m_font,
+				m_text.c_str(),
+				m_writingDirection,
+				m_alphablend,
+				GetAbsoluteDrawingPriority(),
+				m_lineSpacing,
+				m_letterSpacing,
+				m_isRichTextMode,
+				m_textureFilterType);
+		}
 	}
 
 	//----------------------------------------------------------------------------------

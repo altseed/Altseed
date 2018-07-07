@@ -21,7 +21,7 @@ class Transition_Fade_Scene2 : asd.Scene
 	protected override void OnUpdated()
 	{
 		// マウスの左ボタンが押されるのを待つ。
-		if(asd.Engine.Mouse.LeftButton.ButtonState == asd.MouseButtonState.Push)
+		if(asd.Engine.Mouse.LeftButton.ButtonState == asd.ButtonState.Push)
 		{
 			// フェードアウト・インによるシーン遷移を開始する。
 			// 1秒かけてフェードアウトし、1.5秒かけてフェードイン。
@@ -49,7 +49,7 @@ class Transition_Fade_Scene1 : asd.Scene
 	protected override void OnUpdated()
 	{
 		// マウスの左ボタンが押されるのを待つ。
-		if (asd.Engine.Mouse.LeftButton.ButtonState == asd.MouseButtonState.Push)
+		if (asd.Engine.Mouse.LeftButton.ButtonState == asd.ButtonState.Push)
 		{
 			// フェードアウト・インによるシーン遷移を開始する。
 			// 1秒かけてフェードアウトし、1.5秒かけてフェードイン。

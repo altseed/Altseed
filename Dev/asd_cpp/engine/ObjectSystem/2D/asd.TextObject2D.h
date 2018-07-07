@@ -122,5 +122,26 @@ namespace asd
 		@brief テキストを描画する際の行間値を取得する。
 		*/
 		float GetLineSpacing() const;
+
+		/**
+		@brief	文字の色等を変更できるモードか、取得する。
+		*/
+		bool GetIsRichTextMode() const;
+
+		/**
+		@brief	文字の色等を変更できるモードか、設定する。
+		*/
+		void SetIsRichTextMode(bool value);
+
+		/**
+			@brief このオブジェクトを描画する際に使用されるマテリアルを取得する。
+		*/
+		std::shared_ptr<Material2D> GetMaterial();
+
+		/**
+			@brief このオブジェクトを描画する際に使用されるマテリアルを設定する。
+			@param	material	マテリアル
+		*/
+		void SetMaterial(const std::shared_ptr<Material2D>& material);
 	};
 }

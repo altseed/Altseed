@@ -24,6 +24,7 @@ namespace asd
 		bool m_turnUL;
 		AlphaBlendMode m_alphablend;
 		TextureFilterType m_textureFilterType;
+		Material2D*	m_material = nullptr;
 
 	public:
 		CoreTextureObject2D_Imp(Graphics_Imp* graphics);
@@ -32,6 +33,9 @@ namespace asd
 		Object2DType GetObjectType() const override { return Object2DType::Texture; }
 
 #pragma region Parameter
+		Material2D* GetMaterial() const override;
+		void SetMaterial(Material2D* material) override;
+
 		Texture2D* GetTexture() const;
 		void SetTexture(Texture2D* texture);
 

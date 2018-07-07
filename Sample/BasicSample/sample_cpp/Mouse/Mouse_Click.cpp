@@ -21,7 +21,7 @@ void Mouse_Click()
 	while (asd::Engine::DoEvents())
 	{
 		// 左ボタンが押されているかを表示する。
-		if (asd::Engine::GetMouse()->GetLeftButton()->GetButtonState() == asd::MouseButtonState::Hold)
+		if (asd::Engine::GetMouse()->GetLeftButton()->GetButtonState() == asd::ButtonState::Hold)
 		{
 			stateText->SetText(asd::ToAString("左ボタンが押されています。").c_str());
 		}

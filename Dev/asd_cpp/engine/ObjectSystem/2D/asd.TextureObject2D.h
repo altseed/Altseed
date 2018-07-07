@@ -95,5 +95,16 @@ namespace asd
 		@brief　このオブジェクトを描画する際のテクスチャフィルタの種類を取得する。
 		*/
 		TextureFilterType GetTextureFilterType() const;
+
+		/**
+		@brief このオブジェクトを描画する際に使用されるマテリアルを取得する。
+		*/
+		std::shared_ptr<Material2D> GetMaterial();
+
+		/**
+		@brief このオブジェクトを描画する際に使用されるマテリアルを設定する。
+		@param	material	マテリアル
+		*/
+		void SetMaterial(const std::shared_ptr<Material2D>& material);
 	};
 }

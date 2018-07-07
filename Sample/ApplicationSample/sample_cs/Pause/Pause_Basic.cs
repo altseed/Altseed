@@ -21,7 +21,7 @@ class Pause_Basic_PauseLayer : asd.Layer2D
 	protected override void OnUpdated()
 	{
 		// スペースが押されたら、他のレイヤーの更新を再開して、ポーズレイヤーを破棄する。
-		if(asd.Engine.Keyboard.GetKeyState(asd.Keys.Space) == asd.KeyState.Push)
+		if(asd.Engine.Keyboard.GetKeyState(asd.Keys.Space) == asd.ButtonState.Push)
 		{
 			foreach(var layer in Scene.Layers)
 			{
@@ -52,7 +52,7 @@ class Pause_Basic_MainLayer : asd.Layer2D
 	protected override void OnUpdated()
 	{
 		// スペースが押されたら、ポーズレイヤーを追加する。
-		if(asd.Engine.Keyboard.GetKeyState(asd.Keys.Space) == asd.KeyState.Push)
+		if(asd.Engine.Keyboard.GetKeyState(asd.Keys.Space) == asd.ButtonState.Push)
 		{
 			var pauseLayer = new Pause_Basic_PauseLayer();
 			Scene.AddLayer(pauseLayer);

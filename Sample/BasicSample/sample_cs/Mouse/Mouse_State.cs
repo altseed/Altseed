@@ -37,19 +37,19 @@ public class Mouse_State : ISample
 
             var middlestate = asd.Engine.Mouse.MiddleButton.ButtonState;
 
-            if(middlestate == asd.MouseButtonState.Free) //前フレームと本フレームで非押下
+            if(middlestate == asd.ButtonState.Free) //前フレームと本フレームで非押下
             {
                 buttonStateText.Text = "中ボタンを離しています。";
             }
-            else if(middlestate == asd.MouseButtonState.Hold) //前フレームと本フレームで押下
+            else if(middlestate == asd.ButtonState.Hold) //前フレームと本フレームで押下
             {
                 buttonStateText.Text = "中ボタンを押しています。";
             }
-            else if(middlestate == asd.MouseButtonState.Release) //前フレームで押下、本フレームで非押下
+            else if(middlestate == asd.ButtonState.Release) //前フレームで押下、本フレームで非押下
             {
                 buttonStateText.Text = "中ボタンを離しました!";
             }
-            else if(middlestate == asd.MouseButtonState.Push) //前フレームで非押下、本フレームで押下
+            else if(middlestate == asd.ButtonState.Push) //前フレームで非押下、本フレームで押下
             {
                 buttonStateText.Text = "中ボタンを押しました!";
             }

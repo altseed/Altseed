@@ -97,4 +97,16 @@ namespace asd
 	{
 		return m_coreObject->GetTextureFilterType();
 	}
+
+	std::shared_ptr<Material2D> TextureObject2D::GetMaterial()
+	{
+		auto mat = m_coreObject->GetMaterial();
+		SafeAddRef(mat);
+		return CreateSharedPtrWithReleaseDLL(mat);
+	}
+
+	void TextureObject2D::SetMaterial(const std::shared_ptr<Material2D>& material)
+	{
+		m_coreObject->SetMaterial(material.get());
+	}
 }

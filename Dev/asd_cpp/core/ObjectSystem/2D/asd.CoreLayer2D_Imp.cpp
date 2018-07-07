@@ -515,6 +515,8 @@ namespace asd
 					sprite.pos.data(),
 					sprite.col.data(),
 					sprite.uv.data(),
+					sprite.uv.data(),
+					nullptr,
 					sprite.Material_,
 					sprite.AlphaBlend_,
 					sprite.Priority);
@@ -551,7 +553,8 @@ namespace asd
 				text.AlphaBlend_,
 				text.Priority_,
 				0,
-				0);
+				0,
+				false);
 		}
 	}
 

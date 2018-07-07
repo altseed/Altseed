@@ -30,7 +30,7 @@ SampleInfoLayer::SampleInfoLayer(float scrollBarHeight, float totalHeight)
 	panel->SetPosition(asd::Vector2DF(0, 480 - PanelHeight));
 	AddObject(panel);
 
-	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(asd::ToAString("").c_str(), 12, asd::Color(255, 255, 255, 255), 1, asd::Color(0, 0, 0, 255));
+	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(u"", 12, asd::Color(255, 255, 255, 255), 1, asd::Color(0, 0, 0, 255));
 
 	title = make_shared<asd::TextObject2D>();
 	title->SetFont(font);

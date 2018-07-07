@@ -97,7 +97,7 @@ class SampleBrowserLayer : asd.Layer2D
 					activeItem = item;
 					browser.ShowInfo(item.Sample);
 				}
-				if(asd.Engine.Mouse.LeftButton.ButtonState == asd.MouseButtonState.Push)
+				if(asd.Engine.Mouse.LeftButton.ButtonState == asd.ButtonState.Push)
 				{
 					browser.Selected = item.Sample;
 				}

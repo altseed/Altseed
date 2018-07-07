@@ -16,7 +16,7 @@ void SampleBrowser::Run()
 	while (true)
 	{
 		Selected.isAvailable = false;
-		asd::Engine::Initialize(asd::ToAString("サンプルブラウザ").c_str(), 640, 480, asd::EngineOption());
+		asd::Engine::Initialize(u"サンプルブラウザ", 640, 480, asd::EngineOption());
 
 		auto scene = make_shared<asd::Scene>();
 		browserLayer = make_shared<SampleBrowserLayer>(this, m_samples);

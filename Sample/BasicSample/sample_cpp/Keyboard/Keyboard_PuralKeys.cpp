@@ -44,21 +44,21 @@ void Keyboard_PuralKeys()
 			std::string keystr = keyStrs[i];
 
 			// キーボードのZキーの入力状態を取得する。
-			asd::KeyState zstate = asd::Engine::GetKeyboard()->GetKeyState(keys[i]);
+			asd::ButtonState zstate = asd::Engine::GetKeyboard()->GetKeyState(keys[i]);
 
-			if (zstate == asd::KeyState::Free) // 前フレームと本フレームで非押下
+			if (zstate == asd::ButtonState::Free) // 前フレームと本フレームで非押下
 			{
 				displayStr += asd::ToAString((keystr + "キーを離しています。").c_str());
 			}
-			else if (zstate == asd::KeyState::Hold) // 前フレームと本フレームで押下
+			else if (zstate == asd::ButtonState::Hold) // 前フレームと本フレームで押下
 			{
 				displayStr += asd::ToAString((keystr + "キーを押しています。").c_str());
 			}
-			else if (zstate == asd::KeyState::Release) // 前フレームで押下、本フレームで非押下
+			else if (zstate == asd::ButtonState::Release) // 前フレームで押下、本フレームで非押下
 			{
 				displayStr += asd::ToAString((keystr + "キーを離しました!").c_str());
 			}
-			else if (zstate == asd::KeyState::Push) // 前フレームで非押下、本フレームで押下
+			else if (zstate == asd::ButtonState::Push) // 前フレームで非押下、本フレームで押下
 			{
 				displayStr += asd::ToAString((keystr + "キーを押しました!").c_str());
 			}

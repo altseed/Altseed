@@ -15,6 +15,10 @@ namespace asd
 		{
 		}
 
+		virtual Material2D* GetMaterial() const = 0;
+
+		virtual void SetMaterial(Material2D* material) = 0;
+
 		/**
 			@brief	このオブジェクトを描画する際に使用されるテクスチャを取得します。
 		*/

@@ -25,7 +25,7 @@ void Basic_FullScreen()
 		asd::Engine::Update();
 
 		// Escキーが押されていたら
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Escape) == asd::KeyState::Push)
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Escape) == asd::ButtonState::Push)
 		{
 			// ゲームループを抜ける
 			break;

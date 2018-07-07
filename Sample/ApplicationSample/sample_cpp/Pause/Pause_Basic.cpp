@@ -26,7 +26,7 @@ class PauseLayer
 	void OnUpdated() override
 	{
 		// スペースが押されたら、他のレイヤーの更新を再開して、ポーズレイヤーを破棄する。
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Space) == asd::KeyState::Push)
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Space) == asd::ButtonState::Push)
 		{
 			for (auto& layer : GetScene()->GetLayers())
 			{
@@ -50,7 +50,7 @@ public:
 	{
 		// 画像を表示するオブジェクトを生成する。
 		obj = std::make_shared<asd::TextureObject2D>();
-		obj->SetTexture(asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Picture1.png").c_str()));
+		obj->SetTexture(asd::Engine::GetGraphics()->CreateTexture2D(u"Data/Texture/Picture1.png"));
 		obj->SetPosition(asd::Vector2DF(320, 240));
 		obj->SetCenterPosition(asd::Vector2DF(obj->GetTexture()->GetSize().X / 2, obj->GetTexture()->GetSize().Y / 2));
 		AddObject(obj);
@@ -59,7 +59,7 @@ public:
 	void OnUpdated() override
 	{
 		// スペースが押されたら、ポーズレイヤーを追加する。
-		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Space) == asd::KeyState::Push)
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Space) == asd::ButtonState::Push)
 		{
 			auto pauseLayer = std::make_shared<PauseLayer>();
 			GetScene()->AddLayer(pauseLayer);
@@ -73,7 +73,7 @@ public:
 void Pause_Basic()
 {
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("Pause_Basic").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(u"Pause_Basic", 640, 480, asd::EngineOption());
 
 	// シーンを生成する
 	auto scene = std::make_shared<asd::Scene>();

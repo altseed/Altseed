@@ -44,7 +44,7 @@ def compile_tool():
 		aceutils.call(r'nuget restore Dev/FontGenerator.sln -PackagesDirectory Dev/FontGenerator/packages/')
 		aceutils.call(r'msbuild Dev/FontGenerator/FontGenerator.Altseed/FontGenerator.Altseed.csproj /p:Configuration=Release /p:Platform=x86')
 		aceutils.call(r'msbuild Dev/FilePackageGenerator/FilePackageGenerator.Altseed/FilePackageGenerator.Altseed.csproj /p:Configuration=Release /p:Platform=x86')
-		aceutils.call(r'msbuild Dev/ImagePackageGenerator/ImagePackageGenerator.csproj /p:Configuration=Release /p:Platform=x86')	
+		aceutils.call(r'msbuild Dev/ImagePackageGenerator/ImagePackageGenerator/ImagePackageGenerator.csproj /p:Configuration=Release /p:Platform=x86')
 
 def compile(type):
 	global leastCompileTarget
@@ -162,6 +162,7 @@ def store_tools():
 
 	aceutils.copy(r'Dev/bin/FilePackageGenerator.exe', toolDir)
 	#aceutils.copy(r'Dev/bin/FilePackageGenerator.exe.config', toolDir)
+	aceutils.copy(r'Dev/bin/FilePackageGeneratorCore.dll', toolDir)
 
 	aceutils.copy(r'Dev/bin/Altseed.dll', toolDir)
 
@@ -169,12 +170,10 @@ def store_tools():
 		aceutils.copy(r'Dev/bin/Altseed_core.dll', toolDir)
 		aceutils.copy(r'Dev/bin/FontGeneratorCore.dll', toolDir)
 		aceutils.copy(r'Dev/bin/PSDParser.dll', toolDir)
-		aceutils.copy(r'Dev/bin/FilePackageGeneratorCore.dll', toolDir)
 	elif aceutils.isMac():
 		aceutils.copy(r'Dev/bin/libAltseed_core.dylib', toolDir)
 		aceutils.copy(r'Dev/bin/libFontGeneratorCore.dylib', toolDir)
-		aceutils.copy(r'Dev/bin/libPSDParser.dylib', toolDir)
-		aceutils.copy(r'Dev/bin/libFilePackageGeneratorCore.dylib', toolDir)
+		aceutils.copy(r'Dev/cmake/ImagePackageGenerator/bin/libPSDParser.dylib', toolDir)
 
 
 def release_cpp():
@@ -287,7 +286,7 @@ def release_cs():
 	init(type, targetDir)
 	
 	# GenerateHeader
-	aceutils.call(r'python Dev/generate_swig.py')
+	aceutils.call(sys.executable + r' Dev/generate_swig.py')
 	
 	compile(type)
 
@@ -364,11 +363,11 @@ def release_java():
 	init(type, targetDir)
 
 	# GenerateHeader	
-	aceutils.call(r'python Dev/generate_swig.py java')
-	aceutils.call(r'python Script/generateTranslatedCode.py java')
+	aceutils.call(sys.executable + r' Dev/generate_swig.py java')
+	aceutils.call(sys.executable + r' Script/generateTranslatedCode.py java')
 		
 	# Sample
-	aceutils.call(r'python Script/generate_sample.py java')
+	aceutils.call(sys.executable + r' Script/generate_sample.py java')
 
 	aceutils.cd(r'Sample/BasicSample/sample_java/')
 	aceutils.call(r'ant')

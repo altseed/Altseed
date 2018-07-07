@@ -42,7 +42,7 @@ public:
 	void OnUpdated() override
 	{
 		// マウスの左ボタンが押されるのを待つ。
-		if (asd::Engine::GetMouse()->GetLeftButton()->GetButtonState() == asd::MouseButtonState::Push)
+		if (asd::Engine::GetMouse()->GetLeftButton()->GetButtonState() == asd::ButtonState::Push)
 		{
 			// フェードアウト・インによるシーン遷移を開始する。
 			// 1秒かけてフェードアウトし、1.5秒かけてフェードイン。

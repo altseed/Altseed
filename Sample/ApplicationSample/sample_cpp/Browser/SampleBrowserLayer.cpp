@@ -7,7 +7,7 @@ using namespace std;
 SampleBrowserLayer::SampleBrowserLayer(SampleBrowser* browser, std::vector<SampleInfo>& samples)
 	: m_items(std::vector<shared_ptr<SampleItem>>())
 {
-	SetName(asd::ToAString("BrowserLayer"));
+	SetName(u"BrowserLayer");
 
 	this->browser = browser;
 
@@ -81,7 +81,7 @@ void SampleBrowserLayer::OnUpdated()
 				m_activeItem = item;
 				browser->ShowInfo(item->GetSample());
 			}
-			if (asd::Engine::GetMouse()->GetLeftButton()->GetButtonState() == asd::MouseButtonState::Push)
+			if (asd::Engine::GetMouse()->GetLeftButton()->GetButtonState() == asd::ButtonState::Push)
 			{
 				browser->Selected = item->GetSample();
 			}

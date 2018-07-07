@@ -81,7 +81,7 @@ void SampleBrowserLayer::OnUpdated()
 				m_activeItem = item;
 				browser->ShowInfo(item->GetSample());
 			}
-			if (asd::Engine::GetMouse()->GetLeftButton()->GetButtonState() == asd::MouseButtonState::Push)
+			if (asd::Engine::GetMouse()->GetLeftButton()->GetButtonState() == asd::ButtonState::Push)
 			{
 				browser->Selected = item->GetSample();
 			}
