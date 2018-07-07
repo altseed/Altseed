@@ -41,8 +41,8 @@ namespace asd
 	{
 		std::lock_guard<std::recursive_mutex> lock(mtx_);
 
-		auto cacheKey = astring(path);
-		auto cache = LoadFromCache(path);
+		auto cacheKey = packedPath;
+		auto cache = LoadFromCache(cacheKey);
 		if (cache != nullptr)
 		{
 			return cache;
@@ -71,8 +71,8 @@ namespace asd
 
 		auto combinedPath = FileHelper::CombineRootPath(root->m_path, path);
 
-		auto cacheKey = astring(path);
-		auto cache = LoadFromCache(path);
+		auto cacheKey = combinedPath;
+		auto cache = LoadFromCache(cacheKey);
 		if (cache != nullptr)
 		{
 			return cache;
@@ -83,7 +83,7 @@ namespace asd
 		auto file = CreateSharedPtr(new BaseFile(combinedPath));
 		if (file->IsValid())
 		{
-			auto staticFile = factory->LoadFromBaseFile(file, astring(combinedPath));
+			auto staticFile = factory->LoadFromBaseFile(file, cacheKey);
 			staticFiles[cacheKey] = staticFile;
 			return staticFile;
 		}
