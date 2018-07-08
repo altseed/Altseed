@@ -26,6 +26,7 @@ namespace asd
 		: file(file)
 		, cacheKey(cacheKey)
 	{
+		std::lock_guard<std::mutex> lock(this->file->packedFileMutex);
 		packedFile->Seek(internalHeader.GetOffset());
 		packedFile->ReadBytes(m_buffer, internalHeader.GetSize(), decryptor.get(), internalHeader.GetOffset());
 		loadState = LoadState::Loaded;

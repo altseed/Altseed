@@ -21,11 +21,13 @@ namespace unitTest_Engine_cs.IO
 			asd.Engine.File.AddRootPackage("Data/Texture/SamplePackage.pack");
 
 			files = new List<asd.StaticFile>();
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 9; i++)
 			{
 				var f = asd.Engine.File.CreateStaticFileAsync("Cloud" + i + ".png");
 				files.Add(f);
 			}
+			var block = asd.Engine.File.CreateStaticFileAsync("Cloud9.png");
+			files.Add(block);
 		}
 
 		protected override void OnUpdated()
