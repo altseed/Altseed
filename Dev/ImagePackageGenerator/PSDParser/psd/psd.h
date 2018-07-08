@@ -13,6 +13,8 @@ extern "C" {
 
 #include <stddef.h> /* size_t */
 #include <limits.h> /* INT_MAX */
+#include <stdio.h>
+#include <stdint.h>
 
 #ifdef PSD_PLATFORM_WIN32
 #include <windows.h>
@@ -26,7 +28,8 @@ extern "C" {
 #ifndef PSD_STATIC_ASSERT
 #define PSD_STATIC_ASSERT(cond, message) _Static_assert((cond), (message))
 #endif /* PSD_STATIC_ASSERT */
-typedef rsize_t psd_rsize_t;
+//typedef rsize_t psd_rsize_t;
+typedef size_t psd_rsize_t;
 #else
 #define __PSD_SA_CONCAT(a, b) __PSD_SA_CONCAT2(a, b)
 #define __PSD_SA_CONCAT2(a, b) a ## b
