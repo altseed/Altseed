@@ -83,6 +83,7 @@
     <Compile Include="Input\BundleController.cs" />
     <Compile Include="Input\MouseWithManyButtons.cs" />
     <Compile Include="IO\StaticFile_LoadAsync.cs" />
+    <Compile Include="IO\StaticFile_LoadAsyncFromPackage.cs" />
     <Compile Include="IO\StaticFile_NonPackage.cs" />
     <Compile Include="IO\StaticFile_Package.cs" />
     <Compile Include="Debug\Log.cs" />

@@ -2,6 +2,7 @@
 #include "asd.File_Imp.h"
 #include "asd.StaticFile_Imp.h"
 #include <time.h>
+#include <iostream>
 
 namespace asd
 {
@@ -68,8 +69,9 @@ namespace asd
 		: file(file)
 		, cacheKey(cacheKey)
 	{
-		auto load = std::thread([this, packedFile, &internalHeader, decryptor]()
+		loadThread = std::thread([this, packedFile, &internalHeader, decryptor]()
 		{
+			std::lock_guard<std::mutex> lock(this->file->packedFileMutex);
 			packedFile->Seek(internalHeader.GetOffset());
 			packedFile->ReadBytes(m_buffer, internalHeader.GetSize(), decryptor.get(), internalHeader.GetOffset());
 			loadState = LoadState::Loaded;

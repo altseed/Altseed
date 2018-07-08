@@ -24,7 +24,7 @@ namespace unitTest_Engine_cs
 		//[STAThread]
 		static void Main(string[] args)
 		{
-			TestOnAllDevice(typeof(BugFix.LoadAsyncFromCache));
+			TestOnAllDevice(typeof(IO.StaticFile_LoadAsyncFromPackage));
             Console.ReadKey();
 			return;
 

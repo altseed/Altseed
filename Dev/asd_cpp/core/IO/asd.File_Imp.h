@@ -61,6 +61,8 @@ namespace asd
 		virtual bool Exists(const char16_t* path) const override;
 
 #ifndef SWIG
+		std::mutex packedFileMutex;
+
 		virtual StaticFile* CreateStaticFile(const char16_t* path) override;
 		virtual StaticFile* CreateStaticFileAsync(const char16_t* path) override;
 		virtual StreamFile* CreateStreamFile(const char16_t* path) override;

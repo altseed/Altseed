@@ -8,6 +8,9 @@ namespace unitTest_Engine_cs.BugFix
 {
 	class LoadAsyncFromCache : EngineTest
 	{
+		asd.StaticFile file1;
+		float loadedTime = 0;
+
 		public LoadAsyncFromCache()
 			: base(60)
 		{
@@ -17,11 +20,21 @@ namespace unitTest_Engine_cs.BugFix
 		{
 			if (Time == 0)
 			{
-				var file1 = asd.Engine.File.CreateStaticFileAsync("Data/Texture/Cloud1.png");
+				file1 = asd.Engine.File.CreateStaticFileAsync("Data/Texture/Cloud1.png");
 			}
-			if (Time == 30)
+
+			if (file1 != null && file1.LoadState == asd.LoadState.Loaded)
+			{
+				file1 = null;
+				loadedTime = Time;
+				GC.Collect();
+				Console.WriteLine("file1 loaded.");
+			}
+
+			if (Time == loadedTime + 5)
 			{
 				var file2 = asd.Engine.File.CreateStaticFileAsync("Data/Texture/Cloud1.png");
+				Console.WriteLine("file2 loaded.");
 			}
 		}
 	}
