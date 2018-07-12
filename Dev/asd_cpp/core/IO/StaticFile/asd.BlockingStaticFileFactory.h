@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "StaticFileFactoryBase.h"
+#include "asd.StaticFileFactoryBase.h"
 #include "../../Utils/asd.Synchronizer.h"
 
 namespace asd

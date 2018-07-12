@@ -1,4 +1,4 @@
-﻿#include "AsyncStaticFileFactory.h"
+﻿#include "asd.AsyncStaticFileFactory.h"
 #include "../asd.StaticFile_Imp.h"
 
 namespace asd

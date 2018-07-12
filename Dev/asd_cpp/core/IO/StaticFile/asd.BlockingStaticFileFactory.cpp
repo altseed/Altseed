@@ -1,4 +1,4 @@
-﻿#include "BlockingStaticFileFactory.h"
+﻿#include "asd.BlockingStaticFileFactory.h"
 #include "../asd.StaticFile_Imp.h"
 #include "../asd.File_Imp.h"
 

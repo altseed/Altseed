@@ -1135,16 +1135,19 @@
     <ClInclude Include="..\core\3rdParty\Boxer\boxer.h">
       <Filter>3rdParty\Boxer</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\IO\StaticFile\StaticFileLoader.h">
+    <ClInclude Include="..\core\IO\StaticFile\asd.AsyncStaticFileFactory.h">
       <Filter>IO\StaticFile</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\IO\StaticFile\StaticFileFactoryBase.h">
+    <ClInclude Include="..\core\IO\StaticFile\asd.BlockingStaticFileFactory.h">
       <Filter>IO\StaticFile</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\IO\StaticFile\BlockingStaticFileFactory.h">
+    <ClInclude Include="..\core\IO\StaticFile\asd.StaticFileFactoryBase.h">
       <Filter>IO\StaticFile</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\IO\StaticFile\AsyncStaticFileFactory.h">
+    <ClInclude Include="..\core\IO\StaticFile\asd.StaticFileLoader.h">
+      <Filter>IO\StaticFile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\StaticFile\asd.StaticFileCacheStore.h">
       <Filter>IO\StaticFile</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1620,16 +1623,19 @@
     <ClCompile Include="..\core\3rdParty\Boxer\boxer_win.cpp">
       <Filter>3rdParty\Boxer</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\IO\StaticFile\StaticFileLoader.cpp">
+    <ClCompile Include="..\core\IO\StaticFile\asd.AsyncStaticFileFactory.cpp">
       <Filter>IO\StaticFile</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\IO\StaticFile\StaticFileFactoryBase.cpp">
+    <ClCompile Include="..\core\IO\StaticFile\asd.BlockingStaticFileFactory.cpp">
       <Filter>IO\StaticFile</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\IO\StaticFile\BlockingStaticFileFactory.cpp">
+    <ClCompile Include="..\core\IO\StaticFile\asd.StaticFileFactoryBase.cpp">
       <Filter>IO\StaticFile</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\IO\StaticFile\AsyncStaticFileFactory.cpp">
+    <ClCompile Include="..\core\IO\StaticFile\asd.StaticFileLoader.cpp">
+      <Filter>IO\StaticFile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\StaticFile\asd.StaticFileCacheStore.cpp">
       <Filter>IO\StaticFile</Filter>
     </ClCompile>
   </ItemGroup>

@@ -71,6 +71,11 @@ namespace unitTest_Engine_cs
 
 				OnFinish();
 			}
+			catch(Exception ex)
+			{
+				Console.WriteLine(ex.ToString());
+				throw;
+			}
 			finally
 			{
 				Engine.Terminate();

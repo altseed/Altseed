@@ -6,7 +6,8 @@
 #include "asd.File.h"
 #include "asd.PackFile.h"
 #include "asd.FileHelper.h"
-#include "StaticFile/StaticFileLoader.h"
+#include "StaticFile/asd.StaticFileLoader.h"
+#include "StaticFile/asd.StaticFileCacheStore.h"
 #include "../Utils/asd.Synchronizer.h"
 #include <string>
 #include <unordered_map>
@@ -43,7 +44,8 @@ namespace asd
 		std::recursive_mutex		mtx_;
 
 		StaticFileLoader::Ptr staticFileLoader;
-		StaticFileLoader::Ptr asyncFileLoader;
+		StaticFileLoader::Ptr asyncStaticFileLoader;
+		StaticFileCacheStore::Ptr staticFileCacheStore;
 		StaticFile* CreateStaticFile(const char16_t* path, StaticFileLoader::Ptr loader);
 
 	public:

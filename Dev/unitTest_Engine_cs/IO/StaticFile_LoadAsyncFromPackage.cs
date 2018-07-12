@@ -23,10 +23,10 @@ namespace unitTest_Engine_cs.IO
 			files = new List<asd.StaticFile>();
 			for (int i = 0; i < 9; i++)
 			{
-				var f = asd.Engine.File.CreateStaticFileAsync("Cloud" + i + ".png");
+				var f = asd.Engine.File.CreateStaticFile("Cloud" + i + ".png");
 				files.Add(f);
 			}
-			var block = asd.Engine.File.CreateStaticFileAsync("Cloud9.png");
+			var block = asd.Engine.File.CreateStaticFile("Cloud9.png");
 			files.Add(block);
 		}
 

@@ -3,8 +3,8 @@
 #include "asd.BaseFile.h"
 #include "asd.StaticFile_Imp.h"
 #include "asd.StreamFile_Imp.h"
-#include "StaticFile/BlockingStaticFileFactory.h"
-#include "StaticFile/AsyncStaticFileFactory.h"
+#include "StaticFile/asd.BlockingStaticFileFactory.h"
+#include "StaticFile/asd.AsyncStaticFileFactory.h"
 
 #include <array>
 #include <algorithm>
@@ -26,10 +26,15 @@ namespace asd
 	{
 		AddDefaultRootDirectory();
 
-		staticFileLoader = std::make_shared<StaticFileLoader>(this,
-			std::make_shared<BlockingStaticFileFactory>(this));
-		asyncFileLoader = std::make_shared<StaticFileLoader>(this,
-			std::make_shared<AsyncStaticFileFactory>(this, sync));
+		staticFileCacheStore = std::make_shared<StaticFileCacheStore>();
+		staticFileLoader = std::make_shared<StaticFileLoader>(
+			this,
+			std::make_shared<BlockingStaticFileFactory>(this),
+			staticFileCacheStore);
+		asyncStaticFileLoader = std::make_shared<StaticFileLoader>(
+			this,
+			std::make_shared<AsyncStaticFileFactory>(this, sync),
+			staticFileCacheStore);
 	}
 
 	File_Imp::~File_Imp()
@@ -114,7 +119,7 @@ namespace asd
 
 	StaticFile * File_Imp::CreateStaticFileAsync(const char16_t * path)
 	{
-		return CreateStaticFile(path, asyncFileLoader);
+		return CreateStaticFile(path, asyncStaticFileLoader);
 	}
 
 	StaticFile* File_Imp::CreateStaticFile(const char16_t * path, StaticFileLoader::Ptr loader)
@@ -230,7 +235,7 @@ namespace asd
 
 	void File_Imp::UnregisterStaticFile(const astring& key)
 	{
-		staticFileLoader->UnregisterStaticFile(key);
+		staticFileCacheStore->Unregister(key);
 	}
 
 	void File_Imp::UnregisterStreamFile(const astring& key)
