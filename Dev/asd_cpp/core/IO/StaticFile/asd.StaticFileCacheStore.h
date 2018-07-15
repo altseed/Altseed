@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "../asd.StaticFile_Imp.h"
 #include <unordered_map>
