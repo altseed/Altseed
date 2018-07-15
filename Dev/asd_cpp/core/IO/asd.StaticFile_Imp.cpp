@@ -6,6 +6,7 @@
 
 namespace asd
 {
+
 	StaticFile_Imp::StaticFile_Imp(File_Imp* file,
 		const astring& cacheKey,
 		std::shared_ptr<BaseFile>& baseFile)
