@@ -19,7 +19,7 @@ namespace unitTest_Engine_cs.Graphics._2D
 		{
 			var scene = new asd.Scene();
 			var layer = new asd.Layer2D();
-			var effect = asd.Engine.Graphics.CreateEffect("Data/Effect/Sword2.efk");
+			var effect = asd.Engine.Graphics.CreateEffect("Data/Effect/Laser01.efk");
 			m_effectObj = new asd.EffectObject2D();
 
 			layer.AddObject(m_effectObj);
