@@ -1,4 +1,4 @@
-# Limit to Debug Release
+﻿# Limit to Debug Release
 set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE TYPE INTERNAL FORCE )
 
 # Project name
@@ -11,12 +11,17 @@ option(BUILD_TOOL "Build tool" OFF)
 if (MSVC)
 cmake_minimum_required(VERSION 2.8.11)
 else()
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0.2)
 endif()
 
 # For MSVC
 if (MSVC)
 	option(USE_MSVC_RUNTIME_LIBRARY_DLL "Use MSVC runtime library DLL" OFF)
+endif()
+
+# For Apple
+if(APPLE)
+	set(CMAKE_OSX_DEPLOYMENT_TARGET 10.6)
 endif()
 
 # Add flags
