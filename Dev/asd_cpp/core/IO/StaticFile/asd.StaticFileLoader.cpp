@@ -61,6 +61,8 @@ namespace asd
 			cacheStore->Register(cacheKey, staticFile);
 			return staticFile;
 		}
+
+		return nullptr;
 	}
 
 	StaticFile_Imp* StaticFileLoader::LoadFromNonPackedRoot(const char16_t * path, FileRoot::Ptr root)

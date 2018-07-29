@@ -24,7 +24,7 @@ namespace unitTest_Engine_cs
 		//[STAThread]
 		static void Main(string[] args)
 		{
-			TestOnAllDevice(typeof(Graphics._2D.EffectObject2D));
+			TestOnAllDevice(typeof(BugFix.LoadTextureFromPackage));
             Console.ReadKey();
 			return;
 
