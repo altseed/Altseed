@@ -6,7 +6,6 @@
 
 namespace asd
 {
-
 	StaticFile_Imp::StaticFile_Imp(File_Imp* file,
 		const astring& cacheKey,
 		std::shared_ptr<BaseFile>& baseFile)
@@ -47,13 +46,12 @@ namespace asd
 		: file(file)
 		, cacheKey(cacheKey)
 	{
+		loadState = LoadState::Loading;
 		loadThread = std::thread([this, baseFile]()
 		{
 			baseFile->ReadAllBytes(m_buffer);
 			loadState = LoadState::Loaded;
 		});
-		sync->Start(this, [](){});
-		loadState = LoadState::Loading;
 
 		m_path = baseFile->GetFullPath();
 
@@ -71,6 +69,7 @@ namespace asd
 		: file(file)
 		, cacheKey(cacheKey)
 	{
+		loadState = LoadState::Loading;
 		loadThread = std::thread([this, packedFile, &internalHeader, decryptor]()
 		{
 			std::lock_guard<std::mutex> lock(this->file->packedFileMutex);
@@ -78,7 +77,6 @@ namespace asd
 			packedFile->ReadBytes(m_buffer, internalHeader.GetSize(), decryptor.get(), internalHeader.GetOffset());
 			loadState = LoadState::Loaded;
 		});
-		loadState = LoadState::Loading;
 
 		m_path = packedFile->GetFullPath() + ToAString("?") + internalHeader.GetFileName();
 
