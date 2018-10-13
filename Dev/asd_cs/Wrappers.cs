@@ -294,11 +294,11 @@ namespace asd {
 		/// </summary>
 		Default = asd.swig.GraphicsDeviceType.Default,
 		/// <summary>
-		/// DirectX11 
+		/// DirectX11. 
 		/// </summary>
 		DirectX11 = asd.swig.GraphicsDeviceType.DirectX11,
 		/// <summary>
-		/// OpenGL 
+		/// OpenGL. 
 		/// </summary>
 		OpenGL = asd.swig.GraphicsDeviceType.OpenGL,
 	}
@@ -771,107 +771,107 @@ namespace asd {
 		/// </summary>
 		Equal = asd.swig.Keys.Equal,
 		/// <summary>
-		/// A 
+		/// A. 
 		/// </summary>
 		A = asd.swig.Keys.A,
 		/// <summary>
-		/// B 
+		/// B. 
 		/// </summary>
 		B = asd.swig.Keys.B,
 		/// <summary>
-		/// C 
+		/// C. 
 		/// </summary>
 		C = asd.swig.Keys.C,
 		/// <summary>
-		/// D 
+		/// D. 
 		/// </summary>
 		D = asd.swig.Keys.D,
 		/// <summary>
-		/// E 
+		/// E. 
 		/// </summary>
 		E = asd.swig.Keys.E,
 		/// <summary>
-		/// F 
+		/// F. 
 		/// </summary>
 		F = asd.swig.Keys.F,
 		/// <summary>
-		/// G 
+		/// G. 
 		/// </summary>
 		G = asd.swig.Keys.G,
 		/// <summary>
-		/// H 
+		/// H. 
 		/// </summary>
 		H = asd.swig.Keys.H,
 		/// <summary>
-		/// I 
+		/// I. 
 		/// </summary>
 		I = asd.swig.Keys.I,
 		/// <summary>
-		/// J 
+		/// J. 
 		/// </summary>
 		J = asd.swig.Keys.J,
 		/// <summary>
-		/// K 
+		/// K. 
 		/// </summary>
 		K = asd.swig.Keys.K,
 		/// <summary>
-		/// L 
+		/// L. 
 		/// </summary>
 		L = asd.swig.Keys.L,
 		/// <summary>
-		/// M 
+		/// M. 
 		/// </summary>
 		M = asd.swig.Keys.M,
 		/// <summary>
-		/// N 
+		/// N. 
 		/// </summary>
 		N = asd.swig.Keys.N,
 		/// <summary>
-		/// O 
+		/// O. 
 		/// </summary>
 		O = asd.swig.Keys.O,
 		/// <summary>
-		/// P 
+		/// P. 
 		/// </summary>
 		P = asd.swig.Keys.P,
 		/// <summary>
-		/// Q 
+		/// Q. 
 		/// </summary>
 		Q = asd.swig.Keys.Q,
 		/// <summary>
-		/// R 
+		/// R. 
 		/// </summary>
 		R = asd.swig.Keys.R,
 		/// <summary>
-		/// S 
+		/// S. 
 		/// </summary>
 		S = asd.swig.Keys.S,
 		/// <summary>
-		/// T 
+		/// T. 
 		/// </summary>
 		T = asd.swig.Keys.T,
 		/// <summary>
-		/// U 
+		/// U. 
 		/// </summary>
 		U = asd.swig.Keys.U,
 		/// <summary>
-		/// V 
+		/// V. 
 		/// </summary>
 		V = asd.swig.Keys.V,
 		/// <summary>
-		/// W 
+		/// W. 
 		/// </summary>
 		W = asd.swig.Keys.W,
 		/// <summary>
-		/// X 
+		/// X. 
 		/// </summary>
 		X = asd.swig.Keys.X,
 		/// <summary>
-		/// Y 
+		/// Y. 
 		/// </summary>
 		Y = asd.swig.Keys.Y,
 		/// <summary>
-		/// Z 
+		/// Z. 
 		/// </summary>
 		Z = asd.swig.Keys.Z,
 		/// <summary>
@@ -899,27 +899,27 @@ namespace asd {
 		/// </summary>
 		World2 = asd.swig.Keys.World2,
 		/// <summary>
-		/// Esc 
+		/// Esc. 
 		/// </summary>
 		Escape = asd.swig.Keys.Escape,
 		/// <summary>
-		/// Enter 
+		/// Enter. 
 		/// </summary>
 		Enter = asd.swig.Keys.Enter,
 		/// <summary>
-		/// Tab 
+		/// Tab. 
 		/// </summary>
 		Tab = asd.swig.Keys.Tab,
 		/// <summary>
-		/// BackSpace 
+		/// BackSpace. 
 		/// </summary>
 		Backspace = asd.swig.Keys.Backspace,
 		/// <summary>
-		/// Insert 
+		/// Insert. 
 		/// </summary>
 		Insert = asd.swig.Keys.Insert,
 		/// <summary>
-		/// Delete 
+		/// Delete. 
 		/// </summary>
 		Delete = asd.swig.Keys.Delete,
 		/// <summary>
@@ -939,139 +939,139 @@ namespace asd {
 		/// </summary>
 		Up = asd.swig.Keys.Up,
 		/// <summary>
-		/// PageUp 
+		/// PageUp. 
 		/// </summary>
 		PageUp = asd.swig.Keys.PageUp,
 		/// <summary>
-		/// PageDown 
+		/// PageDown. 
 		/// </summary>
 		PageDown = asd.swig.Keys.PageDown,
 		/// <summary>
-		/// Home 
+		/// Home. 
 		/// </summary>
 		Home = asd.swig.Keys.Home,
 		/// <summary>
-		/// End 
+		/// End. 
 		/// </summary>
 		End = asd.swig.Keys.End,
 		/// <summary>
-		/// CapsLock 
+		/// CapsLock. 
 		/// </summary>
 		CapsLock = asd.swig.Keys.CapsLock,
 		/// <summary>
-		/// ScrollLock 
+		/// ScrollLock. 
 		/// </summary>
 		ScrollLock = asd.swig.Keys.ScrollLock,
 		/// <summary>
-		/// NumLock 
+		/// NumLock. 
 		/// </summary>
 		NumLock = asd.swig.Keys.NumLock,
 		/// <summary>
-		/// PrintScreen 
+		/// PrintScreen. 
 		/// </summary>
 		PrintScreen = asd.swig.Keys.PrintScreen,
 		/// <summary>
-		/// Pause 
+		/// Pause. 
 		/// </summary>
 		Pause = asd.swig.Keys.Pause,
 		/// <summary>
-		/// F1 
+		/// F1. 
 		/// </summary>
 		F1 = asd.swig.Keys.F1,
 		/// <summary>
-		/// F2 
+		/// F2. 
 		/// </summary>
 		F2 = asd.swig.Keys.F2,
 		/// <summary>
-		/// F3 
+		/// F3. 
 		/// </summary>
 		F3 = asd.swig.Keys.F3,
 		/// <summary>
-		/// F4 
+		/// F4. 
 		/// </summary>
 		F4 = asd.swig.Keys.F4,
 		/// <summary>
-		/// F5 
+		/// F5. 
 		/// </summary>
 		F5 = asd.swig.Keys.F5,
 		/// <summary>
-		/// F6 
+		/// F6. 
 		/// </summary>
 		F6 = asd.swig.Keys.F6,
 		/// <summary>
-		/// F7 
+		/// F7. 
 		/// </summary>
 		F7 = asd.swig.Keys.F7,
 		/// <summary>
-		/// F8 
+		/// F8. 
 		/// </summary>
 		F8 = asd.swig.Keys.F8,
 		/// <summary>
-		/// F9 
+		/// F9. 
 		/// </summary>
 		F9 = asd.swig.Keys.F9,
 		/// <summary>
-		/// F10 
+		/// F10. 
 		/// </summary>
 		F10 = asd.swig.Keys.F10,
 		/// <summary>
-		/// F11 
+		/// F11. 
 		/// </summary>
 		F11 = asd.swig.Keys.F11,
 		/// <summary>
-		/// F12 
+		/// F12. 
 		/// </summary>
 		F12 = asd.swig.Keys.F12,
 		/// <summary>
-		/// F13 
+		/// F13. 
 		/// </summary>
 		F13 = asd.swig.Keys.F13,
 		/// <summary>
-		/// F14 
+		/// F14. 
 		/// </summary>
 		F14 = asd.swig.Keys.F14,
 		/// <summary>
-		/// F15 
+		/// F15. 
 		/// </summary>
 		F15 = asd.swig.Keys.F15,
 		/// <summary>
-		/// F16 
+		/// F16. 
 		/// </summary>
 		F16 = asd.swig.Keys.F16,
 		/// <summary>
-		/// F17 
+		/// F17. 
 		/// </summary>
 		F17 = asd.swig.Keys.F17,
 		/// <summary>
-		/// F18 
+		/// F18. 
 		/// </summary>
 		F18 = asd.swig.Keys.F18,
 		/// <summary>
-		/// F19 
+		/// F19. 
 		/// </summary>
 		F19 = asd.swig.Keys.F19,
 		/// <summary>
-		/// F20 
+		/// F20. 
 		/// </summary>
 		F20 = asd.swig.Keys.F20,
 		/// <summary>
-		/// F21 
+		/// F21. 
 		/// </summary>
 		F21 = asd.swig.Keys.F21,
 		/// <summary>
-		/// F22 
+		/// F22. 
 		/// </summary>
 		F22 = asd.swig.Keys.F22,
 		/// <summary>
-		/// F23 
+		/// F23. 
 		/// </summary>
 		F23 = asd.swig.Keys.F23,
 		/// <summary>
-		/// F24 
+		/// F24. 
 		/// </summary>
 		F24 = asd.swig.Keys.F24,
 		/// <summary>
-		/// F25 
+		/// F25. 
 		/// </summary>
 		F25 = asd.swig.Keys.F25,
 		/// <summary>
@@ -1237,19 +1237,19 @@ namespace asd {
 		/// </summary>
 		LeftRight = asd.swig.JoystickButtonType.LeftRight,
 		/// <summary>
-		/// PSx Triangle 
+		/// PSx Triangle. 
 		/// </summary>
 		RightUp = asd.swig.JoystickButtonType.RightUp,
 		/// <summary>
-		/// PSx Circle 
+		/// PSx Circle. 
 		/// </summary>
 		RightRight = asd.swig.JoystickButtonType.RightRight,
 		/// <summary>
-		/// PSx Square 
+		/// PSx Square. 
 		/// </summary>
 		RightLeft = asd.swig.JoystickButtonType.RightLeft,
 		/// <summary>
-		/// PSx Cross 
+		/// PSx Cross. 
 		/// </summary>
 		RightDown = asd.swig.JoystickButtonType.RightDown,
 		/// <summary>
@@ -1277,11 +1277,11 @@ namespace asd {
 		/// </summary>
 		R3 = asd.swig.JoystickButtonType.R3,
 		/// <summary>
-		/// XBOX360 Start, PS4 Options 
+		/// XBOX360 Start, PS4 Options. 
 		/// </summary>
 		LeftStart = asd.swig.JoystickButtonType.LeftStart,
 		/// <summary>
-		/// XBOX360 Select, PS4 TouchPad 
+		/// XBOX360 Select, PS4 TouchPad. 
 		/// </summary>
 		RightStart = asd.swig.JoystickButtonType.RightStart,
 		/// <summary>
@@ -2332,6 +2332,67 @@ namespace asd {
 		public void SetTextureWrapType(string name, TextureWrapType wrap)
 		{
 			CoreInstance.SetTextureWrapType(name, (asd.swig.TextureWrapType)wrap);
+		}
+
+	}
+
+
+	/// <summary>
+	/// 映像ファイルを再生するためのクラス 
+	/// </summary>
+	public partial class MediaPlayer
+	{
+		internal asd.swig.MediaPlayer CoreInstance { get; set; }
+
+		/// <summary>
+		/// 読み込んだ映像の大きさを取得する。
+		/// </summary>
+		public asd.Vector2DI Size
+		{
+			get { return CoreInstance.GetSize(); }
+		}
+
+		/// <summary>
+		/// 現在再生中の映像のフレーム番号を取得する。
+		/// </summary>
+		public int CurrentFrame
+		{
+			get { return CoreInstance.GetCurrentFrame(); }
+		}
+
+
+		/// <summary>
+		/// 映像を再生する。 
+		/// </summary>
+		/// <returns></returns>
+		public bool Play()
+		{
+			return CoreInstance.Play();
+		}
+
+		/// <summary>
+		/// 映像を読み込む。 
+		/// </summary>
+		/// <param name="path">ファイルのパス </param>
+		/// <returns></returns>
+		public bool Load(string path)
+		{
+			return CoreInstance.Load(path);
+		}
+
+		/// <summary>
+		/// 現在の映像を書き込む。 
+		/// </summary>
+		/// <param name="target">書き込み先 </param>
+		/// <returns></returns>
+		public bool WriteToTexture2D(Texture2D target)
+		{
+			asd.swig.Texture2D targetCore = null;
+			if(target != null)
+			{
+				targetCore = target.CoreInstance;
+			}
+			return CoreInstance.WriteToTexture2D(targetCore);
 		}
 
 	}

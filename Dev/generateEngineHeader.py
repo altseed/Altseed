@@ -54,10 +54,12 @@ class CreateHeader:
 cdToScript()
 
 engineHeader = CreateHeader()
-engineHeader.append('#pragma once')
+engineHeader.append('#pragma once\r\n')
+engineHeader.append('#define __ALTSEED_HEADER__\r\n')
 engineHeader.readLines("asd_cpp/common/asd.common.Base.h")
 engineHeader.readLines("asd_cpp/engine/asd.Engine.Base.h")
 
+# primitive
 engineHeader.readLines("asd_cpp/common/Math/asd.Vector2DI.h")
 engineHeader.readLines("asd_cpp/common/Math/asd.Vector2DF.h")
 engineHeader.readLines("asd_cpp/common/Math/asd.Vector3DF.h")
@@ -78,10 +80,13 @@ engineHeader.readLines("asd_cpp/common/Graphics/asd.Color.h")
 engineHeader.readLines("asd_cpp/common/Utility/asd.BinaryReader.h")
 engineHeader.readLines("asd_cpp/common/Utility/asd.BinaryWriter.h")
 
-
-
+# core bases
 engineHeader.readLines("asd_cpp/core/asd.Core.Base.h")
 engineHeader.readLines("asd_cpp/core/asd.ReferenceObject.h")
+
+# wrapper
+# since graphics referes a class in the wrapper, so it appends previously
+engineHeader.readLines("asd_cpp/engine/asd.WrapperLib.h")
 
 engineHeader.readLines("asd_cpp/core/Input/asd.MouseButtonState.h")
 engineHeader.readLines("asd_cpp/core/Input/asd.SideButton.h")
@@ -136,8 +141,6 @@ engineHeader.readLines("asd_cpp/core/Shape/asd.ShapeType.h")
 engineHeader.readLines("asd_cpp/core/Window/asd.Cursor.h")
 
 engineHeader.readLines("asd_cpp/core/Core/asd.Core.h")
-
-engineHeader.readLines("asd_cpp/engine/asd.WrapperLib.h")
 
 engineHeader.readLines("asd_cpp/engine/ObjectSystem/PostEffect/asd.PostEffect.h")
 engineHeader.readLines("asd_cpp/engine/ObjectSystem/PostEffect/asd.PostEffectGrayScale.h")

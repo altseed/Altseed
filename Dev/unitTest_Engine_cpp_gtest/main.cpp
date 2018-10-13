@@ -67,6 +67,9 @@ EXTERN_ENGINE_TEST(Graphics, TextObject2D)
 EXTERN_ENGINE_TEST(Graphics, TextObject2D_Dynamic)
 EXTERN_ENGINE_TEST(Graphics, MapObject2D)
 EXTERN_ENGINE_TEST(Graphics, CameraObject2D)
+
+EXTERN_ENGINE_TEST(Graphics, MediaPlayer)
+
 EXTERN_ENGINE_TEST(ObjectSystem, CustomObject)
 EXTERN_ENGINE_TEST(ObjectSystem, ParentObject)
 EXTERN_ENGINE_TEST(ObjectSystem, VanishInComponent)
@@ -132,7 +135,7 @@ int main(int argc, char **argv)
 	SetCurrentDirectoryA(current_path);
 #endif
 
-	CALL_ENGINE_TEST(Graphics, TextureObject2D, false);
+	//CALL_ENGINE_TEST(Graphics, MediaPlayer, true);
 	return 0;
 
 	auto result = RUN_ALL_TESTS();

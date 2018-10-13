@@ -50,10 +50,9 @@ class CreateHeader:
 cdToScript()
 
 fromCoreToEngine = CreateHeader()
-fromCoreToEngine.append('#pragma once')
-fromCoreToEngine.append('\n#include <stdint.h>')
-fromCoreToEngine.append('\n#include <asd.common.Base.h>')
-
+fromCoreToEngine.append('#pragma once\r\n')
+fromCoreToEngine.append('#include <stdint.h>\r\n')
+fromCoreToEngine.append('#include <asd.common.Base.h>\r\n')
 
 fromCoreToEngine.readLines("asd_cpp/common/Math/asd.Vector2DI.h")
 fromCoreToEngine.readLines("asd_cpp/common/Math/asd.Vector2DF.h")

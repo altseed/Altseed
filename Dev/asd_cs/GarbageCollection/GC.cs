@@ -45,8 +45,9 @@ namespace asd
         internal static IDObjectContainer<MaterialPropertyBlock> MaterialPropertyBlocks { get; private set; }
 
         internal static IDObjectContainer<ImagePackage> ImagePackages { get; private set; }
+		internal static IDObjectContainer<MediaPlayer> MediaPlayers { get; private set; }
 
-        internal static IDObjectContainer<Effect> Effects { get; private set; }
+		internal static IDObjectContainer<Effect> Effects { get; private set; }
 
         internal static IDObjectContainer<Mesh> Meshs { get; private set; }
         internal static IDObjectContainer<Deformer> Deformers { get; private set; }
@@ -96,6 +97,7 @@ namespace asd
             MaterialPropertyBlocks = new IDObjectContainer<MaterialPropertyBlock>();
 
             ImagePackages = new IDObjectContainer<ImagePackage>();
+			MediaPlayers = new IDObjectContainer<MediaPlayer>();
 
             Effects = new IDObjectContainer<Effect>();
 
@@ -148,6 +150,7 @@ namespace asd
                 MaterialPropertyBlocks.Collect();
 
                 ImagePackages.Collect();
+				MediaPlayers.Collect();
 
                 Effects.Collect();
 
@@ -201,6 +204,7 @@ namespace asd
                 MaterialPropertyBlocks.DestroyAll();
 
                 ImagePackages.DestroyAll();
+				MediaPlayers.DestroyAll();
 
                 Effects.DestroyAll();
 
@@ -421,12 +425,26 @@ namespace asd
             return ret;
         }
 
-        /// <summary>
-        /// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
-        /// </summary>
-        /// <param name="o"></param>
-        /// <param name="type"></param>
-        internal static Font GenerateFont(swig.Font o, GenerationType type)
+		internal static MediaPlayer GenerateMediaPlayer(swig.MediaPlayer o, GenerationType type)
+		{
+			if (o == null) return null;
+			var p = o.GetPtr();
+
+			var existing = GC.MediaPlayers.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new MediaPlayer(o);
+			GC.MediaPlayers.AddObject(p, ret);
+			return ret;
+		}
+
+		/// <summary>
+		/// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+		/// </summary>
+		/// <param name="o"></param>
+		/// <param name="type"></param>
+		internal static Font GenerateFont(swig.Font o, GenerationType type)
         {
             if (o == null) return null;
             var p = o.GetPtr();

@@ -79,6 +79,7 @@
     <Compile Include="Log\Log_Basic.cs" />
     <Compile Include="Log\Log_OutputLevel.cs" />
     <Compile Include="Log\Log_Table.cs" />
+    <Compile Include="Media\MediaPlayer_Basic.cs" />
     <Compile Include="Mouse\Mouse_Click.cs" />
     <Compile Include="Mouse\Mouse_Position.cs" />
     <Compile Include="Mouse\Mouse_State.cs" />

@@ -54,6 +54,7 @@ namespace asd
 					if (TryRelease(o as swig.MaterialPropertyBlock)) continue;
 
 					if (TryRelease(o as swig.ImagePackage)) continue;
+					if (TryRelease(o as swig.MediaPlayer)) continue;
 
 					if (TryRelease(o as swig.Effect)) continue;
 					if (TryRelease(o as swig.Font)) continue;

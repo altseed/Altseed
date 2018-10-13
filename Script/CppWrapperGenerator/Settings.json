@@ -8,14 +8,31 @@
     "File",
     "StaticFile",
     "StreamFile",
+    "MediaPlayer",
     "Tool"
   ],
   "ReleasableClassList": [
     "SoundSource",
     "StaticFile",
-    "StreamFile"
+    "StreamFile",
+    "MediaPlayer",
   ],
   "UnwrappedClassList": [
     "Texture2D"
+  ],
+
+  "PrimitiveTypeList": [
+    "int",
+    "int32_t",
+    "void",
+    "float",
+    "bool",
+    "char16_t",
+    "Vector2DF",
+    "Vector2DI",
+    "int8_t"
+  ],
+  "FriendClassList": [
+    "Graphics"
   ]
 }

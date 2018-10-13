@@ -186,6 +186,9 @@
     <ClCompile Include="..\Joystick\Joystick_GamePad.cpp">
       <Filter>Joystick</Filter>
     </ClCompile>
+    <ClCompile Include="..\Media\MediaPlayer_Basic.cpp">
+      <Filter>Media</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />
@@ -266,6 +269,9 @@
     </Filter>
     <Filter Include="Log">
       <UniqueIdentifier>{921cc83b-8d9d-4e7a-9ab6-c8f04d3f87f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Media">
+      <UniqueIdentifier>{d57d94be-d5d8-47a1-8eca-f591b38e0150}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

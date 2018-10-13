@@ -416,6 +416,8 @@
     <ClInclude Include="..\core\Graphics\Command\asd.RenderingCommandHelper.h" />
     <ClInclude Include="..\core\Graphics\Helper\asd.EffekseerHelper.h" />
     <ClInclude Include="..\core\Graphics\Helper\asd.GifAnimationHelper.h" />
+    <ClInclude Include="..\core\Graphics\Media\asd.MediaPlayer.h" />
+    <ClInclude Include="..\core\Graphics\Media\Platform\asd.MediaPlayerWMF.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\asd.DX11.Base.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\asd.Graphics_Imp_DX11.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.CubemapTexture_Imp_DX11.h" />
@@ -722,6 +724,8 @@
     <ClCompile Include="..\core\Graphics\Command\asd.RenderingCommandHelper.cpp" />
     <ClCompile Include="..\core\Graphics\Helper\asd.EffekseerHelper.cpp" />
     <ClCompile Include="..\core\Graphics\Helper\asd.GifAnimationHelper.cpp" />
+    <ClCompile Include="..\core\Graphics\Media\asd.MediaPlayer.cpp" />
+    <ClCompile Include="..\core\Graphics\Media\Platform\asd.MediaPlayerWMF.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\asd.Graphics_Imp_DX11.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.CubemapTexture_Imp_DX11.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.DepthBuffer_Imp_DX11.cpp" />

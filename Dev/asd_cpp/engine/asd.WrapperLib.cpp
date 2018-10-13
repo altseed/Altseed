@@ -79,6 +79,48 @@ bool File::Exists(const char16_t* path) const{
 	return ret;
 };
 
+MediaPlayer::MediaPlayer(void* self, bool isCtrlSelf) {
+	this->self = self;
+	this->isCtrlSelf = isCtrlSelf;
+}
+MediaPlayer::~MediaPlayer(){
+	if (isCtrlSelf) {
+		dll->MediaPlayer_Destruct(self);
+	}
+};
+
+bool MediaPlayer::Play(){
+	auto arg0 = self;
+	auto ret = dll->MediaPlayer_Play(arg0);
+	return ret;
+};
+
+bool MediaPlayer::Load(const char16_t* path){
+	auto arg0 = self;
+	auto arg1 = path;
+	auto ret = dll->MediaPlayer_Load(arg0,arg1);
+	return ret;
+};
+
+bool MediaPlayer::WriteToTexture2D(std::shared_ptr<Texture2D> target){
+	auto arg0 = self;
+	auto arg1 = target.get();
+	auto ret = dll->MediaPlayer_WriteToTexture2D(arg0,arg1);
+	return ret;
+};
+
+Vector2DI MediaPlayer::GetSize() const{
+	auto arg0 = self;
+	auto ret = dll->MediaPlayer_GetSize(arg0);
+	return ret;
+};
+
+int32_t MediaPlayer::GetCurrentFrame() const{
+	auto arg0 = self;
+	auto ret = dll->MediaPlayer_GetCurrentFrame(arg0);
+	return ret;
+};
+
 Sound::Sound(void* self, bool isCtrlSelf) {
 	this->self = self;
 	this->isCtrlSelf = isCtrlSelf;

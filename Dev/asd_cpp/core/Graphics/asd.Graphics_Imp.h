@@ -402,6 +402,8 @@ namespace asd {
 
 		ImagePackage* CreateImagePackage_(const achar* path) override;
 
+		MediaPlayer* CreateMediaPlayer_() override;
+
 #if !SWIG
 	/**
 	@brief	深度バッファを生成する。

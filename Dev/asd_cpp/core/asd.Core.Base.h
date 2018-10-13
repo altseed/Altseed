@@ -43,6 +43,7 @@ namespace asd {
 	class CubemapTexture;
 
 	class ImagePackage;
+	class MediaPlayer;
 
 	class Shader2D;
 	class Material2D;

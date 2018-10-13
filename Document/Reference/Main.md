@@ -29,6 +29,7 @@
 * [エフェクト](./Graphics/Effect.md)
 * [フォント](./Graphics/Font.md)
 * [画像パッケージ](./Graphics/ImagePackage.md)
+* [メディアプレイヤー](./Graphics/MediaPlayer.md)
 
 #### 2D
 

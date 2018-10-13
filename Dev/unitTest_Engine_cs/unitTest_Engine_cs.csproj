@@ -75,6 +75,7 @@
     <Compile Include="Graphics\3D\Effect3D.cs" />
     <Compile Include="Graphics\3D\SimpleMesh.cs" />
     <Compile Include="Graphics\3D\TerrainObject3D.cs" />
+    <Compile Include="Graphics\Media\MediaPlayer.cs" />
     <Compile Include="Graphics\PostEffect\CustomPostEffect.cs" />
     <Compile Include="Graphics\PostEffect\PostEffectGaussinaBlur.cs" />
     <Compile Include="Graphics\PostEffect\PostEffectGrayScale.cs" />

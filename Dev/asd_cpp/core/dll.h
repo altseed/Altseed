@@ -30,6 +30,9 @@
 #include "Sound/asd.Sound.h"
 
 #include "Graphics/asd.Graphics_Imp.h"
+
+#include "Graphics/Media/asd.MediaPlayer.h"
+
 #include "Graphics/Resource/asd.Texture2D_Imp.h"
 #include "Graphics/Resource/asd.CubemapTexture_Imp.h"
 

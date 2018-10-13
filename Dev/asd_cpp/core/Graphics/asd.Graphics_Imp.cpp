@@ -26,6 +26,10 @@
 #include "Resource/asd.MaterialPropertyBlock_Imp.h"
 
 #include "Resource/asd.ImagePackage_Imp.h"
+#include "Media/asd.MediaPlayer.h"
+#if _WIN32
+#include "Media/Platform/asd.MediaPlayerWMF.h"
+#endif
 
 #include "3D/Resource/asd.Mesh_Imp.h"
 #include "3D/Resource/asd.Deformer_Imp.h"
@@ -1067,6 +1071,14 @@ ImagePackage* Graphics_Imp::CreateImagePackage_(const achar* path)
 	});
 
 	return ret;
+}
+
+MediaPlayer* Graphics_Imp::CreateMediaPlayer_()
+{
+#if _WIN32
+	return new MediaPlayerWMF(this);
+#endif
+	return nullptr;
 }
 
 //----------------------------------------------------------------------------------
