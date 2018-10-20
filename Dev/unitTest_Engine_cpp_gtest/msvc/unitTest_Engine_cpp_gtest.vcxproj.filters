@@ -231,6 +231,9 @@
     <ClCompile Include="CollidingMethod.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\Media\MediaPlayer.cpp">
+      <Filter>Graphics\Media</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -283,6 +286,9 @@
     </Filter>
     <Filter Include="Collision\2D">
       <UniqueIdentifier>{7ac4b9aa-632a-46a1-ac94-e1bb9dc9f196}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Media">
+      <UniqueIdentifier>{dcc0e800-d82b-45d8-8fa1-900fb6afa467}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

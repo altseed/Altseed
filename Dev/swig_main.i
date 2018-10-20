@@ -81,6 +81,7 @@ CPP_OBJECT( asd::Shader2D_Imp )
 CPP_OBJECT( asd::Shader3D )
 
 CPP_OBJECT( asd::ImagePackage )
+CPP_OBJECT( asd::MediaPlayer )
 
 CPP_OBJECT( asd::Effect )
 
@@ -206,6 +207,7 @@ CPP_OBJECT( asd::Tool )
 %include "asd_cpp/core/Graphics/Resource/asd.CubemapTexture.h"
 
 %include "asd_cpp/core/Graphics/Resource/asd.ImagePackage.h"
+%include "asd_cpp/core/Graphics/Media/asd.MediaPlayer.h"
 
 %include "asd_cpp/core/Graphics/Resource/asd.Effect.h"
 

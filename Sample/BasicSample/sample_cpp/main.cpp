@@ -95,6 +95,8 @@ extern void Log_Basic();
 extern void Log_OutputLevel();
 extern void Log_Table();
 
+extern void MediaPlayer_Basic();
+
 int main(int argc, char** argv)
 {
 #if _WIN32
@@ -181,6 +183,9 @@ int main(int argc, char** argv)
 		INFO(Log_Basic, "ログ出力", "ログファイルにログを出力するサンプルです。"),
 		INFO(Log_OutputLevel, "ログの出力レベルの指定", "ログファイルにログを出力するサンプルです。\n出力レベルを指定し、低レベルのログを無視します。"),
 		INFO(Log_Table, "表組みされたログ出力", "ログファイルに表組みで表現されたログを出力するサンプルです。"),
+
+		INFO(MediaPlayer_Basic, "", ""),
+
 	};
 
 	auto browser = SampleBrowser(samples);

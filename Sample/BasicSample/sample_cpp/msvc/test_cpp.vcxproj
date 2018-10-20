@@ -46,6 +46,7 @@
     <ClCompile Include="..\Log\Log_OutputLevel.cpp" />
     <ClCompile Include="..\Log\Log_Table.cpp" />
     <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\Media\MediaPlayer_Basic.cpp" />
     <ClCompile Include="..\Mouse\Mouse_Position.cpp" />
     <ClCompile Include="..\Mouse\Mouse_Click.cpp" />
     <ClCompile Include="..\Mouse\Mouse_State.cpp" />

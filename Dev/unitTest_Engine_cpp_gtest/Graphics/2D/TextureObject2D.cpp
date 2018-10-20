@@ -10,7 +10,7 @@ class Graphics_TextureObject2D : public EngineTest
 {
 public:
 	Graphics_TextureObject2D(bool isOpenGLMode)
-		: EngineTest(asd::ToAString("TextureObject2D"), isOpenGLMode, 20000000)
+		: EngineTest(asd::ToAString("TextureObject2D"), isOpenGLMode, 20)
 	{
 	}
 

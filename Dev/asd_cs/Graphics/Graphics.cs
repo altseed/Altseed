@@ -323,6 +323,18 @@ namespace asd
 		}
 
 		/// <summary>
+		/// メディアプレイヤーを生成する。
+		/// </summary>
+		/// <returns>メディアプレイヤー</returns>
+		public MediaPlayer CreateMediaPlayer()
+		{
+			var ip = CoreInstance.CreateMediaPlayer_();
+			if (ip == null) return null;
+			return GC.GenerateMediaPlayer(ip, GenerationType.Create);
+		}
+
+
+		/// <summary>
 		/// 描画ランタイムの種類を取得する。
 		/// </summary>
 		public GraphicsDeviceType GraphicsDeviceType

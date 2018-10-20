@@ -7,6 +7,9 @@
 #include "IO/asd.File.h"
 #include "IO/asd.StaticFile.h"
 #include "IO/asd.StreamFile.h"
+
+#include "Graphics/Media/asd.MediaPlayer.h"
+
 #include "Tool/asd.Tool.h"
 
 namespace asd
@@ -66,6 +69,43 @@ bool WrapperDLL::File_Exists(void* self,const char16_t* path){
 	auto self_ = (File*)self;
 	auto arg0 = path;
 	auto ret = self_->Exists(arg0);
+	return ret;
+};
+
+void WrapperDLL::MediaPlayer_Destruct(void* self){
+	auto self_ = (MediaPlayer*)self;
+	SafeRelease(self_);
+};
+
+bool WrapperDLL::MediaPlayer_Play(void* self){
+	auto self_ = (MediaPlayer*)self;
+	auto ret = self_->Play();
+	return ret;
+};
+
+bool WrapperDLL::MediaPlayer_Load(void* self,const char16_t* path){
+	auto self_ = (MediaPlayer*)self;
+	auto arg0 = path;
+	auto ret = self_->Load(arg0);
+	return ret;
+};
+
+bool WrapperDLL::MediaPlayer_WriteToTexture2D(void* self,void* target){
+	auto self_ = (MediaPlayer*)self;
+	auto arg0 = (Texture2D*)target;
+	auto ret = self_->WriteToTexture2D(arg0);
+	return ret;
+};
+
+Vector2DI WrapperDLL::MediaPlayer_GetSize(void* self){
+	auto self_ = (MediaPlayer*)self;
+	auto ret = self_->GetSize();
+	return ret;
+};
+
+int32_t WrapperDLL::MediaPlayer_GetCurrentFrame(void* self){
+	auto self_ = (MediaPlayer*)self;
+	auto ret = self_->GetCurrentFrame();
 	return ret;
 };
 

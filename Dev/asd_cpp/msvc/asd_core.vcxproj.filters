@@ -175,6 +175,12 @@
     <Filter Include="IO\StaticFile">
       <UniqueIdentifier>{9834d3f4-a3cb-4940-be6f-c7d6dd1f5815}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Media">
+      <UniqueIdentifier>{7de09438-4b38-454e-a117-23940b5242ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Media\Platform">
+      <UniqueIdentifier>{7ca8c5b2-3a70-4fd9-bf46-ddff998e34be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\asd.Log_Imp.h">
@@ -1150,6 +1156,12 @@
     <ClInclude Include="..\core\IO\StaticFile\asd.StaticFileCacheStore.h">
       <Filter>IO\StaticFile</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Media\asd.MediaPlayer.h">
+      <Filter>Graphics\Media</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Media\Platform\asd.MediaPlayerWMF.h">
+      <Filter>Graphics\Media\Platform</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">
@@ -1637,6 +1649,12 @@
     </ClCompile>
     <ClCompile Include="..\core\IO\StaticFile\asd.StaticFileCacheStore.cpp">
       <Filter>IO\StaticFile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Media\Platform\asd.MediaPlayerWMF.cpp">
+      <Filter>Graphics\Media\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Media\asd.MediaPlayer.cpp">
+      <Filter>Graphics\Media</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

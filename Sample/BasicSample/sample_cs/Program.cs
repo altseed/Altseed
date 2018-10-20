@@ -81,6 +81,8 @@ class Program
 				new Log_Basic(), 
 				new Log_OutputLevel(), 
 				new Log_Table(), 
+
+				new MediaPlayer_Basic(),
             };
 
 		var browser = new SampleBrowser(samples);

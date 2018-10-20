@@ -1,21 +1,13 @@
 ﻿#pragma once
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
 #include <asd.common.Base.h>
 #include "../asd.ReferenceObject.h"
 #include "../asd.Core.Base.h"
 
 #include "Resource/asd.Texture2D.h"
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
 namespace asd {
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
+
 class Graphics
 	: public ReferenceObject
 {
@@ -53,6 +45,8 @@ protected:
 	virtual Font* CreateDynamicFont_(const achar* font, int32_t fontSize, Color color, int32_t outlineSize, Color outlineColor) = 0;
 
 	virtual ImagePackage* CreateImagePackage_(const achar* path) = 0;
+	virtual MediaPlayer* CreateMediaPlayer_() = 0;
+
 public:
 	Graphics(){}
 	virtual ~Graphics(){}
@@ -344,6 +338,18 @@ public:
 		return CreateSharedPtrWithReleaseDLL(ip);
 	}
 
+#ifdef __ALTSEED_HEADER__
+	/**
+	@brief	メディアプレイヤーを生成する。
+	@return	メディアプレイヤー
+	*/
+	std::shared_ptr<MediaPlayer> CreateMediaPlayer()
+	{
+		auto mp = CreateMediaPlayer_();
+		return std::shared_ptr<MediaPlayer>(new MediaPlayer(mp, true));
+	}
+#endif
+
 #endif
 
 	/**
@@ -369,9 +375,5 @@ public:
 	virtual GraphicsDeviceType GetGraphicsDeviceType() const = 0;
 
 };
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
 
 }
