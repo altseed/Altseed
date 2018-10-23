@@ -9,10 +9,13 @@ option(BUILD_TOOL "Build tool" OFF)
 
 # Check CMake Version
 if (MSVC)
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 3.1)
 else()
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.1)
 endif()
+
+# C++11
+set (CMAKE_CXX_STANDARD 11)
 
 # For MSVC
 if (MSVC)
@@ -21,14 +24,14 @@ endif()
 
 # For Apple
 if(APPLE)
-	set(CMAKE_OSX_DEPLOYMENT_TARGET 10.6)
+	set(CMAKE_OSX_DEPLOYMENT_TARGET 10.12)
 endif()
 
 # Add flags
 if (MSVC)
 	# Nothing
 else()
-	set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC -fpermissive ${CMAKE_CXX_FLAGS}")
+	set(CMAKE_CXX_FLAGS " -fPIC -fpermissive ${CMAKE_CXX_FLAGS}")
 	set(CMAKE_C_FLAGS "-fPIC ${CMAKE_C_FLAGS}")
 
 endif()
