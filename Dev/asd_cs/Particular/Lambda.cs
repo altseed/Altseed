@@ -9,9 +9,8 @@ namespace asd.Particular
 	internal static class Lambda
 	{
 		static BucketSort<Object2D> updateObject2DSorter = new BucketSort<Object2D>((_)=> _.UpdatePriority);
-		static BucketSort<Object2D> drawObject2DSorter = new BucketSort<Object2D>((_) => _.UpdatePriority);
 		static BucketSort<Layer> updateLayerSorter = new BucketSort<Layer>((_) => _.UpdatePriority);
-		static BucketSort<Layer> drawLayerSorter = new BucketSort<Layer>((_) => _.UpdatePriority);
+		static BucketSort<Layer> drawLayerSorter = new BucketSort<Layer>((_) => _.DrawingPriority);
 
 		public static bool HasContentHavingSpecificUpdatePriority<TContent>(
 			SortedList<int, LinkedList<TContent>> contents,
