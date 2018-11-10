@@ -1,5 +1,7 @@
 ﻿#include <exception>
 #include <list>
+#include <algorithm>
+
 #include "asd.Scene.h"
 #include "../asd.Engine.h"
 #include "Registration/asd.RegistrationCommand.h"
@@ -65,7 +67,7 @@ namespace asd
 
 	void Scene::Update()
 	{
-		m_layersToUpdate.sort([](const Layer::Ptr& x, const Layer::Ptr& y) -> bool
+		std::stable_sort(m_layersToUpdate.begin(), m_layersToUpdate.end(), [](const Layer::Ptr& x, const Layer::Ptr& y) -> bool
 		{
 			return x->GetUpdatePriority() < y->GetUpdatePriority();
 		});
@@ -97,7 +99,7 @@ namespace asd
 
 	void Scene::Draw()
 	{
-		m_layersToDraw.sort([](const Layer::Ptr& x, const Layer::Ptr& y) -> bool
+		std::stable_sort(m_layersToDraw.begin(), m_layersToDraw.end(),[](const Layer::Ptr& x, const Layer::Ptr& y) -> bool
 		{
 			return x->GetDrawingPriority() < y->GetDrawingPriority();
 		});
