@@ -136,11 +136,19 @@ namespace asd
 			{
 				if (root->IsPackFile())
 				{
-					return loader->LoadFromPackedRoot(path, packedPath, root);
+					auto ret = loader->LoadFromPackedRoot(path, packedPath, root);
+					if (ret != nullptr)
+					{
+						return ret;
+					}
 				}
 				else
 				{
-					return loader->LoadFromNonPackedRoot(path, root);
+					auto ret = loader->LoadFromNonPackedRoot(path, root);
+					if (ret != nullptr)
+					{
+						return ret;
+					}
 				}
 			}
 		}
