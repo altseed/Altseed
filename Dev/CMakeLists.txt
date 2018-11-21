@@ -1,4 +1,4 @@
-﻿# Limit to Debug Release
+# Limit to Debug Release
 set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE TYPE INTERNAL FORCE )
 
 # Project name
@@ -132,6 +132,15 @@ FILE(GLOB core_root_srcs
 	asd_cpp/core/*.cpp
 	asd_cpp/core/*.h
 )
+
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+FILE(GLOB_RECURSE core_mac_srcs
+	asd_cpp/core/Graphics/*.mm
+)
+
+list(APPEND core_srcs ${core_mac_srcs})
+
+endif()
 
 list(APPEND core_srcs ${core_root_srcs} ${third_srcs})
 
@@ -290,7 +299,8 @@ else()
 			${OPENGL_glu_LIBRARY}
 			${IOKIT_FRAMEWORK}
 			${CORE_FOUNDATION_FRAMEWORK}
-			${CORE_VIDEO_FRAMEWORK})
+			${CORE_VIDEO_FRAMEWORK}
+			"-framework AVFoundation")
 	endif()
 
 endif()
