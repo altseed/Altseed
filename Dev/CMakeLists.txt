@@ -300,7 +300,8 @@ else()
 			${IOKIT_FRAMEWORK}
 			${CORE_FOUNDATION_FRAMEWORK}
 			${CORE_VIDEO_FRAMEWORK}
-			"-framework AVFoundation")
+			"-framework AVFoundation"
+			"-framework CoreMedia")
 	endif()
 
 endif()
