@@ -17,9 +17,26 @@ def conv(path):
 	if b'\xef' == byte:
 		return
 
-	fin = open(path,mode='r',encoding='cp932')
-	data = fin.read()
-	fin.close()
+	data = None
+	
+	if data is None:
+		try:
+			fin = open(path,mode='r',encoding='cp932')
+			data = fin.read()
+			fin.close()
+		except:
+			pass
+
+	if data is None:
+		try:
+			fin = open(path,mode='r',encoding='utf-8')
+			data = fin.read()
+			fin.close()
+		except:
+			pass
+
+	if data is None:
+		raise Exception('invalid encode')
 
 	fout = open(path,mode='w',encoding='utf-8-sig')
 	fout.write(data)
