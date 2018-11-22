@@ -3,6 +3,7 @@
 ### 1.2.x (2018/xx/xx)
 * ImagePackageの仕様を拡張(詳細はヘルプ参照)
 * MouseButtonState、JoystickButtonState、KeyButtonStateをButtonStateに共通化(破壊的変更)
+* C++のScene::GetLayers()が返す値がlistからvector型に変更(破壊的変更)
 
 ### 1.1.5 (2018/05/14)
 不具合修正のための更新です。

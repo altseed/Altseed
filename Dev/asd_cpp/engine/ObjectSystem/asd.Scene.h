@@ -36,8 +36,8 @@ namespace asd
 
 	private:
 		std::shared_ptr<CoreScene> m_coreScene;
-		std::list<Layer::Ptr> m_layersToDraw;
-		std::list<Layer::Ptr> m_layersToUpdate;
+		std::vector<Layer::Ptr> m_layersToDraw;
+		std::vector<Layer::Ptr> m_layersToUpdate;
 		std::shared_ptr<ComponentManager<SceneComponent>> m_componentManager;
 		bool alreadyFirstUpdate;
 		bool m_isAlive;
@@ -169,7 +169,7 @@ namespace asd
 			@brief	所属しているレイヤーを取得する。
 			@return	所属しているレイヤー
 		*/
-		const std::list<Layer::Ptr>& GetLayers() const;
+		const std::vector<Layer::Ptr>& GetLayers() const;
 
 		bool GetIsAlive() const;
 
