@@ -1,4 +1,4 @@
-﻿
+
 #include <gtest/gtest.h>
 #include <Altseed.h>
 #include "../../EngineTest.h"
@@ -23,7 +23,7 @@ protected:
 		auto scene = make_shared<Scene>();
 		auto layer = make_shared<Layer2D>();
 		auto textureObj = make_shared<TextureObject2D>();
-		texture = asd::Engine::GetGraphics()->CreateEmptyTexture2D(1280, 720, asd::TextureFormat::R8G8B8A8_UNORM_SRGB);
+		texture = asd::Engine::GetGraphics()->CreateEmptyTexture2D(640, 480, asd::TextureFormat::R8G8B8A8_UNORM_SRGB);
 
 		layer->AddObject(textureObj);
 

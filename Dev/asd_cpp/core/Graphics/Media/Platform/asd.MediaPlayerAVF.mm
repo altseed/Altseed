@@ -1,4 +1,4 @@
-﻿#include "asd.MediaPlayerAVF.h"
+#include "asd.MediaPlayerAVF.h"
 
 #ifdef __APPLE__
 
@@ -48,7 +48,19 @@ public:
             [_asset release];
             _asset = nullptr;
         }
-            
+        
+        if(_playerItem!= nullptr)
+        {
+            [_playerItem release];
+            _playerItem = nullptr;
+        }
+        
+        if(_player != nullptr)
+        {
+            [_player release];
+            _player = nullptr;
+        }
+        
         if(_playerItemVideoOutput != nullptr)
         {
             [_playerItemVideoOutput release];
@@ -123,7 +135,10 @@ public:
             
         _player = [AVPlayer playerWithPlayerItem:_playerItem];
         [_player seekToTime:kCMTimeZero];
-            
+        
+        [_player retain];
+        [_playerItem retain];
+        
         isLoaded = true;
             
         return true;
