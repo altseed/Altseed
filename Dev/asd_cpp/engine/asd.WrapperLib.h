@@ -130,7 +130,7 @@ class MediaPlayer {
 	bool Load(const char16_t* path);
 	
 	/**
-		@brief 現在の映像を書き込む。 
+		@brief 現在の映像をテクスチャに書き込む。 
 		@param target 書き込み先 
 	*/
 	bool WriteToTexture2D(std::shared_ptr<Texture2D> target);
@@ -144,6 +144,18 @@ class MediaPlayer {
 		@brief 現在再生中の映像のフレーム番号を取得する。 
 	*/
 	int32_t GetCurrentFrame() const;
+	
+	/**
+		@brief ループするかを取得する。 
+		@return ループするか? 
+	*/
+	bool GetIsLoopingMode() const;
+	
+	/**
+		@brief ループするかを設定する。 
+		@param isLoopingMode ループするか? 
+	*/
+	void SetIsLoopingMode(bool isLoopingMode);
 	
 };
 

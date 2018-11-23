@@ -121,6 +121,18 @@ int32_t MediaPlayer::GetCurrentFrame() const{
 	return ret;
 };
 
+bool MediaPlayer::GetIsLoopingMode() const{
+	auto arg0 = self;
+	auto ret = dll->MediaPlayer_GetIsLoopingMode(arg0);
+	return ret;
+};
+
+void MediaPlayer::SetIsLoopingMode(bool isLoopingMode){
+	auto arg0 = self;
+	auto arg1 = isLoopingMode;
+	dll->MediaPlayer_SetIsLoopingMode(arg0,arg1);
+};
+
 Sound::Sound(void* self, bool isCtrlSelf) {
 	this->self = self;
 	this->isCtrlSelf = isCtrlSelf;

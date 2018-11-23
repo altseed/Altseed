@@ -35,6 +35,8 @@ public:
 	virtual bool MediaPlayer_WriteToTexture2D(void* self,void* target);
 	virtual Vector2DI MediaPlayer_GetSize(void* self);
 	virtual int32_t MediaPlayer_GetCurrentFrame(void* self);
+	virtual bool MediaPlayer_GetIsLoopingMode(void* self);
+	virtual void MediaPlayer_SetIsLoopingMode(void* self,bool isLoopingMode);
 	virtual void Sound_Destruct(void* self);
 	virtual void* Sound_CreateSoundSource(void* self,const char16_t* path,bool isDecompressed);
 	virtual int32_t Sound_Play(void* self,void* soundSource);

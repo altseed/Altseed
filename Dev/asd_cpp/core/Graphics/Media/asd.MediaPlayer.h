@@ -18,7 +18,7 @@ private:
 protected:
 	MediaPlayer() {}
 	virtual ~MediaPlayer() {}
-
+	bool isLoopingMode = false;
 public:
 
 	/**
@@ -30,7 +30,7 @@ public:
 		@brief	映像を読み込む。
 		@param	path	ファイルのパス
 		@note
-		Windows専用。H264推奨。
+		H264を推奨する。
 	*/
 	virtual bool Load(const char16_t* path) = 0;
 
@@ -51,6 +51,18 @@ public:
 		@brief	現在再生中の映像のフレーム番号を取得する。
 	*/
 	virtual int32_t GetCurrentFrame() const = 0;
+
+	/**
+	@brief	ループするかを取得する。
+	@return	ループするか?
+	*/
+	virtual bool GetIsLoopingMode() const;
+
+	/**
+	@brief	ループするかを設定する。
+	@param	isLoopingMode	ループするか?
+	*/
+	virtual void SetIsLoopingMode(bool isLoopingMode);
 };
 
 }

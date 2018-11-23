@@ -4,6 +4,7 @@
 
 #include "../../asd.Graphics.h"
 #include "../../asd.Graphics_Imp.h"
+#include <propvarutil.h>
 
 namespace asd
 {
@@ -28,8 +29,29 @@ namespace asd
 			reader->ReadSample(MF_SOURCE_READER_FIRST_VIDEO_STREAM, 0, NULL, &flags, NULL, &sample);
 			if (sample == nullptr)
 			{
-				isPlaying = false;
-				break;
+				// Loop
+				if (isLoopingMode)
+				{
+					PROPVARIANT propvar;
+					HRESULT hr = InitPropVariantFromInt64(0, &propvar);
+					reader->SetCurrentPosition(GUID_NULL, propvar);
+					PropVariantClear(&propvar);
+
+					currentFrame = 0;
+					startTime = std::chrono::system_clock::now();
+
+					reader->ReadSample(MF_SOURCE_READER_FIRST_VIDEO_STREAM, 0, NULL, &flags, NULL, &sample);
+					if (sample == nullptr)
+					{
+						isPlaying = false;
+						break;
+					}
+				}
+				else
+				{
+					isPlaying = false;
+					break;
+				}
 			}
 
 			IMFMediaBuffer* buffer;
