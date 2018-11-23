@@ -9,6 +9,40 @@
 #import <AVFoundation/AVFoundation.h>
 #import <Cocoa/Cocoa.h>
 
+@interface MediaPlayerAVFPlayer : NSObject
+
+@property bool isLoopingMode;
+@property AVPlayer* _player;
+@property AVPlayerItem* _playerItem;
+
+@end
+
+@implementation MediaPlayerAVFPlayer
+
+-(void)observe {
+    //self._player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(playerItemDidReachEnd:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:self._playerItem];
+}
+
+-(void)remove {
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:self._playerItem];
+}
+
+- (void)playerItemDidReachEnd:(NSNotification *)notification {
+    AVPlayerItem* p = [notification object];
+    if(self.isLoopingMode)
+    {
+        [p seekToTime:kCMTimeZero];
+    }
+}
+
+@end
+
 namespace asd
 {
     
@@ -20,11 +54,14 @@ public:
     AVPlayerItem* _playerItem = nullptr;
     AVPlayerItemVideoOutput* _playerItemVideoOutput = nullptr;
     AVURLAsset* _asset = nullptr;
+    MediaPlayerAVFPlayer* _playerWrapper = nullptr;
+    
     int movieWidth = 0;
     int movieHeight = 0;
     bool isLoaded = false;
     bool isPlaying = false;
     float frameRate = 0;
+    bool isLoopingMode = false;
     
     MediaPlayerAVF_Impl()
     {
@@ -42,7 +79,14 @@ public:
             [_player pause];
             isPlaying = false;
         }
-            
+        
+        if(_playerWrapper != nullptr)
+        {
+            [_playerWrapper remove];
+            [_playerWrapper release];
+            _playerWrapper = nullptr;
+        }
+
         if(_asset != nullptr)
         {
             [_asset release];
@@ -66,7 +110,7 @@ public:
             [_playerItemVideoOutput release];
             _playerItemVideoOutput = nullptr;
         }
-            
+        
         _player = nullptr;
         _playerItem = nullptr;
             
@@ -139,17 +183,25 @@ public:
         [_player retain];
         [_playerItem retain];
         
+        _player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
+        
+        _playerWrapper = [MediaPlayerAVFPlayer alloc];
+        _playerWrapper._player = _player;
+        _playerWrapper._playerItem = _playerItem;
+        [_playerWrapper observe];
+        
         isLoaded = true;
             
         return true;
     }
         
-        void play()
+        void play(bool isLoopingMode)
         {
             if(!isLoaded) return;
             if(isPlaying) return;
-            
+            this->isLoopingMode = isLoopingMode;
             isPlaying = true;
+            _playerWrapper.isLoopingMode = this->isLoopingMode;
             [_player play];
         }
     
@@ -209,9 +261,9 @@ public:
 		SafeRelease(graphics);
 	}
 
-	bool MediaPlayerAVF::Play()
+	bool MediaPlayerAVF::Play(bool isLoopingMode)
 	{
-        impl->play();
+        impl->play(isLoopingMode);
 		return true;
 	}
 

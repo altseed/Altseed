@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #ifdef __APPLE__
 
@@ -23,7 +23,7 @@ public:
 
 	virtual ~MediaPlayerAVF();
 
-	bool Play();
+	bool Play(bool isLoopingMode);
 
 	void Write(void* dst);
 
