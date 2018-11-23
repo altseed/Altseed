@@ -31,7 +31,7 @@ namespace unitTest_Engine_cs.Graphics.Media
 
 			mp = asd.Engine.Graphics.CreateMediaPlayer();
 			mp.Load("Data/Movie/Sample1.mp4");
-			mp.Play();
+			mp.Play(false);
 		}
 
 		protected override void OnUpdating()

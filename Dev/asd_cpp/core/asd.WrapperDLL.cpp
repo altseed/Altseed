@@ -77,9 +77,10 @@ void WrapperDLL::MediaPlayer_Destruct(void* self){
 	SafeRelease(self_);
 };
 
-bool WrapperDLL::MediaPlayer_Play(void* self){
+bool WrapperDLL::MediaPlayer_Play(void* self,bool isLoopingMode){
 	auto self_ = (MediaPlayer*)self;
-	auto ret = self_->Play();
+	auto arg0 = isLoopingMode;
+	auto ret = self_->Play(arg0);
 	return ret;
 };
 
@@ -107,18 +108,6 @@ int32_t WrapperDLL::MediaPlayer_GetCurrentFrame(void* self){
 	auto self_ = (MediaPlayer*)self;
 	auto ret = self_->GetCurrentFrame();
 	return ret;
-};
-
-bool WrapperDLL::MediaPlayer_GetIsLoopingMode(void* self){
-	auto self_ = (MediaPlayer*)self;
-	auto ret = self_->GetIsLoopingMode();
-	return ret;
-};
-
-void WrapperDLL::MediaPlayer_SetIsLoopingMode(void* self,bool isLoopingMode){
-	auto self_ = (MediaPlayer*)self;
-	auto arg0 = isLoopingMode;
-	self_->SetIsLoopingMode(arg0);
 };
 
 void WrapperDLL::Sound_Destruct(void* self){

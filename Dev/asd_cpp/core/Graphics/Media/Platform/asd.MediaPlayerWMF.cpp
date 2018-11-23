@@ -161,9 +161,10 @@ namespace asd
 		SafeRelease(graphics);
 	}
 
-	bool MediaPlayerWMF::Play()
+	bool MediaPlayerWMF::Play(bool isLoopingMode)
 	{
 		if (reader == nullptr) return false;
+		this->isLoopingMode = isLoopingMode;
 
 		isPlaying = true;
 		isThreadRequiredToJoin = true;

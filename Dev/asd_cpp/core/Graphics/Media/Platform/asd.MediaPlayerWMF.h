@@ -48,7 +48,7 @@ public:
 
 	virtual ~MediaPlayerWMF();
 
-	bool Play();
+	bool Play(bool isLoopingMode);
 
 	void Write(void* dst);
 

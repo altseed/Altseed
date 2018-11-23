@@ -1,4 +1,4 @@
-
+﻿
 #include <gtest/gtest.h>
 #include <Altseed.h>
 #include "../../EngineTest.h"
@@ -34,7 +34,7 @@ protected:
 
 		mp = asd::Engine::GetGraphics()->CreateMediaPlayer();
 		mp->Load(u"Data/Movie/Sample1.mp4");
-		mp->Play();
+		mp->Play(false);
 	}
 
 	void OnUpdating()

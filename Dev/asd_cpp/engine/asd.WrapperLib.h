@@ -120,8 +120,9 @@ class MediaPlayer {
 	
 	/**
 		@brief 映像を再生する。 
+		@param isLoopingMode ループ再生するか? 
 	*/
-	bool Play();
+	bool Play(bool isLoopingMode);
 	
 	/**
 		@brief 映像を読み込む。 
@@ -144,18 +145,6 @@ class MediaPlayer {
 		@brief 現在再生中の映像のフレーム番号を取得する。 
 	*/
 	int32_t GetCurrentFrame() const;
-	
-	/**
-		@brief ループするかを取得する。 
-		@return ループするか? 
-	*/
-	bool GetIsLoopingMode() const;
-	
-	/**
-		@brief ループするかを設定する。 
-		@param isLoopingMode ループするか? 
-	*/
-	void SetIsLoopingMode(bool isLoopingMode);
 	
 };
 

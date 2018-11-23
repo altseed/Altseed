@@ -29,7 +29,7 @@ void MediaPlayer_Basic()
 	mp->Load(u"Data/Movie/Sample1.mp4");
 
 	// 映像を再生する。
-	mp->Play();
+	mp->Play(false);
 
 	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())

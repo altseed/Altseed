@@ -89,9 +89,10 @@ MediaPlayer::~MediaPlayer(){
 	}
 };
 
-bool MediaPlayer::Play(){
+bool MediaPlayer::Play(bool isLoopingMode){
 	auto arg0 = self;
-	auto ret = dll->MediaPlayer_Play(arg0);
+	auto arg1 = isLoopingMode;
+	auto ret = dll->MediaPlayer_Play(arg0,arg1);
 	return ret;
 };
 
@@ -119,18 +120,6 @@ int32_t MediaPlayer::GetCurrentFrame() const{
 	auto arg0 = self;
 	auto ret = dll->MediaPlayer_GetCurrentFrame(arg0);
 	return ret;
-};
-
-bool MediaPlayer::GetIsLoopingMode() const{
-	auto arg0 = self;
-	auto ret = dll->MediaPlayer_GetIsLoopingMode(arg0);
-	return ret;
-};
-
-void MediaPlayer::SetIsLoopingMode(bool isLoopingMode){
-	auto arg0 = self;
-	auto arg1 = isLoopingMode;
-	dll->MediaPlayer_SetIsLoopingMode(arg0,arg1);
 };
 
 Sound::Sound(void* self, bool isCtrlSelf) {

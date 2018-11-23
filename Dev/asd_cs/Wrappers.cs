@@ -2360,23 +2360,15 @@ namespace asd {
 			get { return CoreInstance.GetCurrentFrame(); }
 		}
 
-		/// <summary>
-		/// ループするかを取得または設定する。
-		/// </summary>
-		public bool IsLoopingMode
-		{
-			get { return CoreInstance.GetIsLoopingMode(); }
-			set { CoreInstance.SetIsLoopingMode(value); }
-		}
-
 
 		/// <summary>
 		/// 映像を再生する。 
 		/// </summary>
+		/// <param name="isLoopingMode">ループ再生するか? </param>
 		/// <returns></returns>
-		public bool Play()
+		public bool Play(bool isLoopingMode)
 		{
-			return CoreInstance.Play();
+			return CoreInstance.Play(isLoopingMode);
 		}
 
 		/// <summary>

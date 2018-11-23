@@ -41,7 +41,7 @@ class MediaPlayer_Basic : ISample
 		mp.Load("Data/Movie/Sample1.mp4");
 
 		// 映像を再生する。
-		mp.Play();
+		mp.Play(false);
 
 		// Altseedのウインドウが閉じられていないか確認する。
 		while (asd.Engine.DoEvents())
