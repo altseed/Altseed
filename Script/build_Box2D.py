@@ -45,7 +45,7 @@ with aceutils.CurrentDir('../Downloads'):
         with aceutils.CurrentDir("box2d_temp/Box2D"):
                 aceutils.call(aceutils.cmd_premake5 + r'xcode4')
                 with aceutils.CurrentDir(r'Build/xcode4'):
-                    aceutils.call(r'xcodebuild -project Box2D.xcodeproj ONLY_ACTIVE_ARCH=NO ARCHS="i386 x86_64" -configuration Release')
+                    aceutils.call(r'xcodebuild -project Box2D.xcodeproj ONLY_ACTIVE_ARCH=NO ARCHS="x86_64" -configuration Release')
     else:
         with aceutils.CurrentDir("box2d_bin"):
             aceutils.call(r'cmake -D CMAKE_BUILD_TYPE=Release -G "Unix Makefiles" ../' + pathname + r'/Box2D/')

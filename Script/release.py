@@ -133,7 +133,7 @@ def release_common():
 		aceutils.rmdir(r'Dev/cmake')
 		aceutils.mkdir(r'Dev/cmake')
 		aceutils.cd(r'Dev/cmake')
-		aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D BUILD_TOOL=ON -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../ "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../')
+		aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D BUILD_TOOL=ON -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../ "-DCMAKE_OSX_ARCHITECTURES=x86_64" ../')
 		aceutils.cd(r'../../')
 
 def store_tools():

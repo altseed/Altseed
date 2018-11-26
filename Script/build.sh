@@ -1,0 +1,13 @@
+python3 build_ap.py
+python3 build_ar.py
+python3 build_glfw.py
+python3 build_libpng.py
+python3 build_Box2D.py
+python3 build_bullet.py
+python3 build_gtest.py
+python3 build_effekseer.py
+python3 build_OpenSoundMixer.py
+python3 build_freetype.py
+python3 build_libgd.py
+python3 build_culling2d.py
+python3 build_culling3d.py

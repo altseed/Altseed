@@ -19,7 +19,7 @@ with aceutils.CurrentDir('../Downloads'):
 			aceutils.call(aceutils.cmd_compile + r'src/libgd_static.vcxproj /p:configuration=Debug')
 			aceutils.call(aceutils.cmd_compile + r'src/libgd_static.vcxproj /p:configuration=Release')
 		elif aceutils.isMac():
-			aceutils.call(r'cmake -G "Unix Makefiles" -DBUILD_STATIC_LIBS=ON "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" -D CMAKE_BUILD_TYPE=Release ../' + pathname + '/')
+			aceutils.call(r'cmake -G "Unix Makefiles" -DBUILD_STATIC_LIBS=ON "-DCMAKE_OSX_ARCHITECTURES=x86_64" -D CMAKE_BUILD_TYPE=Release ../' + pathname + '/')
 			aceutils.call(r'make')
 		else:
 			aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release ../' + pathname + '/')
