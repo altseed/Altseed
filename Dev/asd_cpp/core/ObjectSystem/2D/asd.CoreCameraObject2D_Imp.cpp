@@ -11,6 +11,7 @@ namespace asd
 		, m_dst(RectI(0, 0, 100, 100))
 		, m_renderTarget(nullptr)
 		, CoreObject2D_Imp(graphics)
+		, m_drawingPriority(0)
 	{
 		ResetBuffer();
 	}
