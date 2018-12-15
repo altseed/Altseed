@@ -6,10 +6,13 @@
 
 namespace asd
 {
-	class CoreCameraObject2D 
+	class CoreCameraObject2D
 		: public CoreObject2D
 	{
 	public:
+		virtual int GetDrawingPriority() const = 0;
+		virtual void SetDrawingPriority(int value) = 0;
+
 		virtual RectI GetSrc() const = 0;
 		virtual void SetSrc(RectI value) = 0;
 
@@ -39,7 +42,7 @@ namespace asd
 			@brief	このカメラのバッファを描画対象に指定します。
 		*/
 		virtual void SetForRenderTarget() = 0;
-		
+
 		/**
 			@brief	Rendererに登録された内容を、このカメラのバッファに描画します。
 		*/

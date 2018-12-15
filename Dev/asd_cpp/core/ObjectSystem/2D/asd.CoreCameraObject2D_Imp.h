@@ -13,6 +13,8 @@ namespace asd
 		RectI m_src;
 		RectI m_dst;
 
+		int32_t	m_drawingPriority;
+
 		RenderTexture2D_Imp* m_renderTarget;
 
 		bool	isOffscreenMode = false;
@@ -25,6 +27,9 @@ namespace asd
 		virtual ~CoreCameraObject2D_Imp();
 
 		Object2DType GetObjectType() const override { return Object2DType::Camera; }
+
+		int GetDrawingPriority() const;
+		void SetDrawingPriority(int value);
 
 		RectI GetSrc() const;
 		void SetSrc(RectI value);
