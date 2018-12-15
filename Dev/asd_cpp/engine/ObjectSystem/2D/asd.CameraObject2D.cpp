@@ -14,6 +14,16 @@ namespace asd
 	{
 	}
 
+	int CameraObject2D::GetDrawingPriority() const
+	{
+		return m_coreObject->GetDrawingPriority();
+	}
+
+	void CameraObject2D::SetDrawingPriority(int value)
+	{
+		m_coreObject->SetDrawingPriority(value);
+	}
+
 	CoreObject2D* CameraObject2D::GetCoreObject() const
 	{
 		return m_coreObject.get();
