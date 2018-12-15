@@ -11,6 +11,7 @@ namespace asd
 		, m_dst(RectI(0, 0, 100, 100))
 		, m_renderTarget(nullptr)
 		, CoreObject2D_Imp(graphics)
+		, m_drawingPriority(0)
 	{
 		ResetBuffer();
 	}
@@ -30,6 +31,15 @@ namespace asd
 			TextureFormat::R8G8B8A8_UNORM);
 	}
 
+	int CoreCameraObject2D_Imp::GetDrawingPriority() const
+	{
+		return m_drawingPriority;
+	}
+
+	void CoreCameraObject2D_Imp::SetDrawingPriority(int value)
+	{
+		m_drawingPriority = value;
+	}
 
 	RectI CoreCameraObject2D_Imp::GetSrc() const
 	{
@@ -173,7 +183,7 @@ namespace asd
 			uvs.data(),
 			m_renderTarget,
 			AlphaBlendMode::Blend,
-			0,
+			m_drawingPriority,
 			textureFilterType);
 	}
 }

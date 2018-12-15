@@ -21,6 +21,15 @@ namespace asd
 		virtual ~CameraObject2D();
 
 		/**
+		@brief	このオブジェクトの描画優先度を取得する。
+		*/
+		int GetDrawingPriority() const;
+		/**
+		@brief	このオブジェクトの描画優先度を設定する。
+		*/
+		void SetDrawingPriority(int value);
+
+		/**
 			@brief	描画元の領域を取得する。
 			@return	描画元
 		*/
