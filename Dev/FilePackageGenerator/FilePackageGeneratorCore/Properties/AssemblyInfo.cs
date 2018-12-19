@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("FilePackagingToolCore")]
-[assembly: AssemblyCopyright("Copyright © 2013 - 2016 Altseed")]
+[assembly: AssemblyCopyright("Copyright © 2013 - 2018 Altseed")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
