@@ -639,7 +639,6 @@ bool Engine::GenerateCore()
 		coreOption.IsFullScreen = option.IsFullScreen;
 		coreOption.WindowPosition = option.WindowPosition;
 		coreOption.IsReloadingEnabled = option.IsReloadingEnabled;
-		coreOption.ColorSpace = option.ColorSpace;
 
 		bool init = m_core->Initialize(title, width, height, coreOption);
 		if (init)
@@ -718,7 +717,6 @@ bool Engine::GenerateCore()
 		coreOption.IsFullScreen = option.IsFullScreen;
 		coreOption.WindowPosition = option.WindowPosition;
 		coreOption.IsReloadingEnabled = option.IsReloadingEnabled;
-		coreOption.ColorSpace = option.ColorSpace;
 
 		bool init = m_core->InitializeByExternalWindow(handle1, handle2, width, height, coreOption);
 		if (init)

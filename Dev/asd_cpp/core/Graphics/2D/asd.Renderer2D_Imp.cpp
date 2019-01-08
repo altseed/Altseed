@@ -624,40 +624,10 @@ namespace asd {
 				buf[ind + i].UVSub1.X = e->Data.Sprite.UVSub1[i].X;
 				buf[ind + i].UVSub1.Y = e->Data.Sprite.UVSub1[i].Y;
 
-				if (m_graphics->GetOption().ColorSpace == ColorSpaceType::GammaSpace)
-				{
-					if (e->Data.Sprite.IsLinearColor)
-					{
-						buf[ind + i].Color_.R = gammaColorLookUpTable[e->Data.Sprite.Colors[i].R];
-						buf[ind + i].Color_.G = gammaColorLookUpTable[e->Data.Sprite.Colors[i].G];
-						buf[ind + i].Color_.B = gammaColorLookUpTable[e->Data.Sprite.Colors[i].B];
-						buf[ind + i].Color_.A = e->Data.Sprite.Colors[i].A;
-					}
-					else
-					{
-						buf[ind + i].Color_.R = e->Data.Sprite.Colors[i].R;
-						buf[ind + i].Color_.G = e->Data.Sprite.Colors[i].G;
-						buf[ind + i].Color_.B = e->Data.Sprite.Colors[i].B;
-						buf[ind + i].Color_.A = e->Data.Sprite.Colors[i].A;
-					}
-				}
-				else
-				{
-					if (e->Data.Sprite.IsLinearColor)
-					{
-						buf[ind + i].Color_.R = e->Data.Sprite.Colors[i].R;
-						buf[ind + i].Color_.G = e->Data.Sprite.Colors[i].G;
-						buf[ind + i].Color_.B = e->Data.Sprite.Colors[i].B;
-						buf[ind + i].Color_.A = e->Data.Sprite.Colors[i].A;
-					}
-					else
-					{
-						buf[ind + i].Color_.R = linearColorLookUpTable[e->Data.Sprite.Colors[i].R];
-						buf[ind + i].Color_.G = linearColorLookUpTable[e->Data.Sprite.Colors[i].G];
-						buf[ind + i].Color_.B = linearColorLookUpTable[e->Data.Sprite.Colors[i].B];
-						buf[ind + i].Color_.A = e->Data.Sprite.Colors[i].A;
-					}
-				}
+				buf[ind + i].Color_.R = e->Data.Sprite.Colors[i].R;
+				buf[ind + i].Color_.G = e->Data.Sprite.Colors[i].G;
+				buf[ind + i].Color_.B = e->Data.Sprite.Colors[i].B;
+				buf[ind + i].Color_.A = e->Data.Sprite.Colors[i].A;
 			}
 
 			// マテリアルモードではシェーダーで行列計算をしないため、CPUで計算

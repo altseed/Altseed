@@ -164,11 +164,13 @@ namespace asd {
 	window_->MakeContextCurrent();
 	GLCheckError();
 	
+	/*
 	if (option.ColorSpace == ColorSpaceType::LinearSpace)
 	{
 		glEnable(GL_FRAMEBUFFER_SRGB);
 	}
-	
+	*/
+
 #pragma region RenderState
 	glGenSamplers(MaxTextureCount, m_samplers);
 	GLCheckError();
@@ -271,10 +273,12 @@ namespace asd {
 	MakeContextNone();
 	GLCheckError();
 
+	/*
 	if (option.ColorSpace == ColorSpaceType::LinearSpace)
 	{
 		glEnable(GL_FRAMEBUFFER_SRGB);
 	}
+	*/
 
 	CreateContextBeforeThreading(nullptr);
 	GLCheckError();
@@ -870,7 +874,7 @@ End:;
 //----------------------------------------------------------------------------------
 Texture2D_Imp* Graphics_Imp_GL::CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size)
 {
-	auto ret = Texture2D_Imp_GL::Create(this, data, size, false, this->GetOption().ColorSpace == ColorSpaceType::LinearSpace);
+	auto ret = Texture2D_Imp_GL::Create(this, data, size, false, false);
 	return ret;
 }
 

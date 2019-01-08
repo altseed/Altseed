@@ -224,7 +224,6 @@ namespace asd
 		GraphicsOption go;
 		go.IsFullScreen = option.IsFullScreen;
 		go.IsReloadingEnabled = option.IsReloadingEnabled;
-		go.ColorSpace = option.ColorSpace;
 		go.GraphicsDevice = option.GraphicsDevice;
 
 #if _WIN32
@@ -248,7 +247,6 @@ namespace asd
 				option.IsWindowResizable,
 				option.WindowPosition,
 				option.GraphicsDevice,
-				option.ColorSpace, 
 				option.IsFullScreen);
 		}
 		else
@@ -261,7 +259,6 @@ namespace asd
 				option.IsWindowResizable,
 				option.WindowPosition,
 				option.GraphicsDevice,
-				option.ColorSpace, 
 				false);
 		}
 
@@ -376,7 +373,6 @@ namespace asd
 		GraphicsOption go;
 		go.IsFullScreen = option.IsFullScreen;
 		go.IsReloadingEnabled = option.IsReloadingEnabled;
-		go.ColorSpace = option.ColorSpace;
 		go.GraphicsDevice = option.GraphicsDevice;
 
 		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, option.GraphicsDevice, m_logger,m_file, go);

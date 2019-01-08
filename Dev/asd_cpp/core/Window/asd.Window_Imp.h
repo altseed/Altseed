@@ -51,7 +51,6 @@ namespace asd {
 			bool isResizable,
 			WindowPositionType windowPositionType,
 			GraphicsDeviceType graphicsDeviceType,
-			ColorSpaceType colorSpaceType, 
 			bool isFullScreen);
 
 		bool DoEvent() override;

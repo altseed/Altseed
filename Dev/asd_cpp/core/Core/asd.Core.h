@@ -27,7 +27,6 @@ namespace asd {
 		bool IsReloadingEnabled;
 		bool IsWindowResizable = false;
 		WindowPositionType WindowPosition;
-		ColorSpaceType ColorSpace;
 	};
 
 	class Core

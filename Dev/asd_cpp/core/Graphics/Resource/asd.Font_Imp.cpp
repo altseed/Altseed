@@ -272,16 +272,8 @@ namespace asd {
 	{
 		auto g = (Graphics_Imp*) GetGraphics();
 
-		asd::TextureFormat format;
-		if (g->GetOption().ColorSpace == asd::ColorSpaceType::GammaSpace)
-		{
-			format = asd::TextureFormat::R8G8B8A8_UNORM;
-		}
-		else
-		{
-			format = asd::TextureFormat::R8G8B8A8_UNORM_SRGB;;
-		}
-
+		asd::TextureFormat format = asd::TextureFormat::R8G8B8A8_UNORM;
+		
 		for (auto index : updatingTexture)
 		{
 #if !(defined(_CONSOLE_GAME))

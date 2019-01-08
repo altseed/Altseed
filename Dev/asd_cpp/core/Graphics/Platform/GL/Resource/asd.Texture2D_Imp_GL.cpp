@@ -54,6 +54,7 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	bool Texture2D_Imp_GL::GenerateTextureFromInternal(bool isSRGB)
 	{
+		/*
 		auto g = (Graphics_Imp*) GetGraphics();
 
 		GLuint texture = 0;
@@ -115,6 +116,7 @@ namespace asd {
 		m_size.Y = m_internalTextureHeight;
 
 		g->IncVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
+		*/
 		return true;
 	}
 

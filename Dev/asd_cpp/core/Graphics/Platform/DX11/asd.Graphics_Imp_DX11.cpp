@@ -781,7 +781,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, void* handle1, void
 	initParam.WindowWidth = width;
 	initParam.WindowHeight = height;
 	initParam.IsFullscreenMode = option.IsFullScreen;
-	initParam.ColorSpace = (ar::ColorSpaceType)option.ColorSpace;
+	initParam.ColorSpace = ar::ColorSpaceType::GammaSpace;
 	initParam.Handles[0] = handle1;
 	initParam.Handles[1] = handle2;
 
@@ -896,7 +896,8 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(void* handle1, void* handle2, int32
 //----------------------------------------------------------------------------------
 Texture2D_Imp* Graphics_Imp_DX11::CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size)
 {
-	auto ret = Texture2D_Imp_DX11::Create(this, data, size, false, this->GetOption().ColorSpace == ColorSpaceType::LinearSpace);
+	// TODO support linear space
+	auto ret = Texture2D_Imp_DX11::Create(this, data, size, false, false);
 	return ret;
 }
 

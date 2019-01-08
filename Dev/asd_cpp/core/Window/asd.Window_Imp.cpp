@@ -35,7 +35,6 @@ Window_Imp* Window_Imp::Create(
 	bool isResizable,
 	WindowPositionType windowPositionType,
 	GraphicsDeviceType graphicsDeviceType,
-	ColorSpaceType colorSpaceType,
 	bool isFullScreen)
 {
 	if (logger != nullptr) logger->WriteHeading("ウインドウ");
@@ -49,7 +48,7 @@ Window_Imp* Window_Imp::Create(
 	initParam.Title = std::u16string(title);
 	initParam.IsResizable = isResizable;
 	initParam.WindowPosition = (ap::WindowPositionType)windowPositionType;
-	initParam.ColorSpace = (ap::ColorSpaceType)colorSpaceType;
+	initParam.ColorSpace = ap::ColorSpaceType::GammaSpace;
 	initParam.GraphicsDevice = (ap::GraphicsDeviceType)graphicsDeviceType;
 	initParam.IsFullscreenMode = isFullScreen;
 
