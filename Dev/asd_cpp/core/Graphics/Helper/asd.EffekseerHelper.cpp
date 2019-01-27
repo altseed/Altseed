@@ -796,6 +796,7 @@ namespace asd
 				g,
 				EffekseerRendererDX11::CreateTextureLoader(
 					(ID3D11Device*)g->GetRHI()->GetInternalObjects()[0],
+					(ID3D11DeviceContext*)g->GetRHI()->GetInternalObjects()[1],
 					fileInterface));
 		}
 
