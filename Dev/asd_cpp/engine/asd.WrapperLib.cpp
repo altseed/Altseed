@@ -31,21 +31,21 @@ std::shared_ptr<StaticFile> File::CreateStaticFile(const char16_t* path){
 	auto arg0 = self;
 	auto arg1 = path;
 	auto ret = dll->File_CreateStaticFile(arg0,arg1);
-	return std::shared_ptr<StaticFile>( new StaticFile(ret, true) );
+	return ret != nullptr ? std::shared_ptr<StaticFile>( new StaticFile(ret, true) ) : nullptr;
 };
 
 std::shared_ptr<StaticFile> File::CreateStaticFileAsync(const char16_t* path){
 	auto arg0 = self;
 	auto arg1 = path;
 	auto ret = dll->File_CreateStaticFileAsync(arg0,arg1);
-	return std::shared_ptr<StaticFile>( new StaticFile(ret, true) );
+	return ret != nullptr ? std::shared_ptr<StaticFile>( new StaticFile(ret, true) ) : nullptr;
 };
 
 std::shared_ptr<StreamFile> File::CreateStreamFile(const char16_t* path){
 	auto arg0 = self;
 	auto arg1 = path;
 	auto ret = dll->File_CreateStreamFile(arg0,arg1);
-	return std::shared_ptr<StreamFile>( new StreamFile(ret, true) );
+	return ret != nullptr ? std::shared_ptr<StreamFile>( new StreamFile(ret, true) ) : nullptr;
 };
 
 void File::AddRootDirectory(const char16_t* path){
@@ -137,12 +137,12 @@ std::shared_ptr<SoundSource> Sound::CreateSoundSource(const char16_t* path,bool 
 	auto arg1 = path;
 	auto arg2 = isDecompressed;
 	auto ret = dll->Sound_CreateSoundSource(arg0,arg1,arg2);
-	return std::shared_ptr<SoundSource>( new SoundSource(ret, true) );
+	return ret != nullptr ? std::shared_ptr<SoundSource>( new SoundSource(ret, true) ) : nullptr;
 };
 
 int32_t Sound::Play(std::shared_ptr<SoundSource> soundSource){
 	auto arg0 = self;
-	auto arg1 = soundSource.get()->self;
+	auto arg1 = soundSource.get() != nullptr ? soundSource.get()->self : nullptr;
 	auto ret = dll->Sound_Play(arg0,arg1);
 	return ret;
 };
