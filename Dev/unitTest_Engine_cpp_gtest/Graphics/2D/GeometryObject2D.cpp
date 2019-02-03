@@ -1,7 +1,7 @@
 ﻿
-#include <gtest/gtest.h>
-#include <Altseed.h>
 #include "../../EngineTest.h"
+#include <Altseed.h>
+#include <gtest/gtest.h>
 
 using namespace std;
 using namespace asd;
@@ -9,19 +9,15 @@ using namespace asd;
 class Graphics_GeometryObject2D : public EngineTest
 {
 public:
-	Graphics_GeometryObject2D(bool isOpenGLMode)
-		: EngineTest(asd::ToAString("GeometryObject2D"), isOpenGLMode, 20)
-	{
-	}
+	Graphics_GeometryObject2D(bool isOpenGLMode) : EngineTest(u"GeometryObject2D", isOpenGLMode, 20) {}
 
 private:
-
 protected:
 	void OnStart()
 	{
 		auto scene = make_shared<Scene>();
 		auto layer = make_shared<Layer2D>();
-		auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
+		auto texture = asd::Engine::GetGraphics()->CreateTexture2D(u"Data/Texture/Sample1.png");
 		auto geometryObj1 = make_shared<GeometryObject2D>();
 		auto geometryObj2 = make_shared<GeometryObject2D>();
 		auto geometryObj3 = make_shared<GeometryObject2D>();
@@ -109,7 +105,6 @@ protected:
 				vec.SetDegree(i * 36);
 				vec.SetLength((i % 2 == 0) ? 100 : 55);
 				polygon->AddVertex(vec + Vector2DF(500, 250));
-
 			}
 
 			geometryObj6->SetShape(polygon);
@@ -118,10 +113,7 @@ protected:
 		}
 	}
 
-	void OnUpdating()
-	{
-	}
+	void OnUpdating() {}
 };
-
 
 ENGINE_TEST(Graphics, GeometryObject2D)

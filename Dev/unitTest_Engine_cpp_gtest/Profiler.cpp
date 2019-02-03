@@ -1,8 +1,8 @@
 ﻿
 #include "EngineTest.h"
 
-#include <gtest/gtest.h>
 #include <Altseed.h>
+#include <gtest/gtest.h>
 #include <memory>
 
 using namespace std;
@@ -11,13 +11,10 @@ using namespace asd;
 class Profiler_Profiling : public EngineTest
 {
 public:
-	Profiler_Profiling(bool isOpenGLMode)
-		: EngineTest(asd::ToAString("Profiling"), isOpenGLMode, 60)
-	{
-	}
+	Profiler_Profiling(bool isOpenGLMode) : EngineTest(u"Profiling", isOpenGLMode, 60) {}
 
 private:
-	asd::Profiler* m_profiler;
+	asd::Profiler *m_profiler;
 
 protected:
 	void OnStart()
@@ -29,7 +26,7 @@ protected:
 		auto layer1 = make_shared<Layer2D>();
 		auto layer2 = make_shared<Layer2D>();
 
-		auto texture = asd::Engine::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str());
+		auto texture = asd::Engine::GetGraphics()->CreateTexture2D(u"Data/Texture/Cloud1.png");
 		for (size_t i = 0; i < 100; i++)
 		{
 			auto obj = make_shared<TextureObject2D>();
@@ -64,11 +61,7 @@ protected:
 		m_profiler->Start(12);
 	}
 
-	void OnUpdated()
-	{
-		m_profiler->End(12);
-	}
+	void OnUpdated() { m_profiler->End(12); }
 };
 
 ENGINE_TEST(Profiler, Profiling)
-

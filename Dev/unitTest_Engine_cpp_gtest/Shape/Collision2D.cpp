@@ -1,6 +1,6 @@
-﻿#include <gtest/gtest.h>
+﻿#include "../EngineTest.h"
 #include <Altseed.h>
-#include "../EngineTest.h"
+#include <gtest/gtest.h>
 
 using namespace std;
 using namespace asd;
@@ -24,6 +24,7 @@ private:
 	std::shared_ptr<CircleShape> circle;
 	std::shared_ptr<TriangleShape> triangle;
 	std::shared_ptr<RectangleShape> rect;
+
 protected:
 	void OnStart()
 	{
@@ -91,11 +92,12 @@ protected:
 	{
 		selfCircle->SetPosition(asd::Engine::GetMouse()->GetPosition());
 
-		triangle->SetPointByIndex(triangle->GetPointByIndex(0) + Vector2DF(1, 0), 0);
+		triangle->SetPointByIndex(
+			triangle->GetPointByIndex(0) + Vector2DF(1, 0), 0);
 
-		if (selfCircle->GetIsCollidedWith(circle)
-			|| selfCircle->GetIsCollidedWith(triangle)
-			|| selfCircle->GetIsCollidedWith(rect))
+		if (selfCircle->GetIsCollidedWith(circle) ||
+			selfCircle->GetIsCollidedWith(triangle) ||
+			selfCircle->GetIsCollidedWith(rect))
 		{
 			geometryObj0->SetColor(asd::Color(255, 0, 0, 255));
 		}
@@ -104,9 +106,9 @@ protected:
 			geometryObj0->SetColor(asd::Color(255, 255, 255, 255));
 		}
 
-		if (circle->GetIsCollidedWith(selfCircle)
-			|| circle->GetIsCollidedWith(triangle)
-			|| circle->GetIsCollidedWith(rect))
+		if (circle->GetIsCollidedWith(selfCircle) ||
+			circle->GetIsCollidedWith(triangle) ||
+			circle->GetIsCollidedWith(rect))
 		{
 			geometryObj1->SetColor(asd::Color(255, 127, 0, 255));
 		}

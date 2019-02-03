@@ -1,6 +1,6 @@
-﻿#include <gtest/gtest.h>
+﻿#include "../../EngineTest.h"
 #include <Altseed.h>
-#include "../../EngineTest.h"
+#include <gtest/gtest.h>
 
 using namespace std;
 using namespace asd;
@@ -8,10 +8,7 @@ using namespace asd;
 class Graphics_MapObject2D : public EngineTest
 {
 public:
-	Graphics_MapObject2D(bool isOpenGLMode)
-		: EngineTest(asd::ToAString("MapObject2D"), isOpenGLMode, 30)
-	{
-	}
+	Graphics_MapObject2D(bool isOpenGLMode) : EngineTest(u"MapObject2D", isOpenGLMode, 30) {}
 
 protected:
 	void OnStart()
@@ -29,10 +26,10 @@ protected:
 		layer->AddObject(object);
 
 		auto g = asd::Engine::GetGraphics();
-		auto texture = g->CreateTexture2D(asd::ToAString("Data/Map/MapTest.png").c_str());
+		auto texture = g->CreateTexture2D(u"Data/Map/MapTest.png");
 		auto chip1 = std::make_shared<Chip2D>();
 		chip1->SetTexture(texture);
-		chip1->SetPosition(Vector2DF(0,0));
+		chip1->SetPosition(Vector2DF(0, 0));
 		object->AddChip(chip1);
 
 		auto chip2 = std::make_shared<Chip2D>();

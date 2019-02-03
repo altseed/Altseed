@@ -1,7 +1,7 @@
-﻿#include <gtest/gtest.h>
+﻿#include "EngineTest.h"
 #include <Altseed.h>
+#include <gtest/gtest.h>
 #include <string>
-#include "EngineTest.h"
 
 using namespace std;
 using namespace asd;
@@ -15,29 +15,20 @@ using namespace asd;
 
 static void CreateSSDirectory()
 {
-	const char* testDirectory = "ScreenShotTest_Engine_cpp";
+	const char *testDirectory = "ScreenShotTest_Engine_cpp";
 #if _WIN32
 	if (!PathIsDirectoryA(testDirectory))
 	{
 		CreateDirectoryA(testDirectory, NULL);
 	}
 #else
-	mkdir(testDirectory,
-		S_IRUSR | S_IWUSR | S_IXUSR |
-		S_IRGRP | S_IWGRP | S_IXGRP |
-		S_IROTH | S_IXOTH | S_IXOTH);
+	mkdir(testDirectory, S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IXOTH | S_IXOTH);
 #endif
 }
 
-
 EngineTest::EngineTest(astring title, bool isOpenGLMode, int exitTime, int32_t width, int32_t height)
-	: m_isOpenGLMode(isOpenGLMode)
-	, m_title(title)
-	, m_currentTime(0)
-	, m_exitTime(exitTime)
-	, directory(ToAString("./ScreenShotTest_Engine_cpp/"))
-	, WindowWidth(width)
-	, WindowHeight(height)
+	: m_isOpenGLMode(isOpenGLMode), m_title(title), m_currentTime(0), m_exitTime(exitTime),
+	  directory(ToAString("./ScreenShotTest_Engine_cpp/")), WindowWidth(width), WindowHeight(height)
 {
 #if defined(PERFORMANCE_MODE)
 	WindowWidth = 1280;
@@ -45,21 +36,13 @@ EngineTest::EngineTest(astring title, bool isOpenGLMode, int exitTime, int32_t w
 #endif
 }
 
-void EngineTest::OnStart()
-{
-}
+void EngineTest::OnStart() {}
 
-void EngineTest::OnUpdating()
-{
-}
+void EngineTest::OnUpdating() {}
 
-void EngineTest::OnUpdated()
-{
-}
+void EngineTest::OnUpdated() {}
 
-void EngineTest::OnFinish()
-{
-}
+void EngineTest::OnFinish() {}
 
 shared_ptr<Texture2D> EngineTest::GetTexture()
 {

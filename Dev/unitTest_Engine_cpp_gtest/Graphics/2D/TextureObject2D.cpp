@@ -1,7 +1,7 @@
 ﻿
-#include <gtest/gtest.h>
-#include <Altseed.h>
 #include "../../EngineTest.h"
+#include <Altseed.h>
+#include <gtest/gtest.h>
 
 using namespace std;
 using namespace asd;
@@ -9,19 +9,15 @@ using namespace asd;
 class Graphics_TextureObject2D : public EngineTest
 {
 public:
-	Graphics_TextureObject2D(bool isOpenGLMode)
-		: EngineTest(asd::ToAString("TextureObject2D"), isOpenGLMode, 20)
-	{
-	}
+	Graphics_TextureObject2D(bool isOpenGLMode) : EngineTest(u"TextureObject2D", isOpenGLMode, 20) {}
 
 private:
-
 protected:
 	void OnStart()
 	{
 		auto scene = make_shared<Scene>();
 		auto layer = make_shared<Layer2D>();
-		auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
+		auto texture = asd::Engine::GetGraphics()->CreateTexture2D(u"Data/Texture/Sample1.png");
 
 		auto textureObj1 = make_shared<TextureObject2D>();
 		auto textureObj2 = make_shared<TextureObject2D>();
@@ -41,10 +37,7 @@ protected:
 		textureObj2->SetTurnLR(true);
 	}
 
-	void OnUpdating()
-	{
-	}
+	void OnUpdating() {}
 };
-
 
 ENGINE_TEST(Graphics, TextureObject2D)
