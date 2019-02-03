@@ -21,7 +21,7 @@ else:
 	aceutils.cd(ogg_dir)
 	cmdenv=""
 	if aceutils.isMac():
-		cmdenv+="CFLAGS='-arch i386 -arch x86_64 -fPIC '$CFLAGS "
+		cmdenv+="CFLAGS='" + ("-arch i386 " if aceutils.Isi386 else "") + "-arch x86_64 -fPIC '$CFLAGS "
 	else:
 		cmdenv+="CFLAGS='-fPIC '$CFLAGS "
 	aceutils.call(cmdenv+"./configure --prefix=`pwd`/build --disable-shared")
@@ -34,7 +34,7 @@ else:
 	aceutils.cd(vorbis_dir)
 	cmdenv=""
 	if aceutils.isMac():
-		cmdenv+="CFLAGS='-arch i386 -arch x86_64 -fPIC '$CFLAGS "
+		cmdenv+="CFLAGS='" + ("-arch i386 " if aceutils.Isi386 else "") + "-arch x86_64 -fPIC '$CFLAGS "
 	else:
 		cmdenv+="CFLAGS='-fPIC '$CFLAGS "
 	cmdenv+="PKG_CONFIG_PATH="+ogg_build_dir+"/lib/pkgconfig:$PKG_CONFIG_PATH "
