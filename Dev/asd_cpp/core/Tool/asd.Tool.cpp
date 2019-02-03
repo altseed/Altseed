@@ -10,7 +10,6 @@
 #include "../3rdParty/imgui/imgui_impl_opengl3.h"
 
 #include "../Graphics/asd.Graphics_Imp.h"
-#include "../Graphics/Platform/DX11/Resource/asd.Texture2D_Imp_DX11.h"
 
 #include "../Window/asd.Window_Imp.h"
 
@@ -229,7 +228,7 @@ namespace asd
 	void Tool::Image(Texture2D* user_texture, const Vector2DF& size)
 	{
 		if (user_texture == nullptr) return;
-		auto texture = (Texture2D_Imp_DX11*)user_texture;
+		auto texture = (Texture2D_Imp*)user_texture;
 
 		auto g = (Graphics_Imp*)graphics;
 		if (g->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)

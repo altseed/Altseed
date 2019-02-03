@@ -14,9 +14,7 @@ namespace asd {
 	//
 	//----------------------------------------------------------------------------------
 
-	class Texture2D_Imp_DX11;
-	class Texture2D_Imp_GL;
-
+	
 	class TextureLockInfomation
 	{
 		friend class Texture2D;

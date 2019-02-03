@@ -18,11 +18,6 @@
 #include "../../Shader/GL/3D/SpriteRenderer3D_PS.h"
 #include "../../Shader/GL/3D/SpriteRenderer3D_VS.h"
 
-#if _WIN32
-#include "../../Platform/DX11/asd.Graphics_Imp_DX11.h"
-#endif
-#include "../../Platform/GL/asd.Graphics_Imp_GL.h"
-
 namespace asd {
 
 	SpriteRenderer3D::SpriteRenderer3D(Graphics* graphics)

@@ -40,6 +40,14 @@
 
 #endif
 
+#if _WIN32
+#elif __APPLE__
+#else
+#include <GL/glx.h>
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#endif
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -132,6 +140,29 @@ namespace asd {
 	};
 #endif
 
+#if !SWIG
+	class WindowOpenGLX11
+	{
+#if _WIN32
+#elif __APPLE__
+#else
+		GLXContext glx;
+		Display* x11Display;
+		::Window x11Window;
+#endif
+	public:
+		WindowOpenGLX11();
+
+		virtual ~WindowOpenGLX11();
+
+		bool Initialize(void* display, void* window);
+
+		void MakeContextCurrent();
+
+		void SwapBuffers();
+	};
+#endif
+
 /**
 	@brief	描画を管理するクラス
 	@note	現在、Graphicsクラスのインスタンスが複数存在した時の挙動は保証していない。
@@ -144,6 +175,23 @@ namespace asd {
 	public:
 		static const int32_t		MaxRenderTarget = 4;
 		static const int32_t		MaxTextureCount = 16;
+
+	protected:
+		Window* m_window;
+		WindowOpenGLX11* windowHelper = nullptr;
+		ar::Context* rhiContext = nullptr;
+		ar::DrawParameter drawParam;
+
+		bool isSceneRunning = false;
+		bool isRenderTargetDirty = false;
+
+		std::array<RenderTexture2D_Imp*, 4> renderTargets;
+		DepthBuffer_Imp* depthTarget = nullptr;
+
+		std::array<RenderTexture2D_Imp*, 4> currentRenderTargets;
+		DepthBuffer_Imp* currentDepthTarget = nullptr;
+
+		bool isInitializedAsDX9 = false;
 
 	private:
 		ar::Manager*			rhi = nullptr;
@@ -204,32 +252,34 @@ namespace asd {
 		Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, TextureFormat format) { return CreateEmptyTexture2D_Imp(width, height, format); }
 		Texture2D* CreateEditableTexture2D_(const achar* path) { return CreateEditableTexture2D_Imp(path); }
 
-		RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, TextureFormat format) { return CreateRenderTexture2D_Imp(width, height, format); }
+		RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, TextureFormat format) override;
 	
 	protected:
-		virtual VertexBuffer_Imp* CreateVertexBuffer_Imp_(int32_t size, int32_t count, bool isDynamic) = 0;
-		virtual IndexBuffer_Imp* CreateIndexBuffer_Imp_(int maxCount, bool isDynamic, bool is32bit) = 0;
+		void UpdateDrawStates(VertexBuffer_Imp* vertexBuffer,
+							  IndexBuffer_Imp* indexBuffer,
+							  NativeShader_Imp* shaderPtr,
+							  int32_t& vertexBufferOffset);
+		virtual void DrawPolygonInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr);
+		virtual void DrawPolygonInternal(int32_t offset, int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr);
 
-		virtual void DrawPolygonInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr) = 0;
-		virtual void DrawPolygonInternal(int32_t offset, int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr) = 0;
-
-		virtual void DrawPolygonInstancedInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr, int32_t instanceCount) = 0;
-		virtual void BeginInternal() = 0;
-		virtual void EndInternal() {}
+		virtual void DrawPolygonInstancedInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr, int32_t instanceCount);
+		virtual void BeginInternal();
+		virtual void EndInternal();
 
 	private:
 
 	public:
+
 #if !SWIG
-		virtual Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) = 0;
+		virtual Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size);
 #endif
 
 	private:
-		virtual Texture2D_Imp* CreateTexture2DAsRawData_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) = 0;
+		virtual Texture2D_Imp* CreateTexture2DAsRawData_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size);
 
-		virtual Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format, void* data) = 0;
+		virtual Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format, void* data);
 
-		virtual Texture2D_Imp* CreateEditableTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) = 0;
+		virtual Texture2D_Imp* CreateEditableTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size);
 
 	public:
 #if !SWIG
@@ -251,8 +301,27 @@ namespace asd {
 
 #if !SWIG
 		Graphics_Imp(ar::Manager* manager, Vector2DI size, Log* log, File* file, GraphicsOption option);
+
+		Graphics_Imp(ar::Manager* manager,
+				  Window* window,
+				  WindowOpenGLX11* windowHelper,
+				  Vector2DI size,
+				  Log* log,
+				  File* file,
+				  GraphicsOption option);
+
 		virtual ~Graphics_Imp();
 
+		void ApplyRenderTargets();
+
+		static Graphics_Imp*
+		Create(Window* window, void* handle1, void* handle2, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option);
+
+		static Graphics_Imp* Create(Window* window, Log* log, File* file, GraphicsOption option);
+
+		static Graphics_Imp*
+		Create(void* handle1, void* handle2, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option);
+		
 		static Graphics_Imp* Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log, File* file, GraphicsOption option);
 
 		static Graphics_Imp* Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log, File *file, GraphicsOption option);
@@ -263,12 +332,12 @@ namespace asd {
 		@param	isDepthTarget	深度をクリアするか
 		@param	color			クリアに使用する色
 		*/
-		virtual void Clear(bool isColorTarget, bool isDepthTarget, const Color& color) = 0;
+		virtual void Clear(bool isColorTarget, bool isDepthTarget, const Color& color);
 
 		/**
 		@brief	内部のバッファを画面に表示する。
 		*/
-		virtual void Present() = 0;
+		virtual void Present();
 
 		/**
 		@brief	スクリーンショットを保存する。
@@ -277,7 +346,7 @@ namespace asd {
 		OpenGLの現状の実装だと、RenderTarget等が指定されている状態では使えないため、
 		使用できるのはDoEventsかPresent近辺のみである。
 		*/
-		virtual void SaveScreenshot(const achar* path) = 0;
+		virtual void SaveScreenshot(const achar* path);
 
 		/**
 		@brief	スクリーンショットを保存する。
@@ -286,7 +355,7 @@ namespace asd {
 		OpenGLの現状の実装だと、RenderTarget等が指定されている状態では使えないため、
 		使用できるのはDoEventsかPresent近辺のみである。
 		*/
-		virtual void SaveScreenshot(std::vector<Color>& bufs, Vector2DI& size) = 0;
+		virtual void SaveScreenshot(std::vector<Color>& bufs, Vector2DI& size);
 #endif
 
 		int32_t GetDrawCallCount() const override { return drawCallCount; };
@@ -339,22 +408,17 @@ namespace asd {
 		@param	height	縦幅
 		@param	format	フォーマット
 		*/
-		virtual RenderTexture2D_Imp* CreateRenderTexture2D_Imp(int32_t width, int32_t height, TextureFormat format) = 0;
+		virtual RenderTexture2D_Imp* CreateRenderTexture2D_Imp(int32_t width, int32_t height, TextureFormat format);
 
-		/**
-			@brief	SWIG向けに記述
-		*/
+		CubemapTexture* CreateCubemapTexture_(const achar* path) override;
+		
+		/*
 		virtual CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) { return nullptr; }
 		
-		/**
-		@brief	SWIG向けに記述
-		*/
 		virtual CubemapTexture* CreateCubemapTextureFromMipmapImageFiles_(const achar* path, int32_t mipmapCount) { return nullptr; }
 
-		/**
-		@brief	SWIG向けに記述
-		*/
 		virtual CubemapTexture* CreateCubemapTextureFromSingleImageFile_(const achar* path)  { return nullptr; }
+		*/
 
 		/**
 			@brief	シェーダー(2D)を生成する。
@@ -404,13 +468,17 @@ namespace asd {
 
 		MediaPlayer* CreateMediaPlayer_() override;
 
+		VertexBuffer_Imp* CreateVertexBuffer_Imp_(int32_t size, int32_t count, bool isDynamic);
+		
+		IndexBuffer_Imp* CreateIndexBuffer_Imp_(int maxCount, bool isDynamic, bool is32bit);
+
 #if !SWIG
 	/**
 	@brief	深度バッファを生成する。
 	@param	width	横幅
 	@param	height	縦幅
 	*/
-	virtual DepthBuffer_Imp* CreateDepthBuffer_Imp(int32_t width, int32_t height) = 0;
+	DepthBuffer_Imp* CreateDepthBuffer_Imp(int32_t width, int32_t height);
 
 	/**
 		@brief	頂点バッファを生成する。
@@ -443,27 +511,26 @@ namespace asd {
 		@note
 		基本的にShaderCacheを経由してシェーダーを生成するため、この関数を直接使う機会は殆ど無い。
 	*/
-	virtual NativeShader_Imp* CreateShader_Imp_(
+	NativeShader_Imp* CreateShader_Imp_(
 		const char* vertexShaderText,
 		const char* vertexShaderFileName,
 		const char* pixelShaderText,
 		const char* pixelShaderFileName,
 		std::vector <VertexLayout>& layout,
 		bool is32Bit,
-		std::vector <Macro>& macro) = 0;
+		std::vector <Macro>& macro);
 
 	/**
 	@brief	シェーダーを生成する。
 	@note
 	基本的にShaderCacheを経由してシェーダーを生成するため、この関数を直接使う機会は殆ど無い。
 	*/
-	virtual NativeShader_Imp* CreateShader_Imp_(
-		const uint8_t* vertexShader,
+	NativeShader_Imp* CreateShader_Imp_(const uint8_t* vertexShader,
 		int32_t vertexShaderSize,
 		const uint8_t* pixelShader,
 		int32_t pixelShaderSize,
-		std::vector <VertexLayout>& layout,
-		bool is32Bit) { return nullptr; }
+		std::vector<VertexLayout>& layout,
+		bool is32Bit);
 
 	/**
 	@brief	シェーダーを生成する。
@@ -518,7 +585,7 @@ namespace asd {
 	@brief	レンダーステートの変更を実際に適用する。
 	@param	forced	設定の変更ありなし関係なく無条件に適用する。
 	*/
-	virtual void CommitRenderState(bool forced) = 0;
+	virtual void CommitRenderState(bool forced);
 
 	/**
 	@brief	ポリゴンを描画する。
@@ -562,7 +629,7 @@ namespace asd {
 		@note
 		textureがnullの場合は無条件で、デフォルトの描画先を使用する。
 	*/
-	virtual void SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_Imp* depthBuffer) = 0;
+	virtual void SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_Imp* depthBuffer);
 
 	/**
 	@brief	描画先を設定する。
@@ -571,36 +638,25 @@ namespace asd {
 	@note
 	textureがnullの場合は無条件で、デフォルトの描画先を使用する。
 	*/
-	virtual void SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTexture2D_Imp* texture2, RenderTexture2D_Imp* texture3, RenderTexture2D_Imp* texture4, DepthBuffer_Imp* depthBuffer) = 0;
-
-	/**
-	@brief	描画先を設定する。
-	@param	texture	描画先のテクスチャ
-	@param	direction		描画先の方向
-	@param	mipmap			描画先のミップマップ
-	@param	depthBuffer	描画先の深度バッファ
-	@note
-	textureがnullの場合は無条件で、デフォルトの描画先を使用する。
-	*/
-	virtual void SetRenderTarget(CubemapTexture_Imp* texture, int32_t direction, int32_t mipmap, DepthBuffer_Imp* depthBuffer) = 0;
+	virtual void SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTexture2D_Imp* texture2, RenderTexture2D_Imp* texture3, RenderTexture2D_Imp* texture4, DepthBuffer_Imp* depthBuffer);
 
 	/**
 		@brief	コンテキストの設定を行う。
 		@note
 		DirectXの場合は意味はない。
 	*/
-	virtual void MakeContextCurrent() = 0;
+	virtual void MakeContextCurrent();
 
 	/**
 		@brief	GPUへの命令が終了するまで待機する。
 		@note
 		DirectXの場合は意味はない。
 	*/
-	virtual void FlushCommand() = 0;
+	virtual void FlushCommand();
 
-	virtual void SetIsFullscreenMode(bool isFullscreenMode) = 0;
+	virtual void SetIsFullscreenMode(bool isFullscreenMode);
 
-	virtual void SetWindowSize(Vector2DI size) = 0;
+	virtual void SetWindowSize(Vector2DI size);
 
 	/**
 		@brief	スレッドを取得する。
@@ -619,6 +675,16 @@ namespace asd {
 		@return	設定
 	*/
 	Effekseer::Setting* GetEffectSetting() { return m_effectSetting; }
+
+	public:
+	bool GetIsInitializedAsDX9() { return isInitializedAsDX9; }
+
+#ifdef _WIN32
+	ID3D11Device* GetDevice() { return (ID3D11Device*)GetRHI()->GetInternalObjects()[0]; }
+	ID3D11DeviceContext* GetContext() { return (ID3D11DeviceContext*)GetRHI()->GetInternalObjects()[1]; }
+#endif
+
+	GraphicsDeviceType GetGraphicsDeviceType() const { return (GraphicsDeviceType)GetRHI()->GetDeviceType(); }
 #endif
 };
 
