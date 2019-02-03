@@ -27,11 +27,6 @@
 #include "../Shader/GL/2D/Renderer2D_PS.h"
 #include "../Shader/GL/2D/Renderer2D_VS.h"
 
-#if _WIN32
-#include "../Platform/DX11/asd.Graphics_Imp_DX11.h"
-#endif
-#include "../Platform/GL/asd.Graphics_Imp_GL.h"
-
 #ifdef WIN32
 #ifdef min
 #undef min
