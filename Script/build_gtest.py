@@ -24,7 +24,7 @@ with aceutils.CurrentDir('../Downloads'):
 				aceutils.call(aceutils.cmd_compile + r'googletest-distribution.sln /p:configuration=Release')
 
 		elif aceutils.isMac():
-			aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev -DBUILD_GTEST=ON -DBUILD_GMOCK=OFF "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../googletest/')
+			aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev -DBUILD_GTEST=ON -DBUILD_GMOCK=OFF "-DCMAKE_OSX_ARCHITECTURES=x86_64' + (';i386' if aceutils.Isi386() else '') + r'" ../googletest/')
 			aceutils.call(r'make')
 		else:
 			aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev ../googletest/')
