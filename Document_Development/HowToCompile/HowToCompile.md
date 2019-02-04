@@ -25,7 +25,7 @@ Chocolateyは管理者として実行する必要があります。
 
 ### Windows
 
-* Visual Studio 2015
+* Visual Studio 2015 or 2017
 
 ### Linux
 
@@ -127,7 +127,7 @@ GNU Make を使う場合は自動的に実行されるので、 [4. コンパイ
 |AltseedPlatform|`build_ap.py`||
 |AltseedRHI|`build_ar.py`||
 |glfw for Altseed|`build_glfw.py`||
-|zlib/libpng|`build_libpng.py`|Windowsでは実行する必要はありません。|
+|zlib/libpng|`build_libpng.py`||
 |glew|`build_glew.py`|Windows以外ではスクリプトによる導入はできませんので、次節を参照してください。|
 |Box2D|`build_Box2D.py`||
 |bullet|`build_bullet.py`||
@@ -252,7 +252,22 @@ Javaのサンプルを生成する場合、```Script/generate_sample.py java```
 Windows上で上記のスクリプトを実行するためには、特定のバージョンのVisual Studioがインストールされていることが必要です。
 必要なバージョンのVisual Studioがインストールされていないことが原因と思われるエラーが発生した場合、スクリプトの実行時にオプションでVisual Studioのバージョンなどを指定する必要があります。
 
-pythonコマンドでスクリプトを実行するとき、オプションは以下のように指定します。
+VisualStudioが標準のパスにインストールされていて、cmakeにパスが通っている場合、以下のように指定することでVisualStudioのバージョンを指定できます。
+
+VisualStudio2015の場合
+
+```
+python <スクリプト> --vs2015 True
+```
+
+VisualStudio2017の場合
+
+```
+python <スクリプト> --vs2017 True
+```
+
+
+それ以外の場合、オプションは以下のように指定します。
 
 ```
 python <スクリプト> <CMakeの構成名(x86)> <CMakeの構成名(x64)> <msbuildへのパス>

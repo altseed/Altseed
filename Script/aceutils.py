@@ -180,7 +180,7 @@ def editCmakeForACE(path, enc='utf-8'):
     lines = lines + "\tset(CMAKE_CXX_FLAGS \"${CMAKE_CXX_FLAGS} -fPIC\")\n"
     lines = lines + "endif()\n"
 
-    if 'project (glew)' in lines or 'Box2D' in lines or 'freetype' in lines or 'PROJECT(GD)' in lines or 'SET (LIBGD_SRC_FILES' in lines:
+    if 'project(libpng C)' in lines or 'project(zlib C)' in lines or 'project (glew)' in lines or 'Box2D' in lines or 'freetype' in lines or 'PROJECT(GD)' in lines or 'SET (LIBGD_SRC_FILES' in lines:
         lines = lines + "if (MSVC)\n"
         lines = lines + "\tforeach (flag CMAKE_C_FLAGS\n"
         lines = lines + "\t\tCMAKE_C_FLAGS_DEBUG\n"

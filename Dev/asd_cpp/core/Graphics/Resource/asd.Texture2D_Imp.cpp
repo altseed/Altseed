@@ -10,55 +10,27 @@
 #include <pngstruct.h>
 #include <pnginfo.h>
 
-/*
-#ifdef _v120
 #ifdef _WIN64
 
 #if _DEBUG
-#pragma comment(lib,"x64/Debug/VS2013/libpng16.lib")
-#pragma comment(lib,"x64/Debug/VS2013/zlib.lib")
+#pragma comment(lib, "x64/Debug/libpng16_staticd.lib")
+#pragma comment(lib, "x64/Debug/zlibstaticd.lib")
 #else
-#pragma comment(lib,"x64/Release/VS2013/libpng16.lib")
-#pragma comment(lib,"x64/Release/VS2013/zlib.lib")
-#endif
-
-#else
-
-#if _DEBUG
-#pragma comment(lib,"x86/Debug/VS2013/libpng16.lib")
-#pragma comment(lib,"x86/Debug/VS2013/zlib.lib")
-#else
-#pragma comment(lib,"x86/Release/VS2013/libpng16.lib")
-#pragma comment(lib,"x86/Release/VS2013/zlib.lib")
-#endif
-
-#endif
-#endif
-*/
-
-//#ifdef _v140
-#ifdef _WIN64
-
-#if _DEBUG
-#pragma comment(lib,"x64/Debug/VS2015/libpng16.lib")
-#pragma comment(lib,"x64/Debug/VS2015/zlib.lib")
-#else
-#pragma comment(lib,"x64/Release/VS2015/libpng16.lib")
-#pragma comment(lib,"x64/Release/VS2015/zlib.lib")
+#pragma comment(lib, "x64/Release/libpng16_static.lib")
+#pragma comment(lib, "x64/Release/zlibstatic.lib")
 #endif
 
 #else
 
 #if _DEBUG
-#pragma comment(lib,"x86/Debug/VS2015/libpng16.lib")
-#pragma comment(lib,"x86/Debug/VS2015/zlib.lib")
+#pragma comment(lib, "x86/Debug/libpng16_staticd.lib")
+#pragma comment(lib, "x86/Debug/zlibstaticd.lib")
 #else
-#pragma comment(lib,"x86/Release/VS2015/libpng16.lib")
-#pragma comment(lib,"x86/Release/VS2015/zlib.lib")
+#pragma comment(lib, "x86/Release/libpng16_static.lib")
+#pragma comment(lib, "x86/Release/zlibstatic.lib")
 #endif
 
 #endif
-//#endif
 
 namespace asd
 {
