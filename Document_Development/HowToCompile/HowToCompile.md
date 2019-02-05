@@ -257,13 +257,13 @@ VisualStudioが標準のパスにインストールされていて、cmakeにパ
 VisualStudio2015の場合
 
 ```
-python <スクリプト> --vs2015 True
+python <スクリプト> --vs2015
 ```
 
 VisualStudio2017の場合
 
 ```
-python <スクリプト> --vs2017 True
+python <スクリプト> --vs2017
 ```
 
 
