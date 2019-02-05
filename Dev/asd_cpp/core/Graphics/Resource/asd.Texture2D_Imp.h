@@ -51,10 +51,11 @@ protected:
 	virtual ~Texture2D_Imp();
 
 public:
+#if !SWIG
 	static Texture2D_Imp* Create(Graphics_Imp* graphics, uint8_t* data, int32_t size, bool isEditable, bool isSRGB);
 
 	static Texture2D_Imp* Create(Graphics_Imp* graphics, int32_t width, int32_t height, TextureFormat format, void* data);
-
+#endif
 	bool Save(const achar* path) override;
 
 	bool Lock(TextureLockInfomation* info) override;
@@ -64,10 +65,11 @@ public:
 	Vector2DI GetSize() const { return m_size; }
 	TextureFormat GetFormat() const override { return m_format; }
 	LoadState GetLoadStateInternal() const override { return m_loadState; }
+#if !SWIG
 	ar::Texture2D* GetRHI() const { return rhi; }
 
 	// リロード
-#if !SWIG
+
 public:
 	virtual void Reload(void* data, int32_t size);
 #endif

@@ -33,7 +33,10 @@ public:
 
 	Vector2DI GetSize() const override { return m_size; }
 	TextureFormat GetFormat() const override { return m_format; }
+
+#if !SWIG
 	ar::RenderTexture2D* GetRHI() const { return rhi; }
+#endif
 
 public:
 	virtual int GetRef() { return ReferenceObject::GetRef(); }
