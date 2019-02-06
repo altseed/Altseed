@@ -5,9 +5,9 @@
 
 namespace asd
 {
-CubemapTexture_Imp::CubemapTexture_Imp(Graphics* graphics, ar::CubemapTexture* rhi, TextureFormat format, Vector2DI size,
-									   int32_t mipmapCount)
-	: DeviceObject(graphics), format(format), size(size), mipmapCount(mipmapCount)
+CubemapTexture_Imp::CubemapTexture_Imp(
+	Graphics* graphics, ar::CubemapTexture* rhi, TextureFormat format, Vector2DI size, int32_t mipmapCount)
+	: DeviceObject(graphics), rhi(rhi), format(format), size(size), mipmapCount(mipmapCount)
 {
 	auto vramSize = 0;
 
@@ -58,8 +58,8 @@ CubemapTexture_Imp* CubemapTexture_Imp::Create(Graphics_Imp* graphics, const ach
 	{
 		SafeRelease(staticFile);
 
-		return new CubemapTexture_Imp(graphics, rhi, (asd::TextureFormat)rhi->GetFormat(), Vector2DI(rhi->GetWidth(), rhi->GetHeight()),
-									  rhi->GetMipmapCount());
+		return new CubemapTexture_Imp(
+			graphics, rhi, (asd::TextureFormat)rhi->GetFormat(), Vector2DI(rhi->GetWidth(), rhi->GetHeight()), rhi->GetMipmapCount());
 	}
 
 	SafeRelease(staticFile);
