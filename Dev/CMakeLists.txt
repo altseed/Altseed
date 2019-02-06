@@ -1,4 +1,4 @@
-# Limit to Debug Release
+﻿# Limit to Debug Release
 set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE TYPE INTERNAL FORCE )
 
 # Project name
@@ -60,8 +60,6 @@ add_subdirectory(asd_cpp/tool/)
 FILE(GLOB_RECURSE third_srcs
 	asd_cpp/core/3rdParty/poly2tri/*.cpp
 	asd_cpp/core/3rdParty/poly2tri/*.h
-	asd_cpp/core/3rdParty/nv_dds/*.cpp
-	asd_cpp/core/3rdParty/nv_dds/*.h
 
 	asd_cpp/core/3rdParty/imgui/imgui.cpp
 	asd_cpp/core/3rdParty/imgui/imgui_draw.cpp

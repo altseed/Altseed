@@ -336,7 +336,6 @@
     <ClInclude Include="..\core\3rdParty\nfd\common.h" />
     <ClInclude Include="..\core\3rdParty\nfd\nfd.h" />
     <ClInclude Include="..\core\3rdParty\nfd\nfd_common.h" />
-    <ClInclude Include="..\core\3rdParty\nv_dds\nv_dds.h" />
     <ClInclude Include="..\core\3rdParty\poly2tri\common\shapes.h" />
     <ClInclude Include="..\core\3rdParty\poly2tri\common\utils.h" />
     <ClInclude Include="..\core\3rdParty\poly2tri\poly2tri.h" />
@@ -648,7 +647,6 @@
     <ClCompile Include="..\core\3rdParty\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\core\3rdParty\nfd\nfd_common.cpp" />
     <ClCompile Include="..\core\3rdParty\nfd\nfd_win.cpp" />
-    <ClCompile Include="..\core\3rdParty\nv_dds\nv_dds.cpp" />
     <ClCompile Include="..\core\3rdParty\poly2tri\common\shapes.cpp" />
     <ClCompile Include="..\core\3rdParty\poly2tri\sweep\advancing_front.cpp" />
     <ClCompile Include="..\core\3rdParty\poly2tri\sweep\cdt.cpp" />

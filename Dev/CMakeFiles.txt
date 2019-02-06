@@ -27,7 +27,6 @@ set(core_src
 	asd_cpp/core/3rdParty/nfd/nfd_common.cpp
 	asd_cpp/core/3rdParty/nfd/nfd_gtk.cpp
 	asd_cpp/core/3rdParty/nfd/nfd_win.cpp
-	asd_cpp/core/3rdParty/nv_dds/nv_dds.cpp
 	asd_cpp/core/3rdParty/poly2tri/common/shapes.cpp
 	asd_cpp/core/3rdParty/poly2tri/sweep/advancing_front.cpp
 	asd_cpp/core/3rdParty/poly2tri/sweep/cdt.cpp
