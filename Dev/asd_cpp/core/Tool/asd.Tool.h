@@ -19,9 +19,10 @@ namespace asd
 	private:
 		Window* window = nullptr;
 		Graphics* graphics = nullptr;
+		Mouse* mouse = nullptr;
 
 	protected:
-		Tool(Window* window, Graphics* graphics);
+		Tool(Window* window, Graphics* graphics, Mouse* mouse);
 		virtual ~Tool();
 
 		void Initialize();

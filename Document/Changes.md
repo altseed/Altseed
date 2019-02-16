@@ -1,9 +1,16 @@
 ﻿## 変更点
 
-### 1.2.x (2018/xx/xx)
+### 1.2.x (2019/xx/xx)
 * ImagePackageの仕様を拡張(詳細はヘルプ参照)
 * MouseButtonState、JoystickButtonState、KeyButtonStateをButtonStateに共通化(破壊的変更)
 * C++のScene::GetLayers()が返す値がlistからvector型に変更(破壊的変更)
+* 動画再生機能の追加
+* ツール作成のためのGUI機能の追加
+* Effekseerバージョンアップ
+
+### 1.1.6 (2019/02/16)
+不具合修正のための更新です。
+1.2.xの変更も含まれていますが、変更の詳細は1.2.xリリース時にまとめます。
 
 ### 1.1.5 (2018/05/14)
 不具合修正のための更新です。

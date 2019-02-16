@@ -1,6 +1,6 @@
 ﻿
 #include "imgui_impl_glfw.h"
-
+#include "../../Input/asd.Mouse_Imp.h"
 #include <GLFW/glfw3.h>
 
 #ifdef _WIN32
@@ -16,23 +16,24 @@ static double       g_Time = 0.0f;
 static bool         g_MouseJustPressed[3] = { false, false, false };
 static GLFWcursor*  g_MouseCursors[ImGuiMouseCursor_COUNT] = { 0 };
 
-static void ImGui_ImplGlfw_InstallCallbacks(GLFWwindow* window)
+static void ImGui_ImplGlfw_InstallCallbacks(GLFWwindow* window, asd::Mouse* mouse)
 {
 	glfwSetMouseButtonCallback(window, ImGui_ImplGlfw_MouseButtonCallback);
 	
-	// TODO : merge altseed mouse wheel
-	//glfwSetScrollCallback(window, ImGui_ImplGlfw_ScrollCallback);
-	
+	auto mouse_ = (asd::Mouse_Imp*)mouse;
+	mouse_->GetNative()->SetWheelCallback([window](double x, double y) -> void { ImGui_ImplGlfw_ScrollCallback(window, x, y);
+	});
+
 	glfwSetKeyCallback(window, ImGui_ImplGlfw_KeyCallback);
 	glfwSetCharCallback(window, ImGui_ImplGlfw_CharCallback);
 }
 
-static void ImGui_ImplGlfw_UninstallCallbacks(GLFWwindow* window)
+static void ImGui_ImplGlfw_UninstallCallbacks(GLFWwindow* window, asd::Mouse* mouse)
 {
 	glfwSetMouseButtonCallback(window, nullptr);
 
-	// TODO : merge altseed mouse wheel
-	//glfwSetScrollCallback(window, ImGui_ImplGlfw_ScrollCallback);
+	auto mouse_ = (asd::Mouse_Imp*)mouse;
+	mouse_->GetNative()->SetWheelCallback([](double x, double y) -> void {});
 
 	glfwSetKeyCallback(window, nullptr);
 	glfwSetCharCallback(window, nullptr);
@@ -84,7 +85,7 @@ void ImGui_ImplGlfw_CharCallback(GLFWwindow*, unsigned int c)
 		io.AddInputCharacter((unsigned short)c);
 }
 
-bool ImGui_ImplGlfw_Init(GLFWwindow* window, bool install_callbacks)
+bool ImGui_ImplGlfw_Init(GLFWwindow* window, asd::Mouse* mouse, bool install_callbacks)
 {
 	g_Window = window;
 
@@ -135,12 +136,12 @@ bool ImGui_ImplGlfw_Init(GLFWwindow* window, bool install_callbacks)
 	g_MouseCursors[ImGuiMouseCursor_ResizeNWSE] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
 
 	if (install_callbacks)
-		ImGui_ImplGlfw_InstallCallbacks(window);
+		ImGui_ImplGlfw_InstallCallbacks(window, mouse);
 	
 	return true;
 }
 
-void ImGui_ImplGlfw_Shutdown(GLFWwindow* window)
+void ImGui_ImplGlfw_Shutdown(GLFWwindow* window, asd::Mouse* mouse)
 {
 	// Destroy GLFW mouse cursors
 	for (ImGuiMouseCursor cursor_n = 0; cursor_n < ImGuiMouseCursor_COUNT; cursor_n++)
@@ -150,7 +151,7 @@ void ImGui_ImplGlfw_Shutdown(GLFWwindow* window)
 
 	if (window != nullptr)
 	{
-		ImGui_ImplGlfw_UninstallCallbacks(window);
+		ImGui_ImplGlfw_UninstallCallbacks(window, mouse);
 	}
 }
 

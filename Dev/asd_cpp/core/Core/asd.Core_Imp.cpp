@@ -968,7 +968,7 @@ namespace asd
 	void Core_Imp::OpenTool()
 	{
 		if (tool != nullptr) return;
-		tool = new Tool(m_window, m_graphics);
+		tool = new Tool(m_window, m_graphics, m_mouse);
 		tool->Initialize();
 	}
 

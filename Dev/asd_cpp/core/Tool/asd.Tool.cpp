@@ -88,9 +88,9 @@ namespace asd
 		return res;
 	}
 
-	Tool::Tool(Window* window, Graphics* graphics)
+	Tool::Tool(Window* window, Graphics* graphics, Mouse* mouse)
 		: window(window)
-		, graphics(graphics)
+		, graphics(graphics), mouse(mouse)
 	{
 	}
 
@@ -108,7 +108,7 @@ namespace asd
 		
 		ImGui::CreateContext();
 
-		ImGui_ImplGlfw_Init(gw, true);
+		ImGui_ImplGlfw_Init(gw, mouse, true);
 
 		if (g->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
 		{
@@ -142,7 +142,7 @@ namespace asd
 			ImGui_ImplGlfwGL3_Shutdown();
 		}
 
-		ImGui_ImplGlfw_Shutdown(gw);
+		ImGui_ImplGlfw_Shutdown(gw, mouse);
 		ImGui::DestroyContext();
 	}
 
