@@ -39,7 +39,9 @@ def compile_tool():
 		# for core
 		aceutils.cd(r'Dev/cmake')
 		aceutils.call(r'make install')
-		aceutils.cd(r'../../')
+		aceutils.cd(r'ImagePackageGenerator')
+		aceutils.call(r'make')
+		aceutils.cd(r'../../../')
 
 		aceutils.call(r'nuget restore Dev/FontGenerator.sln -PackagesDirectory Dev/FontGenerator/packages/')
 		aceutils.call(r'msbuild Dev/FontGenerator/FontGenerator.Altseed/FontGenerator.Altseed.csproj /p:Configuration=Release /p:Platform=x86')
