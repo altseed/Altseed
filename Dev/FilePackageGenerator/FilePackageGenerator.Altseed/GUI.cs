@@ -60,27 +60,27 @@ namespace FilePackageGenerator.Altseed
             if (asd.Engine.Tool.BeginFullscreen("FilePackageGenerator", 0))
             {
 
-                asd.Engine.Tool.Text("Source:");
-                if (asd.Engine.Tool.Button("Open...")) Open();
+                asd.Engine.Tool.Text("読み込み元:");
+                if (asd.Engine.Tool.Button("参照...")) Open();
 
-                asd.Engine.Tool.Text("Setting:");
-                if (asd.Engine.Tool.Button(Setting == PackagingSetting.IgnoreHiddenAttribute ? "Ignore Hidden" : "All Files"))
+                asd.Engine.Tool.Text("設定:");
+                if (asd.Engine.Tool.Button(Setting == PackagingSetting.IgnoreHiddenAttribute ? "隠しファイルを無視する" : "隠しファイルも含む"))
                 {
                     Setting = (Setting == PackagingSetting.AllFiles) ?
                         PackagingSetting.IgnoreHiddenAttribute :
                         PackagingSetting.AllFiles;
                     RefleshList();
                 }
-                asd.Engine.Tool.Text("Password:");
+                asd.Engine.Tool.Text("パスワード:");
                 asd.Engine.Tool.InputText(string.Empty, Password, 512);
 
-                asd.Engine.Tool.Text("Package:");
-                if (asd.Engine.Tool.Button("Save as...") && SrcPath != string.Empty) Save();
+                asd.Engine.Tool.Text("出力先:");
+                if (asd.Engine.Tool.Button("名前を付けて保存...") && SrcPath != string.Empty) Save();
 
                 asd.Engine.Tool.Text("");
-                asd.Engine.Tool.Text("Selected Folder:");
+                asd.Engine.Tool.Text("読み込み元のフォルダ:");
                 asd.Engine.Tool.Text(SrcPath);
-                asd.Engine.Tool.Text("File List:");
+                asd.Engine.Tool.Text("パッケージ対象ファイル:");
 
                 asd.Engine.Tool.ListBox(string.Empty, new[] { 0 }, FileList);
             }
