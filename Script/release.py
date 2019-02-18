@@ -39,7 +39,9 @@ def compile_tool():
 		# for core
 		aceutils.cd(r'Dev/cmake')
 		aceutils.call(r'make install')
-		aceutils.cd(r'../../')
+		aceutils.cd(r'ImagePackageGenerator')
+		aceutils.call(r'make')
+		aceutils.cd(r'../../../')
 
 		aceutils.call(r'nuget restore Dev/FontGenerator.sln -PackagesDirectory Dev/FontGenerator/packages/')
 		aceutils.call(r'msbuild Dev/FontGenerator/FontGenerator.Altseed/FontGenerator.Altseed.csproj /p:Configuration=Release /p:Platform=x86')
@@ -133,7 +135,7 @@ def release_common():
 		aceutils.rmdir(r'Dev/cmake')
 		aceutils.mkdir(r'Dev/cmake')
 		aceutils.cd(r'Dev/cmake')
-		aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D BUILD_TOOL=ON -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../ "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../')
+		aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D BUILD_TOOL=ON -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../ "-DCMAKE_OSX_ARCHITECTURES=x86_64' + (';i386' if aceutils.Isi386() else '') + '" ../')
 		aceutils.cd(r'../../')
 
 def store_tools():

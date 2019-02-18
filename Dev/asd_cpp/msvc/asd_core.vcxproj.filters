@@ -49,21 +49,6 @@
     <Filter Include="Graphics\3D">
       <UniqueIdentifier>{571212f8-d252-42d6-a34b-86de41297a3e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics\Platform">
-      <UniqueIdentifier>{7f2db485-b6c8-4b06-a808-01170137c83e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\Platform\DX11">
-      <UniqueIdentifier>{b3b2f68b-164f-4881-a4c9-9880a5da6570}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\Platform\GL">
-      <UniqueIdentifier>{241d0383-110a-46b7-a5e9-339cce742c84}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\Platform\DX11\Resource">
-      <UniqueIdentifier>{f8eacd7e-60cb-416f-8be8-e8076eb8788d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\Platform\GL\Resource">
-      <UniqueIdentifier>{bcdd5df4-8265-4223-9b5b-4aa7ebfcf074}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graphics\Resource">
       <UniqueIdentifier>{4d7bf8a9-b157-4ac0-9579-47f70e56df83}</UniqueIdentifier>
     </Filter>
@@ -147,9 +132,6 @@
     </Filter>
     <Filter Include="Graphics\Helper">
       <UniqueIdentifier>{2ba8aa37-127b-4d29-a747-16deff68beae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3rdParty\nv_dds">
-      <UniqueIdentifier>{3952a795-869b-4420-85d5-b013cc33c680}</UniqueIdentifier>
     </Filter>
     <Filter Include="3rdParty\DirectXToolKit">
       <UniqueIdentifier>{eeefc298-8e73-4ea2-b074-16bf6a34d585}</UniqueIdentifier>
@@ -381,60 +363,6 @@
     </ClInclude>
     <ClInclude Include="..\core\Graphics\2D\asd.Renderer2D_Imp.h">
       <Filter>Graphics\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\DX11\asd.DX11.Base.h">
-      <Filter>Graphics\Platform\DX11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\DX11\asd.Graphics_Imp_DX11.h">
-      <Filter>Graphics\Platform\DX11</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.CubemapTexture_Imp_DX11.h">
-      <Filter>Graphics\Platform\DX11\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.DepthBuffer_Imp_DX11.h">
-      <Filter>Graphics\Platform\DX11\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.IndexBuffer_Imp_DX11.h">
-      <Filter>Graphics\Platform\DX11\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.NativeShader_Imp_DX11.h">
-      <Filter>Graphics\Platform\DX11\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.RenderTexture2D_Imp_DX11.h">
-      <Filter>Graphics\Platform\DX11\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.Texture2D_Imp_DX11.h">
-      <Filter>Graphics\Platform\DX11\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.VertexBuffer_Imp_DX11.h">
-      <Filter>Graphics\Platform\DX11\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.CubemapTexture_Imp_GL.h">
-      <Filter>Graphics\Platform\GL\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.DepthBuffer_Imp_GL.h">
-      <Filter>Graphics\Platform\GL\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.IndexBuffer_Imp_GL.h">
-      <Filter>Graphics\Platform\GL\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.NativeShader_Imp_GL.h">
-      <Filter>Graphics\Platform\GL\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.RenderTexture2D_Imp_GL.h">
-      <Filter>Graphics\Platform\GL\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.Texture2D_Imp_GL.h">
-      <Filter>Graphics\Platform\GL\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.VertexBuffer_Imp_GL.h">
-      <Filter>Graphics\Platform\GL\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\GL\asd.GL.Base.h">
-      <Filter>Graphics\Platform\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\GL\asd.Graphics_Imp_GL.h">
-      <Filter>Graphics\Platform\GL</Filter>
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Resource\asd.CubemapTexture.h">
       <Filter>Graphics\Resource</Filter>
@@ -1029,9 +957,6 @@
     <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreDrawnObject2D_Imp.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\3rdParty\nv_dds\nv_dds.h">
-      <Filter>3rdParty\nv_dds</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\3rdParty\DirectXToolKit\dds.h">
       <Filter>3rdParty\DirectXToolKit</Filter>
     </ClInclude>
@@ -1273,54 +1198,6 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\2D\asd.Renderer2D_Imp.cpp">
       <Filter>Graphics\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\DX11\asd.Graphics_Imp_DX11.cpp">
-      <Filter>Graphics\Platform\DX11</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.CubemapTexture_Imp_DX11.cpp">
-      <Filter>Graphics\Platform\DX11\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.DepthBuffer_Imp_DX11.cpp">
-      <Filter>Graphics\Platform\DX11\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.IndexBuffer_Imp_DX11.cpp">
-      <Filter>Graphics\Platform\DX11\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.NativeShader_Imp_DX11.cpp">
-      <Filter>Graphics\Platform\DX11\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.RenderTexture2D_Imp_DX11.cpp">
-      <Filter>Graphics\Platform\DX11\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.Texture2D_Imp_DX11.cpp">
-      <Filter>Graphics\Platform\DX11\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.VertexBuffer_Imp_DX11.cpp">
-      <Filter>Graphics\Platform\DX11\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.CubemapTexture_Imp_GL.cpp">
-      <Filter>Graphics\Platform\GL\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.DepthBuffer_Imp_GL.cpp">
-      <Filter>Graphics\Platform\GL\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.IndexBuffer_Imp_GL.cpp">
-      <Filter>Graphics\Platform\GL\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.NativeShader_Imp_GL.cpp">
-      <Filter>Graphics\Platform\GL\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.RenderTexture2D_Imp_GL.cpp">
-      <Filter>Graphics\Platform\GL\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.Texture2D_Imp_GL.cpp">
-      <Filter>Graphics\Platform\GL\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.VertexBuffer_Imp_GL.cpp">
-      <Filter>Graphics\Platform\GL\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\GL\asd.Graphics_Imp_GL.cpp">
-      <Filter>Graphics\Platform\GL</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Resource\asd.CubemapTexture_Imp.cpp">
       <Filter>Graphics\Resource</Filter>
@@ -1567,9 +1444,6 @@
     </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreDrawnObject2D_Imp.cpp">
       <Filter>ObjectSystem\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\3rdParty\nv_dds\nv_dds.cpp">
-      <Filter>3rdParty\nv_dds</Filter>
     </ClCompile>
     <ClCompile Include="..\core\3rdParty\DirectXToolKit\DDSTextureLoader.cpp">
       <Filter>3rdParty\DirectXToolKit</Filter>

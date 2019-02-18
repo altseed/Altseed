@@ -19,9 +19,9 @@
 
 namespace asd
 {
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
+
+//#define ENABLED_MULTITHREAD_RENDERING 1
+
 	template<typename T>
 	void AddRefToObjects(std::set<T*>& os)
 	{
@@ -257,16 +257,23 @@ namespace asd
 	void Renderer3D::BeginRendering(float deltaTime)
 	{
 		proxy->DeltaTime = deltaTime;
+
+#ifdef ENABLED_MULTITHREAD_RENDERING
 		m_graphics->GetRenderingThread()->AddEvent(&m_event);
-	
+#endif
 	}
 
 	void Renderer3D::EndRendering()
 	{
+#ifdef ENABLED_MULTITHREAD_RENDERING
 		while (!m_event.IsExited())
 		{
 			Sleep(1);
 		}
+#else
+		m_event.Event();
+#endif
+		
 		
 		executor->Execute(m_graphics, m_effectManager, m_effectRenderer, spriteRenderer, proxy->GetCommands());
 		proxy->ResetCommands();

@@ -1,6 +1,6 @@
-﻿#include <gtest/gtest.h>
+﻿#include "../../EngineTest.h"
 #include <Altseed.h>
-#include "../../EngineTest.h"
+#include <gtest/gtest.h>
 
 using namespace std;
 using namespace asd;
@@ -8,10 +8,7 @@ using namespace asd;
 class Graphics_CameraObject2D : public EngineTest
 {
 public:
-	Graphics_CameraObject2D(bool isOpenGLMode)
-		: EngineTest(asd::ToAString("CameraObject2D"), isOpenGLMode, 60)
-	{
-	}
+	Graphics_CameraObject2D(bool isOpenGLMode) : EngineTest(u"CameraObject2D", isOpenGLMode, 60) {}
 
 private:
 	shared_ptr<CameraObject2D> m_camera;
@@ -24,7 +21,7 @@ protected:
 		auto obj = make_shared<TextureObject2D>();
 		m_camera = make_shared<CameraObject2D>();
 
-		obj->SetTexture(asd::Engine::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Sample1.png").c_str()));
+		obj->SetTexture(asd::Engine::GetGraphics()->CreateTexture2D(u"Data/Texture/Sample1.png"));
 		m_camera->SetSrc(RectI(100, 100, 312, 312));
 		m_camera->SetDst(RectI(10, 10, 200, 200));
 

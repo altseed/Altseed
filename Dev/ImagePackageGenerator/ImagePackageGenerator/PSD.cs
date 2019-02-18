@@ -176,7 +176,7 @@ namespace ImagePackageGenerator
 			// 画像を完全に破棄する。
 			System.GC.Collect();
 			System.GC.Collect();
-			System.GC.WaitForFullGCComplete();
+			System.GC.WaitForPendingFinalizers();
 			System.GC.Collect();
 			System.GC.Collect();
 		}

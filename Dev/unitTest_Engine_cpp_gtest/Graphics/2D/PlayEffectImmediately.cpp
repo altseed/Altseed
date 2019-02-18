@@ -1,7 +1,7 @@
-﻿#include <Altseed.h>
+﻿#include "../../EngineTest.h"
+#include <Altseed.h>
 #include <gtest/gtest.h>
 #include <memory>
-#include "../../EngineTest.h"
 
 using namespace std;
 using namespace asd;
@@ -9,15 +9,12 @@ using namespace asd;
 class Graphics_PlayEffectImmediately : public EngineTest
 {
 public:
-	Graphics_PlayEffectImmediately(bool isOpenGLMode)
-		: EngineTest(asd::ToAString("PlayEffectImmediately"), isOpenGLMode, 60)
-	{
-	}
+	Graphics_PlayEffectImmediately(bool isOpenGLMode) : EngineTest(u"PlayEffectImmediately", isOpenGLMode, 60) {}
 
 protected:
 	void OnStart()
 	{
-		auto effect = Engine::GetGraphics()->CreateEffect(asd::ToAString("Data/Effect/Laser01.efk").c_str());
+		auto effect = Engine::GetGraphics()->CreateEffect(u"Data/Effect/Laser01.efk");
 		auto effectObj = make_shared<EffectObject2D>();
 
 		effectObj->SetPosition(asd::Vector2DF(320, 240));

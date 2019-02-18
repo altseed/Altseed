@@ -1,31 +1,29 @@
 ﻿
-#include<gtest/gtest.h>
 #include "EngineTest.h"
+#include <gtest/gtest.h>
 
 #ifdef _WIN64
 #ifdef _DEBUG
-#pragma comment(lib,"x64/Debug/Altseed.lib")
+#pragma comment(lib, "x64/Debug/Altseed.lib")
 #pragma comment(lib, "x64/Debug/gtest.lib")
 #else
-#pragma comment(lib,"x64/Release/Altseed.lib")
+#pragma comment(lib, "x64/Release/Altseed.lib")
 #pragma comment(lib, "x64/Release/gtest.lib")
 #endif
 #else
 #ifdef _DEBUG
-#pragma comment(lib,"x86/Debug/Altseed.lib")
+#pragma comment(lib, "x86/Debug/Altseed.lib")
 #pragma comment(lib, "x86/Debug/gtest.lib")
 #else
-#pragma comment(lib,"x86/Release/Altseed.lib")
+#pragma comment(lib, "x86/Release/Altseed.lib")
 #pragma comment(lib, "x86/Release/gtest.lib")
 #endif
 #endif
 
-
-
 #if _WIN32
 #include <Windows.h>
-std::wstring ToWide(const char* pText);
-void GetDirectoryName(char* dst, char* src);
+std::wstring ToWide(const char *pText);
+void GetDirectoryName(char *dst, char *src);
 #endif
 
 extern void Test_ObjectSystem_TrasingCamera(bool openGL);
@@ -122,7 +120,7 @@ EXTERN_ENGINE_TEST(Performance, TextureObject2D)
 #endif
 
 /**
-	@brief	単体テストを実行する。	
+	@brief	単体テストを実行する。
 	@note
 	現在、単体テスト内でEngineを使用した場合の動作は保証していない。
 	テスト内でCoreを直接生成する。
@@ -135,30 +133,30 @@ int main(int argc, char **argv)
 	SetCurrentDirectoryA(current_path);
 #endif
 
-	//CALL_ENGINE_TEST(Graphics, MediaPlayer, true);
+	CALL_ENGINE_TEST(Graphics, LightingStandard, true);
 	return 0;
 
+	::testing::InitGoogleTest(&argc, argv);
 	auto result = RUN_ALL_TESTS();
 
 	getchar();
 	return result;
 }
 
-
 #if _WIN32
-static std::wstring ToWide(const char* pText)
+static std::wstring ToWide(const char *pText)
 {
 	int Len = ::MultiByteToWideChar(CP_ACP, 0, pText, -1, NULL, 0);
 
-	wchar_t* pOut = new wchar_t[Len + 1];
+	wchar_t *pOut = new wchar_t[Len + 1];
 	::MultiByteToWideChar(CP_ACP, 0, pText, -1, pOut, Len);
 	std::wstring Out(pOut);
-	delete [] pOut;
+	delete[] pOut;
 
 	return Out;
 }
 
-void GetDirectoryName(char* dst, char* src)
+void GetDirectoryName(char *dst, char *src)
 {
 	auto Src = std::string(src);
 	int pos = 0;

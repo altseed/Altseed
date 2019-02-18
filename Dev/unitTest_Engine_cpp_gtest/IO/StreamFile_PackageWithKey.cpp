@@ -1,34 +1,28 @@
-﻿#include <Altseed.h>
+﻿#include "../EngineTest.h"
+#include <Altseed.h>
 #include <gtest/gtest.h>
 #include <memory>
-#include "../EngineTest.h"
 
 using namespace std;
 using namespace asd;
 
-class IO_StreamFile_PackageWithKey
-	: public EngineTest
+class IO_StreamFile_PackageWithKey : public EngineTest
 {
 public:
-	IO_StreamFile_PackageWithKey(bool isOpenGLMode)
-		: EngineTest(asd::ToAString("StreamFile_PackageWithKey"), isOpenGLMode, 1)
-	{
-
-	}
+	IO_StreamFile_PackageWithKey(bool isOpenGLMode) : EngineTest(u"StreamFile_PackageWithKey", isOpenGLMode, 1) {}
 
 protected:
-
 	void OnStart()
 	{
 		//普通に読み込んだバイナリ
 		BinaryReader reader;
-		auto data = GetBinaryData(asd::ToAString("Data/Texture/Surface/Tile_Normal.png"));
+		auto data = GetBinaryData(u"Data/Texture/Surface/Tile_Normal.png");
 		reader.ReadIn(data.begin(), data.end());
 
 		//ファイル機能で読み込んだバイナリ
-		asd::Engine::GetFile()->AddRootPackageWithPassword(asd::ToAString("Data/Texture3_new.pack").c_str(), asd::ToAString("pack3").c_str());
-		auto streamFile = asd::Engine::GetFile()->CreateStreamFile(asd::ToAString("Surface/Tile_Normal.png").c_str());
-		
+		asd::Engine::GetFile()->AddRootPackageWithPassword(u"Data/Texture3_new.pack", u"pack3");
+		auto streamFile = asd::Engine::GetFile()->CreateStreamFile(u"Surface/Tile_Normal.png");
+
 		std::vector<uint8_t> buffer;
 		streamFile->Read(buffer, streamFile->GetSize());
 

@@ -1,4 +1,4 @@
-﻿
+﻿/*
 
 #include "../asd.Graphics_Test_Utls.h"
 
@@ -60,7 +60,7 @@ out vec4 vaTexCoord;
 void main()
 {
 	gl_Position = vec4(Pos.x,Pos.y,Pos.z,1.0);
-	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);	
+	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);
 }
 
 )";
@@ -71,7 +71,7 @@ in vec4 vaTexCoord;
 uniform samplerCube g_texture;
 out vec4 fragColor;
 
-void main() 
+void main()
 {
 	vec2 uv_ = vaTexCoord.xy;
 	//uv_.y = 1.0 - uv_.y;
@@ -141,7 +141,7 @@ out vec4 vaTexCoord;
 void main()
 {
 	gl_Position = vec4(Pos.x,Pos.y,Pos.z,1.0);
-	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);	
+	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);
 }
 
 )";
@@ -152,7 +152,7 @@ in vec4 vaTexCoord;
 uniform sampler2D g_texture;
 out vec4 fragColor;
 
-void main() 
+void main()
 {
 	vec2 uv = vaTexCoord.xy;
 	uv.y = 1.0 - uv.y;
@@ -182,7 +182,8 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 
 	asd::Log* log = asd::Log_Imp::Create(u"graphics.html", u"描画");
 
-	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(u"CubemapTexture").c_str(), log, false, asd::WindowPositionType::Default, isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11, asd::ColorSpaceType::LinearSpace, false);
+	auto window = asd::Window_Imp::Create(640, 480, asd::ToAString(u"CubemapTexture").c_str(), log, false, asd::WindowPositionType::Default,
+isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11, asd::ColorSpaceType::LinearSpace, false);
 	ASSERT_TRUE(window != nullptr);
 
 	auto synchronizer = std::make_shared<asd::Synchronizer>();
@@ -194,8 +195,8 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 	go.IsReloadingEnabled = false;
 	go.ColorSpace = asd::ColorSpaceType::LinearSpace;
 	go.GraphicsDevice = isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11;
-	auto graphics = asd::Graphics_Imp::Create(window, isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11, log, file, go);
-	ASSERT_TRUE(graphics != nullptr);
+	auto graphics = asd::Graphics_Imp::Create(window, isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11,
+log, file, go); ASSERT_TRUE(graphics != nullptr);
 
 	auto cubemap = graphics->CreateCubemapTextureFrom6ImageFiles_(
 		asd::ToAString("Data/Cubemap/Sky1/Front.png").c_str(),
@@ -307,7 +308,7 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 	}
 
 	shader->SetTexture("g_texture", cubemap, asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp, 0);
-	
+	
 	int32_t time = 0;
 	while (window->DoEvent())
 	{
@@ -334,7 +335,7 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 
 			graphics->DrawPolygon(2);
 		}
-		
+		
 
 		graphics->SetRenderTarget(nullptr, nullptr);
 		graphics->Clear(true, false, asd::Color(64, 32, 16, 255));
@@ -391,3 +392,4 @@ TEST(Graphics, CubemapTexture_GL)
 	Graphics_CubemapTexture(true);
 }
 
+*/

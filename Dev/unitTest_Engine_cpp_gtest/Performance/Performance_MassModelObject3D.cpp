@@ -5,14 +5,14 @@ class Performance_MassModelObject3D : public EngineGraphics3DTest
 {
 
 public:
-
-	Performance_MassModelObject3D(bool isOpenGLMode) :
-		EngineGraphics3DTest(asd::ToAString("Performance_MassModelObject3D"), isOpenGLMode, 1500000, true)
-	{}
+	Performance_MassModelObject3D(bool isOpenGLMode)
+		: EngineGraphics3DTest(asd::ToAString("Performance_MassModelObject3D"),
+							   isOpenGLMode, 150, true)
+	{
+	}
 
 protected:
 	std::vector<std::shared_ptr<asd::MassModelObject3D>> meshObjs;
-
 
 	void OnStart() override
 	{
@@ -24,7 +24,8 @@ protected:
 
 		auto graphics = asd::Engine::GetGraphics();
 
-		auto massModel = graphics->CreateMassModelFromModelFile(asd::ToAString("Data/Model/Sphere1.mdl").c_str());
+		auto massModel = graphics->CreateMassModelFromModelFile(
+			asd::ToAString("Data/Model/Sphere1.mdl").c_str());
 
 		for (int y = -5; y <= 5; y++)
 		{
@@ -47,13 +48,9 @@ protected:
 		SetCameraParameter(30, 0, 0, 1, 60, 20);
 		GetLayer3D()->SetSkyAmbientColor(asd::Color(50, 50, 70, 255));
 		GetLayer3D()->SetGroundAmbientColor(asd::Color(70, 70, 50, 255));
-
 	}
 
-	void OnUpdating() override
-	{
-		EngineGraphics3DTest::OnUpdating();
-	}
+	void OnUpdating() override { EngineGraphics3DTest::OnUpdating(); }
 };
 
 #if defined(PERFORMANCE_MODE)

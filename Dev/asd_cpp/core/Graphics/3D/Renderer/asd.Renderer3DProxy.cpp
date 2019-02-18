@@ -31,11 +31,6 @@
 #include "../../Shader/DX/3D/DeferredBuffer_PS.h"
 #include "../../Shader/GL/3D/DeferredBuffer_PS.h"
 
-#if _WIN32
-#include "../../Platform/DX11/asd.Graphics_Imp_DX11.h"
-#endif
-#include "../../Platform/GL/asd.Graphics_Imp_GL.h"
-
 #include "../../Shader/asd.Vertices.h"
 
 #define __CULLING__ 1

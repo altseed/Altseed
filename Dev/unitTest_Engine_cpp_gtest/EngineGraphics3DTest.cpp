@@ -1,15 +1,9 @@
 ﻿
 #include "EngineGraphics3DTest.h"
 
-std::shared_ptr<asd::Scene> EngineGraphics3DTest::GetScene()
-{
-	return m_scene;
-}
+std::shared_ptr<asd::Scene> EngineGraphics3DTest::GetScene() { return m_scene; }
 
-std::shared_ptr<asd::Layer3D> EngineGraphics3DTest::GetLayer3D()
-{
-	return m_layer3d;
-}
+std::shared_ptr<asd::Layer3D> EngineGraphics3DTest::GetLayer3D() { return m_layer3d; }
 
 void EngineGraphics3DTest::AddCamera()
 {
@@ -20,7 +14,8 @@ void EngineGraphics3DTest::AddCamera()
 
 std::shared_ptr<asd::CameraObject3D> EngineGraphics3DTest::GetCamera(int32_t index)
 {
-	if (m_cameras.size() <= index) return nullptr;
+	if (m_cameras.size() <= index)
+		return nullptr;
 	return m_cameras[index];
 }
 
@@ -30,7 +25,7 @@ void EngineGraphics3DTest::SetCameraParameter(float distance, float rotX, float 
 	m_cameraDistance = distance;
 	m_cameraRotX = rotX;
 	m_cameraRotY = rotY;
-	
+
 	cameraObj->SetFieldOfView(fov);
 	cameraObj->SetZNear(zn);
 	cameraObj->SetZFar(zf);
@@ -83,10 +78,14 @@ void EngineGraphics3DTest::OnUpdating()
 			m_cameraRotX -= d.Y;
 			m_cameraRotY += d.X;
 
-			if (m_cameraRotX > 90.0f) m_cameraRotX = 90.0f;
-			if (m_cameraRotX < -90.0f) m_cameraRotX = -90.0f;
-			if (m_cameraRotY < -180.0f) m_cameraRotY = -180.0f;
-			if (m_cameraRotY > 180.0f) m_cameraRotY = 180.0f;
+			if (m_cameraRotX > 90.0f)
+				m_cameraRotX = 90.0f;
+			if (m_cameraRotX < -90.0f)
+				m_cameraRotX = -90.0f;
+			if (m_cameraRotY < -180.0f)
+				m_cameraRotY = -180.0f;
+			if (m_cameraRotY > 180.0f)
+				m_cameraRotY = 180.0f;
 		}
 
 		if (asd::Engine::GetMouse()->GetRightButton()->GetButtonState() == asd::ButtonState::Hold)
@@ -111,7 +110,7 @@ void EngineGraphics3DTest::OnUpdating()
 			right = look.Transform3D(right);
 
 			auto dx = -d.X / 200.0f * m_cameraDistance;
-			auto dy =  d.Y / 200.0f * m_cameraDistance;
+			auto dy = d.Y / 200.0f * m_cameraDistance;
 
 			up.X = up.X * (dy);
 			up.Y = up.Y * (dy);
@@ -151,10 +150,11 @@ void EngineGraphics3DTest::OnUpdating()
 
 EngineGraphics3DTest::EngineGraphics3DTest(asd::astring title, bool isOpenGLMode, int exitTime, bool isFreeView)
 #if defined(PERFORMANCE_MODE)
-	:EngineTest(title, isOpenGLMode, exitTime, 1280, 720)
+	: EngineTest(title, isOpenGLMode, exitTime, 1280, 720)
 #else
 	: EngineTest(title, isOpenGLMode, exitTime, 640, 480)
 #endif
-	, m_isFreeView(isFreeView)
+	  ,
+	  m_isFreeView(isFreeView)
 {
 }

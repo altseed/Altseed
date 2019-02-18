@@ -24,6 +24,8 @@ namespace asd
 		ButtonState GetButtonInputState(MouseButtons mouseButton) const override;
 		float GetWheel() const override;
 
+		ap::Mouse* GetNative() const { return mouse; }
+
 		virtual ~Mouse_Imp();
 
 	private:

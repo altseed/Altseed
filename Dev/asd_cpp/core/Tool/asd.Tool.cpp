@@ -10,7 +10,6 @@
 #include "../3rdParty/imgui/imgui_impl_opengl3.h"
 
 #include "../Graphics/asd.Graphics_Imp.h"
-#include "../Graphics/Platform/DX11/Resource/asd.Texture2D_Imp_DX11.h"
 
 #include "../Window/asd.Window_Imp.h"
 
@@ -89,9 +88,9 @@ namespace asd
 		return res;
 	}
 
-	Tool::Tool(Window* window, Graphics* graphics)
+	Tool::Tool(Window* window, Graphics* graphics, Mouse* mouse)
 		: window(window)
-		, graphics(graphics)
+		, graphics(graphics), mouse(mouse)
 	{
 	}
 
@@ -109,7 +108,7 @@ namespace asd
 		
 		ImGui::CreateContext();
 
-		ImGui_ImplGlfw_Init(gw, true);
+		ImGui_ImplGlfw_Init(gw, mouse, true);
 
 		if (g->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
 		{
@@ -143,7 +142,7 @@ namespace asd
 			ImGui_ImplGlfwGL3_Shutdown();
 		}
 
-		ImGui_ImplGlfw_Shutdown(gw);
+		ImGui_ImplGlfw_Shutdown(gw, mouse);
 		ImGui::DestroyContext();
 	}
 
@@ -229,7 +228,7 @@ namespace asd
 	void Tool::Image(Texture2D* user_texture, const Vector2DF& size)
 	{
 		if (user_texture == nullptr) return;
-		auto texture = (Texture2D_Imp_DX11*)user_texture;
+		auto texture = (Texture2D_Imp*)user_texture;
 
 		auto g = (Graphics_Imp*)graphics;
 		if (g->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
