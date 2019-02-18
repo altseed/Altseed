@@ -15,7 +15,7 @@ namespace FontGenerator.Altseed
 			{
 				IsReloadingEnabled = true
 			};
-			asd.Engine.Initialize("フォント生成ツール", 400, 640, option);
+			asd.Engine.Initialize("フォント生成ツール", 440, 640, option);
 			asd.Engine.OpenTool();
             
 			var tool = new ToolRenderer();
