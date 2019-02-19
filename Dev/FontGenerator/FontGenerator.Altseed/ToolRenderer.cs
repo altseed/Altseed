@@ -127,6 +127,12 @@ namespace FontGenerator.Altseed
 					{
 						converter.LoadFromModel(ConfigurationFile.Load(path), viewModel);
 						selectedFont = fontPairs.IndexOf(fontPairs.Find(x => x.Name == viewModel.FontName.Value));
+
+						// 設定が見つからない
+						if(selectedFont < 0)
+						{
+							selectedFont = 0;
+						}
 					}
 				}
 				if (tool.Button("設定セーブ..."))
