@@ -297,11 +297,25 @@ namespace asd
 			return GC.GenerateMediaPlayer(ip, GenerationType.Create);
 		}
 
-
 		/// <summary>
-		/// 描画ランタイムの種類を取得する。
+		/// 1つのファイルからミップマップ付のキューブマップテクスチャを生成する。
 		/// </summary>
-		public GraphicsDeviceType GraphicsDeviceType
+		/// <param name="path">画像ファイルへの相対パス</param>
+		/// <returns>キューブマップ</returns>
+		/// <remarks>
+		/// 読み込める画像形式はDDSのみ。
+		/// </remarks>
+		public CubemapTexture CreateCumemapTexture(string path)
+		{
+			var ip = CoreInstance.CreateCubemapTexture_(path);
+			if (ip == null) return null;
+			return GC.GenerateCubemapTexture(ip, GenerationType.Create);
+		}
+
+	/// <summary>
+	/// 描画ランタイムの種類を取得する。
+	/// </summary>
+	public GraphicsDeviceType GraphicsDeviceType
 		{
 			get { return (GraphicsDeviceType)CoreInstance.GetGraphicsDeviceType(); }
 		}
