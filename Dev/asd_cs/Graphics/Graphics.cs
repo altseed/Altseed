@@ -305,7 +305,7 @@ namespace asd
 		/// <remarks>
 		/// 読み込める画像形式はDDSのみ。
 		/// </remarks>
-		public CubemapTexture CreateCumemapTexture(string path)
+		public CubemapTexture CreateCubemapTexture(string path)
 		{
 			var ip = CoreInstance.CreateCubemapTexture_(path);
 			if (ip == null) return null;
