@@ -30,6 +30,7 @@ namespace asd
 		std::vector<uint8_t> dst;
 
 		if (!ImageHelper::LoadPNGImage(f->GetData(), f->GetSize(), false, width, height, dst, nullptr)) return nullptr;
+		SafeRelease(f);
 
 		GLFWimage img;
 		img.pixels = dst.data();
