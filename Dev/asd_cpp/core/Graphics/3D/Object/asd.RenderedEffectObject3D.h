@@ -35,9 +35,18 @@ namespace asd
 			int32_t ID;
 		};
 
+		
+		struct InternalState
+		{
+			Effekseer::Handle effekseerHandle = -1;
+
+			//! 再生の遅延処理のため
+			bool isCommandExecuted = false;
+		};
+
 		static const int32_t GCThreshold = 32;
 
-		std::map<int32_t, int32_t>		internalHandleToEffekseerHandle;
+		std::map<int32_t, InternalState> internalHandleToState;
 		int32_t							nextInternalHandle = 0;
 
 		std::vector<Effekseer::Handle>	m_handles;

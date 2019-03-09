@@ -20,18 +20,20 @@ namespace asd
 			int32_t Id;
 		};
 
+		struct InternalState
+		{
+			Effekseer::Handle effekseerHandle = -1;
+
+			//! 再生の遅延処理のため
+			bool isCommandExecuted = false;
+		};
+
 	private:
 		static const int32_t GCThreshold = 0;
 
 		std::vector<Effekseer::Handle>	m_handles;
 		Effect*							m_effect;
-#if _WIN32
-		bool							m_syncEffects = nullptr;
-#elif __APPLE__
-		bool							m_syncEffects = nullptr;
-#else
 		bool							m_syncEffects = false;
-#endif
 		Renderer2D_Imp*					m_renderer;
 		int								m_drawingPtiority;
 
@@ -45,7 +47,7 @@ namespace asd
 		*/
 		float							m_rotationY = 0.0f;
 
-		std::map<int, int>				internalHandleToEffekseerHandle;
+		std::map<int, InternalState> internalHandleToState;
 		std::list<Command>				commands;
 		int								nextInternalHandle = 0;
 

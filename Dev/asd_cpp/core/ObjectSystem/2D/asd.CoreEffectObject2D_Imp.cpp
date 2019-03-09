@@ -65,7 +65,7 @@ namespace asd
 		, m_renderer(nullptr)
 		, m_drawingPtiority(0)
 		, commands()
-		, internalHandleToEffekseerHandle()
+		, internalHandleToState()
 	{
 	}
 
@@ -91,6 +91,9 @@ namespace asd
 			cmd.Type = CommandType::Play;
 			cmd.Id = internalHandle;
 			commands.push_back(cmd);
+
+			internalHandleToState[internalHandle].isCommandExecuted = false;
+
 			return internalHandle;
 		}
 		else
@@ -163,6 +166,12 @@ namespace asd
 			{
 				return true;
 			}
+		}
+
+		for (auto it : internalHandleToState)
+		{
+			if (!it.second.isCommandExecuted)
+				return true;
 		}
 
 		return false;
@@ -256,6 +265,21 @@ namespace asd
 				}
 				else
 				{
+					auto removed_it = internalHandleToState.end();
+					for (auto it = internalHandleToState.begin(); it != internalHandleToState.end(); it++)
+					{
+						if (it->second.effekseerHandle == m_handles[i])
+						{
+							removed_it = it;
+							break;
+						}
+					}
+
+					if (removed_it != internalHandleToState.end())
+					{
+						internalHandleToState.erase(removed_it);
+					}
+
 					for (size_t j = i; j < m_handles.size() - 1; j++)
 					{
 						m_handles[j] = m_handles[j + 1];
@@ -330,7 +354,8 @@ namespace asd
 		m_renderer->GetEffectManager()->SetMatrix(handle, efMat);
 		m_handles.push_back(handle);
 
-		internalHandleToEffekseerHandle[internalHandle] = id;
+		internalHandleToState[internalHandle].effekseerHandle = handle;
+		internalHandleToState[internalHandle].isCommandExecuted = true;
 
 		return handle;
 	}
@@ -342,7 +367,7 @@ namespace asd
 			m_renderer->GetEffectManager()->StopEffect(h);
 		}
 		m_handles.clear();
-		internalHandleToEffekseerHandle.clear();
+		internalHandleToState.clear();
 	}
 
 	void CoreEffectObject2D_Imp::StopRootInternal()

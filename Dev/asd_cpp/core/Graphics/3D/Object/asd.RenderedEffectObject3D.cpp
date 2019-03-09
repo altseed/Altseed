@@ -43,7 +43,9 @@ namespace asd
 		m_renderer->GetEffectManager()->SetMatrix(handle, efMat);
 		m_handles.push_back(handle);
 
-		internalHandleToEffekseerHandle[internalHandle] = handle;
+		internalHandleToState[internalHandle].effekseerHandle = handle;
+		internalHandleToState[internalHandle].isCommandExecuted = true;
+
 
 		return internalHandle;
 	}
@@ -76,6 +78,21 @@ namespace asd
 				}
 				else
 				{
+					auto removed_it = internalHandleToState.end();
+					for (auto it = internalHandleToState.begin(); it != internalHandleToState.end(); it++)
+					{
+						if (it->second.effekseerHandle == m_handles[i])
+						{
+							removed_it = it;
+							break;
+						}
+					}
+
+					if (removed_it != internalHandleToState.end())
+					{
+						internalHandleToState.erase(removed_it);
+					}
+
 					auto value = m_handles[i];
 
 					for (size_t j = i; j < m_handles.size() - 1; j++)
@@ -84,7 +101,7 @@ namespace asd
 					}
 					m_handles.resize(m_handles.size() - 1);
 
-					internalHandleToEffekseerHandle.erase(value);
+					internalHandleToState.erase(value);
 				}
 			}
 		}
@@ -140,6 +157,8 @@ namespace asd
 			cmd.ID = internalHandle;
 			commands.push_back(cmd);
 
+			internalHandleToState[internalHandle].isCommandExecuted = false;
+
 			return internalHandle;
 		}
 		else
@@ -155,7 +174,7 @@ namespace asd
 			m_renderer->GetEffectManager()->StopEffect(h);
 		}
 		m_handles.clear();
-		internalHandleToEffekseerHandle.clear();
+		internalHandleToState.clear();
 
 		if (m_renderer == nullptr)
 		{
@@ -220,6 +239,12 @@ namespace asd
 			}
 		}
 
+		for (auto it : internalHandleToState)
+		{
+			if (!it.second.isCommandExecuted)
+				return true;
+		}
+
 		return false;
 	}
 
@@ -242,7 +267,7 @@ namespace asd
 					m_renderer->GetEffectManager()->StopEffect(h);
 				}
 				m_handles.clear();
-				internalHandleToEffekseerHandle.clear();
+				internalHandleToState.clear();
 			}
 			else if (c.Type == CommandType::StopRoot)
 			{
