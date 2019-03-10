@@ -43,9 +43,9 @@ namespace asd {
 
 	static int32_t to_number(char16_t c1)
 	{
-		if (u'0' < c1 && c1 <= u'9') return c1 - u'0';
-		if (u'a' < c1 && c1 <= u'f') return c1 - u'a';
-		if (u'A' < c1 && c1 <= u'F') return c1 - u'A';
+		if (u'0' <= c1 && c1 <= u'9') return c1 - u'0';
+		if (u'a' <= c1 && c1 <= u'f') return c1 - u'a';
+		if (u'A' <= c1 && c1 <= u'F') return c1 - u'A';
 		return 0;
 	}
 
