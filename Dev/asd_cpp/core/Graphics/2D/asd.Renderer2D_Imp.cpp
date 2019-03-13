@@ -293,6 +293,7 @@ namespace asd {
 		Event e;
 		e.Type = Event::EventType::Sprite;
 
+		e.Data.Sprite.IsLinearColor = false;
 		memcpy(e.Data.Sprite.Positions, positions, sizeof(asd::Vector2DF) * 4);
 		memcpy(e.Data.Sprite.Colors, colors, sizeof(asd::Color) * 4);
 		memcpy(e.Data.Sprite.UV, uv, sizeof(asd::Vector2DF) * 4);
