@@ -71,6 +71,7 @@
     <Compile Include="Graphics\2D\SetPositionWhenFontIsNull.cs" />
     <Compile Include="Graphics\2D\TextObject2D.cs" />
     <Compile Include="Graphics\2D\TextureObject2D.cs" />
+    <Compile Include="Graphics\2D\TextureObject2DWithMaterial.cs" />
     <Compile Include="Graphics\3D\DrawSpriteAdditionally3D.cs" />
     <Compile Include="Graphics\3D\Effect3D.cs" />
     <Compile Include="Graphics\3D\SimpleMesh.cs" />
