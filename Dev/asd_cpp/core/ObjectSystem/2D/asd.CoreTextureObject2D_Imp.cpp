@@ -26,6 +26,7 @@ namespace asd
 	CoreTextureObject2D_Imp::~CoreTextureObject2D_Imp()
 	{
 		SafeRelease(m_texture);
+		SafeRelease(m_material);
 
 		// 循環になるので参照カウンタは変更しない
 		//SafeRelease(m_layer);
