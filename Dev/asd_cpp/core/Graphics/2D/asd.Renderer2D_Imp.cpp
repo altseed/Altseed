@@ -702,7 +702,7 @@ namespace asd {
 		}
 		else if (m_state.Material2DPtr != nullptr && m_state.TexturePtr != nullptr)
 		{
-
+			shader->SetTexture("asdTexture", m_state.TexturePtr, m_state.Filter, m_state.Wrap, 0);
 		}
 
 		m_graphics->SetVertexBuffer(m_vertexBuffer.get());
