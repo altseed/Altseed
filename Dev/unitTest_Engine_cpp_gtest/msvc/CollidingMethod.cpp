@@ -57,13 +57,13 @@ class ObjectSystem_CollidingMethod : public EngineTest
 				switch (collisionInfo->GetCollisionType())
 				{
 				case CollisionType::Enter:
-					printf("Enter:%s\n", asd::ToAString(collisionInfo->GetSelfCollider()->GetTag()).c_str());
+					printf("Enter:%s\n", asd::ToUtf8String(collisionInfo->GetSelfCollider()->GetTag()).c_str());
 						break;
 				case CollisionType::Stay:
-					printf("Stay:%s\n", asd::ToAString(collisionInfo->GetSelfCollider()->GetTag()).c_str());
+					printf("Stay:%s\n", asd::ToUtf8String(collisionInfo->GetSelfCollider()->GetTag()).c_str());
 					break;
 				case CollisionType::Exit:
-					printf("Exit:%s\n", asd::ToAString(collisionInfo->GetSelfCollider()->GetTag()).c_str());
+					printf("Exit:%s\n", asd::ToUtf8String(collisionInfo->GetSelfCollider()->GetTag()).c_str());
 					break;
 				default:
 					break;
