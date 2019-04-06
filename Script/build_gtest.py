@@ -15,13 +15,8 @@ with aceutils.CurrentDir('../Downloads'):
 	with aceutils.CurrentDir('gtest_bin'):
 		if aceutils.isWin():
 			aceutils.call(aceutils.cmd_cmake+r'-D BUILD_SHARED_LIBS:BOOL=OFF ../googletest/ "-DCMAKE_CXX_FLAGS=/source-charset:utf-8 /D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING"')
-
-			if os.path.exists('gtest.sln'):
-				aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Debug')
-				aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Release')
-			else:
-				aceutils.call(aceutils.cmd_compile + r'googletest-distribution.sln /p:configuration=Debug')
-				aceutils.call(aceutils.cmd_compile + r'googletest-distribution.sln /p:configuration=Release')
+			aceutils.call('cmake --build . --config Debug')
+			aceutils.call('cmake --build . --config Release')
 
 		elif aceutils.isMac():
 			aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev -DBUILD_GTEST=ON -DBUILD_GMOCK=OFF "-DCMAKE_OSX_ARCHITECTURES=x86_64' + (';i386' if aceutils.Isi386() else '') + r'" ../googletest/')
@@ -33,13 +28,8 @@ with aceutils.CurrentDir('../Downloads'):
 	with aceutils.CurrentDir('gtest_bin_x64'):
 		if aceutils.isWin():
 			aceutils.call(aceutils.cmd_cmake_x64+r'-D BUILD_SHARED_LIBS:BOOL=OFF ../googletest/ "-DCMAKE_CXX_FLAGS=/source-charset:utf-8 /D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING"')
-
-			if os.path.exists('gtest.sln'):
-				aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Debug')
-				aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Release')
-			else:
-				aceutils.call(aceutils.cmd_compile + r'googletest-distribution.sln /p:configuration=Debug')
-				aceutils.call(aceutils.cmd_compile + r'googletest-distribution.sln /p:configuration=Release')
+			aceutils.call('cmake --build . --config Debug')
+			aceutils.call('cmake --build . --config Release')
 
 	if aceutils.isWin():
 		src_path = 'gtest_bin/googlemock/gtest/'

@@ -15,6 +15,7 @@ import argparse
 # argparse
 paser = argparse.ArgumentParser()
 paser.add_argument("--i386", action="store_true")
+paser.add_argument("--vs2019", action="store_true")
 paser.add_argument("--vs2017", action="store_true")
 paser.add_argument("--vs2015", action="store_true")
 args = paser.parse_args()
@@ -241,6 +242,12 @@ if isWin():
         cmd_premake5 = os.path.dirname(os.path.abspath(
             __file__)) + r'/premake5/windows/premake5 vs2017 '
         premake5_directory = 'vs2017'
+
+    elif args.vs2019:
+        # vs2019
+        cmd_cmake = r'cmake -G "Visual Studio 16" '
+        cmd_cmake_x64 = r'cmake -G "Visual Studio 16" -a x64 '
+        cmd_compile = r'"C:\Program Files (x86)\MSBuild\16.0\Bin\msbuild" '
 
     elif args.vs2015:
         # vs2015

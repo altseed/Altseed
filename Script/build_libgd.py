@@ -16,8 +16,8 @@ with aceutils.CurrentDir('../Downloads'):
 	with aceutils.CurrentDir('gd_bin'):
 		if aceutils.isWin():
 			aceutils.call(aceutils.cmd_cmake + r'-DBUILD_STATIC_LIBS=ON ../' + pathname + '/')
-			aceutils.call(aceutils.cmd_compile + r'src/libgd_static.vcxproj /p:configuration=Debug')
-			aceutils.call(aceutils.cmd_compile + r'src/libgd_static.vcxproj /p:configuration=Release')
+			aceutils.call('cmake --build . --config Debug')
+			aceutils.call('cmake --build . --config Release')
 		elif aceutils.isMac():
 			aceutils.call(r'cmake -G "Unix Makefiles" -DBUILD_STATIC_LIBS=ON "-DCMAKE_OSX_ARCHITECTURES=x86_64' + (';i386' if aceutils.Isi386() else '') + r'" -D CMAKE_BUILD_TYPE=Release ../' + pathname + '/')
 			aceutils.call(r'make')
@@ -28,8 +28,8 @@ with aceutils.CurrentDir('../Downloads'):
 	with aceutils.CurrentDir('gd_bin_x64'):
 		if aceutils.isWin():
 			aceutils.call(aceutils.cmd_cmake_x64 + r'-DBUILD_STATIC_LIBS=ON ../' + pathname + '/')
-			aceutils.call(aceutils.cmd_compile + r'src/libgd_static.vcxproj /p:configuration=Debug')
-			aceutils.call(aceutils.cmd_compile + r'src/libgd_static.vcxproj /p:configuration=Release')
+			aceutils.call('cmake --build . --config Debug')
+			aceutils.call('cmake --build . --config Release')
 
 	if aceutils.isWin():
 		aceutils.mkdir(r'../Dev/lib/x86/')
