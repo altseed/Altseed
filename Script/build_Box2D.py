@@ -36,17 +36,13 @@ with aceutils.CurrentDir('../Downloads'):
         with aceutils.CurrentDir("box2d_bin"):
             aceutils.call(
                 aceutils.cmd_cmake+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF ../Box2d_temp/Box2D/')
-            aceutils.call(aceutils.cmd_compile +
-                          r'Box2D.sln /p:configuration=Debug')
-            aceutils.call(aceutils.cmd_compile +
-                          r'Box2D.sln /p:configuration=Release')
+            aceutils.call('cmake --build . --config Debug')
+            aceutils.call('cmake --build . --config Release')
         with aceutils.CurrentDir("box2d_bin_x64"):
             aceutils.call(aceutils.cmd_cmake_x64 +
                           r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF ../Box2d_temp/Box2D/')
-            aceutils.call(aceutils.cmd_compile +
-                          r'Box2D.sln /p:configuration=Debug')
-            aceutils.call(aceutils.cmd_compile +
-                          r'Box2D.sln /p:configuration=Release')
+            aceutils.call('cmake --build . --config Debug')
+            aceutils.call('cmake --build . --config Release')
 
     elif aceutils.isMac():
         with aceutils.CurrentDir("box2d_temp/Box2D"):
