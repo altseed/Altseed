@@ -163,9 +163,14 @@ def editCmakeForACE(path, enc='utf-8'):
         lines = lines.replace('IF(ZLIB_FOUND)', '')
         lines = lines.replace('INCLUDE_DIRECTORIES(${ZLIB_INCLUDE_DIR})', '')
         lines = lines.replace('SET(HAVE_LIBZ 1)', '')
-
+    
     lines = lines + "\n"
     lines = lines + "# ForACE\n"
+    
+    # bullet
+    if 'PROJECT(BULLET_PHYSICS)' in lines:
+        lines = lines + 'SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /arch:IA32")\n'
+
     lines = lines + "if (MSVC)\n"
     lines = lines + "else()\n"
     lines = lines + "\tadd_definitions(-fPIC)\n"
@@ -245,8 +250,8 @@ if isWin():
 
     elif args.vs2019:
         # vs2019
-        cmd_cmake = r'cmake -G "Visual Studio 16" '
-        cmd_cmake_x64 = r'cmake -G "Visual Studio 16" -a x64 '
+        cmd_cmake = r'cmake -G "Visual Studio 16" -A win32 '
+        cmd_cmake_x64 = r'cmake -G "Visual Studio 16" -A x64 '
         cmd_compile = r'"C:\Program Files (x86)\MSBuild\16.0\Bin\msbuild" '
 
     elif args.vs2015:

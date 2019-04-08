@@ -5,48 +5,53 @@ aceutils.cdToScript()
 aceutils.mkdir('../Downloads')
 
 with aceutils.CurrentDir('../Downloads'):
-	aceutils.rmdir(r"freetype_bin")
-	aceutils.rmdir(r"freetype_bin_x64")
+    aceutils.rmdir(r"freetype_bin")
+    aceutils.rmdir(r"freetype_bin_x64")
+    aceutils.rmdir(r"freetype")
+    aceutils.rmdir(r'freetype-2.6')
 
-	aceutils.wget(r'https://sourceforge.net/projects/freetype/files/freetype2/2.6/ft26.zip') 
-	aceutils.mkdir(r"freetype_bin")
-	aceutils.mkdir(r"freetype_bin_x64")
-	aceutils.editCmakeForACE(r'freetype/CMakeLists.txt','cp932')
+    aceutils.wget(
+        r'https://sourceforge.net/projects/freetype/files/freetype2/2.6/ft26.zip')
+    aceutils.unzip(r'ft26.zip')
+    aceutils.mkdir(r"freetype_bin")
+    aceutils.mkdir(r"freetype_bin_x64")
+    aceutils.copytree(r'freetype-2.6', r'freetype')
+    aceutils.editCmakeForACE(r'freetype/CMakeLists.txt', 'cp932')
 
-	with aceutils.CurrentDir('freetype_bin'):
-		if aceutils.isWin():
-			aceutils.call(aceutils.cmd_cmake+r'../freetype/')
-			aceutils.call('cmake --build . --config Debug')
-			aceutils.call('cmake --build . --config Release')
-		elif aceutils.isMac():
-			aceutils.call(r'cmake -G "Unix Makefiles" "-DWITH_BZip2=OFF" "-DWITH_HarfBuzz=OFF" "-DCMAKE_OSX_ARCHITECTURES=x86_64' + (';i386' if aceutils.Isi386() else '') + r'" -D CMAKE_BUILD_TYPE=Release ../freetype/')
-			aceutils.call(r'make')
-		else:
-			aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release ../freetype/')
-			aceutils.call(r'make')
+    with aceutils.CurrentDir('freetype_bin'):
+        if aceutils.isWin():
+            aceutils.call(aceutils.cmd_cmake+r'../freetype/')
+            aceutils.call('cmake --build . --config Debug')
+            aceutils.call('cmake --build . --config Release')
+        elif aceutils.isMac():
+            aceutils.call(r'cmake -G "Unix Makefiles" "-DWITH_BZip2=OFF" "-DWITH_HarfBuzz=OFF" "-DCMAKE_OSX_ARCHITECTURES=x86_64' + (';i386' if aceutils.Isi386() else '') + r'" -D CMAKE_BUILD_TYPE=Release ../freetype/')
+            aceutils.call(r'make')
+        else:
+            aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release ../freetype/')
+            aceutils.call(r'make')
 
-	with aceutils.CurrentDir('freetype_bin_x64'):
-		if aceutils.isWin():
-			aceutils.call(aceutils.cmd_cmake_x64+r'../freetype/')
-			aceutils.call('cmake --build . --config Debug')
-			aceutils.call('cmake --build . --config Release')
+    with aceutils.CurrentDir('freetype_bin_x64'):
+        if aceutils.isWin():
+            aceutils.call(aceutils.cmd_cmake_x64+r'../freetype/')
+            aceutils.call('cmake --build . --config Debug')
+            aceutils.call('cmake --build . --config Release')
 
-	if aceutils.isWin():
-		aceutils.mkdir(r'../Dev/lib/x86/')
-		aceutils.mkdir(r'../Dev/lib/x86/Debug')
-		aceutils.mkdir(r'../Dev/lib/x86/Release')
+    if aceutils.isWin():
+        aceutils.mkdir(r'../Dev/lib/x86/')
+        aceutils.mkdir(r'../Dev/lib/x86/Debug')
+        aceutils.mkdir(r'../Dev/lib/x86/Release')
 
-		aceutils.mkdir(r'../Dev/lib/x64/')
-		aceutils.mkdir(r'../Dev/lib/x64/Debug')
-		aceutils.mkdir(r'../Dev/lib/x64/Release')
+        aceutils.mkdir(r'../Dev/lib/x64/')
+        aceutils.mkdir(r'../Dev/lib/x64/Debug')
+        aceutils.mkdir(r'../Dev/lib/x64/Release')
 
-		aceutils.copytree(r'freetype/include/', r'../Dev/include/freetype')
+        aceutils.copytree(r'freetype/include/', r'../Dev/include/freetype')
 
-		aceutils.copy(r'freetype_bin/Debug/freetyped.lib', r'../Dev/lib/x86/Debug/freetype.lib')
-		aceutils.copy(r'freetype_bin/Release/freetype.lib', r'../Dev/lib/x86/Release/')
-		aceutils.copy(r'freetype_bin_x64/Debug/freetyped.lib', r'../Dev/lib/x64/Debug/freetype.lib')
-		aceutils.copy(r'freetype_bin_x64/Release/freetype.lib', r'../Dev/lib/x64/Release/')
+        aceutils.copy(r'freetype_bin/Debug/freetype.lib', r'../Dev/lib/x86/Debug/freetype.lib')
+        aceutils.copy(r'freetype_bin/Release/freetype.lib', r'../Dev/lib/x86/Release/')
+        aceutils.copy(r'freetype_bin_x64/Debug/freetype.lib', r'../Dev/lib/x64/Debug/freetype.lib')
+        aceutils.copy(r'freetype_bin_x64/Release/freetype.lib', r'../Dev/lib/x64/Release/')
 
-	else:
-		aceutils.copytree(r'freetype/include/', r'../Dev/include/freetype')
-		aceutils.copy(r'freetype_bin/libfreetype.a', r'../Dev/lib/')
+    else:
+        aceutils.copytree(r'freetype/include/', r'../Dev/include/freetype')
+        aceutils.copy(r'freetype_bin/libfreetype.a', r'../Dev/lib/')
