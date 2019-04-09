@@ -35,6 +35,7 @@ namespace asd
 			this,
 			std::make_shared<AsyncStaticFileFactory>(this, sync),
 			staticFileCacheStore);
+		m_sync = sync;
 	}
 
 	File_Imp::~File_Imp()

@@ -247,6 +247,7 @@ protected:
 
 protected:
 	Texture2D* CreateTexture2D_(const achar* path) { return CreateTexture2D_Imp(path); }
+	Texture2D* CreateTexture2DAsync_(const achar* path) { return CreateTexture2DAsync_Imp(path); }
 	Texture2D* CreateTexture2DAsRawData_(const achar* path) { return CreateTexture2DAsRawData_Imp(path); }
 	Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, TextureFormat format)
 	{
@@ -276,6 +277,7 @@ private:
 public:
 #if !SWIG
 	virtual Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size);
+	bool CreateTexture2DAsync_Imp_Internal(Texture2D_Imp* texture, uint8_t* data, int32_t size);
 #endif
 
 private:
@@ -374,6 +376,13 @@ public:
 	@return	テクスチャ
 	*/
 	Texture2D_Imp* CreateTexture2D_Imp(const achar* path);
+
+	/**
+	@brief	テクスチャを生成する。
+	@param	path	パス
+	@return	テクスチャ
+	*/
+	Texture2D_Imp* CreateTexture2DAsync_Imp(const achar* path);
 
 	/**
 	@brief	テクスチャを生成する。

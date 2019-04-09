@@ -103,6 +103,53 @@ namespace asd
 			return ret;
 		}
 
+		RESOURCE* TryLoadAsync(const achar* path,
+							   const std::function<RESOURCE*()> createFunc,
+							   const std::function<bool(RESOURCE*, uint8_t*, int32_t)>& loadFunc)
+		{
+			{
+				auto existing = Get(path);
+				if (existing != nullptr)
+				{
+					SafeAddRef(existing);
+					return existing;
+				}
+			}
+
+			auto staticFile = file->CreateStaticFileAsync(path);
+			if (staticFile == nullptr)
+				return nullptr;
+
+			auto ret = createFunc();
+
+			if (ret == nullptr)
+			{
+				SafeRelease(staticFile);
+				return nullptr;
+			}
+
+			((File_Imp*)file)->GetSynchronoizer()->Start((StaticFile_Imp*)staticFile, [this, ret, staticFile, loadFunc, path]() {
+				if (!loadFunc(ret, (uint8_t*)staticFile->GetData(), staticFile->GetSize()))
+					return;
+
+				auto info = std::make_shared<LoadingInformation>();
+
+				if (!staticFile->GetIsInPackage())
+				{
+					auto path_ = staticFile->GetFullPath();
+					info->ModifiedTime = GetModifiedTime(path_);
+					info->LoadedPath = path_;
+				}
+				staticFile->Release();
+
+				info->ResourcePtr = ret;
+
+				Register(path, ret, info);
+			});
+
+			return ret;
+		}
+
 		RESOURCE* TryLoadWithVector(const achar* path, const std::function<RESOURCE*(const std::vector<uint8_t>&)>& loadFunc)
 		{
 			{
