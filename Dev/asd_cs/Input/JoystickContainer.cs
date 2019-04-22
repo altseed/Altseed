@@ -32,7 +32,7 @@ namespace asd
         /// <returns>該当するジョイスティッククラス</returns>
         public asd.Joystick GetJoystickAt(int at)
         {
-            return joysticks[at];
+            return CoreInstance.GetIsPresentAt(at) ? joysticks[at] : null;
         }
     }
 }
