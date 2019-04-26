@@ -48,9 +48,6 @@ endif()
 option(USE_OPENGLES2 "Use OpenGL ES2" OFF)
 option(USE_INTERNAL_LOADER "Use Internal Loader" ON)
 
-# ファイルをソースリストに追加
-INCLUDE(CMakeFiles.txt)
-
 add_subdirectory(asd_cpp/common/)
 add_subdirectory(asd_cpp/tool/)
 
@@ -166,7 +163,38 @@ foreach(FILE ${core_srcs})
     source_group("${GROUP}" FILES "${FILE}")
 endforeach()
 
-# ======== ==== ========
+# ====================
+
+# ======== Engine ========
+FILE(GLOB_RECURSE engine_srcs
+	asd_cpp/engine/*.cpp
+	asd_cpp/engine/*.h)
+
+foreach(FILE ${engine_srcs}) 
+    # Get the directory of the source file
+    get_filename_component(PARENT_DIR "${FILE}" DIRECTORY)
+
+    # Remove common directory prefix to make the group
+    string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${PARENT_DIR}")
+
+    # Make sure we are using windows slashes
+    string(REPLACE "/" "\\" GROUP "${GROUP}")
+
+    # Group into "Source Files" and "Header Files"
+    if ("${FILE}" MATCHES ".*\\.cpp")
+       set(GROUP "Files${GROUP}")
+    elseif("${FILE}" MATCHES ".*\\.c")
+       set(GROUP "Files${GROUP}")
+    elseif("${FILE}" MATCHES ".*\\.cxx")
+       set(GROUP "Files${GROUP}")
+    elseif("${FILE}" MATCHES ".*\\.h")
+       set(GROUP "Files${GROUP}")
+    endif()
+
+    source_group("${GROUP}" FILES "${FILE}")
+endforeach()
+
+# ====================
 
 
 # インクルードの設定
@@ -315,10 +343,7 @@ add_library( asdCoreDLL SHARED ${core_srcs} )
 
 target_link_libraries(asdCoreDLL asd_tool asd_common ${common_lib}) 
 
-add_library( asdEngine STATIC ${engine_src} ${common_to_engine_src} )
-
-add_library( FontGeneratorCore SHARED ${fontGenerator_src} )
-target_link_libraries(FontGeneratorCore asd_tool asd_common ${common_lib}) 
+add_library( asdEngine STATIC ${engine_srcs} ${common_src} )
 
 # 出力先の設定
 set_target_properties(asdCore PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
@@ -330,8 +355,6 @@ set_target_properties(asdCoreDLL PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
 
 set_target_properties(asdEngine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
 set_target_properties(asdEngine PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
-
-set_target_properties(FontGeneratorCore PROPERTIES LIBRARY_OUTPUT_DIRECTORY "bin/" )
 
 if (MSVC)
 set_target_properties(asdCore PROPERTIES OUTPUT_NAME_DEBUG "asd_core" )
@@ -420,12 +443,6 @@ install(
 	TARGETS asdEngine
 	ARCHIVE DESTINATION lib
 	LIBRARY DESTINATION lib )
-install(
-	TARGETS FontGeneratorCore
-	RUNTIME DESTINATION bin
-	ARCHIVE DESTINATION bin
-	LIBRARY DESTINATION bin )
-
 
 # Tests
 add_subdirectory(unitTest_cpp_gtest/)
@@ -434,6 +451,7 @@ add_subdirectory(unitTest_Engine_cpp_gtest/)
 # Tool
 if (BUILD_TOOL)
 	add_subdirectory(ImagePackageGenerator/)
+	add_subdirectory(FontGenerator/)
 	set_target_properties(PSDParser PROPERTIES LIBRARY_OUTPUT_DIRECTORY "bin/" )
 
 endif()
