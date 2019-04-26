@@ -70,3 +70,11 @@ set_target_properties(FontGeneratorCore PROPERTIES OUTPUT_NAME_RELEASE "FontGene
 else()
 set_target_properties(FontGeneratorCore PROPERTIES OUTPUT_NAME "FontGeneratorCore" )
 endif()
+
+set_target_properties(FontGeneratorCore PROPERTIES LIBRARY_OUTPUT_DIRECTORY "bin/" )
+
+install(
+	TARGETS FontGeneratorCore
+	RUNTIME DESTINATION ../bin
+	ARCHIVE DESTINATION ../bin
+	LIBRARY DESTINATION ../bin )

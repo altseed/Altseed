@@ -47,8 +47,8 @@
 #define GLFW_INCLUDE_GLCOREARB
 #else
 #define GLEW_STATIC
-#include <GL/gl.h>
 #include <GL/glew.h>
+#include <GL/gl.h>
 #endif
 
 // OpenGL3 data
