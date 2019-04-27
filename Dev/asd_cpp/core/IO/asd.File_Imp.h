@@ -48,6 +48,8 @@ namespace asd
 		StaticFileCacheStore::Ptr staticFileCacheStore;
 		StaticFile* CreateStaticFile(const char16_t* path, StaticFileLoader::Ptr loader);
 
+		Synchronizer::Ptr m_sync;
+
 	public:
 		static File_Imp* Create(Synchronizer::Ptr sync) { return new File_Imp(sync); };
 
@@ -61,6 +63,8 @@ namespace asd
 		virtual void AddRootPackage(const char16_t* path)  override;
 		virtual void ClearRootDirectories() override;
 		virtual bool Exists(const char16_t* path) const override;
+
+		Synchronizer::Ptr GetSynchronoizer() { return m_sync; }
 
 #ifndef SWIG
 		std::mutex packedFileMutex;

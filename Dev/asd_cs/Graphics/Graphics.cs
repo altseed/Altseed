@@ -24,15 +24,26 @@ namespace asd
 			return GC.GenerateTexture2D(texture, GenerationType.Create);
 		}
 
-		/// <summary>
-		/// テクスチャを生成する。
+        /// <summary>
+		/// テクスチャを非同期生成する。
 		/// </summary>
 		/// <param name="path">パス</param>
 		/// <returns>テクスチャ</returns>
-		/// <remarks>
-		/// 画素がRGB空間にマッピングされている時に使用する。(ノーマルマップ等)
-		/// </remarks>
-		public Texture2D CreateTexture2DAsRawData(string path)
+		public Texture2D CreateTexture2DAsync(string path)
+        {
+            var texture = CoreInstance.CreateTexture2DAsync_Imp(path);
+            return GC.GenerateTexture2D(texture, GenerationType.Create);
+        }
+
+        /// <summary>
+        /// テクスチャを生成する。
+        /// </summary>
+        /// <param name="path">パス</param>
+        /// <returns>テクスチャ</returns>
+        /// <remarks>
+        /// 画素がRGB空間にマッピングされている時に使用する。(ノーマルマップ等)
+        /// </remarks>
+        public Texture2D CreateTexture2DAsRawData(string path)
 		{
 			var texture = CoreInstance.CreateTexture2DAsRawData_Imp(path);
 			return GC.GenerateTexture2D(texture, GenerationType.Create);
