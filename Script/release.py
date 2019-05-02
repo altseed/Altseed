@@ -12,7 +12,7 @@ versionNumber = '116'
 leastCompileTarget = ''
 
 platform_cpp = 'x64'
-platform_cs = 'AnyCPU'
+platform_cs = '"Any CPU"'
 
 if aceutils.Isi386():
     platform_cpp = 'x86'

@@ -125,7 +125,7 @@
     <OutDir>$(ProjectDir)..\..\bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>Altseed_core.$(Configuration)</TargetName>
+    <TargetName>Altseed_core_$(Configuration)</TargetName>
     <OutDir>$(ProjectDir)..\..\bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|Win32'">
