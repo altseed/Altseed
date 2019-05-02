@@ -917,6 +917,11 @@ Texture2D_Imp* Graphics_Imp::CreateTexture2D_Imp_Internal(Graphics* graphics, ui
 	return ret;
 }
 
+bool Graphics_Imp::CreateTexture2DAsync_Imp_Internal(Texture2D_Imp* texture, uint8_t* data, int32_t size)
+{
+	return texture->Load(data, size, false, this->GetOption().ColorSpace == ColorSpaceType::LinearSpace);
+}
+
 Texture2D_Imp* Graphics_Imp::CreateTexture2DAsRawData_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size)
 {
 	auto ret = Texture2D_Imp::Create(this, data, size, false, false);
@@ -1696,6 +1701,32 @@ Texture2D_Imp* Graphics_Imp::CreateTexture2D_Imp(const achar* path)
 
 	return ret;
 }
+
+Texture2D_Imp* asd::Graphics_Imp::CreateTexture2DAsync_Imp(const achar* path)
+{
+	auto nameWE = GetFileNameWithoutExtension((const achar*)path);
+	auto ddsPath = nameWE + ToAString("dds");
+
+	Texture2D_Imp* ret = nullptr;
+
+	// DDS優先読み込み
+	ret = Texture2DContainer->TryLoadAsync(ddsPath.c_str(),
+										   [this]() -> Texture2D_Imp* { return Texture2D_Imp::Create(this); },
+										   [this](Texture2D_Imp* texture, uint8_t* data, int32_t size) -> bool {
+											   return CreateTexture2DAsync_Imp_Internal(texture, data, size);
+										   });
+	if (ret != nullptr)
+		return ret;
+
+	ret = Texture2DContainer->TryLoadAsync(path,
+										   [this]() -> Texture2D_Imp* { return Texture2D_Imp::Create(this); },
+										   [this](Texture2D_Imp* texture, uint8_t* data, int32_t size) -> bool {
+											   return CreateTexture2DAsync_Imp_Internal(texture, data, size);
+										   });
+
+	return ret;
+}
+
 
 Texture2D_Imp* Graphics_Imp::CreateTexture2DAsRawData_Imp(const achar* path)
 {

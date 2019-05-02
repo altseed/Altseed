@@ -90,6 +90,7 @@
     <Compile Include="Graphics\2D\PlayEffectImmediately.cs" />
     <Compile Include="Graphics\2D\SetPositionWhenFontIsNull.cs" />
     <Compile Include="Graphics\2D\TextObject2D.cs" />
+    <Compile Include="Graphics\2D\TextureObject2DAsync.cs" />
     <Compile Include="Graphics\2D\TextureObject2D.cs" />
     <Compile Include="Graphics\2D\TextureObject2DWithMaterial.cs" />
     <Compile Include="Graphics\3D\DrawSpriteAdditionally3D.cs" />

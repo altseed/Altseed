@@ -59,6 +59,7 @@ void Texture2D_Imp::InternalUnload()
 Texture2D_Imp::Texture2D_Imp(Graphics* graphics) : DeviceObject(graphics), m_internalTextureWidth(0), m_internalTextureHeight(0)
 {
 	m_type = TextureClassType::Texture2D;
+	m_loadState = LoadState::Loading;
 }
 
 Texture2D_Imp::Texture2D_Imp(Graphics* graphics, ar::Texture2D* rhi, Vector2DI size, TextureFormat format)
@@ -71,6 +72,7 @@ Texture2D_Imp::Texture2D_Imp(Graphics* graphics, ar::Texture2D* rhi, Vector2DI s
 
 	auto g = (Graphics_Imp*)GetGraphics();
 	g->IncVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
+	m_loadState = LoadState::Loaded;
 }
 
 Texture2D_Imp::~Texture2D_Imp()
@@ -82,6 +84,8 @@ Texture2D_Imp::~Texture2D_Imp()
 
 	asd::SafeDelete(rhi);
 }
+
+Texture2D_Imp* Texture2D_Imp::Create(Graphics_Imp* graphics) { return new Texture2D_Imp(graphics); }
 
 Texture2D_Imp* Texture2D_Imp::Create(Graphics_Imp* graphics, uint8_t* data, int32_t size, bool isEditable, bool isSRGB)
 {
@@ -112,6 +116,29 @@ Texture2D_Imp* Texture2D_Imp::Create(Graphics_Imp* graphics, int32_t width, int3
 	asd::SafeDelete(rhi);
 
 	return nullptr;
+}
+
+bool asd::Texture2D_Imp::Load(uint8_t* data, int32_t size, bool isEditable, bool isSRGB)
+{
+	auto rhi = ar::Texture2D::Create(((Graphics_Imp*)GetGraphics())->GetRHI());
+
+	if (rhi->Initialize(((Graphics_Imp*)GetGraphics())->GetRHI(), data, size, isEditable, isSRGB))
+	{
+		this->rhi = rhi;
+		m_format = (asd::TextureFormat)rhi->GetFormat();
+		m_size = Vector2DI(rhi->GetWidth(), rhi->GetHeight());
+		m_resource.resize(m_size.X * m_size.Y * ImageHelper::GetPitch(m_format));
+
+		auto g = (Graphics_Imp*)GetGraphics();
+		g->IncVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
+		m_loadState = LoadState::Loaded;
+		return true;
+	}
+
+	m_loadState = LoadState::Failed;
+	return false;
+
+	asd::SafeDelete(rhi);
 }
 
 bool Texture2D_Imp::Save(const achar* path)

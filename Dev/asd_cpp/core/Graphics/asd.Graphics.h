@@ -13,6 +13,7 @@ class Graphics
 {
 protected:
 	virtual Texture2D* CreateTexture2D_(const achar* path) = 0;
+	virtual Texture2D* CreateTexture2DAsync_(const achar* path) = 0;
 	virtual Texture2D* CreateTexture2DAsRawData_(const achar* path) = 0;
 	virtual Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, TextureFormat format) = 0;
 	virtual Texture2D* CreateEditableTexture2D_(const achar* path) = 0;
@@ -60,6 +61,17 @@ public:
 	@warning	読み込める画像形式はPNGまたはDDSのみ。
 	*/
 	std::shared_ptr<Texture2D> CreateTexture2D(const achar* path) { return CreateSharedPtrWithReleaseDLL(CreateTexture2D_(path)); }
+
+	/**
+	@brief	テクスチャを非同期生成する。
+	@param	path	画像ファイルへの相対パス
+	@return	テクスチャ
+	@warning	読み込める画像形式はPNGまたはDDSのみ。
+	*/
+	std::shared_ptr<Texture2D> CreateTexture2DAsync(const achar* path)
+	{
+		return CreateSharedPtrWithReleaseDLL(CreateTexture2DAsync_(path));
+	}
 
 	/**
 	@brief	テクスチャを生成する。

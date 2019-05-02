@@ -33,6 +33,7 @@ public:
 
 	Vector2DI GetSize() const override { return m_size; }
 	TextureFormat GetFormat() const override { return m_format; }
+	LoadState GetLoadState() const override { return LoadState::Loaded; }
 
 #if !SWIG
 	ar::RenderTexture2D* GetRHI() const { return rhi; }

@@ -90,6 +90,12 @@ namespace asd {
 		@return	種類
 		*/
 		virtual TextureClassType GetType() { return TextureClassType::Texture2D; }
+
+		/**
+		@brief	テクスチャのロード状態を取得する。
+		@return	ロード状態
+		*/
+		virtual LoadState GetLoadState() const = 0;
 	};
 
 	//----------------------------------------------------------------------------------
