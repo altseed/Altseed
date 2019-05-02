@@ -18,6 +18,7 @@ paser.add_argument("--i386", action="store_true")
 paser.add_argument("--vs2019", action="store_true")
 paser.add_argument("--vs2017", action="store_true")
 paser.add_argument("--vs2015", action="store_true")
+paser.add_argument("--java", action="store_true")
 args = paser.parse_args()
 
 

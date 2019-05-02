@@ -249,16 +249,12 @@ def release_cpp():
         aceutils.copy(r'Dev/include/Altseed.h', sampleDir+r'cpp/include/')
 
         if aceutils.isWin():
-        	if aceutils.Isi386():
-           		aceutils.copy(r'Dev/lib/x86/Debug/Altseed.lib',
-                          sampleDir+r'cpp/lib/Debug/')
-            	aceutils.copy(r'Dev/lib/x86/Release/Altseed.lib',
-                          sampleDir+r'cpp/lib/Release/')
+            if aceutils.Isi386():
+                aceutils.copy(r'Dev/lib/x86/Debug/Altseed.lib', sampleDir+r'cpp/lib/Debug/')
+                aceutils.copy(r'Dev/lib/x86/Release/Altseed.lib', sampleDir+r'cpp/lib/Release/')
             else:
-	            aceutils.copy(r'Dev/lib/x64/Debug/Altseed.lib',
-                          sampleDir+r'cpp/lib/Debug/')
-    	        aceutils.copy(r'Dev/lib/x64/Release/Altseed.lib',
-                          sampleDir+r'cpp/lib/Release/')
+                aceutils.copy(r'Dev/lib/x64/Debug/Altseed.lib', sampleDir+r'cpp/lib/Debug/')
+                aceutils.copy(r'Dev/lib/x64/Release/Altseed.lib', sampleDir+r'cpp/lib/Release/')
         elif aceutils.isMac():
             aceutils.copy(r'Dev/lib/libAltseed.a', sampleDir+r'cpp/lib/')
 
@@ -286,12 +282,12 @@ def release_cpp():
         aceutils.copy(r'Dev/bin/libAltseed_core.dylib', runtimeDir)
     aceutils.copy(r'Dev/include/Altseed.h', runtimeDir)
     if aceutils.isWin():
-		if aceutils.Isi386():
-    	    aceutils.copy(r'Dev/lib/x86/Debug/Altseed.lib', runtimeDir+r'Debug/')
-	        aceutils.copy(r'Dev/lib/x86/Release/Altseed.lib', runtimeDir+r'Release/')
-		else:
-    	    aceutils.copy(r'Dev/lib/x64/Debug/Altseed.lib', runtimeDir+r'Debug/')
-	        aceutils.copy(r'Dev/lib/x64/Release/Altseed.lib', runtimeDir+r'Release/')			
+        if aceutils.Isi386():
+            aceutils.copy(r'Dev/lib/x86/Debug/Altseed.lib', runtimeDir+r'Debug/')
+            aceutils.copy(r'Dev/lib/x86/Release/Altseed.lib', runtimeDir+r'Release/')
+        else:
+            aceutils.copy(r'Dev/lib/x64/Debug/Altseed.lib', runtimeDir+r'Debug/')
+            aceutils.copy(r'Dev/lib/x64/Release/Altseed.lib', runtimeDir+r'Release/')            
     elif aceutils.isMac():
         aceutils.copy(r'Dev/lib/libAltseed.a', runtimeDir+r'/')
 
@@ -319,17 +315,17 @@ def release_cpp():
         aceutils.copy(r'Dev/include/Altseed.h',
                       targetDir+r'/Template/cpp/include/')
 
-		if aceutils.Isi386():
-	        aceutils.copy(r'Dev/lib/x86/Debug/Altseed.lib',
-    	                  targetDir+r'/Template/cpp/lib/Debug/')
-        	aceutils.copy(r'Dev/lib/x86/Release/Altseed.lib',
-            	          targetDir+r'/Template/cpp/lib/Release/')
-		else:
-	        aceutils.copy(r'Dev/lib/x64/Debug/Altseed.lib',
-    	                  targetDir+r'/Template/cpp/lib/Debug/')
-        	aceutils.copy(r'Dev/lib/x64/Release/Altseed.lib',
-            	          targetDir+r'/Template/cpp/lib/Release/')
-			
+        if aceutils.Isi386():
+            aceutils.copy(r'Dev/lib/x86/Debug/Altseed.lib',
+                          targetDir+r'/Template/cpp/lib/Debug/')
+            aceutils.copy(r'Dev/lib/x86/Release/Altseed.lib',
+                          targetDir+r'/Template/cpp/lib/Release/')
+        else:
+            aceutils.copy(r'Dev/lib/x64/Debug/Altseed.lib',
+                          targetDir+r'/Template/cpp/lib/Debug/')
+            aceutils.copy(r'Dev/lib/x64/Release/Altseed.lib',
+                          targetDir+r'/Template/cpp/lib/Release/')
+            
     elif aceutils.isMac():
         aceutils.copytreeWithExt(r'Template/cpp_mac/', targetDir+r'/Template/', [
                                  r'.h', r'.cpp', r'.plist', r'.pbxproj', r'.xcworkspacedata'])
@@ -436,10 +432,10 @@ def release_java():
 
     # GenerateHeader
     aceutils.call(sys.executable + r' Dev/generate_swig.py java')
-    aceutils.call(sys.executable + r' Script/generateTranslatedCode.py java')
+    aceutils.call(sys.executable + r' Script/generateTranslatedCode.py --java')
 
     # Sample
-    aceutils.call(sys.executable + r' Script/generate_sample.py java')
+    aceutils.call(sys.executable + r' Script/generate_sample.py --java')
 
     aceutils.cd(r'Sample/BasicSample/sample_java/')
     aceutils.call(r'ant')
