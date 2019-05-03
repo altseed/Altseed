@@ -71,7 +71,18 @@ namespace asd.Particular
 
 		static public swig.Core_Imp CreateCore()
 		{
-			try
+#if _64BITDLL_
+            if(!System.Environment.Is64BitProcess)
+            {
+                Console.WriteLine("This process runs on 32bit application. Please change properties.");
+                throw new Exception("This process runs on 32bit application. Please change properties.");
+            }
+            else
+            {
+
+            }
+#endif
+            try
 			{
 				return swig.Core_Imp.CreateCore();
 			}
