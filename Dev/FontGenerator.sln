@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FontGenerator.Altseed", "FontGenerator\FontGenerator.Altseed\FontGenerator.Altseed.csproj", "{595C54EE-5BC0-4401-B703-4EF102D51FCD}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -113,7 +113,8 @@ Global
 		{E500B6B8-E90E-46D7-B6D0-F85388E0D75E}.Release|x64.Build.0 = Release|x64
 		{E500B6B8-E90E-46D7-B6D0-F85388E0D75E}.Release|x86.ActiveCfg = Release|Win32
 		{E500B6B8-E90E-46D7-B6D0-F85388E0D75E}.Release|x86.Build.0 = Release|Win32
-		{0954C297-511F-4340-9DCD-A37313AE7F15}.Debug_DLL|x64.ActiveCfg = Debug_DLL|Win32
+		{0954C297-511F-4340-9DCD-A37313AE7F15}.Debug_DLL|x64.ActiveCfg = Debug_DLL|x64
+		{0954C297-511F-4340-9DCD-A37313AE7F15}.Debug_DLL|x64.Build.0 = Debug_DLL|x64
 		{0954C297-511F-4340-9DCD-A37313AE7F15}.Debug_DLL|x86.ActiveCfg = Debug_DLL|Win32
 		{0954C297-511F-4340-9DCD-A37313AE7F15}.Debug_DLL|x86.Build.0 = Debug_DLL|Win32
 		{0954C297-511F-4340-9DCD-A37313AE7F15}.Debug_Lib|x64.ActiveCfg = Debug_Lib|Win32
@@ -123,7 +124,8 @@ Global
 		{0954C297-511F-4340-9DCD-A37313AE7F15}.Debug|x64.Build.0 = Debug_DLL|x64
 		{0954C297-511F-4340-9DCD-A37313AE7F15}.Debug|x86.ActiveCfg = Debug_DLL|Win32
 		{0954C297-511F-4340-9DCD-A37313AE7F15}.Debug|x86.Build.0 = Debug_DLL|Win32
-		{0954C297-511F-4340-9DCD-A37313AE7F15}.Release_DLL|x64.ActiveCfg = Release_DLL|Win32
+		{0954C297-511F-4340-9DCD-A37313AE7F15}.Release_DLL|x64.ActiveCfg = Release_DLL|x64
+		{0954C297-511F-4340-9DCD-A37313AE7F15}.Release_DLL|x64.Build.0 = Release_DLL|x64
 		{0954C297-511F-4340-9DCD-A37313AE7F15}.Release_DLL|x86.ActiveCfg = Release_DLL|Win32
 		{0954C297-511F-4340-9DCD-A37313AE7F15}.Release_DLL|x86.Build.0 = Release_DLL|Win32
 		{0954C297-511F-4340-9DCD-A37313AE7F15}.Release_Lib|x64.ActiveCfg = Release_Lib|Win32

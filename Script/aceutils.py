@@ -217,15 +217,11 @@ def Isi386():
     return False
 
 
-# strings
-cmd_cmake = r'cmake -G "Visual Studio 14" '
-cmd_cmake_x64 = r'cmake -G "Visual Studio 14 Win64" '
-cmd_compile = r'"C:\Program Files (x86)\MSBuild\14.0\bin\msbuild" '
-cmd_premake5 = os.path.dirname(os.path.abspath(
-    __file__)) + r'/premake5/windows/premake5 vs2015 '
+def find_msbuild2019():
+    if os.path.exists(r'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe'):
+        return r'"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe" '
 
-premake5_directory = 'vs2015'
-
+    return r'"C:\Program Files (x86)\MSBuild\16.0\Bin\msbuild" '
 
 def find_msbuild2017():
     if os.path.exists(r'C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\MSBuild.exe'):
@@ -233,6 +229,21 @@ def find_msbuild2017():
 
     return r'"C:\Program Files (x86)\MSBuild\15.0\Bin\msbuild" '
 
+# strings
+cmd_cmake = r'cmake -G "Visual Studio 14" '
+cmd_cmake_x64 = r'cmake -G "Visual Studio 14 Win64" '
+
+if args.vs2015:
+    cmd_compile = r'"C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild" '
+elif args.vs2017:
+    cmd_compile = find_msbuild2017()
+else:
+    cmd_compile = find_msbuild2019()
+
+cmd_premake5 = os.path.dirname(os.path.abspath(
+    __file__)) + r'/premake5/windows/premake5 vs2015 '
+
+premake5_directory = 'vs2015'
 
 if isWin():
     if len(sys.argv) == 4:
@@ -241,7 +252,7 @@ if isWin():
         cmd_cmake_x64 = r'cmake -G "' + sys.argv[2] + r'" '
         cmd_compile = r'"' + sys.argv[3] + r'" '
 
-    elif (len(sys.argv) == 1) or args.vs2017:
+    elif args.vs2017:
         cmd_cmake = r'cmake -G "Visual Studio 15" '
         cmd_cmake_x64 = r'cmake -G "Visual Studio 15 Win64" '
         cmd_compile = find_msbuild2017()
@@ -249,17 +260,18 @@ if isWin():
             __file__)) + r'/premake5/windows/premake5 vs2017 '
         premake5_directory = 'vs2017'
 
-    elif args.vs2019:
-        # vs2019
-        cmd_cmake = r'cmake -G "Visual Studio 16" -A win32 '
-        cmd_cmake_x64 = r'cmake -G "Visual Studio 16" -A x64 '
-        cmd_compile = r'"C:\Program Files (x86)\MSBuild\16.0\Bin\msbuild" '
-
     elif args.vs2015:
         # vs2015
         cmd_cmake = r'cmake -G "Visual Studio 14" '
         cmd_cmake_x64 = r'cmake -G "Visual Studio 14 Win64" '
         cmd_compile = r'"C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild" '
+
+    else:
+        # vs2019
+        cmd_cmake = r'cmake -G "Visual Studio 16" -A win32 '
+        cmd_cmake_x64 = r'cmake -G "Visual Studio 16" -A x64 '
+        cmd_compile = find_msbuild2019()
+
 
 elif isMac():
     cmd_premake5 = os.path.dirname(os.path.abspath(

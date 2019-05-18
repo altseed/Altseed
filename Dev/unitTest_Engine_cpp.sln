@@ -1,7 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 14.00
-# Visual Studio 2015
-VisualStudioVersion = 14.0.31101.0
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unitTest_Engine_cpp_gtest", "unitTest_Engine_cpp_gtest\msvc\unitTest_Engine_cpp_gtest.vcxproj", "{B64D0464-A770-4EB2-9058-84FCAED86DE3}"
 	ProjectSection(ProjectDependencies) = postProject

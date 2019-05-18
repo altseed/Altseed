@@ -80,7 +80,7 @@ namespace ImagePackageGenerator
 					}
 
 					// Into
-					if (selectedItem >= 0)
+					if (selectedItem >= 0 && psdLayers.Count > selectedItem)
 					{
 						asd.Engine.Tool.Text("X = " + psdLayers[selectedItem].Rect.Left);
 						asd.Engine.Tool.Text("Y = " + psdLayers[selectedItem].Rect.Right);
@@ -98,7 +98,7 @@ namespace ImagePackageGenerator
 				{
 					var max_width = (int)((wsize.X - 20) * 0.75);
 
-					if (selectedItem >= 0)
+					if (selectedItem >= 0 && psdLayers.Count > selectedItem)
 					{
 						var layer = psdLayers[selectedItem];
 

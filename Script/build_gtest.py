@@ -32,21 +32,21 @@ with aceutils.CurrentDir('../Downloads'):
 			aceutils.call('cmake --build . --config Release')
 
 	if aceutils.isWin():
-		src_path = 'gtest_bin/googlemock/gtest/'
+		src_path = 'gtest_bin/lib/'
 		if os.path.exists('gtest_bin/gtest.sln'):
 			src_path = 'gtest_bin/'
 
-		aceutils.copy(src_path+r'Debug/gtest.lib', r'../Dev/lib/x86/Debug/gtest.lib')
-		aceutils.copy(src_path+r'Debug/gtest_main.lib', r'../Dev/lib/x86/Debug/gtest_main.lib')
+		aceutils.copy(src_path+r'Debug/gtestd.lib', r'../Dev/lib/x86/Debug/gtest.lib')
+		aceutils.copy(src_path+r'Debug/gtest_maind.lib', r'../Dev/lib/x86/Debug/gtest_main.lib')
 		aceutils.copy(src_path+r'Release/gtest.lib', r'../Dev/lib/x86/Release/gtest.lib')
 		aceutils.copy(src_path+r'Release/gtest_main.lib', r'../Dev/lib/x86/Release/gtest_main.lib')
 
-		src_path = 'gtest_bin_x64/googlemock/gtest/'
+		src_path = 'gtest_bin_x64/lib/'
 		if os.path.exists('gtest_bin_x64/gtest.sln'):
 			src_path = 'gtest_bin_x64/'
 
-		aceutils.copy(src_path+r'Debug/gtest.lib', r'../Dev/lib/x64/Debug/gtest.lib')
-		aceutils.copy(src_path+r'Debug/gtest_main.lib', r'../Dev/lib/x64/Debug/gtest_main.lib')
+		aceutils.copy(src_path+r'Debug/gtestd.lib', r'../Dev/lib/x64/Debug/gtest.lib')
+		aceutils.copy(src_path+r'Debug/gtest_maind.lib', r'../Dev/lib/x64/Debug/gtest_main.lib')
 		aceutils.copy(src_path+r'Release/gtest.lib', r'../Dev/lib/x64/Release/gtest.lib')
 		aceutils.copy(src_path+r'Release/gtest_main.lib', r'../Dev/lib/x64/Release/gtest_main.lib')
 

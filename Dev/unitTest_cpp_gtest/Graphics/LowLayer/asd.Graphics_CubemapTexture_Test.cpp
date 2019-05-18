@@ -308,7 +308,8 @@ log, file, go); ASSERT_TRUE(graphics != nullptr);
 	}
 
 	shader->SetTexture("g_texture", cubemap, asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp, 0);
-	
+	
+
 	int32_t time = 0;
 	while (window->DoEvent())
 	{
@@ -335,7 +336,8 @@ log, file, go); ASSERT_TRUE(graphics != nullptr);
 
 			graphics->DrawPolygon(2);
 		}
-		
+		
+
 
 		graphics->SetRenderTarget(nullptr, nullptr);
 		graphics->Clear(true, false, asd::Color(64, 32, 16, 255));

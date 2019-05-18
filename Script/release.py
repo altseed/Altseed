@@ -15,7 +15,7 @@ platform_cpp = 'x64'
 platform_cs = 'x64'
 
 if aceutils.Isi386():
-    platform_cpp = 'x86'
+    platform_cpp = 'Win32'
     platform_cs = 'x86'
 
 
