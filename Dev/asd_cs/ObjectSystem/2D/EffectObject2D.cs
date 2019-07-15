@@ -206,6 +206,23 @@ namespace asd
 			}
 		}
 
+		/// <summary>
+		/// このオブジェクトのエフェクトの再生スピードを取得、または設定する。
+		/// </summary>
+		public float PlaybackSpeed
+		{
+			get
+			{
+				ThrowIfReleased();
+				return coreEffectObject.GetPlaybackSpeed();
+			}
+			set
+			{
+				ThrowIfReleased();
+				coreEffectObject.SetPlaybackSpeed(value);
+			}
+		}
+
 		#region GC対策
 		~EffectObject2D()
 		{

@@ -207,6 +207,17 @@ namespace asd
 		m_rotationY = value;
 	}
 
+	float CoreEffectObject2D_Imp::GetPlaybackSpeed() const { return m_speed; }
+
+	void CoreEffectObject2D_Imp::SetPlaybackSpeed(float speed)
+	{ 
+		m_speed = speed;
+		for (auto& h : m_handles)
+		{
+			m_renderer->GetEffectManager()->SetSpeed(h, m_speed);
+		}
+	}
+
 	void CoreEffectObject2D_Imp::OnAdding(Renderer2D* renderer)
 	{
 		assert(m_renderer == nullptr);
@@ -353,6 +364,7 @@ namespace asd
 		auto handle = m_renderer->GetEffectManager()->Play(ne, 0.0f, 0.0f, 0.0f);
 		m_renderer->GetEffectManager()->SetMatrix(handle, efMat);
 		m_handles.push_back(handle);
+		m_renderer->GetEffectManager()->SetSpeed(handle, m_speed);
 
 		internalHandleToState[internalHandle].effekseerHandle = handle;
 		internalHandleToState[internalHandle].isCommandExecuted = true;

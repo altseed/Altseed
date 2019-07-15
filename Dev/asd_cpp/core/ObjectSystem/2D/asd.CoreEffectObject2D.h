@@ -124,5 +124,15 @@ namespace asd
 		@brief	このオブジェクトの描画優先度を設定する。
 		*/
 		virtual void SetDrawingPriority(int priority) = 0;
+
+		/**
+			@brief	このオブジェクトのエフェクトの再生スピードを取得する。
+		*/
+		virtual float GetPlaybackSpeed() const = 0;
+
+		/**
+			@brief	このオブジェクトのエフェクトの再生スピードを設定する。
+		*/
+		virtual void SetPlaybackSpeed(float speed) = 0;
 	};
 }

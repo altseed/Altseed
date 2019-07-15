@@ -29,7 +29,7 @@ namespace asd
 #else
 			ToUtf8String(path),
 #endif
-			std::basic_ios<uint8_t>::in | std::basic_ios<uint8_t>::binary);
+			std::basic_ios<char>::in | std::basic_ios<char>::binary);
 	}
 
 	BaseFile::~BaseFile()
@@ -60,13 +60,12 @@ namespace asd
 	{
 		if (m_length < 0)
 		{
-			m_file.seekg(0, m_file.end);
-#ifdef _WIN32
-			m_length = m_file.tellg().seekpos();
-#else
+			assert(!m_file.fail());
+
+			m_file.seekg(0, std::ios_base::end);
 			m_length = m_file.tellg();
-#endif
-			m_file.seekg(0, m_file.beg);
+			m_file.clear();
+			m_file.seekg(0, std::ios_base::beg);
 		}
 		return m_length;
 	}

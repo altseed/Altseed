@@ -1686,7 +1686,7 @@ void Graphics_Imp::SaveScreenshot(std::vector<Color>& bufs, Vector2DI& size)
 Texture2D_Imp* Graphics_Imp::CreateTexture2D_Imp(const achar* path)
 {
 	auto nameWE = GetFileNameWithoutExtension((const achar*)path);
-	auto ddsPath = nameWE + ToAString("dds");
+	auto ddsPath = nameWE + ToAString(".dds");
 
 	Texture2D_Imp* ret = nullptr;
 
@@ -1705,7 +1705,7 @@ Texture2D_Imp* Graphics_Imp::CreateTexture2D_Imp(const achar* path)
 Texture2D_Imp* asd::Graphics_Imp::CreateTexture2DAsync_Imp(const achar* path)
 {
 	auto nameWE = GetFileNameWithoutExtension((const achar*)path);
-	auto ddsPath = nameWE + ToAString("dds");
+	auto ddsPath = nameWE + ToAString(".dds");
 
 	Texture2D_Imp* ret = nullptr;
 
@@ -1731,7 +1731,7 @@ Texture2D_Imp* asd::Graphics_Imp::CreateTexture2DAsync_Imp(const achar* path)
 Texture2D_Imp* Graphics_Imp::CreateTexture2DAsRawData_Imp(const achar* path)
 {
 	auto nameWE = GetFileNameWithoutExtension((const achar*)path);
-	auto ddsPath = nameWE + ToAString("dds");
+	auto ddsPath = nameWE + ToAString(".dds");
 
 	Texture2D_Imp* ret = nullptr;
 

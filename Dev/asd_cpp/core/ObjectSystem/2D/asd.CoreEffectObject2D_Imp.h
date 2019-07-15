@@ -36,7 +36,8 @@ namespace asd
 		bool							m_syncEffects = false;
 		Renderer2D_Imp*					m_renderer;
 		int								m_drawingPtiority;
-
+		float m_speed = 1.0f;
+		
 		/**
 		@brief	X軸(3D)回転(度)
 		*/
@@ -108,6 +109,10 @@ namespace asd
 		float GetEffectRotation() const override;
 
 		void SetEffectRotation(float value) override;
+
+		float GetPlaybackSpeed() const override;
+
+		void SetPlaybackSpeed(float speed) override;
 
 		void OnAdding(Renderer2D* renderer) override;
 
