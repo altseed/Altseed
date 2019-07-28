@@ -2016,7 +2016,7 @@ ImagePackage* Graphics_Imp::CreateImagePackage_(const achar* path)
 MediaPlayer* Graphics_Imp::CreateMediaPlayer_()
 {
 #if _WIN32
-	return new MediaPlayerWMF(this);
+	return new MediaPlayerWMF(this, m_file);
 #endif
 
 #ifdef __APPLE__
