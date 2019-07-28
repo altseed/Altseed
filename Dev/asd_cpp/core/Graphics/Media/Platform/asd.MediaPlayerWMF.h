@@ -22,6 +22,7 @@ class MediaPlayerWMF
 {
 private:
 	Graphics* graphics = nullptr;
+	File* file = nullptr;
 	std::mutex mtx;
 	std::thread thread_;
 
@@ -44,7 +45,7 @@ private:
 	void ThreadLoop();
 public:
 
-	MediaPlayerWMF(Graphics* graphics);
+	MediaPlayerWMF(Graphics* graphics, File *file);
 
 	virtual ~MediaPlayerWMF();
 
