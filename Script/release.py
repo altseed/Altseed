@@ -366,10 +366,10 @@ def release_java():
 
 	# GenerateHeader	
 	aceutils.call(sys.executable + r' Dev/generate_swig.py java')
-	aceutils.call(sys.executable + r' Script/generateTranslatedCode.py java')
+	aceutils.call(sys.executable + r' Script/generateTranslatedCode.py --java')
 		
 	# Sample
-	aceutils.call(sys.executable + r' Script/generate_sample.py java')
+	aceutils.call(sys.executable + r' Script/generate_sample.py --java')
 
 	aceutils.cd(r'Sample/BasicSample/sample_java/')
 	aceutils.call(r'ant')
