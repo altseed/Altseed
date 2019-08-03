@@ -4,11 +4,15 @@ import compile
 import sys
 
 type = 'cs'
-if len(sys.argv) == 2:
-	type = sys.argv[1]
 
-if len(sys.argv) == 3:
-	type = sys.argv[2]
+if aceutils.args.java:
+    type = 'java'
+
+if aceutils.args.cpp:
+    type = 'cpp'
+
+if aceutils.args.cs:
+    type = 'cs'
 
 compile.init()
 
