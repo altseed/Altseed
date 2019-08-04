@@ -19,15 +19,28 @@ namespace asd
 static std::vector<std::u16string> Split(const std::u16string& s, char16_t delim)
 {
 	std::vector<std::u16string> elems;
-	std::basic_stringstream<char16_t, std::char_traits<char16_t>, std::allocator<char16_t>> ss(s);
-	std::u16string item;
-	while (getline(ss, item, delim))
-	{
-		if (!item.empty())
-		{
-			elems.push_back(item);
-		}
-	}
+    
+    int start = 0;
+    
+    for(size_t i = 0; i < s.size(); i++)
+    {
+        if(s[i] == delim)
+        {
+            if(i - start > 0)
+            {
+                auto substr = s.substr(start, i - start);
+                elems.push_back(substr);
+            }
+            start = i + 1;
+        }
+    }
+
+    if(s.size() - start > 0)
+    {
+        auto substr = s.substr(start, s.size() - start);
+        elems.push_back(substr);
+    }
+
 	return elems;
 }
 
