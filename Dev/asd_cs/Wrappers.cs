@@ -2847,6 +2847,16 @@ namespace asd {
 			CoreInstance.SetPanningPosition(id, panningPosition);
 		}
 
+		/// <summary>
+		/// 現在の再生位置を0～1で取得する。 
+		/// </summary>
+		/// <param name="id">音のID </param>
+		/// <returns>再生位置 </returns>
+		public float GetPlaybackPercent(int id)
+		{
+			return CoreInstance.GetPlaybackPercent(id);
+		}
+
 	}
 
 

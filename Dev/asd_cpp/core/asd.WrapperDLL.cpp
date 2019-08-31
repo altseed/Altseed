@@ -230,6 +230,13 @@ void WrapperDLL::Sound_SetPanningPosition(void* self,int32_t id,float panningPos
 	self_->SetPanningPosition(arg0,arg1);
 };
 
+float WrapperDLL::Sound_GetPlaybackPercent(void* self,int32_t id){
+	auto self_ = (Sound*)self;
+	auto arg0 = id;
+	auto ret = self_->GetPlaybackPercent(arg0);
+	return ret;
+};
+
 void WrapperDLL::SoundSource_Destruct(void* self){
 	auto self_ = (SoundSource*)self;
 	SafeRelease(self_);

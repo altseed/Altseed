@@ -248,6 +248,13 @@ void Sound::SetPanningPosition(int32_t id,float panningPosition){
 	dll->Sound_SetPanningPosition(arg0,arg1,arg2);
 };
 
+float Sound::GetPlaybackPercent(int32_t id){
+	auto arg0 = self;
+	auto arg1 = id;
+	auto ret = dll->Sound_GetPlaybackPercent(arg0,arg1);
+	return ret;
+};
+
 SoundSource::SoundSource(void* self, bool isCtrlSelf) {
 	this->self = self;
 	this->isCtrlSelf = isCtrlSelf;

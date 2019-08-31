@@ -53,6 +53,7 @@ public:
 	virtual void Sound_SetPlaybackSpeed(void* self,int32_t id,float playbackSpeed);
 	virtual float Sound_GetPanningPosition(void* self,int32_t id);
 	virtual void Sound_SetPanningPosition(void* self,int32_t id,float panningPosition);
+	virtual float Sound_GetPlaybackPercent(void* self,int32_t id);
 	virtual void SoundSource_Destruct(void* self);
 	virtual float SoundSource_GetLoopStartingPoint(void* self);
 	virtual void SoundSource_SetLoopStartingPoint(void* self,float startingPoint);

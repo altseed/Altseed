@@ -176,6 +176,13 @@ namespace asd
 		*/
 		virtual void SetPanningPosition(int32_t id, float panningPosition);
 
+		/**
+		@brief	現在の再生位置を0～1で取得する。
+		@param	id	音のID
+		@return	再生位置
+		*/
+		virtual float GetPlaybackPercent(int32_t id);
+
 #if !SWIG
 		std::shared_ptr<ResourceContainer<SoundSource>>	SoundSourcesContainer;
 

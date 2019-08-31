@@ -286,6 +286,13 @@ class Sound {
 	*/
 	void SetPanningPosition(int32_t id,float panningPosition);
 	
+	/**
+		@brief 現在の再生位置を0～1で取得する。 
+		@param id 音のID 
+		@return 再生位置 
+	*/
+	float GetPlaybackPercent(int32_t id);
+	
 };
 
 /**

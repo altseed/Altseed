@@ -150,6 +150,13 @@ namespace asd
 		m_manager->SetPanningPosition(id, panningPosition);
 	}
 
+	float Sound::GetPlaybackPercent(int32_t id)
+	{
+		if (m_manager == nullptr)
+			return;
+		return m_manager->GetPlaybackPercent(id);
+	}
+
 	void Sound::Reload()
 	{
 		SoundSourcesContainer->Reload([this](std::shared_ptr<ResourceContainer<SoundSource>::LoadingInformation> r, uint8_t* data, int32_t size) -> void
