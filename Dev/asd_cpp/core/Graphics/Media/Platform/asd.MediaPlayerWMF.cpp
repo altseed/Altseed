@@ -197,45 +197,61 @@ bool MediaPlayerWMF::SetSourceFromPath(const char16_t* path)
 {
 	HRESULT hr;
 
-	auto staticFile = file->CreateStaticFile(path);
-	if (staticFile == nullptr)
-	{
-		return false;
-	}
+	// load directry?
+	FILE* fp = nullptr;
+	_wfopen_s(&fp, (const wchar_t*)path, L"rb");
 
-	IMFByteStream* byteStream;
-	hr = MFCreateTempFile(MF_FILE_ACCESSMODE::MF_ACCESSMODE_READWRITE,
-						  MF_FILE_OPENMODE::MF_OPENMODE_FAIL_IF_EXIST,
-						  MF_FILE_FLAGS::MF_FILEFLAGS_NONE,
-						  &byteStream);
-	if (FAILED(hr))
+	if (fp != nullptr)
 	{
-		staticFile->Release();
-		return false;
-	}
+		// load directry
+		fclose(fp);
 
-	ULONG t;
-	hr = byteStream->Write((BYTE*)staticFile->GetData(), (ULONG)staticFile->GetSize(), &t);
-	staticFile->Release();
-	if (FAILED(hr))
-	{
-		byteStream->Close();
-		return false;
+		hr = MFCreateSourceReaderFromURL((const wchar_t*)path, NULL, &reader);
+		if (FAILED(hr))
+		{
+			return false;
+		}
 	}
-
-	byteStream->Seek(MFBYTESTREAM_SEEK_ORIGIN::msoBegin, 0, 0, NULL);
-	if (FAILED(hr))
+	else
 	{
-		byteStream->Close();
-		return false;
-	}
+		asd::StaticFile* staticFile = file->CreateStaticFile(path);
+		if (staticFile == nullptr)
+		{
+			return false;
+		}
 
-	hr = MFCreateSourceReaderFromByteStream(byteStream, NULL, &reader);
-	//byteStream->Close();
-	//hr = MFCreateSourceReaderFromURL((const wchar_t*)path, NULL, &reader);
-	if (FAILED(hr))
-	{
-		return false;
+		IMFByteStream* byteStream = nullptr;
+		hr = MFCreateTempFile(MF_FILE_ACCESSMODE::MF_ACCESSMODE_READWRITE,
+							  MF_FILE_OPENMODE::MF_OPENMODE_FAIL_IF_EXIST,
+							  MF_FILE_FLAGS::MF_FILEFLAGS_NONE,
+							  &byteStream);
+		if (FAILED(hr))
+		{
+			staticFile->Release();
+			return false;
+		}
+
+		ULONG t;
+		hr = byteStream->Write((BYTE*)staticFile->GetData(), (ULONG)staticFile->GetSize(), &t);
+		SafeRelease(staticFile);
+		if (FAILED(hr))
+		{
+			byteStream->Close();
+			return false;
+		}
+
+		byteStream->Seek(MFBYTESTREAM_SEEK_ORIGIN::msoBegin, 0, 0, NULL);
+		if (FAILED(hr))
+		{
+			byteStream->Close();
+			return false;
+		}
+
+		hr = MFCreateSourceReaderFromByteStream(byteStream, NULL, &reader);
+		if (FAILED(hr))
+		{
+			return false;
+		}
 	}
 
 	IMFMediaType* mediaType = nullptr;
