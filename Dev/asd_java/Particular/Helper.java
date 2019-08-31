@@ -1,4 +1,4 @@
-package asd.Particular;
+﻿package asd.Particular;
 
 import java.util.Formatter;
 import javax.swing.*;
@@ -122,7 +122,7 @@ public class Helper
 			asd.swig.VectorUint8 buf = new asd.swig.VectorUint8();
 			for (byte b : array)
 			{
-				buf.add(b);
+				buf.add((short)b);
 			}
 
 			return buf;
@@ -139,7 +139,7 @@ public class Helper
 			
 			for(int i = 0; i < dst.length; i++)
 			{
-				dst[i] = (byte)buf.get(i);
+				dst[i] = (byte)(short)buf.get(i);
 			}
 
 			return dst;

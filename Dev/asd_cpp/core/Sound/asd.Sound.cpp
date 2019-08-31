@@ -153,7 +153,7 @@ namespace asd
 	float Sound::GetPlaybackPercent(int32_t id)
 	{
 		if (m_manager == nullptr)
-			return;
+			return 0.0f;
 		return m_manager->GetPlaybackPercent(id);
 	}
 
