@@ -237,6 +237,9 @@
     <ClCompile Include="..\Graphics\2D\TextureObject2DWithMaterial.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\2D\TextObject2DWithMaterial.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

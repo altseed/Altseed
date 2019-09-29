@@ -36,6 +36,7 @@ namespace asd
 	CoreTextObject2D_Imp::~CoreTextObject2D_Imp()
 	{
 		SafeRelease(m_font);
+		SafeRelease(m_material);
 	}
 
 
@@ -295,7 +296,7 @@ namespace asd
 
 		if (m_material != nullptr)
 		{
-			renderer->AddText(
+			renderer->AddTextWithMaterial(
 				parentMatrix,
 				matrix,
 				m_centerPosition,
@@ -304,6 +305,7 @@ namespace asd
 				GetAbsoluteColor(),
 				m_font,
 				m_text.c_str(),
+				m_material,
 				m_writingDirection,
 				m_alphablend,
 				GetAbsoluteDrawingPriority(),

@@ -42,6 +42,7 @@
     <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\GeometryObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\PlayEffectImmediately.cpp" />
+    <ClCompile Include="..\Graphics\2D\TextObject2DWithMaterial.cpp" />
     <ClCompile Include="..\Graphics\2D\TextObject2D_Dynamic.cpp" />
     <ClCompile Include="..\Graphics\2D\TextureObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\TextureObject2DWithMaterial.cpp" />

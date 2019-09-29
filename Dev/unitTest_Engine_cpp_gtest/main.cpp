@@ -63,6 +63,7 @@ EXTERN_ENGINE_TEST(Graphics, PlayEffectImmediately)
 EXTERN_ENGINE_TEST(Graphics, TextureObject2D)
 EXTERN_ENGINE_TEST(Graphics, TextObject2D)
 EXTERN_ENGINE_TEST(Graphics, TextObject2D_Dynamic)
+EXTERN_ENGINE_TEST(Graphics, TextObject2DWithMaterial)
 EXTERN_ENGINE_TEST(Graphics, MapObject2D)
 EXTERN_ENGINE_TEST(Graphics, CameraObject2D)
 
@@ -133,8 +134,8 @@ int main(int argc, char **argv)
 	SetCurrentDirectoryA(current_path);
 #endif
 
-	CALL_ENGINE_TEST(Graphics, LightingStandard, true);
-	return 0;
+	//CALL_ENGINE_TEST(Graphics, TextObject2DWithMaterial, true);
+	//return 0;
 
 	::testing::InitGoogleTest(&argc, argv);
 	auto result = RUN_ALL_TESTS();
