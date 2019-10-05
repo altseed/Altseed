@@ -1,8 +1,9 @@
-﻿
+
 #pragma once
 
 #include "../asd.Core.Base.h"
 #include "../asd.ReferenceObject.h"
+#include "../IO/asd.File_Imp.h"
 #include "../Utils/asd.ResourceContainer.h"
 
 #include <OpenSoundMixer.h>

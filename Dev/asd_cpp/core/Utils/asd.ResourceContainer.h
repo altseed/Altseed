@@ -1,10 +1,11 @@
-﻿
+
 #pragma once
 
 #include <asd.common.Base.h>
 #include "../asd.Core.Base_Imp.h"
 
 #include "../IO/asd.File.h"
+#include "../IO/asd.File_Imp.h"
 #include "../IO/asd.StaticFile.h"
 
 #include <time.h>

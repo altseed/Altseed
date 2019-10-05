@@ -38,7 +38,7 @@ link_directories(
 
 if(MSVC)
 else()
-	target_link_libraries(FontGeneratorCore asd_common asd_tool AltseedRHI freetype)
+	target_link_libraries(FontGeneratorCore asd_common asd_tool AltseedRHI freetype png16 z)
 endif()
 
 # Set flag

@@ -1,4 +1,4 @@
-﻿# Limit to Debug Release
+# Limit to Debug Release
 set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE TYPE INTERNAL FORCE )
 
 # Project name
@@ -128,6 +128,19 @@ FILE(GLOB core_root_srcs
 	asd_cpp/core/*.h
 )
 
+FILE(GLOB core_common_srcs
+	asd_cpp/common/*.cpp
+	asd_cpp/common/*.h
+	asd_cpp/common/Graphics/*.cpp
+	asd_cpp/common/Graphics/*.h
+	asd_cpp/common/Graphics/Font/*.cpp
+	asd_cpp/common/Graphics/Font/*.h
+	asd_cpp/common/Math/*.cpp
+	asd_cpp/common/Math/*.h
+	asd_cpp/common/Utility/*.cpp
+	asd_cpp/common/Utility/*.h
+)
+
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 FILE(GLOB_RECURSE core_mac_srcs
 	asd_cpp/core/Graphics/*.mm
@@ -169,6 +182,8 @@ endforeach()
 FILE(GLOB_RECURSE engine_srcs
 	asd_cpp/engine/*.cpp
 	asd_cpp/engine/*.h)
+
+list(APPEND engine_srcs ${core_common_srcs})
 
 foreach(FILE ${engine_srcs}) 
     # Get the directory of the source file
