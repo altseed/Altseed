@@ -1,4 +1,4 @@
-﻿package asd.Particular;
+package asd.Particular;
 
 import java.util.Formatter;
 import javax.swing.*;

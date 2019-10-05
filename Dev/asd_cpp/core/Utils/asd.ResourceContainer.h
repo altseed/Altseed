@@ -1,4 +1,4 @@
-
+﻿
 #pragma once
 
 #include <asd.common.Base.h>
