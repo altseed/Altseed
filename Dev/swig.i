@@ -390,21 +390,26 @@ STRUCT_OBJECT( asd::Color, asd::Color_R, asd.Color, Color )
 #if SWIGCSHARP
 
 %define DISABLE_DISPOSE( SWIGTYPE )
-%typemap(csdestruct, methodname="Dispose", methodmodifiers="public") SWIGTYPE
-{
-	lock(this)
-	{
-		System.GC.SuppressFinalize(this);
-	}
-}
 
-%typemap(csdestruct_derived, methodname="Dispose", methodmodifiers="public") SWIGTYPE
-{
+%typemap(csdispose) SWIGTYPE
+%{
+public void Dispose() {
 	lock(this)
 	{
 		System.GC.SuppressFinalize(this);
 	}
 }
+%}
+
+%typemap(csdispose_derived) SWIGTYPE
+%{
+public void Dispose() {
+	lock(this)
+	{
+		System.GC.SuppressFinalize(this);
+	}
+}
+%}
 
 %enddef
 

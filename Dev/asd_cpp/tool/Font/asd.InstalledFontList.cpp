@@ -15,7 +15,9 @@
 #include FT_SFNT_NAMES_H
 
 #ifdef _WIN32
-#if _MSC_VER == 1900
+#if _MSC_VER > 1900
+namespace filesystem = std::filesystem;
+#elif _MSC_VER == 1900
 namespace filesystem = std::tr2::sys;
 #else
 namespace filesystem = std::experimental::filesystem;

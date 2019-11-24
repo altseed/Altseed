@@ -166,6 +166,7 @@
       <ForcedIncludeFiles>..\core\PCH\asd.Core.PCH.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -184,6 +185,7 @@
       <ForcedIncludeFiles>..\core\PCH\asd.Core.PCH.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -202,6 +204,7 @@
       <ForcedIncludeFiles>..\core\PCH\asd.Core.PCH.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -222,6 +225,7 @@
       <ForcedIncludeFiles>..\core\PCH\asd.Core.PCH.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -243,6 +247,7 @@
       <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>..\core\PCH\asd.Core.PCH.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -264,6 +269,7 @@
       <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>..\core\PCH\asd.Core.PCH.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -285,6 +291,7 @@
       <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>..\core\PCH\asd.Core.PCH.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -308,6 +315,7 @@
       <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>..\core\PCH\asd.Core.PCH.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
