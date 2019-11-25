@@ -28,7 +28,7 @@
 	url = https://github.com/altseed/OpenSoundMixer
 [submodule "Downloads/freetype"]
 	path = Downloads/freetype
-	url = https://git.savannah.gnu.org/git/freetype/freetype2.git
+	url = git://git.savannah.gnu.org/freetype/freetype2.git
 [submodule "Downloads/libgd"]
 	path = Downloads/libgd
 	url = https://github.com/libgd/libgd/
