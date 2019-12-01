@@ -91,7 +91,7 @@ namespace asd
 		internal override void ImmediatelyDispose()
 		{
 			IsAlive = false;
-			Owner.ImmediatelyRemoveComponent(Key);
+			Owner?.ImmediatelyRemoveComponent(Key);
 		}
 	}
 }
